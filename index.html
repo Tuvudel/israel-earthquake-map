@@ -10,6 +10,9 @@
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
           crossorigin=""/>
     
+    <!-- PapaParse for CSV parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    
     <!-- Internal CSS -->
     <style>
         * {
@@ -237,310 +240,6 @@
         function hideStatus() {
             document.getElementById('status-message').style.display = 'none';
         }
-        
-        // Your actual earthquake data from the CSV file
-        const earthquakeCsvData = [
-          {
-            "epiid": "'202503061142'",
-            "DateTime": "2025-03-06T11:42:27.549",
-            "Mag": 3.9,
-            "Lat": 28.948,
-            "Long": 34.928,
-            "Depth(Km)": 16.520182291667,
-            "Region": "Saudi-Arabia",
-            "Type": "F"
-          },
-          {
-            "epiid": "'202503060354'",
-            "DateTime": "2025-03-06T03:54:12.822",
-            "Mag": 2.3,
-            "Lat": 30.5371,
-            "Long": 35.2932,
-            "Depth(Km)": 18.2861328125,
-            "Region": "Arava",
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202503060338'",
-            "DateTime": "2025-03-06T03:38:50.691",
-            "Mag": 2.6,
-            "Lat": 30.5365,
-            "Long": 35.3102,
-            "Depth(Km)": 16.263834635417,
-            "Region": "Arava",
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202503041217'",
-            "DateTime": "2025-03-04T12:17:31.052",
-            "Mag": 3,
-            "Lat": 27.4213,
-            "Long": 34.2391,
-            "Depth(Km)": 28.255208333333,
-            "Region": "Red-Sea",
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202503040557'",
-            "DateTime": "2025-03-04T05:57:53.327",
-            "Mag": 3.7,
-            "Lat": 35.332,
-            "Long": 26.1448,
-            "Depth(Km)": 14,
-            "Region": null,
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202503031934'",
-            "DateTime": "2025-03-03T19:34:37.434",
-            "Mag": 2.4,
-            "Lat": 33.9227,
-            "Long": 34.7032,
-            "Depth(Km)": 2.5065104166667,
-            "Region": null,
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202503031823'",
-            "DateTime": "2025-03-03T18:23:34.531",
-            "Mag": 2.3,
-            "Lat": 28.889,
-            "Long": 34.6688,
-            "Depth(Km)": 0.79752604166667,
-            "Region": "Aragonese-Deep",
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202503030601'",
-            "DateTime": "2025-03-03T06:01:13.286",
-            "Mag": 3.8,
-            "Lat": 35.6513,
-            "Long": 30.4827,
-            "Depth(Km)": 35.091145833333,
-            "Region": null,
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202503021358'",
-            "DateTime": "2025-03-02T13:58:54.939",
-            "Mag": 2.2,
-            "Lat": 33.9249,
-            "Long": 34.749,
-            "Depth(Km)": 10.292722702026,
-            "Region": null,
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202503021107'",
-            "DateTime": "2025-03-02T11:07:48.778",
-            "Mag": 3.2,
-            "Lat": 34.7175,
-            "Long": 33.2115,
-            "Depth(Km)": 4.8506855964661,
-            "Region": "Cyprus",
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202503010026'",
-            "DateTime": "2025-03-01T00:26:28.188",
-            "Mag": 4,
-            "Lat": 34.1723,
-            "Long": 26.9819,
-            "Depth(Km)": 33.723958333333,
-            "Region": null,
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502282216'",
-            "DateTime": "2025-02-28T22:16:44.626",
-            "Mag": 2.9,
-            "Lat": 34.9799,
-            "Long": 36.759,
-            "Depth(Km)": 29.622395833333,
-            "Region": "Syria",
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502280113'",
-            "DateTime": "2025-02-28T01:13:25.924",
-            "Mag": 2.5,
-            "Lat": 28.6531,
-            "Long": 34.5676,
-            "Depth(Km)": 6.0384114583333,
-            "Region": "Arnona-Dakar-Deep",
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502270821'",
-            "DateTime": "2025-02-27T08:21:59.417",
-            "Mag": 3.1,
-            "Lat": 31.6497,
-            "Long": 35.6181,
-            "Depth(Km)": 0.095833333333333,
-            "Region": "Dead-Sea-Basin",
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502270104'",
-            "DateTime": "2025-02-27T01:04:41.450",
-            "Mag": 2.7,
-            "Lat": 36.0171,
-            "Long": 35.7873,
-            "Depth(Km)": 5,
-            "Region": null,
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502270005'",
-            "DateTime": "2025-02-27T00:05:21.317",
-            "Mag": 3,
-            "Lat": 35.1749,
-            "Long": 33.7018,
-            "Depth(Km)": 27.571614583333,
-            "Region": "Cyprus",
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502262117'",
-            "DateTime": "2025-02-26T21:17:06.700",
-            "Mag": 3.8,
-            "Lat": 36.1232,
-            "Long": 31.5574,
-            "Depth(Km)": 32.356770833333,
-            "Region": null,
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502252315'",
-            "DateTime": "2025-02-25T23:15:33.487",
-            "Mag": 2,
-            "Lat": 30.6085,
-            "Long": 35.3258,
-            "Depth(Km)": 17.203776041667,
-            "Region": "Arava",
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502242146'",
-            "DateTime": "2025-02-24T21:46:10.891",
-            "Mag": 4.3,
-            "Lat": 35.4517,
-            "Long": 28.2156,
-            "Depth(Km)": 32.356770833333,
-            "Region": null,
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502241133'",
-            "DateTime": "2025-02-24T11:33:11.243",
-            "Mag": 4.6,
-            "Lat": 36.35,
-            "Long": 26.031,
-            "Depth(Km)": 75.651041666667,
-            "Region": null,
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502231628'",
-            "DateTime": "2025-02-23T16:28:57.997",
-            "Mag": 2.4,
-            "Lat": 33.7095,
-            "Long": 36.9994,
-            "Depth(Km)": 2.2786458333333,
-            "Region": "Palmira",
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502210003'",
-            "DateTime": "2025-02-21T00:03:22.402",
-            "Mag": 3.4,
-            "Lat": 34.7621,
-            "Long": 32.5447,
-            "Depth(Km)": 18.684895833333,
-            "Region": "Cyprus",
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502201730'",
-            "DateTime": "2025-02-20T17:30:02.450",
-            "Mag": 2.1,
-            "Lat": 29.3598,
-            "Long": 34.8266,
-            "Depth(Km)": 12.923191070557,
-            "Region": "Eilat-Deep",
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502190251'",
-            "DateTime": "2025-02-19T02:51:34.980",
-            "Mag": 3.6,
-            "Lat": 35.9054,
-            "Long": 31.566,
-            "Depth(Km)": 32.356770833333,
-            "Region": null,
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502181654'",
-            "DateTime": "2025-02-18T16:54:43.425",
-            "Mag": 5.3,
-            "Lat": 37.0759,
-            "Long": 21.619,
-            "Depth(Km)": 19.140625,
-            "Region": null,
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502181058'",
-            "DateTime": "2025-02-18T10:58:05.284",
-            "Mag": 3.3,
-            "Lat": 29.2361,
-            "Long": 32.8392,
-            "Depth(Km)": 0.91145833333333,
-            "Region": "Suez",
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502180608'",
-            "DateTime": "2025-02-18T06:08:10.329",
-            "Mag": 5,
-            "Lat": 36.4641,
-            "Long": 25.5899,
-            "Depth(Km)": 14.188004493713,
-            "Region": null,
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502180446'",
-            "DateTime": "2025-02-18T04:46:53.722",
-            "Mag": 5.1,
-            "Lat": 36.4283,
-            "Long": 25.7751,
-            "Depth(Km)": 17.232946395874,
-            "Region": null,
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502180354'",
-            "DateTime": "2025-02-18T03:54:17.137",
-            "Mag": 2.4,
-            "Lat": 34.1541,
-            "Long": 35.9243,
-            "Depth(Km)": 111.19791666667,
-            "Region": "Lebanon",
-            "Type": "EQ"
-          },
-          {
-            "epiid": "'202502180254'",
-            "DateTime": "2025-02-18T02:54:09.387",
-            "Mag": 4.5,
-            "Lat": 36.5451,
-            "Long": 25.8302,
-            "Depth(Km)": 18.001302083333,
-            "Region": null,
-            "Type": "EQ"
-          }
-        ];
 
         /**
          * EarthquakeData class - Handles earthquake data processing
@@ -550,6 +249,48 @@
                 this.rawData = []; // Stores the original, unfiltered data
                 this.filteredData = []; // Stores filtered data based on user selections
                 this.isDataLoaded = false;
+            }
+
+            /**
+             * Loads earthquake data from a CSV file
+             * @param {string} csvUrl - URL to the CSV file
+             * @returns {Promise} - Promise that resolves when data is loaded
+             */
+            async loadFromCsv(csvUrl) {
+                showStatus("Loading earthquake data from CSV...");
+                
+                try {
+                    const response = await fetch(csvUrl);
+                    
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch CSV: ${response.status} ${response.statusText}`);
+                    }
+                    
+                    const csvText = await response.text();
+                    
+                    // Parse CSV data using PapaParse
+                    Papa.parse(csvText, {
+                        header: true,
+                        dynamicTyping: true,
+                        skipEmptyLines: true,
+                        complete: (results) => {
+                            if (results.errors && results.errors.length > 0) {
+                                console.warn("CSV parsing had errors:", results.errors);
+                            }
+                            
+                            this.processRawData(results.data);
+                            hideStatus();
+                        },
+                        error: (error) => {
+                            console.error("CSV parsing error:", error);
+                            showStatus(`Error parsing CSV: ${error.message}`, true);
+                        }
+                    });
+                } catch (error) {
+                    console.error("CSV loading error:", error);
+                    showStatus(`Error loading earthquake data: ${error.message}`, true);
+                    throw error;
+                }
             }
 
             /**
@@ -575,6 +316,10 @@
                 // Initially, filtered data is the same as raw data
                 this.filteredData = [...this.rawData];
                 this.isDataLoaded = true;
+                
+                // Notify that data is loaded
+                const event = new CustomEvent('earthquakeDataLoaded');
+                window.dispatchEvent(event);
             }
 
             /**
@@ -642,14 +387,9 @@
         const earthquakeData = new EarthquakeData();
 
         // Main function to initialize the application
-        function initApp() {
+        async function initApp() {
             try {
-                showStatus("Loading earthquake data...");
-                
-                // Process the actual earthquake data
-                earthquakeData.processRawData(earthquakeCsvData);
-                
-                showStatus("Initializing map...");
+                showStatus("Setting up the application...");
                 
                 // Check if Leaflet is loaded
                 if (typeof L === 'undefined') {
@@ -659,20 +399,28 @@
                 // Initialize the map centered on the region
                 const map = initializeMap();
                 
-                // Display earthquake markers
-                displayEarthquakeMarkers(map, earthquakeData.filteredData);
+                // Define the GitHub URL for the CSV file
+                // Note: This URL points to the raw content of the CSV file in your GitHub repository
+                // Replace with your actual GitHub repository path
+                const csvUrl = 'https://raw.githubusercontent.com/Tuvaludel/israel-map/main/last30_event.csv';
                 
-                // Update statistics display
-                updateStatistics();
+                // Load data from the CSV file
+                await earthquakeData.loadFromCsv(csvUrl);
+                
+                // Listen for the data loaded event
+                window.addEventListener('earthquakeDataLoaded', () => {
+                    // Display earthquake markers
+                    displayEarthquakeMarkers(map, earthquakeData.filteredData);
+                    
+                    // Update statistics display
+                    updateStatistics();
+                    
+                    // Add a legend to the map
+                    addLegendToMap(map);
+                });
                 
                 // Set up event listeners for filters
                 setupFilterListeners(map);
-                
-                // Add a legend to the map
-                addLegendToMap(map);
-                
-                // Hide status message
-                hideStatus();
                 
             } catch (error) {
                 console.error("Application initialization error:", error);
