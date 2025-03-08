@@ -5,8 +5,8 @@
 const CONFIG = {
     // Base URLs for data
     urls: {
-        recentCsv: 'https://raw.githubusercontent.com/Tuvudel/israel-map/main/last30_event.csv',
-        historicalCsv: 'https://raw.githubusercontent.com/Tuvudel/israel-map/main/EQ_Hist_1981_2023.csv'
+        recentCsv: 'https://raw.githubusercontent.com/Tuvudel/israel-map/main/data/last30_event.csv',
+        historicalCsv: 'https://raw.githubusercontent.com/Tuvudel/israel-map/main/data/EQ_Hist_1981_2023.csv'
     },
     
     // Map settings
