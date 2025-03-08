@@ -3,15 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Israel Earthquake Map</title>
+    <title>Israel Earthquake Map - Enhanced</title>
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
           crossorigin=""/>
     
+    <!-- noUiSlider CSS for range slider -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css" />
+
     <!-- PapaParse for CSV parsing -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    
+    <!-- noUiSlider for range sliders -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
     
     <!-- Internal CSS -->
     <style>
@@ -43,8 +49,15 @@
 
         .controls {
             display: flex;
+            flex-direction: column;
             gap: 1rem;
+        }
+
+        .filter-row {
+            display: flex;
             flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
         }
 
         .filter-group {
@@ -53,10 +66,26 @@
             gap: 0.5rem;
         }
 
-        select {
-            padding: 0.25rem;
+        select, button {
+            padding: 0.25rem 0.5rem;
             border-radius: 4px;
             border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #4682B4;
+            color: white;
+            cursor: pointer;
+            border: none;
+            padding: 0.25rem 0.75rem;
+        }
+
+        button:hover {
+            background-color: #3a6d99;
+        }
+
+        button.active {
+            background-color: #2d5475;
         }
 
         main {
@@ -122,6 +151,32 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
         }
 
+        /* Year range slider */
+        .year-slider-container {
+            margin: 1rem 0;
+            padding: 0 1rem;
+        }
+
+        #year-slider {
+            height: 20px;
+            margin-top: 20px;
+        }
+
+        .year-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .slider-values {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             main {
@@ -171,29 +226,137 @@
             max-width: 80%;
             display: none;
         }
+
+        .tab-group {
+            display: flex;
+            gap: 0;
+            margin-bottom: 1rem;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 0.5rem;
+            background-color: #e9ecef;
+            border: 1px solid #dee2e6;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            cursor: pointer;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        .tab-button.active {
+            background-color: #4682B4;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-spinner {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #4682B4;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hide {
+            display: none;
+        }
     </style>
 </head>
 <body>
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+    
     <header>
         <h1>Israel Earthquake Map</h1>
-        <div class="controls">
-            <div class="filter-group">
-                <label for="magnitude-filter">Minimum Magnitude:</label>
-                <select id="magnitude-filter">
-                    <option value="0">All</option>
-                    <option value="2">2+</option>
-                    <option value="3">3+</option>
-                    <option value="4">4+</option>
-                    <option value="5">5+</option>
-                </select>
+
+        <div class="tab-group">
+            <button id="recent-tab" class="tab-button active">Last 30 Days</button>
+            <button id="historical-tab" class="tab-button">Historical (1981-2023)</button>
+        </div>
+
+        <div id="recent-filters" class="tab-content active">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="recent-magnitude-filter">Minimum Magnitude:</label>
+                    <select id="recent-magnitude-filter">
+                        <option value="0">All</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                        <option value="5">5+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="recent-date-filter">Time Period:</label>
+                    <select id="recent-date-filter">
+                        <option value="all">All</option>
+                        <option value="week">Last Week</option>
+                        <option value="month" selected>Last Month</option>
+                    </select>
+                </div>
             </div>
-            <div class="filter-group">
-                <label for="date-filter">Time Period:</label>
-                <select id="date-filter">
-                    <option value="all">All Time</option>
-                    <option value="week">Last Week</option>
-                    <option value="month">Last Month</option>
-                </select>
+        </div>
+
+        <div id="historical-filters" class="tab-content">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="historical-magnitude-filter">Minimum Magnitude:</label>
+                    <select id="historical-magnitude-filter">
+                        <option value="0">All</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                        <option value="5">5+</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="year-slider-container">
+                <label>Year Range:</label>
+                <div id="year-slider"></div>
+                <div class="slider-values">
+                    <span id="year-min">1981</span>
+                    <span id="year-max">2023</span>
+                </div>
+                <div class="year-labels">
+                    <span>1981</span>
+                    <span>2023</span>
+                </div>
             </div>
         </div>
     </header>
@@ -212,6 +375,8 @@
                 <h3>Statistics</h3>
                 <p>Total earthquakes: <span id="total-count">0</span></p>
                 <p>Average magnitude: <span id="avg-magnitude">0</span></p>
+                <p>Max magnitude: <span id="max-magnitude">0</span></p>
+                <p id="year-range-stats" class="hide">Year range: <span id="year-range">N/A</span></p>
             </div>
         </div>
     </main>
@@ -220,7 +385,7 @@
         <p>Data source: Israel Geophysical Institute</p>
     </footer>
 
-    <!-- Leaflet JavaScript - Loading before our application code -->
+    <!-- Leaflet JavaScript -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
             crossorigin=""></script>
@@ -241,26 +406,46 @@
             document.getElementById('status-message').style.display = 'none';
         }
 
+        // Show/hide loading overlay
+        function showLoading() {
+            document.getElementById('loading-overlay').classList.remove('hide');
+        }
+        
+        function hideLoading() {
+            document.getElementById('loading-overlay').classList.add('hide');
+        }
+
         /**
-         * EarthquakeData class - Handles earthquake data processing
+         * EarthquakeData class - Handles earthquake data processing for both recent and historical data
          */
         class EarthquakeData {
             constructor() {
-                this.rawData = []; // Stores the original, unfiltered data
-                this.filteredData = []; // Stores filtered data based on user selections
-                this.isDataLoaded = false;
+                this.recentData = {
+                    raw: [],
+                    filtered: []
+                };
+                this.historicalData = {
+                    raw: [],
+                    filtered: []
+                };
+                this.dataLoaded = {
+                    recent: false,
+                    historical: false
+                };
+                this.activeDataset = 'recent'; // 'recent' or 'historical'
+                this.yearRange = [1981, 2023]; // Default year range for historical data
             }
 
             /**
-             * Loads earthquake data from a CSV file
-             * @param {string} csvUrl - URL to the CSV file
+             * Loads recent earthquake data from a CSV file
+             * @param {string} csvUrl - URL to the recent data CSV file
              * @returns {Promise} - Promise that resolves when data is loaded
              */
-            async loadFromCsv(csvUrl) {
-                showStatus("Loading earthquake data from CSV...");
+            async loadRecentData(csvUrl) {
+                showStatus("Loading recent earthquake data...");
                 
                 try {
-                    console.log("Fetching CSV from URL:", csvUrl);
+                    console.log("Fetching recent CSV from:", csvUrl);
                     const response = await fetch(csvUrl);
                     
                     if (!response.ok) {
@@ -268,7 +453,6 @@
                     }
                     
                     const csvText = await response.text();
-                    console.log("CSV data fetched successfully, length:", csvText.length);
                     
                     // Parse CSV data using PapaParse
                     return new Promise((resolve, reject) => {
@@ -277,12 +461,8 @@
                             dynamicTyping: true,
                             skipEmptyLines: true,
                             complete: (results) => {
-                                if (results.errors && results.errors.length > 0) {
-                                    console.warn("CSV parsing had errors:", results.errors);
-                                }
-                                
-                                console.log("CSV parsed successfully, rows:", results.data.length);
-                                this.processRawData(results.data);
+                                this.processRecentData(results.data);
+                                console.log("Recent data loaded successfully");
                                 resolve();
                             },
                             error: (error) => {
@@ -293,24 +473,64 @@
                         });
                     });
                 } catch (error) {
-                    console.error("CSV loading error:", error);
-                    showStatus(`Error loading earthquake data: ${error.message}`, true);
+                    console.error("Recent data loading error:", error);
+                    showStatus(`Error loading recent earthquake data: ${error.message}`, true);
                     throw error;
                 }
             }
 
             /**
-             * Processes raw data after loading
-             * @param {Array} data - Array of earthquake event objects
+             * Loads historical earthquake data from a CSV file
+             * @param {string} csvUrl - URL to the historical data CSV file
+             * @returns {Promise} - Promise that resolves when data is loaded
              */
-            processRawData(data) {
-                console.log("Processing raw data...");
+            async loadHistoricalData(csvUrl) {
+                showStatus("Loading historical earthquake data (this may take a moment)...");
                 
-                // Store the raw data
-                this.rawData = data.map(item => {
-                    // Ensure proper typing and format for all properties
+                try {
+                    console.log("Fetching historical CSV from:", csvUrl);
+                    const response = await fetch(csvUrl);
+                    
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch CSV: ${response.status} ${response.statusText}`);
+                    }
+                    
+                    const csvText = await response.text();
+                    
+                    // Parse CSV data using PapaParse
+                    return new Promise((resolve, reject) => {
+                        Papa.parse(csvText, {
+                            header: true,
+                            dynamicTyping: true,
+                            skipEmptyLines: true,
+                            complete: (results) => {
+                                this.processHistoricalData(results.data);
+                                console.log("Historical data loaded successfully");
+                                resolve();
+                            },
+                            error: (error) => {
+                                console.error("CSV parsing error:", error);
+                                showStatus(`Error parsing CSV: ${error.message}`, true);
+                                reject(error);
+                            }
+                        });
+                    });
+                } catch (error) {
+                    console.error("Historical data loading error:", error);
+                    showStatus(`Error loading historical earthquake data: ${error.message}`, true);
+                    throw error;
+                }
+            }
+
+            /**
+             * Processes recent earthquake data
+             * @param {Array} data - Array of recent earthquake event objects
+             */
+            processRecentData(data) {
+                // Process and format recent data
+                this.recentData.raw = data.map(item => {
                     return {
-                        epiid: item.epiid ? item.epiid.replace(/^'|'$/g, '') : '', // Remove single quotes from IDs
+                        id: item.epiid ? item.epiid.replace(/^'|'$/g, '') : '',
                         dateTime: new Date(item.DateTime || ''),
                         magnitude: parseFloat(item.Mag) || 0,
                         latitude: parseFloat(item.Lat) || 0,
@@ -321,34 +541,83 @@
                     };
                 });
 
-                // Log a sample to verify data format
-                if (this.rawData.length > 0) {
-                    console.log("Sample processed earthquake data:", this.rawData[0]);
-                }
-
                 // Initially, filtered data is the same as raw data
-                this.filteredData = [...this.rawData];
-                this.isDataLoaded = true;
-                
-                console.log("Data processing complete. Total earthquakes:", this.rawData.length);
+                this.recentData.filtered = [...this.recentData.raw];
+                this.dataLoaded.recent = true;
                 
                 // Notify that data is loaded
-                const event = new CustomEvent('earthquakeDataLoaded');
+                const event = new CustomEvent('recentDataLoaded');
                 window.dispatchEvent(event);
             }
 
             /**
-             * Applies filters to the earthquake data
+             * Processes historical earthquake data
+             * @param {Array} data - Array of historical earthquake event objects
+             */
+            processHistoricalData(data) {
+                // Process and format historical data
+                this.historicalData.raw = data.map(item => {
+                    // Parse date and time from DD/MM/YYYY and HH:MM:SS.ms format
+                    let dateTime = null;
+                    if (item.Date && item.Time) {
+                        try {
+                            const [day, month, year] = item.Date.split('/').map(Number);
+                            const [hours, minutes, seconds] = item.Time.split(':').map(parseFloat);
+                            // Create a date object (months are 0-indexed in JavaScript)
+                            dateTime = new Date(year, month - 1, day, hours, minutes, seconds);
+                        } catch (e) {
+                            console.warn("Date parsing error for record:", item);
+                        }
+                    }
+
+                    // Use M as the primary magnitude, but fall back to other magnitude fields if available
+                    let magnitude = null;
+                    if (item.M !== null && item.M !== undefined && item.M > -900) {
+                        magnitude = item.M;
+                    } else if (item.mb !== null && item.mb !== undefined && item.mb > -900) {
+                        magnitude = item.mb;
+                    } else if (item.ms !== null && item.ms !== undefined && item.ms > -900) {
+                        magnitude = item.ms;
+                    } else if (item.ml !== null && item.ml !== undefined && item.ml > -900) {
+                        magnitude = item.ml;
+                    } else {
+                        magnitude = 0; // Default value if no magnitude data is available
+                    }
+
+                    return {
+                        id: item['event.evid'] || '',
+                        dateTime: dateTime,
+                        magnitude: parseFloat(magnitude) || 0,
+                        latitude: parseFloat(item.lat) || 0,
+                        longitude: parseFloat(item.lon) || 0,
+                        depth: parseFloat(item.depth) || 0,
+                        // Note: Historical data doesn't have region or type, so we use placeholders
+                        region: 'Historical Record',
+                        type: 'Historical EQ'
+                    };
+                });
+
+                // Initially, filtered data is the same as raw data
+                this.historicalData.filtered = [...this.historicalData.raw];
+                this.dataLoaded.historical = true;
+                
+                // Notify that data is loaded
+                const event = new CustomEvent('historicalDataLoaded');
+                window.dispatchEvent(event);
+            }
+
+            /**
+             * Applies filters to the recent earthquake data
              * @param {Object} filters - Filters to apply
              * @param {number} filters.minMagnitude - Minimum magnitude filter
              * @param {string} filters.timePeriod - Time period filter ('all', 'week', 'month')
              * @returns {Array} - Filtered earthquake data
              */
-            applyFilters(filters = {}) {
+            applyRecentFilters(filters = {}) {
                 const { minMagnitude = 0, timePeriod = 'all' } = filters;
                 
                 // Start with all data
-                let filtered = [...this.rawData];
+                let filtered = [...this.recentData.raw];
                 
                 // Apply magnitude filter
                 if (minMagnitude > 0) {
@@ -371,8 +640,55 @@
                     }
                 }
                 
-                this.filteredData = filtered;
-                return this.filteredData;
+                this.recentData.filtered = filtered;
+                return this.recentData.filtered;
+            }
+
+            /**
+             * Applies filters to the historical earthquake data
+             * @param {Object} filters - Filters to apply
+             * @param {number} filters.minMagnitude - Minimum magnitude filter
+             * @param {Array} filters.yearRange - Year range filter [minYear, maxYear]
+             * @returns {Array} - Filtered earthquake data
+             */
+            applyHistoricalFilters(filters = {}) {
+                const { minMagnitude = 0, yearRange = this.yearRange } = filters;
+                
+                // Store the current year range
+                this.yearRange = yearRange;
+                
+                // Start with all data
+                let filtered = [...this.historicalData.raw];
+                
+                // Apply magnitude filter
+                if (minMagnitude > 0) {
+                    filtered = filtered.filter(quake => quake.magnitude >= minMagnitude);
+                }
+                
+                // Apply year range filter
+                if (yearRange && yearRange.length === 2) {
+                    const [minYear, maxYear] = yearRange;
+                    filtered = filtered.filter(quake => {
+                        if (quake.dateTime && !isNaN(quake.dateTime)) {
+                            const year = quake.dateTime.getFullYear();
+                            return year >= minYear && year <= maxYear;
+                        }
+                        return false;
+                    });
+                }
+                
+                this.historicalData.filtered = filtered;
+                return this.historicalData.filtered;
+            }
+
+            /**
+             * Gets the currently active dataset based on the active mode
+             * @returns {Array} - The currently active filtered dataset
+             */
+            getActiveData() {
+                return this.activeDataset === 'recent' 
+                    ? this.recentData.filtered 
+                    : this.historicalData.filtered;
             }
 
             /**
@@ -380,7 +696,7 @@
              * @returns {Object} - Statistics object
              */
             getStatistics() {
-                const data = this.filteredData;
+                const data = this.getActiveData();
                 const count = data.length;
                 
                 // Calculate average magnitude
@@ -388,22 +704,37 @@
                 const avgMagnitude = count > 0 ? (totalMagnitude / count).toFixed(2) : 0;
                 
                 // Find max magnitude
-                const maxMagnitude = count > 0 ? Math.max(...data.map(quake => quake.magnitude)) : 0;
+                const maxMagnitude = count > 0 ? Math.max(...data.map(quake => quake.magnitude)).toFixed(2) : 0;
                 
+                // Return statistics object
                 return {
                     count,
                     avgMagnitude,
-                    maxMagnitude
+                    maxMagnitude,
+                    yearRange: this.activeDataset === 'historical' ? this.yearRange : null
                 };
+            }
+
+            /**
+             * Sets the active dataset
+             * @param {string} dataset - The dataset to set as active ('recent' or 'historical')
+             */
+            setActiveDataset(dataset) {
+                if (dataset === 'recent' || dataset === 'historical') {
+                    this.activeDataset = dataset;
+                }
             }
         }
 
-        // Create a single instance
+        // Create a single instance of the EarthquakeData class
         const earthquakeData = new EarthquakeData();
 
-        // Main function to initialize the application
+        /**
+         * Main function to initialize the application
+         */
         async function initApp() {
             try {
+                showLoading();
                 showStatus("Setting up the application...");
                 
                 // Check if Leaflet is loaded
@@ -414,35 +745,33 @@
                 // Initialize the map centered on the region
                 const map = initializeMap();
                 
-                // Define the GitHub URL for the CSV file
-                // This URL points to the raw content of the CSV file in your GitHub repository
-                const csvUrl = 'https://raw.githubusercontent.com/Tuvudel/israel-map/main/last30_event.csv';
+                // Set up UI components
+                setupTabSwitching();
+                setupYearSlider();
                 
-                // Listen for the data loaded event before starting the data load
-                window.addEventListener('earthquakeDataLoaded', () => {
-                    console.log("Data loaded event triggered, displaying markers...");
-                    // Display earthquake markers
-                    displayEarthquakeMarkers(map, earthquakeData.filteredData);
-                    
-                    // Update statistics display
-                    updateStatistics();
-                    
-                    // Add a legend to the map
-                    addLegendToMap(map);
-                    
-                    // Hide the status message once everything is loaded
-                    hideStatus();
-                });
-                
-                // Load data from the CSV file
-                await earthquakeData.loadFromCsv(csvUrl);
+                // Set up event listeners for the data loaded events
+                setupDataLoadedEvents(map);
                 
                 // Set up event listeners for filters
                 setupFilterListeners(map);
                 
+                // URLs for CSV files
+                const recentCsvUrl = 'https://raw.githubusercontent.com/Tuvudel/israel-map/main/last30_event.csv';
+                const historicalCsvUrl = 'https://raw.githubusercontent.com/Tuvudel/israel-map/main/EQ_Hist_1981_2023.csv';
+                
+                // Load recent data first
+                await earthquakeData.loadRecentData(recentCsvUrl);
+                
+                // Load historical data in the background
+                earthquakeData.loadHistoricalData(historicalCsvUrl).catch(error => {
+                    console.error("Error loading historical data:", error);
+                    showStatus("Historical data couldn't be loaded. Recent data is still available.", true);
+                });
+                
             } catch (error) {
                 console.error("Application initialization error:", error);
                 showStatus(`Error initializing application: ${error.message}. Please reload the page or try a different browser.`, true);
+                hideLoading();
             }
         }
 
@@ -452,11 +781,11 @@
          */
         function initializeMap() {
             try {
-                // Center coordinates based on actual earthquake data range
-                const mapCenter = [32.25, 29.31];
+                // Center coordinates based on a wider region to accommodate historical data
+                const mapCenter = [32.25, 32.0]; // Adjusted to center more on Israel
                 
                 // Create map instance with initial view
-                const map = L.map('map').setView(mapCenter, 7);
+                const map = L.map('map').setView(mapCenter, 6);
                 
                 // Add the base tile layer (OpenStreetMap)
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -464,11 +793,239 @@
                     maxZoom: 19
                 }).addTo(map);
                 
+                // Add a legend to the map
+                addLegendToMap(map);
+                
                 return map;
             } catch (error) {
                 console.error("Map initialization error:", error);
                 throw new Error("Failed to initialize map: " + error.message);
             }
+        }
+
+        /**
+         * Sets up event listeners for the data loaded events
+         * @param {Object} map - Leaflet map instance
+         */
+        function setupDataLoadedEvents(map) {
+            // Listen for the recent data loaded event
+            window.addEventListener('recentDataLoaded', () => {
+                console.log("Recent data loaded event triggered");
+                
+                // If we're in recent mode, display the earthquake markers
+                if (earthquakeData.activeDataset === 'recent') {
+                    displayEarthquakeMarkers(map, earthquakeData.recentData.filtered);
+                    updateStatistics();
+                }
+                
+                hideStatus();
+                hideLoading();
+            });
+            
+            // Listen for the historical data loaded event
+            window.addEventListener('historicalDataLoaded', () => {
+                console.log("Historical data loaded event triggered");
+                
+                // If we're in historical mode, display the earthquake markers
+                if (earthquakeData.activeDataset === 'historical') {
+                    displayEarthquakeMarkers(map, earthquakeData.historicalData.filtered);
+                    updateStatistics();
+                }
+                
+                hideStatus();
+                hideLoading();
+            });
+        }
+
+        /**
+         * Sets up tab switching between recent and historical data
+         */
+        function setupTabSwitching() {
+            const recentTab = document.getElementById('recent-tab');
+            const historicalTab = document.getElementById('historical-tab');
+            const recentFilters = document.getElementById('recent-filters');
+            const historicalFilters = document.getElementById('historical-filters');
+            const yearRangeStats = document.getElementById('year-range-stats');
+            
+            // Switch to recent data tab
+            recentTab.addEventListener('click', () => {
+                recentTab.classList.add('active');
+                historicalTab.classList.remove('active');
+                recentFilters.classList.add('active');
+                historicalFilters.classList.remove('active');
+                yearRangeStats.classList.add('hide');
+                
+                // Set the active dataset to recent
+                earthquakeData.setActiveDataset('recent');
+                
+                // If recent data is loaded, display it
+                if (earthquakeData.dataLoaded.recent) {
+                    const map = getMapInstance();
+                    if (map) {
+                        displayEarthquakeMarkers(map, earthquakeData.recentData.filtered);
+                        updateStatistics();
+                    }
+                }
+            });
+            
+            // Switch to historical data tab
+            historicalTab.addEventListener('click', () => {
+                historicalTab.classList.add('active');
+                recentTab.classList.remove('active');
+                historicalFilters.classList.add('active');
+                recentFilters.classList.remove('active');
+                yearRangeStats.classList.remove('hide');
+                
+                // Set the active dataset to historical
+                earthquakeData.setActiveDataset('historical');
+                
+                // If historical data is loaded, display it
+                if (earthquakeData.dataLoaded.historical) {
+                    const map = getMapInstance();
+                    if (map) {
+                        displayEarthquakeMarkers(map, earthquakeData.historicalData.filtered);
+                        updateStatistics();
+                    } else {
+                        showStatus("Map not initialized yet. Please try again later.", true);
+                    }
+                } else {
+                    showStatus("Historical data is still loading. Please wait a moment...");
+                }
+            });
+        }
+
+        /**
+         * Sets up the year range slider for historical data
+         */
+        function setupYearSlider() {
+            // Get the slider container
+            const slider = document.getElementById('year-slider');
+            
+            // If noUiSlider is not loaded, show error and return
+            if (typeof noUiSlider === 'undefined') {
+                console.error("noUiSlider library not loaded");
+                return;
+            }
+            
+            // Create the slider
+            noUiSlider.create(slider, {
+                start: [1981, 2023],
+                connect: true,
+                step: 1,
+                range: {
+                    'min': 1981,
+                    'max': 2023
+                },
+                format: {
+                    to: function (value) {
+                        return Math.round(value);
+                    },
+                    from: function (value) {
+                        return Math.round(value);
+                    }
+                }
+            });
+            
+            // Update the year labels when the slider changes
+            const yearMin = document.getElementById('year-min');
+            const yearMax = document.getElementById('year-max');
+            
+            slider.noUiSlider.on('update', function (values, handle) {
+                const [minYear, maxYear] = values;
+                yearMin.textContent = minYear;
+                yearMax.textContent = maxYear;
+            });
+            
+            // Apply the filter when the slider stops being dragged
+            slider.noUiSlider.on('change', function (values) {
+                const yearRange = values.map(Number);
+                const minMagnitude = parseFloat(document.getElementById('historical-magnitude-filter').value);
+                
+                // Apply filters
+                const filters = {
+                    minMagnitude,
+                    yearRange
+                };
+                
+                // Get the map instance
+                const map = getMapInstance();
+                if (map) {
+                    // Apply filters and update the map
+                    earthquakeData.applyHistoricalFilters(filters);
+                    displayEarthquakeMarkers(map, earthquakeData.historicalData.filtered);
+                    updateStatistics();
+                }
+            });
+        }
+
+        /**
+         * Gets the current map instance
+         * @returns {Object|null} - Leaflet map instance or null if not found
+         */
+        function getMapInstance() {
+            // In this implementation, there's only one map on the page
+            return window._map || null;
+        }
+
+        /**
+         * Sets up event listeners for filter controls
+         * @param {Object} map - Leaflet map instance
+         */
+        function setupFilterListeners(map) {
+            // Store the map instance for later use
+            window._map = map;
+            
+            // Recent data filter controls
+            const recentMagnitudeFilter = document.getElementById('recent-magnitude-filter');
+            const recentDateFilter = document.getElementById('recent-date-filter');
+            
+            // Historical data filter controls
+            const historicalMagnitudeFilter = document.getElementById('historical-magnitude-filter');
+            
+            // Function to apply recent data filters
+            const applyRecentFilters = () => {
+                const filters = {
+                    minMagnitude: parseFloat(recentMagnitudeFilter.value),
+                    timePeriod: recentDateFilter.value
+                };
+                
+                // Apply filters and get filtered data
+                const filteredData = earthquakeData.applyRecentFilters(filters);
+                
+                // Update map markers
+                displayEarthquakeMarkers(map, filteredData);
+                
+                // Update statistics
+                updateStatistics();
+            };
+            
+            // Function to apply historical data filters
+            const applyHistoricalFilters = () => {
+                // Get the current year range from the slider
+                const yearSlider = document.getElementById('year-slider');
+                const yearRange = yearSlider.noUiSlider.get().map(Number);
+                
+                const filters = {
+                    minMagnitude: parseFloat(historicalMagnitudeFilter.value),
+                    yearRange
+                };
+                
+                // Apply filters and get filtered data
+                const filteredData = earthquakeData.applyHistoricalFilters(filters);
+                
+                // Update map markers
+                displayEarthquakeMarkers(map, filteredData);
+                
+                // Update statistics
+                updateStatistics();
+            };
+            
+            // Add event listeners for recent data filters
+            recentMagnitudeFilter.addEventListener('change', applyRecentFilters);
+            recentDateFilter.addEventListener('change', applyRecentFilters);
+            
+            // Add event listeners for historical data filters
+            historicalMagnitudeFilter.addEventListener('change', applyHistoricalFilters);
         }
 
         /**
@@ -479,7 +1036,7 @@
         function displayEarthquakeMarkers(map, earthquakes) {
             // Clear existing markers if any
             if (window.earthquakeMarkers) {
-                window.earthquakeMarkers.clearLayers();
+                map.removeLayer(window.earthquakeMarkers);
             }
             
             // Create a layer group for earthquake markers
@@ -508,9 +1065,9 @@
                 
                 // Add popup with information
                 const popupContent = `
-                    <strong>Magnitude:</strong> ${quake.magnitude}<br>
+                    <strong>Magnitude:</strong> ${quake.magnitude.toFixed(1)}<br>
                     <strong>Date & Time:</strong> ${formatDateTime(quake.dateTime)}<br>
-                    <strong>Depth:</strong> ${quake.depth} km<br>
+                    <strong>Depth:</strong> ${quake.depth.toFixed(1)} km<br>
                     <strong>Region:</strong> ${quake.region}<br>
                     <strong>Type:</strong> ${quake.type}
                 `;
@@ -524,6 +1081,13 @@
                 // Add the marker to the layer group
                 marker.addTo(window.earthquakeMarkers);
             });
+            
+            // Show a message if no earthquakes match the current filters
+            if (earthquakes.length === 0) {
+                showStatus("No earthquakes match the current filters. Try adjusting your criteria.");
+            } else {
+                hideStatus();
+            }
         }
 
         /**
@@ -609,7 +1173,7 @@
             
             detailsElement.innerHTML = `
                 <div class="detail-item">
-                    <strong>Magnitude:</strong> ${quake.magnitude}
+                    <strong>Magnitude:</strong> ${quake.magnitude.toFixed(1)}
                 </div>
                 <div class="detail-item">
                     <strong>Date & Time:</strong> ${formatDateTime(quake.dateTime)}
@@ -618,16 +1182,16 @@
                     <strong>Coordinates:</strong> ${quake.latitude.toFixed(4)}, ${quake.longitude.toFixed(4)}
                 </div>
                 <div class="detail-item">
-                    <strong>Depth:</strong> ${quake.depth} km
+                    <strong>Depth:</strong> ${quake.depth.toFixed(1)} km
                 </div>
                 <div class="detail-item">
                     <strong>Region:</strong> ${quake.region || 'Unknown'}
                 </div>
                 <div class="detail-item">
-                    <strong>Event Type:</strong> ${quake.type}
+                    <strong>Event Type:</strong> ${quake.type || 'Unknown'}
                 </div>
                 <div class="detail-item">
-                    <strong>Event ID:</strong> ${quake.epiid}
+                    <strong>Event ID:</strong> ${quake.id || 'Unknown'}
                 </div>
             `;
         }
@@ -640,36 +1204,12 @@
             
             document.getElementById('total-count').textContent = stats.count;
             document.getElementById('avg-magnitude').textContent = stats.avgMagnitude;
-        }
-
-        /**
-         * Sets up event listeners for filter controls
-         * @param {Object} map - Leaflet map instance
-         */
-        function setupFilterListeners(map) {
-            const magnitudeFilter = document.getElementById('magnitude-filter');
-            const dateFilter = document.getElementById('date-filter');
+            document.getElementById('max-magnitude').textContent = stats.maxMagnitude;
             
-            // Function to apply all current filters
-            const applyFilters = () => {
-                const filters = {
-                    minMagnitude: parseFloat(magnitudeFilter.value),
-                    timePeriod: dateFilter.value
-                };
-                
-                // Apply filters and get filtered data
-                const filteredData = earthquakeData.applyFilters(filters);
-                
-                // Update map markers
-                displayEarthquakeMarkers(map, filteredData);
-                
-                // Update statistics
-                updateStatistics();
-            };
-            
-            // Add event listeners
-            magnitudeFilter.addEventListener('change', applyFilters);
-            dateFilter.addEventListener('change', applyFilters);
+            // Update year range if in historical mode
+            if (stats.yearRange) {
+                document.getElementById('year-range').textContent = `${stats.yearRange[0]} - ${stats.yearRange[1]}`;
+            }
         }
         
         // Start the application when the page is fully loaded
