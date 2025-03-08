@@ -260,6 +260,7 @@
                 showStatus("Loading earthquake data from CSV...");
                 
                 try {
+                    console.log("Fetching CSV from URL:", csvUrl);
                     const response = await fetch(csvUrl);
                     
                     if (!response.ok) {
@@ -267,24 +268,29 @@
                     }
                     
                     const csvText = await response.text();
+                    console.log("CSV data fetched successfully, length:", csvText.length);
                     
                     // Parse CSV data using PapaParse
-                    Papa.parse(csvText, {
-                        header: true,
-                        dynamicTyping: true,
-                        skipEmptyLines: true,
-                        complete: (results) => {
-                            if (results.errors && results.errors.length > 0) {
-                                console.warn("CSV parsing had errors:", results.errors);
+                    return new Promise((resolve, reject) => {
+                        Papa.parse(csvText, {
+                            header: true,
+                            dynamicTyping: true,
+                            skipEmptyLines: true,
+                            complete: (results) => {
+                                if (results.errors && results.errors.length > 0) {
+                                    console.warn("CSV parsing had errors:", results.errors);
+                                }
+                                
+                                console.log("CSV parsed successfully, rows:", results.data.length);
+                                this.processRawData(results.data);
+                                resolve();
+                            },
+                            error: (error) => {
+                                console.error("CSV parsing error:", error);
+                                showStatus(`Error parsing CSV: ${error.message}`, true);
+                                reject(error);
                             }
-                            
-                            this.processRawData(results.data);
-                            hideStatus();
-                        },
-                        error: (error) => {
-                            console.error("CSV parsing error:", error);
-                            showStatus(`Error parsing CSV: ${error.message}`, true);
-                        }
+                        });
                     });
                 } catch (error) {
                     console.error("CSV loading error:", error);
@@ -298,6 +304,8 @@
              * @param {Array} data - Array of earthquake event objects
              */
             processRawData(data) {
+                console.log("Processing raw data...");
+                
                 // Store the raw data
                 this.rawData = data.map(item => {
                     // Ensure proper typing and format for all properties
@@ -313,9 +321,16 @@
                     };
                 });
 
+                // Log a sample to verify data format
+                if (this.rawData.length > 0) {
+                    console.log("Sample processed earthquake data:", this.rawData[0]);
+                }
+
                 // Initially, filtered data is the same as raw data
                 this.filteredData = [...this.rawData];
                 this.isDataLoaded = true;
+                
+                console.log("Data processing complete. Total earthquakes:", this.rawData.length);
                 
                 // Notify that data is loaded
                 const event = new CustomEvent('earthquakeDataLoaded');
@@ -400,15 +415,12 @@
                 const map = initializeMap();
                 
                 // Define the GitHub URL for the CSV file
-                // Note: This URL points to the raw content of the CSV file in your GitHub repository
-                // Replace with your actual GitHub repository path
+                // This URL points to the raw content of the CSV file in your GitHub repository
                 const csvUrl = 'https://raw.githubusercontent.com/Tuvudel/israel-map/main/last30_event.csv';
                 
-                // Load data from the CSV file
-                await earthquakeData.loadFromCsv(csvUrl);
-                
-                // Listen for the data loaded event
+                // Listen for the data loaded event before starting the data load
                 window.addEventListener('earthquakeDataLoaded', () => {
+                    console.log("Data loaded event triggered, displaying markers...");
                     // Display earthquake markers
                     displayEarthquakeMarkers(map, earthquakeData.filteredData);
                     
@@ -417,7 +429,13 @@
                     
                     // Add a legend to the map
                     addLegendToMap(map);
+                    
+                    // Hide the status message once everything is loaded
+                    hideStatus();
                 });
+                
+                // Load data from the CSV file
+                await earthquakeData.loadFromCsv(csvUrl);
                 
                 // Set up event listeners for filters
                 setupFilterListeners(map);
