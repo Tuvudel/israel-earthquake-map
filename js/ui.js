@@ -19,6 +19,7 @@ window.UIManager = {};
         setupMaxMagnitudeClick();
         setupInfoPanelToggle(); // Add new mobile feature
         setupResponsiveLayout(); // Add responsive layout handling
+        setupPlateBoundariesToggle(); // Add plate boundaries toggle
     }
     
     /**
@@ -216,6 +217,53 @@ function setupColorModeToggle() {
     
     console.log('Color mode toggles initialized successfully');
 }
+
+    /**
+     * Set up plate boundaries toggle
+     * NEW FUNCTION
+     */
+    function setupPlateBoundariesToggle() {
+        const recentPlateBoundaries = document.getElementById('plate-boundaries-recent');
+        const historicalPlateBoundaries = document.getElementById('plate-boundaries-historical');
+        
+        // Initialize state if not already defined
+        if (!window.AppState) window.AppState = {};
+        window.AppState.showPlateBoundaries = false;
+        
+        // Handle recent tab toggle
+        if (recentPlateBoundaries) {
+            recentPlateBoundaries.addEventListener('change', function() {
+                const showBoundaries = this.checked;
+                console.log('Toggling plate boundaries (recent):', showBoundaries);
+                
+                window.AppState.showPlateBoundaries = showBoundaries;
+                window.MapManager.togglePlateBoundaries(showBoundaries);
+                
+                // Sync the other checkbox if it exists
+                if (historicalPlateBoundaries) {
+                    historicalPlateBoundaries.checked = showBoundaries;
+                }
+            });
+        }
+        
+        // Handle historical tab toggle
+        if (historicalPlateBoundaries) {
+            historicalPlateBoundaries.addEventListener('change', function() {
+                const showBoundaries = this.checked;
+                console.log('Toggling plate boundaries (historical):', showBoundaries);
+                
+                window.AppState.showPlateBoundaries = showBoundaries;
+                window.MapManager.togglePlateBoundaries(showBoundaries);
+                
+                // Sync the other checkbox if it exists
+                if (recentPlateBoundaries) {
+                    recentPlateBoundaries.checked = showBoundaries;
+                }
+            });
+        }
+        
+        console.log('Plate boundaries toggles initialized successfully');
+    }
     
     /**
      * Set up event listeners for filter controls

@@ -11,6 +11,9 @@ window.MapManager = {};
     // Store a reference to the legend
     let legendControl = null;
     
+    // Store a reference to the plate boundaries layer
+    let plateBoundariesLayer = null;
+    
     /**
      * Initialize the Leaflet map
      * @returns {Object} Leaflet map instance
@@ -114,6 +117,11 @@ window.MapManager = {};
                 div.innerHTML += createClusterLegend();
             }
             
+            // Add plate boundaries info if we're showing them
+            if (window.AppState.showPlateBoundaries) {
+                div.innerHTML += createPlateBoundariesLegend();
+            }
+            
             return div;
         };
         
@@ -201,6 +209,25 @@ window.MapManager = {};
             <div>Larger clusters contain more earthquakes</div>
         `;
     }
+
+    /**
+     * Create HTML for plate boundaries legend
+     * @returns {string} HTML for plate boundaries legend
+     */
+    function createPlateBoundariesLegend() {
+        return `
+            <hr>
+            <div><strong>Plate Boundaries:</strong></div>
+            <div class="legend-item">
+                <div class="legend-line" style="background-color: ${CONFIG.colors.plateBoundaries.transform}; height: 4px; border: 1px solid white;"></div>
+                <span>Dead Sea Transform Fault</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background-color: ${CONFIG.colors.plateBoundaries.divergent}; height: 4px; border: 1px solid white;"></div>
+                <span>Divergent Boundary</span>
+            </div>
+        `;
+    }
     
     /**
      * Clear all map layers (markers, canvas, etc.)
@@ -247,6 +274,149 @@ window.MapManager = {};
     }
     
     /**
+     * Toggle plate boundaries on/off
+     * @param {boolean} show - Whether to show plate boundaries
+     */
+    function togglePlateBoundaries(show) {
+        // Store the state in AppState
+        window.AppState.showPlateBoundaries = show;
+        
+        // If the show flag is true, display the plate boundaries
+        if (show) {
+            displayPlateBoundaries();
+        } else {
+            // Otherwise, remove them if they exist
+            removePlateBoundaries();
+        }
+        
+        // Update the legend
+        updateLegend(window.AppState.map);
+    }
+    
+    /**
+     * Display plate boundaries on the map
+     */
+    function displayPlateBoundaries() {
+        // First remove any existing plate boundaries layer
+        removePlateBoundaries();
+        
+        // Check if plate data is available
+        if (!window.PlateData || !window.PlateData.eastAfricanRift) {
+            console.error('Plate boundaries data not found');
+            return;
+        }
+
+        // First add a white shadow/outline for the fault lines
+        if (CONFIG.plateBoundaries.style.outlineWidth > 0) {
+            const outlineLayer = L.geoJSON(window.PlateData.eastAfricanRift, {
+                style: function(feature) {
+                    return {
+                        color: CONFIG.plateBoundaries.style.outlineColor || 'white',
+                        weight: (CONFIG.plateBoundaries.style.weight || 3) + 
+                                (CONFIG.plateBoundaries.style.outlineWidth * 2),
+                        opacity: 0.8,
+                        dashArray: CONFIG.plateBoundaries.style.dashArray,
+                        lineCap: CONFIG.plateBoundaries.style.lineCap || 'round',
+                        lineJoin: CONFIG.plateBoundaries.style.lineJoin || 'round'
+                    };
+                }
+            });
+            
+            // Add outline layer below the actual fault lines
+            outlineLayer.addTo(window.AppState.map);
+            
+            // Store the outline layer to remove it later
+            window.AppState.plateBoundaryOutlineLayer = outlineLayer;
+        }
+        
+        // Create the plate boundaries layer with styling from config
+        plateBoundariesLayer = L.geoJSON(window.PlateData.eastAfricanRift, {
+            style: function(feature) {
+                // Get plate boundary color based on type if specified in properties
+                let color = CONFIG.colors.plateBoundaries.default;
+                
+                if (feature.properties && feature.properties.type) {
+                    const type = feature.properties.type.toLowerCase();
+                    if (type.includes('transform')) {
+                        color = CONFIG.colors.plateBoundaries.transform;
+                    } else if (type.includes('divergent')) {
+                        color = CONFIG.colors.plateBoundaries.divergent;
+                    } else if (type.includes('convergent')) {
+                        color = CONFIG.colors.plateBoundaries.convergent;
+                    }
+                }
+                
+                return {
+                    color: color,
+                    weight: CONFIG.plateBoundaries.style.weight || 3,
+                    opacity: CONFIG.plateBoundaries.style.opacity || 0.8,
+                    dashArray: CONFIG.plateBoundaries.style.dashArray,
+                    lineCap: CONFIG.plateBoundaries.style.lineCap || 'round',
+                    lineJoin: CONFIG.plateBoundaries.style.lineJoin || 'round',
+                    className: 'plate-boundary',
+                    zIndexOffset: CONFIG.plateBoundaries.style.zIndexOffset || 1000
+                };
+            },
+            onEachFeature: function(feature, layer) {
+                if (feature.properties && feature.properties.name) {
+                    const tooltipContent = `
+                        <strong>${feature.properties.name}</strong><br>
+                        ${feature.properties.type}<br>
+                        ${feature.properties.description || ''}
+                    `;
+                    
+                    layer.bindTooltip(tooltipContent, { 
+                        className: 'boundary-tooltip',
+                        sticky: true,
+                        opacity: 0.9
+                    });
+                    
+                    // Make lines more interactive
+                    layer.on('mouseover', function() {
+                        this.setStyle({
+                            weight: (CONFIG.plateBoundaries.style.weight || 3) + 2,
+                            opacity: 1
+                        });
+                    });
+                    
+                    layer.on('mouseout', function() {
+                        this.setStyle({
+                            weight: CONFIG.plateBoundaries.style.weight || 3,
+                            opacity: CONFIG.plateBoundaries.style.opacity || 0.8
+                        });
+                    });
+                }
+            }
+        });
+        
+        // Add the layer to the map with high z-index to ensure it's above markers
+        plateBoundariesLayer.addTo(window.AppState.map);
+        
+        // Bring the layer to front to ensure it appears on top of other layers
+        plateBoundariesLayer.bringToFront();
+        
+        console.log('Plate boundaries displayed');
+    }
+    
+    /**
+     * Remove plate boundaries from the map
+     */
+    function removePlateBoundaries() {
+        if (plateBoundariesLayer) {
+            window.AppState.map.removeLayer(plateBoundariesLayer);
+            plateBoundariesLayer = null;
+        }
+        
+        // Also remove the outline layer if it exists
+        if (window.AppState.plateBoundaryOutlineLayer) {
+            window.AppState.map.removeLayer(window.AppState.plateBoundaryOutlineLayer);
+            window.AppState.plateBoundaryOutlineLayer = null;
+        }
+        
+        console.log('Plate boundaries removed');
+    }
+    
+    /**
      * Render the current filtered dataset on the map
      */
     function renderCurrentData() {
@@ -278,6 +448,11 @@ window.MapManager = {};
         } else {
             earthquakes = window.AppState.data.recent.filtered;
             displayEarthquakeMarkers(earthquakes);
+        }
+        
+        // Re-add plate boundaries if they should be shown
+        if (window.AppState.showPlateBoundaries) {
+            displayPlateBoundaries();
         }
         
         // Update information panel
@@ -851,6 +1026,7 @@ window.MapManager = {};
     exports.clearAllMapLayers = clearAllMapLayers;
     exports.updateLegend = updateLegend;
     exports.centerAndHighlightEarthquake = centerAndHighlightEarthquake;
+    exports.togglePlateBoundaries = togglePlateBoundaries;
     
 })(window.MapManager);
 

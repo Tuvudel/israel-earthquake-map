@@ -43,6 +43,13 @@ window.CONFIG = {
             veryLarge: '#9C27B0',   // 5-6 (Purple)
             major: '#3F51B5',       // 6-7 (Indigo)
             great: '#880E4F'        // > 7 (Dark Magenta)
+        },
+        // Plate boundary colors
+        plateBoundaries: {
+            default: '#FF5733',     // Default color for all boundaries
+            transform: '#FF5733',   // Transform faults (like Dead Sea Transform)
+            divergent: '#FF9966',   // Divergent boundaries
+            convergent: '#CC3300'   // Convergent boundaries
         }
     },
     
@@ -99,6 +106,23 @@ window.CONFIG = {
             // Prioritize sampling by magnitude (show more significant earthquakes)
             prioritizeByCriteria: true
         }
+    },
+    
+    // Plate boundaries settings
+    plateBoundaries: {
+        // Line style options
+        style: {
+            weight: 5,                // Increased line width for visibility
+            opacity: 0.9,             // Higher opacity
+            dashArray: null,          // Solid line for better visibility (remove dashed pattern)
+            lineCap: 'round',         // Round ends of lines
+            lineJoin: 'round',        // Round line joins
+            outlineColor: 'white',    // White outline to contrast against background
+            outlineWidth: 1,          // Width of the outline
+            zIndexOffset: 1000        // Ensure fault lines appear above markers
+        },
+        // Default visibility state
+        defaultVisible: false
     }
 };
 

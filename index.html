@@ -63,6 +63,10 @@
                         <option value="magnitude">Magnitude</option>
                     </select>
                 </div>
+                <div class="filter-group">
+                    <input type="checkbox" id="plate-boundaries-recent" class="toggle-checkbox">
+                    <label for="plate-boundaries-recent" class="toggle-label">Show Fault Lines</label>
+                </div>
             </div>
         </div>
 
@@ -93,6 +97,10 @@
                         <option value="cluster" selected>Cluster</option>
                         <option value="points">Individual Points</option>
                     </select>
+                </div>
+                <div class="filter-group">
+                    <input type="checkbox" id="plate-boundaries-historical" class="toggle-checkbox">
+                    <label for="plate-boundaries-historical" class="toggle-label">Show Fault Lines</label>
                 </div>
             </div>
             
@@ -154,6 +162,7 @@
     <!-- Application scripts - order matters for dependencies -->
     <script src="js/config.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/plate-boundaries.js"></script>
     <script src="js/data.js"></script>
     <script src="js/map.js"></script>
     <script src="js/ui.js"></script>

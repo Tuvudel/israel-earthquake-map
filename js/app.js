@@ -8,6 +8,7 @@ window.AppState = {
     markerLayer: null,
     canvasLayer: null,
     clusterLayer: null, // Added for marker clustering
+    plateBoundaryOutlineLayer: null, // Added for plate boundary outline
     activeDataset: 'recent',
     currentZoom: 6, // Default zoom level, will be updated with CONFIG value
     viewportBounds: null,
@@ -57,6 +58,8 @@ window.AppState = {
         lastRenderTime: 0,
         renderDuration: 0
     },
+    // Plate boundaries toggle state
+    showPlateBoundaries: false,
     yearSlider: null,
     selectedEarthquake: null,
     // Dedicated worker for background data processing (future enhancement)
@@ -164,6 +167,11 @@ window.App = {};
         
         if (typeof window.CONFIG === 'undefined') {
             throw new Error('CONFIG module not loaded');
+        }
+        
+        // Check for plate boundaries data
+        if (typeof window.PlateData === 'undefined') {
+            console.warn('PlateData module not loaded. Plate boundaries functionality may not work.');
         }
     }
     
