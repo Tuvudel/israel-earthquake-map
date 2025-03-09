@@ -48,10 +48,43 @@ window.CONFIG = {
     
     // Render settings for optimization
     render: {
+        // Default render mode for historical data
+        defaultHistoricalMode: 'cluster', // 'cluster', 'points', 'heatmap'
+        
         // Use canvas rendering for historical data (much faster)
         useCanvas: true,
+        
         // Maximum number of points to render with standard markers
         maxStandardMarkers: 1000,
+        
+        // Cluster settings for MarkerCluster plugin
+        cluster: {
+            // Distance (in pixels) within which markers will be clustered
+            clusterRadius: 50,
+            
+            // Whether to zoom to bounds of cluster when clicked
+            zoomToBoundsOnClick: true,
+            
+            // Whether to show coverage area of cluster on hover
+            showCoverageOnHover: true,
+            
+            // Maximum cluster radius
+            maxClusterRadius: 80,
+            
+            // Custom function to create cluster icon based on cluster size and contents
+            // Will be set programmatically in map.js
+            iconCreateFunction: null,
+            
+            // Whether to animate marker movement when clusters expand/collapse
+            animate: true,
+            
+            // Disables clustering at a particular zoom level
+            disableClusteringAtZoom: 15,
+            
+            // Prevent clusters from splitting when you zoom in
+            spiderfyOnMaxZoom: true
+        },
+        
         // Data sampling thresholds for different zoom levels
         sampling: {
             // At low zoom levels, show fewer data points for performance

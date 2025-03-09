@@ -347,12 +347,17 @@ window.DataManager = {};
         
         AppState.data.historical.filtered = filtered;
         
-        // Apply adaptive sampling based on dataset size and zoom level
-        applyAdaptiveSampling();
+        // Apply adaptive sampling only if not using clustering
+        if (AppState.renderMode.historical !== 'cluster') {
+            applyAdaptiveSampling();
+            console.log(`After sampling: ${AppState.data.historical.displayed.length} earthquakes will be displayed`);
+        } else {
+            // When clustering, we can use all data points - clustering handles performance
+            AppState.data.historical.displayed = filtered;
+            console.log(`Using all ${filtered.length} earthquakes with clustering`);
+        }
         
         console.log(`Applied filters: ${filtered.length} historical earthquakes match criteria`);
-        console.log(`After sampling: ${AppState.data.historical.displayed.length} earthquakes will be displayed`);
-        
         console.timeEnd('applyHistoricalFilters');
     }
     
@@ -448,35 +453,48 @@ window.DataManager = {};
             const filteredCount = AppState.data.historical.filtered.length;
             const displayedCount = AppState.data.historical.displayed.length;
             
-            // Use displayed data for statistics
-            const earthquakes = AppState.data.historical.displayed;
+            // Determine which data set to use for statistics
+            // When using clustering, we should use the complete filtered dataset
+            // otherwise use the displayed (sampled) dataset
+            const useFilteredForStats = AppState.renderMode.historical === 'cluster';
+            const earthquakes = useFilteredForStats ? 
+                AppState.data.historical.filtered : 
+                AppState.data.historical.displayed;
+            
+            const dataCount = earthquakes.length;
             let avgMagnitude = 0;
             let maxMagnitude = 0;
             let avgDepth = 0;
             let avgPerYear = 0;
+            let maxMagnitudeEarthquake = null; // Store the earthquake with max magnitude
             
-            if (displayedCount > 0) {
+            if (dataCount > 0) {
                 // Calculate average and max magnitude with optimized approach
                 let totalMagnitude = 0;
                 let totalDepth = 0;
                 maxMagnitude = earthquakes[0].magnitude;
+                maxMagnitudeEarthquake = earthquakes[0]; // Initialize with first earthquake
                 
-                for (let i = 0; i < displayedCount; i++) {
-                    const mag = earthquakes[i].magnitude;
-                    const depth = earthquakes[i].depth;
+                for (let i = 0; i < dataCount; i++) {
+                    const quake = earthquakes[i];
+                    const mag = parseFloat(quake.magnitude) || 0;
+                    const depth = parseFloat(quake.depth) || 0;
                     totalMagnitude += mag;
                     totalDepth += depth;
-                    if (mag > maxMagnitude) maxMagnitude = mag;
+                    if (mag > maxMagnitude) {
+                        maxMagnitude = mag;
+                        maxMagnitudeEarthquake = quake; // Update max magnitude earthquake
+                    }
                 }
                 
-                avgMagnitude = totalMagnitude / displayedCount;
-                avgDepth = totalDepth / displayedCount;
+                avgMagnitude = totalMagnitude / dataCount;
+                avgDepth = totalDepth / dataCount;
                 
                 // Calculate earthquakes per year
                 if (AppState.filters.historical.yearRange) {
                     const [minYear, maxYear] = AppState.filters.historical.yearRange;
                     const yearSpan = maxYear - minYear + 1; // +1 because range is inclusive
-                    avgPerYear = filteredCount / yearSpan; // Use filtered count for more accurate statistics
+                    avgPerYear = filteredCount / yearSpan; // Always use filtered count for yearly average
                 }
             }
             
@@ -487,7 +505,8 @@ window.DataManager = {};
                 maxMagnitude,
                 avgDepth,
                 avgPerYear,
-                yearRange: AppState.filters.historical.yearRange
+                yearRange: AppState.filters.historical.yearRange,
+                maxMagnitudeEarthquake // Add earthquake object with max magnitude
             };
         } else {
             // For recent data, simpler statistics
@@ -497,6 +516,7 @@ window.DataManager = {};
             let avgMagnitude = 0;
             let maxMagnitude = 0;
             let avgDepth = 0;
+            let maxMagnitudeEarthquake = null; // Store the earthquake with max magnitude
             // For recent data, earthquakes per year doesn't make sense
             let avgPerYear = null;
             
@@ -521,6 +541,7 @@ window.DataManager = {};
                     
                     if (mag > maxMagnitude) {
                         maxMagnitude = mag;
+                        maxMagnitudeEarthquake = quake; // Update max magnitude earthquake
                     }
                 }
                 
@@ -548,7 +569,8 @@ window.DataManager = {};
                 maxMagnitude,
                 avgDepth,
                 avgPerYear,
-                yearRange: null
+                yearRange: null,
+                maxMagnitudeEarthquake // Add earthquake object with max magnitude
             };
         }
     }

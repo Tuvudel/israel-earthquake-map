@@ -34,8 +34,9 @@ window.MapManager = {};
                 const newZoom = map.getZoom();
                 if (newZoom !== window.AppState.currentZoom) {
                     window.AppState.currentZoom = newZoom;
-                    // Re-render with appropriate sampling for zoom level
-                    if (window.AppState.activeDataset === 'historical') {
+                    // Re-render only if not using clustering (clustering handles this automatically)
+                    if (window.AppState.activeDataset === 'historical' && 
+                        window.AppState.renderMode.historical !== 'cluster') {
                         // Use a small delay to ensure smooth zooming
                         setTimeout(() => {
                             renderCurrentData();
@@ -47,8 +48,10 @@ window.MapManager = {};
             // Track viewport for viewport-constrained rendering
             map.on('moveend', function() {
                 window.AppState.viewportBounds = map.getBounds();
-                // No need to re-render on every pan, only on bigger movements
-                if (window.AppState.activeDataset === 'historical' && CONFIG.render.useCanvas) {
+                // Only re-render for canvas rendering or points when not using clustering
+                if (window.AppState.activeDataset === 'historical' && 
+                    window.AppState.renderMode.historical !== 'cluster' && 
+                    CONFIG.render.useCanvas) {
                     // Skip re-rendering if the last render was very recent (for smooth panning)
                     const now = Date.now();
                     if (now - window.AppState.performance.lastRenderTime > 500) {
@@ -103,6 +106,12 @@ window.MapManager = {};
             } else {
                 // Depth legend (default)
                 div.innerHTML = createDepthLegend();
+            }
+            
+            // Add cluster info if we're using clustering
+            if (window.AppState.activeDataset === 'historical' && 
+                window.AppState.renderMode.historical === 'cluster') {
+                div.innerHTML += createClusterLegend();
             }
             
             return div;
@@ -180,6 +189,20 @@ window.MapManager = {};
     }
     
     /**
+     * Create HTML for cluster legend
+     * @returns {string} HTML for cluster legend
+     */
+    function createClusterLegend() {
+        return `
+            <hr>
+            <div><strong>Clusters:</strong></div>
+            <div>Clusters show the number of earthquakes in an area</div>
+            <div>Click on clusters to zoom in and see individual events</div>
+            <div>Larger clusters contain more earthquakes</div>
+        `;
+    }
+    
+    /**
      * Clear all map layers (markers, canvas, etc.)
      */
     function clearAllMapLayers() {
@@ -193,6 +216,24 @@ window.MapManager = {};
         if (window.AppState.canvasLayer) {
             window.AppState.map.removeLayer(window.AppState.canvasLayer);
             window.AppState.canvasLayer = null;
+        }
+        
+        // Remove cluster layer if it exists
+        if (window.AppState.clusterLayer) {
+            window.AppState.map.removeLayer(window.AppState.clusterLayer);
+            window.AppState.clusterLayer = null;
+        }
+        
+        // Remove highlight marker if it exists
+        if (window.AppState.highlightMarker) {
+            window.AppState.map.removeLayer(window.AppState.highlightMarker);
+            window.AppState.highlightMarker = null;
+        }
+        
+        // Also clear the highlight timeout if it exists
+        if (window.AppState.highlightTimeout) {
+            clearTimeout(window.AppState.highlightTimeout);
+            window.AppState.highlightTimeout = null;
         }
         
         // Remove any other layers that might have been added
@@ -222,9 +263,14 @@ window.MapManager = {};
         let earthquakes;
         
         if (isHistorical) {
-            earthquakes = window.AppState.data.historical.displayed;
-            // For historical data, choose the appropriate rendering method
-            if (CONFIG.render.useCanvas && earthquakes.length > CONFIG.render.maxStandardMarkers) {
+            earthquakes = window.AppState.data.historical.filtered; // Use filtered data, not displayed
+            
+            // Choose rendering method based on render mode and data size
+            const renderMode = window.AppState.renderMode.historical;
+            
+            if (renderMode === 'cluster') {
+                renderClusteredMarkers(earthquakes);
+            } else if (CONFIG.render.useCanvas && earthquakes.length > CONFIG.render.maxStandardMarkers) {
                 renderCanvasMarkers(earthquakes);
             } else {
                 displayEarthquakeMarkers(earthquakes);
@@ -259,7 +305,7 @@ window.MapManager = {};
         // Show a warning if there are a lot of earthquakes
         if (earthquakes.length > 1000) {
             console.warn(`Rendering ${earthquakes.length} earthquake markers using standard markers.`);
-            window.Utils.showStatus(`Displaying ${earthquakes.length} earthquakes - this might be slow. Consider applying more filters.`);
+            window.Utils.showStatus(`Displaying ${earthquakes.length} earthquakes - this might be slow. Consider applying more filters or using cluster mode.`);
         }
         
         // Only render what's potentially visible for large datasets
@@ -371,7 +417,7 @@ window.MapManager = {};
         // Check for very large datasets
         if (earthquakes.length > 10000) {
             console.warn(`Rendering ${earthquakes.length} points on canvas, performance may be impacted`);
-            window.Utils.showStatus(`Rendering ${earthquakes.length} earthquakes. For better performance, apply more filters.`);
+            window.Utils.showStatus(`Rendering ${earthquakes.length} earthquakes. For better performance, apply more filters or use cluster mode.`);
         }
         
         // Create an array of features for faster canvas rendering
@@ -454,11 +500,357 @@ window.MapManager = {};
         console.timeEnd('renderCanvasMarkers');
     }
     
+    /**
+     * Render markers using clustering for optimal performance with large datasets
+     * @param {Array} earthquakes - Array of earthquake data objects
+     */
+    function renderClusteredMarkers(earthquakes) {
+        console.time('renderClusteredMarkers');
+        
+        // Clear existing layers first
+        clearAllMapLayers();
+        
+        // Create a marker cluster group
+        const clusterOptions = {
+            chunkedLoading: true, // Process markers in chunks for better performance
+            maxClusterRadius: CONFIG.render.cluster.maxClusterRadius,
+            disableClusteringAtZoom: CONFIG.render.cluster.disableClusteringAtZoom,
+            spiderfyOnMaxZoom: CONFIG.render.cluster.spiderfyOnMaxZoom,
+            showCoverageOnHover: CONFIG.render.cluster.showCoverageOnHover,
+            zoomToBoundsOnClick: CONFIG.render.cluster.zoomToBoundsOnClick,
+            animate: CONFIG.render.cluster.animate,
+            // Add tooltips to clusters
+            polygonOptions: {
+                fillColor: '#fff',
+                color: '#2d5075',
+                weight: 2,
+                opacity: 1,
+                fillOpacity: 0.3
+            },
+            
+            // Custom cluster icon function
+            iconCreateFunction: function(cluster) {
+                // Calculate average magnitude and depth of earthquakes in the cluster
+                const markers = cluster.getAllChildMarkers();
+                
+                let totalMagnitude = 0;
+                let maxMagnitude = 0;
+                let totalDepth = 0;
+                let count = markers.length;
+                
+                markers.forEach(marker => {
+                    const quake = marker.earthquake;
+                    const magnitude = parseFloat(quake.magnitude) || 0;
+                    totalMagnitude += magnitude;
+                    if (magnitude > maxMagnitude) maxMagnitude = magnitude;
+                    totalDepth += parseFloat(quake.depth) || 0;
+                });
+                
+                const avgMagnitude = totalMagnitude / count;
+                const avgDepth = totalDepth / count;
+                
+                // Determine color based on average magnitude or average depth
+                let color;
+                if (window.AppState.colorMode.historical === 'magnitude') {
+                    // Use average magnitude for color
+                    if (avgMagnitude < 2) color = CONFIG.colors.magnitude.verySmall;
+                    else if (avgMagnitude < 3) color = CONFIG.colors.magnitude.small;
+                    else if (avgMagnitude < 4) color = CONFIG.colors.magnitude.medium;
+                    else if (avgMagnitude < 5) color = CONFIG.colors.magnitude.large;
+                    else if (avgMagnitude < 6) color = CONFIG.colors.magnitude.veryLarge;
+                    else if (avgMagnitude < 7) color = CONFIG.colors.magnitude.major;
+                    else color = CONFIG.colors.magnitude.great;
+                } else {
+                    // Use average depth for color
+                    if (avgDepth < 5) color = CONFIG.colors.depth.veryShallow;
+                    else if (avgDepth < 10) color = CONFIG.colors.depth.shallow;
+                    else if (avgDepth < 20) color = CONFIG.colors.depth.medium;
+                    else color = CONFIG.colors.depth.deep;
+                }
+                
+                // Size based on number of points, with a minimum and maximum
+                const size = Math.min(60, Math.max(30, 20 + Math.floor(Math.sqrt(count) * 2)));
+                
+                // Create the cluster icon with statistical information
+                const tooltipContent = `Cluster contains ${count} earthquakes\nAvg. Magnitude: ${avgMagnitude.toFixed(1)}\nAvg. Depth: ${avgDepth.toFixed(1)} km`;
+                
+                // Create cluster icon with tooltip in the title attribute
+                const clusterIcon = L.divIcon({
+                    html: `<div style="background-color: ${color}; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; font-weight: bold; border-radius: 50%; border: 2px solid rgba(0,0,0,0.5);" 
+                    title="${tooltipContent}">${count}</div>`,
+                    className: 'earthquake-cluster',
+                    iconSize: [size, size]
+                });
+                
+                // Store tooltip information to be used during marker creation
+                cluster.tooltipContent = `<strong>Cluster:</strong> ${count} earthquakes<br><strong>Avg. Magnitude:</strong> ${avgMagnitude.toFixed(1)}<br><strong>Avg. Depth:</strong> ${avgDepth.toFixed(1)} km`;
+                
+                return clusterIcon;
+            }
+        };
+        
+        window.AppState.clusterLayer = L.markerClusterGroup(clusterOptions);
+        
+        // Process earthquakes
+        console.log(`Clustering ${earthquakes.length} earthquakes`);
+        
+        // Only create markers if we have data
+        if (earthquakes.length > 0) {
+            // Create markers
+            earthquakes.forEach(quake => {
+                // Skip if coordinates are invalid
+                if (!quake.latitude || !quake.longitude || isNaN(quake.latitude) || isNaN(quake.longitude)) {
+                    return;
+                }
+                
+                // Ensure magnitude and depth are valid numbers
+                const magnitude = parseFloat(quake.magnitude) || 0;
+                const depth = parseFloat(quake.depth) || 0;
+                
+                // Determine marker size and color
+                const markerSize = window.Utils.calculateMarkerSize(magnitude, depth);
+                const markerColor = window.Utils.calculateMarkerColor(depth, magnitude);
+                
+                // Create a circular marker
+                const marker = L.circleMarker([quake.latitude, quake.longitude], {
+                    radius: markerSize,
+                    fillColor: markerColor,
+                    color: '#000',
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                });
+                
+                // Add popup with information
+                const popupContent = `
+                    <strong>Magnitude:</strong> ${quake.magnitude.toFixed(1)}<br>
+                    <strong>Date & Time:</strong> ${window.Utils.formatDateTime(quake.dateTime)}<br>
+                    <strong>Depth:</strong> ${quake.depth.toFixed(1)} km<br>
+                    <strong>Region:</strong> ${quake.region || 'Unknown'}<br>
+                    <strong>Type:</strong> ${quake.type || 'Unknown'}
+                `;
+                marker.bindPopup(popupContent);
+                
+                // Store the earthquake data with the marker
+                marker.earthquake = quake;
+                
+                // Add click event to display details in the info panel
+                marker.on('click', () => {
+                    window.AppState.selectedEarthquake = quake;
+                    window.UIManager.displayEarthquakeDetails(quake);
+                });
+                
+                // Add to cluster layer
+                window.AppState.clusterLayer.addLayer(marker);
+            });
+            
+            // Add the cluster layer to the map
+            window.AppState.map.addLayer(window.AppState.clusterLayer);
+            
+            // Add tooltips to clusters after they're created
+            window.AppState.clusterLayer.on('clusterclick', function(event) {
+                const cluster = event.layer;
+                // Check if this cluster has a tooltip content set during icon creation
+                if (cluster.tooltipContent) {
+                    if (!cluster.getTooltip()) {
+                        cluster.bindTooltip(cluster.tooltipContent, {
+                            direction: 'top',
+                            sticky: true,
+                            opacity: 0.9,
+                            className: 'cluster-tooltip'
+                        });
+                    }
+                }
+            });
+            
+            // Update the status message
+            window.Utils.hideStatus();
+        } else {
+            window.Utils.showStatus("No earthquakes match the current filters. Try adjusting your criteria.");
+        }
+        
+        console.timeEnd('renderClusteredMarkers');
+    }
+    
+    /**
+     * Center the map on a specific earthquake and highlight it
+     * @param {Object} earthquake - Earthquake object to center on
+     */
+    function centerAndHighlightEarthquake(earthquake) {
+        if (!earthquake || !earthquake.latitude || !earthquake.longitude) {
+            console.warn('Cannot center on earthquake: Invalid earthquake data');
+            return;
+        }
+        
+        console.log('Centering on earthquake:', earthquake);
+        
+        // Store the current earthquake
+        window.AppState.selectedEarthquake = earthquake;
+        
+        // Update details panel
+        window.UIManager.displayEarthquakeDetails(earthquake);
+        
+        // Create coordinates
+        const coords = [earthquake.latitude, earthquake.longitude];
+        
+        // First determine if we need to handle clusters specially
+        const isHistorical = window.AppState.activeDataset === 'historical';
+        const isClusterMode = isHistorical && window.AppState.renderMode.historical === 'cluster';
+        
+        // Clear any existing highlight marker and timeout
+        if (window.AppState.highlightMarker) {
+            window.AppState.map.removeLayer(window.AppState.highlightMarker);
+            window.AppState.highlightMarker = null;
+        }
+        
+        if (window.AppState.highlightTimeout) {
+            clearTimeout(window.AppState.highlightTimeout);
+            window.AppState.highlightTimeout = null;
+        }
+        
+        // For clustered view, we need a special approach to ensure the point is visible
+        if (isClusterMode) {
+            // Center the map at a much higher zoom level to ensure the individual point is visible
+            // Zoom level 15 will ensure clusters are broken apart in almost all cases
+            window.AppState.map.setView(coords, 15);
+            
+            // Create a special standalone marker with high z-index
+            const maxMagnitudeMarker = L.circleMarker(coords, {
+                radius: 35, // Larger radius for better visibility
+                color: '#FFFFFF', // White border
+                weight: 4, // Thicker border
+                opacity: 1,
+                fillColor: '#FF00FF', // Magenta fill
+                fillOpacity: 0.7,
+                zIndexOffset: 10000 // Ensure it's above any clusters
+            });
+            
+            // Add a distinctive outline marker
+            const outlineMarker = L.circleMarker(coords, {
+                radius: 45, // Even larger radius for the outline
+                color: '#000000', // Black outline
+                weight: 2,
+                opacity: 0.6,
+                fill: false, // No fill, just the outline
+                zIndexOffset: 9999
+            });
+            
+            // Create a very visible pulse effect
+            const pulseMarker = L.circleMarker(coords, {
+                radius: 55, // Large radius for the pulse
+                color: '#FF00FF', // Match the main marker color
+                weight: 3,
+                opacity: 0.6,
+                fillColor: '#FF00FF',
+                fillOpacity: 0.2,
+                className: 'max-pulse-marker' // Special class for more intense animation
+            });
+            
+            // Add popup with earthquake info that automatically opens
+            const popupContent = `
+                <strong>Maximum Magnitude Earthquake (${earthquake.magnitude.toFixed(1)})</strong><br>
+                <strong>Date & Time:</strong> ${window.Utils.formatDateTime(earthquake.dateTime)}<br>
+                <strong>Depth:</strong> ${earthquake.depth.toFixed(1)} km<br>
+                <strong>Region:</strong> ${earthquake.region || 'Unknown'}<br>
+                <strong>Type:</strong> ${earthquake.type || 'Unknown'}
+            `;
+            maxMagnitudeMarker.bindPopup(popupContent).openPopup();
+            
+            // Create a dedicated layer for these markers to ensure they're above clusters
+            const highlightGroup = L.layerGroup([outlineMarker, pulseMarker, maxMagnitudeMarker]);
+            
+            // Add this group to the map with highest z-index
+            highlightGroup.addTo(window.AppState.map);
+            window.AppState.highlightMarker = highlightGroup;
+            
+            // Now also add a standalone (non-clustered) version of the actual marker
+            // This ensures the actual marker is visible even at this zoom level
+            const actualMarker = L.circleMarker(coords, {
+                radius: 25, // Make it stand out but not overlap with our highlight
+                fillColor: '#FF00FF', // Matching color
+                color: '#000',
+                weight: 2, 
+                opacity: 1,
+                fillOpacity: 0.6,
+                zIndexOffset: 9000 // High but below our highlight markers
+            }).addTo(window.AppState.map);
+            
+            // This marker also has the popup
+            actualMarker.bindPopup(popupContent);
+            
+            // Add this to our highlight group so it gets cleaned up together
+            window.AppState.highlightMarker.addLayer(actualMarker);
+            
+            // Set a shorter timeout to automatically remove the highlight 
+            window.AppState.highlightTimeout = setTimeout(() => {
+                if (window.AppState.highlightMarker) {
+                    window.AppState.map.removeLayer(window.AppState.highlightMarker);
+                    window.AppState.highlightMarker = null;
+                }
+            }, 4000); // 4 seconds
+            
+            return highlightGroup;
+        } else {
+            // For non-clustered views, center at a closer zoom level
+            window.AppState.map.setView(coords, 10);
+            
+            // Create a special highlight marker that will stand out
+            const highlightMarker = L.circleMarker(coords, {
+                radius: 25, // Larger radius for visibility
+                color: '#FFFFFF', // White border
+                weight: 3,
+                opacity: 1,
+                fillColor: '#FF00FF', // Bright magenta fill
+                fillOpacity: 0.5
+            });
+            
+            // Add a pulse effect using a second marker
+            const pulseMarker = L.circleMarker(coords, {
+                radius: 35,
+                color: '#FF00FF',
+                weight: 2,
+                opacity: 0.6,
+                fillColor: '#FF00FF',
+                fillOpacity: 0.3,
+                className: 'pulse-marker'
+            });
+            
+            // Create a group to hold both markers
+            const highlightGroup = L.layerGroup([highlightMarker, pulseMarker]);
+            
+            // Add a popup with earthquake info
+            const popupContent = `
+                <strong>Maximum Magnitude Earthquake</strong><br>
+                <strong>Magnitude:</strong> ${earthquake.magnitude.toFixed(1)}<br>
+                <strong>Date & Time:</strong> ${window.Utils.formatDateTime(earthquake.dateTime)}<br>
+                <strong>Depth:</strong> ${earthquake.depth.toFixed(1)} km<br>
+                <strong>Region:</strong> ${earthquake.region || 'Unknown'}<br>
+                <strong>Type:</strong> ${earthquake.type || 'Unknown'}
+            `;
+            highlightMarker.bindPopup(popupContent).openPopup();
+            
+            // Add to map and store reference
+            highlightGroup.addTo(window.AppState.map);
+            window.AppState.highlightMarker = highlightGroup;
+            
+            // Set a shorter timeout to automatically remove the highlight
+            window.AppState.highlightTimeout = setTimeout(() => {
+                if (window.AppState.highlightMarker) {
+                    window.AppState.map.removeLayer(window.AppState.highlightMarker);
+                    window.AppState.highlightMarker = null;
+                }
+            }, 4000); // 4 seconds
+            
+            return highlightGroup;
+        }
+    }
+    
     // Assign methods to the MapManager object
     exports.initializeMap = initializeMap;
     exports.renderCurrentData = renderCurrentData;
     exports.clearAllMapLayers = clearAllMapLayers;
     exports.updateLegend = updateLegend;
+    exports.centerAndHighlightEarthquake = centerAndHighlightEarthquake;
     
 })(window.MapManager);
 

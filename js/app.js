@@ -7,6 +7,7 @@ window.AppState = {
     map: null,
     markerLayer: null,
     canvasLayer: null,
+    clusterLayer: null, // Added for marker clustering
     activeDataset: 'recent',
     currentZoom: 6, // Default zoom level, will be updated with CONFIG value
     viewportBounds: null,
@@ -46,6 +47,10 @@ window.AppState = {
     colorMode: {
         recent: 'depth', // Default is 'depth', alternative is 'magnitude'
         historical: 'depth'
+    },
+    // Render mode for historical data
+    renderMode: {
+        historical: 'cluster' // Default is 'cluster', alternatives are 'points'
     },
     // Rendering performance tracking
     performance: {

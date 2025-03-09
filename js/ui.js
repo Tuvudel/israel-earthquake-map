@@ -16,6 +16,7 @@ window.UIManager = {};
         setupYearSlider();
         setupFilterListeners();
         setupColorModeToggle();
+        setupMaxMagnitudeClick();
     }
     
     /**
@@ -224,6 +225,12 @@ function setupColorModeToggle() {
         
         // Historical data filter controls
         const historicalMagnitudeFilter = document.getElementById('historical-magnitude-filter');
+        const renderModeHistorical = document.getElementById('render-mode-historical');
+        
+        // Set initial render mode from AppState
+        if (window.AppState && window.AppState.renderMode) {
+            renderModeHistorical.value = window.AppState.renderMode.historical || 'cluster';
+        }
         
         // Function to handle filter changes with debounce
         let filterTimeout;
@@ -250,10 +257,93 @@ function setupColorModeToggle() {
             }, 300); // 300ms debounce
         };
         
+        // Function to handle render mode changes
+        const handleRenderModeChange = () => {
+            // Show loading overlay
+            Utils.showLoading('Changing render mode...');
+            
+            // Update render mode state
+            window.AppState.renderMode.historical = renderModeHistorical.value;
+            
+            // Clear existing layers
+            MapManager.clearAllMapLayers();
+            
+            // If we're in historical mode, re-render with the new render mode
+            if (window.AppState.activeDataset === 'historical') {
+                setTimeout(() => {
+                    MapManager.renderCurrentData();
+                    Utils.hideLoading();
+                }, 10);
+            } else {
+                Utils.hideLoading();
+            }
+        };
+        
         // Add event listeners
         recentMagnitudeFilter.addEventListener('change', handleFilterChange);
         recentDateFilter.addEventListener('change', handleFilterChange);
         historicalMagnitudeFilter.addEventListener('change', handleFilterChange);
+        renderModeHistorical.addEventListener('change', handleRenderModeChange);
+    }
+    
+    /**
+     * Set up click handler for max magnitude statistic
+     */
+    function setupMaxMagnitudeClick() {
+        const maxMagnitudeElement = document.getElementById('max-magnitude');
+        
+        if (maxMagnitudeElement) {
+            // Add title for better UX
+            maxMagnitudeElement.title = "Click to center map on max magnitude earthquake";
+            
+            // Add click handler
+            maxMagnitudeElement.addEventListener('click', () => {
+                // Determine which dataset to use
+                const isHistorical = AppState.activeDataset === 'historical';
+                const earthquakes = isHistorical 
+                    ? window.AppState.data.historical.filtered 
+                    : window.AppState.data.recent.filtered;
+                
+                if (!earthquakes || earthquakes.length === 0) {
+                    console.warn('No earthquakes available');
+                    window.Utils.showStatus('No earthquakes available to show', true);
+                    return;
+                }
+                
+                // Find earthquake with maximum magnitude
+                let maxMagnitudeEarthquake = earthquakes[0];
+                let maxMagnitude = parseFloat(maxMagnitudeEarthquake.magnitude) || 0;
+                
+                for (let i = 1; i < earthquakes.length; i++) {
+                    const quake = earthquakes[i];
+                    const magnitude = parseFloat(quake.magnitude) || 0;
+                    
+                    if (magnitude > maxMagnitude) {
+                        maxMagnitude = magnitude;
+                        maxMagnitudeEarthquake = quake;
+                    }
+                }
+                
+                if (maxMagnitudeEarthquake) {
+                    console.log('Centering on max magnitude earthquake:', maxMagnitudeEarthquake);
+                    
+                    // Show loading indicator briefly
+                    window.Utils.showLoading('Locating maximum magnitude earthquake...');
+                    
+                    // Use setTimeout to allow the loading indicator to appear
+                    setTimeout(() => {
+                        // Center and highlight the earthquake
+                        window.MapManager.centerAndHighlightEarthquake(maxMagnitudeEarthquake);
+                        window.Utils.hideLoading();
+                    }, 100);
+                } else {
+                    console.warn('Max magnitude earthquake not available');
+                    window.Utils.showStatus('Maximum magnitude earthquake location not available', true);
+                }
+            });
+        } else {
+            console.error('Max magnitude element not found');
+        }
     }
     
     /**
@@ -303,8 +393,9 @@ function setupColorModeToggle() {
         // Debug log to check statistics values
         console.log('Statistics for ' + (isHistorical ? 'historical' : 'recent') + ' data:', stats);
         
-        document.getElementById('total-count').textContent = 
-            `${stats.count.toLocaleString()}${stats.count < stats.totalCount ? ' (of ' + stats.totalCount.toLocaleString() + ')' : ''}`;
+        // Always show total filtered count (for both clustering and non-clustering cases)
+        document.getElementById('total-count').textContent = stats.totalCount.toLocaleString();
+        
         document.getElementById('avg-magnitude').textContent = stats.avgMagnitude.toFixed(2);
         document.getElementById('max-magnitude').textContent = stats.maxMagnitude.toFixed(2);
         document.getElementById('avg-depth').textContent = stats.avgDepth.toFixed(2);
