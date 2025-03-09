@@ -25,12 +25,25 @@ window.CONFIG = {
         max: 2023
     },
     
-    // Color settings for depth visualization
+    // Color settings for visualization
     colors: {
-        veryShallow: '#FFD700', // < 5km
-        shallow: '#FFA500',     // 5-10km
-        medium: '#FF6347',      // 10-20km
-        deep: '#FF0000'         // > 20km
+        // Depth colors
+        depth: {
+            veryShallow: '#FFD700', // < 5km
+            shallow: '#FFA500',     // 5-10km
+            medium: '#FF6347',      // 10-20km
+            deep: '#FF0000'         // > 20km
+        },
+        // Magnitude colors with more distinct values
+        magnitude: {
+            verySmall: '#66BB6A',   // < 2 (Green)
+            small: '#FFEB3B',       // 2-3 (Yellow)
+            medium: '#FF9800',      // 3-4 (Orange)
+            large: '#E53935',       // 4-5 (Red)
+            veryLarge: '#9C27B0',   // 5-6 (Purple)
+            major: '#3F51B5',       // 6-7 (Indigo)
+            great: '#880E4F'        // > 7 (Dark Magenta)
+        }
     },
     
     // Render settings for optimization

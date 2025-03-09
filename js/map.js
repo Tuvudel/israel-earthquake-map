@@ -8,6 +8,9 @@ window.MapManager = {};
 
 // Then implement its functionality
 (function(exports) {
+    // Store a reference to the legend
+    let legendControl = null;
+    
     /**
      * Initialize the Leaflet map
      * @returns {Object} Leaflet map instance
@@ -24,7 +27,7 @@ window.MapManager = {};
             }).addTo(map);
             
             // Add a legend to the map
-            addLegendToMap(map);
+            updateLegend(map);
             
             // Track zoom level for adaptive rendering
             map.on('zoomend', function() {
@@ -66,41 +69,103 @@ window.MapManager = {};
     }
     
     /**
-     * Add a legend to the map explaining marker colors and sizes
+     * Update the map legend based on current color mode
      * @param {Object} map - Leaflet map instance
      */
-    function addLegendToMap(map) {
-        const legend = L.control({ position: 'bottomright' });
+    function updateLegend(map) {
+        // Remove existing legend if it exists
+        if (legendControl) {
+            map.removeControl(legendControl);
+        }
         
-        legend.onAdd = function() {
+        // Create a new legend
+        legendControl = L.control({ position: 'bottomright' });
+        
+        legendControl.onAdd = function() {
             const div = L.DomUtil.create('div', 'legend');
+            const activeDataset = AppState.activeDataset;
+            const colorMode = AppState.colorMode[activeDataset];
             
-            div.innerHTML = `
-                <h4>Legend</h4>
-                <div><strong>Depth:</strong></div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: ${CONFIG.colors.veryShallow};"></div>
-                    <span>< 5 km (Very Shallow)</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: ${CONFIG.colors.shallow};"></div>
-                    <span>5-10 km (Shallow)</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: ${CONFIG.colors.medium};"></div>
-                    <span>10-20 km (Medium)</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: ${CONFIG.colors.deep};"></div>
-                    <span>> 20 km (Deep)</span>
-                </div>
-                <div><strong>Size:</strong> Proportional to magnitude</div>
-            `;
+            if (colorMode === 'magnitude') {
+                // Magnitude legend
+                div.innerHTML = createMagnitudeLegend();
+            } else {
+                // Depth legend (default)
+                div.innerHTML = createDepthLegend();
+            }
             
             return div;
         };
         
-        legend.addTo(map);
+        legendControl.addTo(map);
+    }
+    
+/**
+ * Create HTML for magnitude legend
+ * @returns {string} HTML for magnitude legend
+ */
+function createMagnitudeLegend() {
+    return `
+        <h4>Legend</h4>
+        <div><strong>Magnitude:</strong></div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.verySmall};"></div>
+            <span>&lt; 2 (Very Small)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.small};"></div>
+            <span>2-3 (Small)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.medium};"></div>
+            <span>3-4 (Medium)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.large};"></div>
+            <span>4-5 (Large)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.veryLarge};"></div>
+            <span>5-6 (Very Large)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.major};"></div>
+            <span>6-7 (Major)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.great};"></div>
+            <span>&gt; 7 (Great)</span>
+        </div>
+        <div><strong>Size:</strong> Inversely proportional to depth<br>(deeper events are smaller)</div>
+    `;
+}
+    
+    /**
+     * Create HTML for depth legend
+     * @returns {string} HTML for depth legend
+     */
+    function createDepthLegend() {
+        return `
+            <h4>Legend</h4>
+            <div><strong>Depth:</strong></div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: ${CONFIG.colors.depth.veryShallow};"></div>
+                <span>&lt; 5 km (Very Shallow)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: ${CONFIG.colors.depth.shallow};"></div>
+                <span>5-10 km (Shallow)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: ${CONFIG.colors.depth.medium};"></div>
+                <span>10-20 km (Medium)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: ${CONFIG.colors.depth.deep};"></div>
+                <span>&gt; 20 km (Deep)</span>
+            </div>
+            <div><strong>Size:</strong> Proportional to magnitude</div>
+        `;
     }
     
     /**
@@ -138,6 +203,9 @@ window.MapManager = {};
         
         // First, clear all existing layers
         clearAllMapLayers();
+        
+        // Update the legend to match current color mode
+        updateLegend(AppState.map);
         
         const isHistorical = AppState.activeDataset === 'historical';
         let earthquakes;
@@ -215,11 +283,18 @@ window.MapManager = {};
         // Process each earthquake to create markers (batched)
         for (const quake of markersToRender) {
             // Skip if coordinates are invalid
-            if (!quake.latitude || !quake.longitude) continue;
+            if (!quake.latitude || !quake.longitude || isNaN(quake.latitude) || isNaN(quake.longitude)) {
+                console.warn('Skipping earthquake with invalid coordinates:', quake);
+                continue;
+            }
+            
+            // Ensure magnitude and depth are valid numbers
+            const magnitude = parseFloat(quake.magnitude) || 0;
+            const depth = parseFloat(quake.depth) || 0;
             
             // Determine marker size and color
-            const markerSize = Utils.calculateMarkerSize(quake.magnitude);
-            const markerColor = Utils.calculateMarkerColor(quake.depth);
+            const markerSize = Utils.calculateMarkerSize(magnitude, depth);
+            const markerColor = Utils.calculateMarkerColor(depth, magnitude);
             
             // Create a circular marker
             const marker = L.circleMarker([quake.latitude, quake.longitude], {
@@ -289,16 +364,22 @@ window.MapManager = {};
         }
         
         // Create an array of features for faster canvas rendering
-        const features = earthquakes.map(quake => {
-            const magnitude = quake.magnitude;
-            const markerSize = Utils.calculateMarkerSize(magnitude);
-            const markerColor = Utils.calculateMarkerColor(quake.depth);
+        const features = earthquakes.filter(quake => {
+            // Filter out invalid coordinates
+            return quake.latitude && quake.longitude && !isNaN(quake.latitude) && !isNaN(quake.longitude);
+        }).map(quake => {
+            // Ensure magnitude and depth are valid numbers
+            const magnitude = parseFloat(quake.magnitude) || 0;
+            const depth = parseFloat(quake.depth) || 0;
+            
+            const markerSize = Utils.calculateMarkerSize(magnitude, depth);
+            const markerColor = Utils.calculateMarkerColor(depth, magnitude);
             
             return {
                 type: 'Feature',
                 properties: {
                     magnitude: magnitude,
-                    depth: quake.depth,
+                    depth: depth,
                     size: markerSize,
                     color: markerColor,
                     id: quake.id,
@@ -366,6 +447,7 @@ window.MapManager = {};
     exports.initializeMap = initializeMap;
     exports.renderCurrentData = renderCurrentData;
     exports.clearAllMapLayers = clearAllMapLayers;
+    exports.updateLegend = updateLegend;
     
 })(window.MapManager);
 

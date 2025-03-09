@@ -28,34 +28,98 @@ window.Utils = {};
     }
     
     /**
-     * Calculate marker size based on earthquake magnitude
+     * Calculate marker size based on earthquake properties and current color mode
      * @param {number} magnitude - Earthquake magnitude
+     * @param {number} depth - Earthquake depth in km
      * @returns {number} Marker radius in pixels
      */
-    function calculateMarkerSize(magnitude) {
-        // Linear scale that ensures small earthquakes are visible
-        // But larger earthquakes have more visual prominence
-        return Math.max(5, Math.min(20, magnitude * 2));
+    function calculateMarkerSize(magnitude, depth) {
+        // Ensure we have valid numbers for calculations
+        magnitude = parseFloat(magnitude) || 0;
+        depth = parseFloat(depth) || 0;
+        
+        // Get the current dataset
+        const activeDataset = AppState.activeDataset;
+        // Get the current color mode
+        const colorMode = AppState.colorMode[activeDataset];
+        
+        if (colorMode === 'magnitude') {
+            // When coloring by magnitude, size is based on depth
+            // Make the relationship between depth and size more pronounced
+            // Create a non-linear scale for better visual distinction
+            
+            // Calculate a size between 5 and 18 pixels
+            // We use a logarithmic scale to make the size difference more noticeable
+            // Shallow earthquakes (0-5km) will be large (15-18px)
+            // Medium depth (5-30km) will be medium (8-15px)
+            // Deep earthquakes (>30km) will be small (5-8px)
+            
+            if (depth < 5) {
+                // Very shallow: 15-18px
+                return 18 - (depth * 0.6); 
+            } else if (depth < 30) {
+                // Medium depth: 8-15px
+                return 15 - ((depth - 5) * 0.28);
+            } else {
+                // Deep: 5-8px
+                return Math.max(5, 8 - ((depth - 30) * 0.05));
+            }
+        } else {
+            // Default - when coloring by depth, size is based on magnitude
+            // Linear scale that ensures small earthquakes are visible
+            // But larger earthquakes have more visual prominence
+            return Math.max(5, Math.min(20, magnitude * 2));
+        }
     }
     
     /**
-     * Calculate marker color based on earthquake depth
+     * Calculate marker color based on earthquake depth and current color mode
      * @param {number} depth - Earthquake depth in km
+     * @param {number} magnitude - Earthquake magnitude
      * @returns {string} Color in hex format
      */
-    function calculateMarkerColor(depth) {
+    function calculateMarkerColor(depth, magnitude) {
+        // Ensure we have valid numbers for calculations
+        magnitude = parseFloat(magnitude) || 0;
+        depth = parseFloat(depth) || 0;
+        
+        // Get the current dataset
+        const activeDataset = AppState.activeDataset;
+        // Get the current color mode
+        const colorMode = AppState.colorMode[activeDataset];
+        
         if (typeof CONFIG === 'undefined' || !CONFIG.colors) {
             // Fallback colors if CONFIG is not available
-            if (depth < 5) return '#FFD700'; // Very Shallow
-            if (depth < 10) return '#FFA500'; // Shallow
-            if (depth < 20) return '#FF6347'; // Medium
-            return '#FF0000'; // Deep
+            if (colorMode === 'magnitude') {
+                if (magnitude < 2) return '#66BB6A';      // Very Small
+                if (magnitude < 3) return '#FFEB3B';      // Small
+                if (magnitude < 4) return '#FF9800';      // Medium
+                if (magnitude < 5) return '#E53935';      // Large
+                if (magnitude < 6) return '#9C27B0';      // Very Large
+                if (magnitude < 7) return '#3F51B5';      // Major
+                return '#880E4F';                         // Great (7+)
+            } else { // default to depth
+                if (depth < 5) return '#FFD700';
+                if (depth < 10) return '#FFA500';
+                if (depth < 20) return '#FF6347';
+                return '#FF0000';
+            }
         }
         
-        if (depth < 5) return CONFIG.colors.veryShallow;
-        if (depth < 10) return CONFIG.colors.shallow;
-        if (depth < 20) return CONFIG.colors.medium;
-        return CONFIG.colors.deep;
+        if (colorMode === 'magnitude') {
+            if (magnitude < 2) return CONFIG.colors.magnitude.verySmall;
+            if (magnitude < 3) return CONFIG.colors.magnitude.small;
+            if (magnitude < 4) return CONFIG.colors.magnitude.medium;
+            if (magnitude < 5) return CONFIG.colors.magnitude.large;
+            if (magnitude < 6) return CONFIG.colors.magnitude.veryLarge;
+            if (magnitude < 7) return CONFIG.colors.magnitude.major;
+            return CONFIG.colors.magnitude.great;
+        } else { // default to depth
+            if (depth < 5) return CONFIG.colors.depth.veryShallow;
+            if (depth < 10) return CONFIG.colors.depth.shallow;
+            if (depth < 20) return CONFIG.colors.depth.medium;
+            return CONFIG.colors.depth.deep;
+        }
     }
     
     /**

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Israel Earthquake Map - Enhancede</title>
+    <title>Israel Earthquake Map - Enhanced</title>
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
@@ -40,6 +40,8 @@
                         <option value="3">3+</option>
                         <option value="4">4+</option>
                         <option value="5">5+</option>
+                        <option value="6">6+</option>
+                        <option value="7">7+</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -48,6 +50,13 @@
                         <option value="all">All</option>
                         <option value="week">Last Week</option>
                         <option value="month" selected>Last Month</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="color-mode-recent">Color By:</label>
+                    <select id="color-mode-recent">
+                        <option value="depth" selected>Depth</option>
+                        <option value="magnitude">Magnitude</option>
                     </select>
                 </div>
             </div>
@@ -63,6 +72,15 @@
                         <option value="3">3+</option>
                         <option value="4">4+</option>
                         <option value="5">5+</option>
+                        <option value="6">6+</option>
+                        <option value="7">7+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="color-mode-historical">Color By:</label>
+                    <select id="color-mode-historical">
+                        <option value="depth" selected>Depth</option>
+                        <option value="magnitude">Magnitude</option>
                     </select>
                 </div>
             </div>
@@ -92,7 +110,7 @@
             <div id="earthquake-details">
                 <p>Select an earthquake on the map to view details.</p>
             </div>
-			<div class="statistics">
+            <div class="statistics">
                 <h3>Statistics</h3>
                 <p>Total earthquakes: <span id="total-count">0</span></p>
                 <p>Average magnitude: <span id="avg-magnitude">0</span></p>

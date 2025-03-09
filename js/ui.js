@@ -15,6 +15,7 @@ window.UIManager = {};
         setupTabSwitching();
         setupYearSlider();
         setupFilterListeners();
+        setupColorModeToggle();
     }
     
     /**
@@ -153,6 +154,35 @@ window.UIManager = {};
                     Utils.hideLoading();
                 }
             }, 300); // 300ms debounce
+        });
+    }
+    
+    /**
+     * Set up the color mode toggle for both recent and historical data
+     */
+    function setupColorModeToggle() {
+        const recentColorMode = document.getElementById('color-mode-recent');
+        const historicalColorMode = document.getElementById('color-mode-historical');
+        
+        // Set initial values from AppState
+        recentColorMode.value = AppState.colorMode.recent;
+        historicalColorMode.value = AppState.colorMode.historical;
+        
+        // Add event listeners for changes
+        recentColorMode.addEventListener('change', () => {
+            AppState.colorMode.recent = recentColorMode.value;
+            if (AppState.activeDataset === 'recent') {
+                // Update the map with new color mode
+                MapManager.renderCurrentData();
+            }
+        });
+        
+        historicalColorMode.addEventListener('change', () => {
+            AppState.colorMode.historical = historicalColorMode.value;
+            if (AppState.activeDataset === 'historical') {
+                // Update the map with new color mode
+                MapManager.renderCurrentData();
+            }
         });
     }
     

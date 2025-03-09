@@ -42,6 +42,11 @@ window.AppState = {
             yearRange: [1981, 2023] // Default values, will be updated with CONFIG values
         }
     },
+    // New color mode setting
+    colorMode: {
+        recent: 'depth', // Default is 'depth', alternative is 'magnitude'
+        historical: 'depth'
+    },
     // Rendering performance tracking
     performance: {
         lastRenderTime: 0,
