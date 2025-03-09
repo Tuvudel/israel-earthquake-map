@@ -37,7 +37,7 @@
         <div id="recent-filters" class="tab-content active">
             <div class="filter-row">
                 <div class="filter-group">
-                    <label for="recent-magnitude-filter">Minimum Magnitude:</label>
+                    <label for="recent-magnitude-filter">Min Magnitude:</label>
                     <select id="recent-magnitude-filter">
                         <option value="0">All</option>
                         <option value="2">2+</option>
@@ -69,7 +69,7 @@
         <div id="historical-filters" class="tab-content">
             <div class="filter-row">
                 <div class="filter-group">
-                    <label for="historical-magnitude-filter">Minimum Magnitude:</label>
+                    <label for="historical-magnitude-filter">Min Magnitude:</label>
                     <select id="historical-magnitude-filter">
                         <option value="0">All</option>
                         <option value="2">2+</option>
@@ -115,6 +115,11 @@
         <!-- This div will hold our map -->
         <div id="map"></div>
         <div id="status-message"></div>
+        
+        <!-- Toggle button for info panel on mobile -->
+        <button id="toggle-info-panel" class="toggle-info-panel" aria-label="Toggle information panel">
+            ℹ️
+        </button>
         
         <div class="info-panel">
             <h2>Earthquake Information</h2>

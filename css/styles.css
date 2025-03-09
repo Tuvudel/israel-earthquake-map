@@ -12,6 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    overflow: hidden; /* Prevent scrolling on the body */
 }
 
 /* Header styles */
@@ -73,12 +74,14 @@ main {
     display: flex;
     flex: 1;
     overflow: hidden;
+    position: relative;
 }
 
 #map {
     flex: 1;
     height: 100%;
     background-color: #f5f5f5;
+    z-index: 1;
 }
 
 .info-panel {
@@ -87,6 +90,7 @@ main {
     background-color: #f8f9fa;
     overflow-y: auto;
     border-left: 1px solid #ddd;
+    z-index: 2;
 }
 
 .info-panel h2 {
@@ -442,16 +446,185 @@ footer {
     transform: scale(1.2);
 }
 
+/* Mobile toggle button for info panel */
+.toggle-info-panel {
+    position: absolute;
+    right: 10px;
+    bottom: 60px;
+    z-index: 999;
+    background-color: #4682B4;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font-size: 24px;
+    display: none; /* Hide by default, will show in media query */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    main {
-        flex-direction: column;
+    /* Make the header more compact */
+    header {
+        padding: 0.5rem;
     }
     
+    h1 {
+        font-size: 1.2rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    /* More compact tabs */
+    .tab-button {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    /* More compact filter controls */
+    .tab-content {
+        padding: 0.5rem;
+    }
+    
+    .filter-row {
+        gap: 0.5rem;
+    }
+    
+    .filter-group {
+        font-size: 0.8rem;
+    }
+    
+    select, button {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.8rem;
+    }
+    
+    /* Optimize layout for the main content area */
+    main {
+        flex-direction: column;
+        position: relative;
+    }
+    
+    /* Make the map take up at least 70% of the available space */
+    #map {
+        height: 70vh; /* Use viewport height instead of percentage */
+        min-height: 300px;
+    }
+    
+    /* Style the info panel to be more compact and toggleable */
     .info-panel {
         width: 100%;
+        height: 30vh; /* Use viewport height for the info panel */
+        max-height: 200px; /* Reduce from 300px */
         border-left: none;
         border-top: 1px solid #ddd;
-        max-height: 300px;
+        padding: 0.5rem;
+    }
+    
+    /* Smaller fonts for info panel */
+    .info-panel h2 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.3rem;
+    }
+    
+    .statistics h3 {
+        font-size: 0.9rem;
+    }
+    
+    .statistics p {
+        font-size: 0.8rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    /* Make year slider more compact */
+    .year-slider-container {
+        margin: 0.5rem 0;
+        padding: 0 0.5rem;
+    }
+    
+    #year-slider {
+        margin-top: 10px;
+    }
+    
+    .year-labels {
+        font-size: 0.7rem;
+    }
+    
+    /* Make footer more compact */
+    footer {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.7rem;
+    }
+    
+    /* Show the toggle button for info panel on mobile */
+    .toggle-info-panel {
+        display: flex;
+    }
+    
+    /* Add collapsible functionality for info panel */
+    .info-panel.collapsed {
+        max-height: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        border-top: none !important;
+        overflow: hidden !important;
+        opacity: 0;
+        transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
+    }
+    
+    /* Add transition for smooth collapse/expand */
+    .info-panel {
+        transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* Mobile-friendly legend */
+    .legend {
+        padding: 5px;
+        max-width: 150px;
+        font-size: 0.8rem;
+    }
+
+    .legend-item {
+        margin-bottom: 3px;
+    }
+
+    .legend-color {
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+    }
+}
+
+/* Small phones (less than 480px) */
+@media (max-width: 480px) {
+    /* Even more compact header */
+    h1 {
+        font-size: 1rem;
+    }
+    
+    /* Make filter controls stack vertically for very small screens */
+    .filter-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.3rem;
+    }
+    
+    .filter-group {
+        justify-content: space-between;
+    }
+    
+    /* Maximize map space */
+    #map {
+        height: 75vh;
+    }
+    
+    /* Minimize info panel */
+    .info-panel {
+        height: 25vh;
+        max-height: 150px;
     }
 }

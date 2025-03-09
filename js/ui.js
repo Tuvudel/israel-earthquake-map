@@ -17,6 +17,8 @@ window.UIManager = {};
         setupFilterListeners();
         setupColorModeToggle();
         setupMaxMagnitudeClick();
+        setupInfoPanelToggle(); // Add new mobile feature
+        setupResponsiveLayout(); // Add responsive layout handling
     }
     
     /**
@@ -347,6 +349,132 @@ function setupColorModeToggle() {
     }
     
     /**
+     * Set up info panel toggle button for mobile view
+     * NEW FUNCTION
+     */
+    function setupInfoPanelToggle() {
+        const toggleBtn = document.getElementById('toggle-info-panel');
+        const infoPanel = document.querySelector('.info-panel');
+        
+        if (!toggleBtn || !infoPanel) {
+            console.error('Toggle button or info panel not found');
+            return;
+        }
+        
+        console.log('Setting up info panel toggle button');
+        
+        // Set initial state using data attribute
+        infoPanel.setAttribute('data-expanded', 'true');
+        
+        // Add direct click handler with stronger implementation
+        toggleBtn.addEventListener('click', function() {
+            console.log('Toggle button clicked');
+            
+            // Get current state
+            const isExpanded = infoPanel.getAttribute('data-expanded') === 'true';
+            
+            if (isExpanded) {
+                // Collapse the panel
+                infoPanel.classList.add('collapsed');
+                toggleBtn.textContent = '📊'; // Change icon to chart/stats
+                toggleBtn.title = "Show earthquake information";
+                infoPanel.setAttribute('data-expanded', 'false');
+                
+                // Force more direct style control
+                infoPanel.style.display = 'none';
+                console.log('Collapsing info panel');
+            } else {
+                // Expand the panel
+                infoPanel.classList.remove('collapsed');
+                toggleBtn.textContent = 'ℹ️'; // Change back to info icon
+                toggleBtn.title = "Hide earthquake information";
+                infoPanel.setAttribute('data-expanded', 'true');
+                
+                // Reset direct style
+                infoPanel.style.display = '';
+                console.log('Expanding info panel');
+            }
+            
+            // Force a resize event on the map after a small delay to handle the layout change
+            setTimeout(function() {
+                if (window.AppState && window.AppState.map) {
+                    window.AppState.map.invalidateSize();
+                    console.log('Map size invalidated');
+                }
+            }, 300);
+        });
+    }
+    
+    /**
+     * Setup responsive layout adjustments
+     * NEW FUNCTION
+     */
+    function setupResponsiveLayout() {
+        console.log('Setting up responsive layout');
+        
+        // Add a listener for window resize to adjust the map
+        window.addEventListener('resize', function() {
+            console.log('Window resized');
+            // Update map size when window is resized
+            if (window.AppState && window.AppState.map) {
+                setTimeout(function() {
+                    window.AppState.map.invalidateSize();
+                    console.log('Map size invalidated after resize');
+                }, 100);
+            }
+        });
+        
+        // Check for mobile view and auto-collapse info panel if needed
+        function checkMobileView() {
+            const infoPanel = document.querySelector('.info-panel');
+            const toggleBtn = document.getElementById('toggle-info-panel');
+            
+            if (!infoPanel || !toggleBtn) {
+                console.error('Info panel or toggle button not found');
+                return;
+            }
+            
+            console.log('Checking mobile view', window.innerWidth);
+            
+            // If window width is less than 480px (very small screens)
+            // Auto-collapse the info panel on initial load
+            if (window.innerWidth < 480) {
+                console.log('Auto-collapsing info panel for small screen');
+                infoPanel.classList.add('collapsed');
+                infoPanel.style.display = 'none';
+                toggleBtn.textContent = '📊';
+                toggleBtn.title = "Show earthquake information";
+                infoPanel.setAttribute('data-expanded', 'false');
+                
+                // Force map resize
+                setTimeout(function() {
+                    if (window.AppState && window.AppState.map) {
+                        window.AppState.map.invalidateSize();
+                        console.log('Map size invalidated after auto-collapse');
+                    }
+                }, 300);
+            }
+        }
+        
+        // Run on initial load with small delay
+        setTimeout(checkMobileView, 1000);
+        
+        // Also run when orientation changes (important for mobile)
+        window.addEventListener('orientationchange', function() {
+            console.log('Orientation changed');
+            setTimeout(function() {
+                if (window.AppState && window.AppState.map) {
+                    window.AppState.map.invalidateSize();
+                    console.log('Map size invalidated after orientation change');
+                    
+                    // Re-check mobile view after orientation change
+                    checkMobileView();
+                }
+            }, 300);
+        });
+    }
+    
+    /**
      * Display earthquake details in the info panel
      * @param {Object} quake - Earthquake data object
      */
@@ -381,6 +509,27 @@ function setupColorModeToggle() {
                 <strong>Event ID:</strong> ${quake.id || 'Unknown'}
             </div>
         `;
+        
+        // On mobile, auto-expand the info panel when a quake is selected
+        // This ensures users can see the details they've selected
+        const infoPanel = document.querySelector('.info-panel');
+        const toggleBtn = document.getElementById('toggle-info-panel');
+        
+        if (infoPanel && toggleBtn && infoPanel.getAttribute('data-expanded') === 'false' && window.innerWidth <= 768) {
+            // Expand the panel
+            infoPanel.classList.remove('collapsed');
+            infoPanel.style.display = '';
+            toggleBtn.textContent = 'ℹ️';
+            toggleBtn.title = "Hide earthquake information";
+            infoPanel.setAttribute('data-expanded', 'true');
+            
+            // Force map resize
+            setTimeout(() => {
+                if (window.AppState && window.AppState.map) {
+                    window.AppState.map.invalidateSize();
+                }
+            }, 300);
+        }
     }
     
     /**
