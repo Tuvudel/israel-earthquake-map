@@ -274,6 +274,10 @@ function setupColorModeToggle() {
         const recentDateFilter = document.getElementById('recent-date-filter');
         const feltFilter = document.getElementById('felt-filter');
         
+        if (!feltFilter) {
+            console.warn('Felt filter checkbox not found in the DOM');
+        }
+        
         // Historical data filter controls
         const historicalMagnitudeFilter = document.getElementById('historical-magnitude-filter');
         const renderModeHistorical = document.getElementById('render-mode-historical');
@@ -291,21 +295,36 @@ function setupColorModeToggle() {
                 // Show loading overlay for longer operations
                 Utils.showLoading('Applying filters...');
                 
-                // Update filter states
-                AppState.filters.recent.minMagnitude = parseFloat(recentMagnitudeFilter.value);
-                AppState.filters.recent.timePeriod = recentDateFilter.value;
-                AppState.filters.recent.feltOnly = feltFilter.checked;
-                AppState.filters.historical.minMagnitude = parseFloat(historicalMagnitudeFilter.value);
-                
-                // Clear previous layers before applying new filters
-                MapManager.clearAllMapLayers();
-                
-                // Apply filters in a small timeout to allow UI to update
-                setTimeout(() => {
-                    DataManager.applyFilters();
-                    MapManager.renderCurrentData();
+                try {
+                    // Update filter states
+                    AppState.filters.recent.minMagnitude = parseFloat(recentMagnitudeFilter.value);
+                    AppState.filters.recent.timePeriod = recentDateFilter.value;
+                    
+                    // Only update felt filter if it exists in the DOM
+                    if (feltFilter) {
+                        AppState.filters.recent.feltOnly = feltFilter.checked;
+                        console.log('Felt filter applied:', feltFilter.checked);
+                    } else {
+                        // If the checkbox doesn't exist, make sure the filter is disabled
+                        AppState.filters.recent.feltOnly = false;
+                    }
+                    
+                    AppState.filters.historical.minMagnitude = parseFloat(historicalMagnitudeFilter.value);
+                    
+                    // Clear previous layers before applying new filters
+                    MapManager.clearAllMapLayers();
+                    
+                    // Apply filters in a small timeout to allow UI to update
+                    setTimeout(() => {
+                        DataManager.applyFilters();
+                        MapManager.renderCurrentData();
+                        Utils.hideLoading();
+                    }, 10);
+                } catch (err) {
+                    console.error('Error applying filters:', err);
                     Utils.hideLoading();
-                }, 10);
+                    Utils.showStatus('Error applying filters. Please try again.', true);
+                }
             }, 300); // 300ms debounce
         };
         
@@ -331,10 +350,12 @@ function setupColorModeToggle() {
             }
         };
         
-        // Add event listeners
+        // Add event listeners (check for null before adding)
         recentMagnitudeFilter.addEventListener('change', handleFilterChange);
         recentDateFilter.addEventListener('change', handleFilterChange);
-        feltFilter.addEventListener('change', handleFilterChange);
+        if (feltFilter) {
+            feltFilter.addEventListener('change', handleFilterChange);
+        }
         historicalMagnitudeFilter.addEventListener('change', handleFilterChange);
         renderModeHistorical.addEventListener('change', handleRenderModeChange);
     }
@@ -537,9 +558,13 @@ function setupColorModeToggle() {
             return;
         }
         
-        // Check if the earthquake was felt
-        const feltStatus = quake.felt ? 
+        // Check if the earthquake was felt - use strict comparison to avoid false positives
+        const feltStatus = quake.felt === true ? 
             '<div class="detail-item felt-status">✓ Felt Earthquake</div>' : '';
+        
+        // Get earthquake type with clearer display
+        const quakeType = quake.type || 'Unknown';
+        const typeDisplay = quakeType === 'F' ? 'Felt Earthquake' : quakeType;
         
         detailsElement.innerHTML = `
             <div class="detail-item">
@@ -558,7 +583,7 @@ function setupColorModeToggle() {
                 <strong>Region:</strong> ${quake.region || 'Unknown'}
             </div>
             <div class="detail-item">
-                <strong>Event Type:</strong> ${quake.type || 'Unknown'}
+                <strong>Event Type:</strong> ${typeDisplay}
             </div>
             <div class="detail-item">
                 <strong>Event ID:</strong> ${quake.id || 'Unknown'}

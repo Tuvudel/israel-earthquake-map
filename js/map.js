@@ -557,7 +557,7 @@ window.MapManager = {};
                 <strong>Depth:</strong> ${quake.depth.toFixed(1)} km<br>
                 <strong>Region:</strong> ${quake.region || 'Unknown'}<br>
                 <strong>Type:</strong> ${quake.type || 'Unknown'}
-                ${quake.felt ? '<br><span style="color: #4CAF50; font-weight: bold;">✓ Felt Earthquake</span>' : ''}
+                ${quake.felt === true ? '<br><span style="color: #4CAF50; font-weight: bold;">✓ Felt Earthquake</span>' : ''}
             `;
             marker.bindPopup(popupContent);
             

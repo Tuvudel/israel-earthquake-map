@@ -74,14 +74,33 @@ window.DataManager = {};
                     return response.text();
                 })
                 .then(csvText => {
+                    console.log(`Fetched CSV data from ${url}, length: ${csvText.length} bytes`);
+                    
+                    // Log the first few lines for debugging
+                    const firstLines = csvText.split('\n').slice(0, 3).join('\n');
+                    console.log('CSV data preview:', firstLines);
+                    
                     Papa.parse(csvText, {
                         header: true,
                         dynamicTyping: true,
                         skipEmptyLines: true,
+                        transformHeader: header => header.trim(), // Trim whitespace from headers
+                        transform: (value, field) => {
+                            // Ensure consistent case for the Type field
+                            if (field === 'Type' || field === 'type') {
+                                return String(value || '').trim();
+                            }
+                            return value;
+                        },
                         complete: results => {
                             if (results.errors && results.errors.length > 0) {
                                 console.warn('CSV parsing warnings:', results.errors);
                             }
+                            
+                            // Log the parsed headers for debugging
+                            console.log('Parsed CSV headers:', results.meta.fields);
+                            console.log('First parsed record:', results.data[0]);
+                            
                             resolve(results.data);
                         },
                         error: error => {
@@ -101,6 +120,10 @@ window.DataManager = {};
      * @param {Array} data - Raw CSV data
      */
     function processRecentData(data) {
+        // Log some sample data to help debug
+        console.log('Raw CSV data keys (first record):', data.length > 0 ? Object.keys(data[0]) : 'No data');
+        console.log('Sample raw data (first 2 records):', data.slice(0, 2));
+        
         AppState.data.recent.raw = data.map(item => {
             // Create a standardized object from the CSV data
             let dateTime = null;
@@ -118,9 +141,22 @@ window.DataManager = {};
             const magnitude = parseFloat(item.Mag) || 0;
             const depth = parseFloat(item['Depth(Km)']) || 0;
             
-            // Determine if earthquake was felt
+            // More robust way to determine if earthquake was felt
+            // Make sure we check both "Type" and "type" and handle case sensitivity
             // Type 'F' indicates a felt earthquake
-            const wasFelt = item.Type === 'F';
+            const typeField = item.Type || item.type;
+            let wasFelt = false;
+            
+            if (typeField) {
+                // Convert to string and normalize case
+                const typeStr = String(typeField).trim().toUpperCase();
+                wasFelt = typeStr === 'F' || typeStr.includes('FELT');
+                
+                // Debug log for Type field
+                if (typeStr === 'F') {
+                    console.log('Found felt earthquake, Type =', typeStr);
+                }
+            }
             
             return {
                 id: item.epiid ? String(item.epiid).replace(/^'|'$/g, '') : '',
@@ -130,7 +166,7 @@ window.DataManager = {};
                 longitude: parseFloat(item.Long) || 0,
                 depth: depth,
                 region: item.Region || 'Unknown',
-                type: item.Type || 'Unknown',
+                type: typeField || 'Unknown',
                 felt: wasFelt
             };
         }).filter(item => {
@@ -138,7 +174,10 @@ window.DataManager = {};
             return item.latitude && item.longitude && item.dateTime;
         });
         
-        console.log(`Processed ${AppState.data.recent.raw.length} recent earthquake records`);
+        // Count felt earthquakes for debugging
+        const feltCount = AppState.data.recent.raw.filter(quake => quake.felt).length;
+        console.log(`Processed ${AppState.data.recent.raw.length} recent earthquake records, ${feltCount} are marked as felt`);
+        
         // Log a sample record to help with debugging
         if (AppState.data.recent.raw.length > 0) {
             console.log('Sample recent earthquake record:', AppState.data.recent.raw[0]);
@@ -267,39 +306,56 @@ window.DataManager = {};
      * Apply filters to recent earthquake data
      */
     function applyRecentFilters() {
-        const { minMagnitude, timePeriod, feltOnly } = AppState.filters.recent;
-        
-        // Start with all data
-        let filtered = [...AppState.data.recent.raw];
-        
-        // Apply magnitude filter
-        if (minMagnitude > 0) {
-            filtered = filtered.filter(quake => quake.magnitude >= minMagnitude);
-        }
-        
-        // Apply felt filter
-        if (feltOnly) {
-            filtered = filtered.filter(quake => quake.felt === true);
-        }
-        
-        // Apply time period filter
-        if (timePeriod !== 'all') {
-            const now = new Date();
-            let cutoffDate;
+        try {
+            const { minMagnitude, timePeriod, feltOnly } = AppState.filters.recent;
             
-            if (timePeriod === 'week') {
-                cutoffDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-            } else if (timePeriod === 'month') {
-                cutoffDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            // Start with all data
+            let filtered = [...AppState.data.recent.raw];
+            
+            console.log(`Applying filters: minMag=${minMagnitude}, timePeriod=${timePeriod}, feltOnly=${feltOnly}`);
+            console.log(`Initial data count: ${filtered.length}`);
+            
+            // Apply magnitude filter
+            if (minMagnitude > 0) {
+                filtered = filtered.filter(quake => quake.magnitude >= minMagnitude);
+                console.log(`After magnitude filter: ${filtered.length} earthquakes`);
             }
             
-            if (cutoffDate) {
-                filtered = filtered.filter(quake => quake.dateTime >= cutoffDate);
+            // Apply felt filter - only if explicitly true (not undefined, null, or false)
+            if (feltOnly === true) {
+                // Log some data to help debug
+                const feltQuakes = filtered.filter(quake => quake.felt === true);
+                console.log(`Found ${feltQuakes.length} felt earthquakes before applying filter`);
+                
+                // Apply the filter
+                filtered = filtered.filter(quake => quake.felt === true);
+                console.log(`After felt filter: ${filtered.length} earthquakes`);
             }
+            
+            // Apply time period filter
+            if (timePeriod !== 'all') {
+                const now = new Date();
+                let cutoffDate;
+                
+                if (timePeriod === 'week') {
+                    cutoffDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                } else if (timePeriod === 'month') {
+                    cutoffDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                }
+                
+                if (cutoffDate) {
+                    filtered = filtered.filter(quake => quake.dateTime >= cutoffDate);
+                    console.log(`After time period filter: ${filtered.length} earthquakes`);
+                }
+            }
+            
+            AppState.data.recent.filtered = filtered;
+            console.log(`Applied filters: ${filtered.length} recent earthquakes match criteria`);
+        } catch (err) {
+            console.error('Error applying recent filters:', err);
+            // Fallback to unfiltered data
+            AppState.data.recent.filtered = [...AppState.data.recent.raw];
         }
-        
-        AppState.data.recent.filtered = filtered;
-        console.log(`Applied filters: ${filtered.length} recent earthquakes match criteria`);
     }
     
     /**
