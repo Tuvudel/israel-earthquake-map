@@ -2,7 +2,12 @@
  * Map module for the Earthquake Visualization App
  * Handles map initialization and earthquake rendering
  */
-const MapManager = (function() {
+
+// Define MapManager in the global scope immediately
+window.MapManager = {};
+
+// Then implement its functionality
+(function(exports) {
     /**
      * Initialize the Leaflet map
      * @returns {Object} Leaflet map instance
@@ -357,10 +362,12 @@ const MapManager = (function() {
         console.timeEnd('renderCanvasMarkers');
     }
     
-    // Return public methods
-    return {
-        initializeMap,
-        renderCurrentData,
-        clearAllMapLayers
-    };
-})();
+    // Assign methods to the MapManager object
+    exports.initializeMap = initializeMap;
+    exports.renderCurrentData = renderCurrentData;
+    exports.clearAllMapLayers = clearAllMapLayers;
+    
+})(window.MapManager);
+
+// Signal that MapManager is fully loaded
+console.log('MapManager module loaded and initialized');

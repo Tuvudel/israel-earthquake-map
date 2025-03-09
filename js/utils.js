@@ -1,7 +1,12 @@
 /**
  * Utility functions for the Earthquake Visualization App
  */
-const Utils = (function() {
+
+// Define Utils in the global scope immediately
+window.Utils = {};
+
+// Then implement its functionality
+(function(exports) {
     /**
      * Format a date object to a readable string
      * @param {Date} dateObj - Date object
@@ -39,6 +44,14 @@ const Utils = (function() {
      * @returns {string} Color in hex format
      */
     function calculateMarkerColor(depth) {
+        if (typeof CONFIG === 'undefined' || !CONFIG.colors) {
+            // Fallback colors if CONFIG is not available
+            if (depth < 5) return '#FFD700'; // Very Shallow
+            if (depth < 10) return '#FFA500'; // Shallow
+            if (depth < 20) return '#FF6347'; // Medium
+            return '#FF0000'; // Deep
+        }
+        
         if (depth < 5) return CONFIG.colors.veryShallow;
         if (depth < 10) return CONFIG.colors.shallow;
         if (depth < 20) return CONFIG.colors.medium;
@@ -52,6 +65,11 @@ const Utils = (function() {
      */
     function showStatus(message, isError = false) {
         const statusEl = document.getElementById('status-message');
+        if (!statusEl) {
+            console.error('Status message element not found');
+            return;
+        }
+        
         statusEl.textContent = message;
         statusEl.style.display = 'block';
         statusEl.style.backgroundColor = isError ? '#ffeeee' : 'white';
@@ -62,7 +80,10 @@ const Utils = (function() {
      * Hide the status message
      */
     function hideStatus() {
-        document.getElementById('status-message').style.display = 'none';
+        const statusEl = document.getElementById('status-message');
+        if (statusEl) {
+            statusEl.style.display = 'none';
+        }
     }
     
     /**
@@ -71,6 +92,11 @@ const Utils = (function() {
      */
     function showLoading(message = 'Loading data...') {
         const overlay = document.getElementById('loading-overlay');
+        if (!overlay) {
+            console.error('Loading overlay element not found');
+            return;
+        }
+        
         const textEl = overlay.querySelector('.loading-text');
         
         if (textEl) {
@@ -84,7 +110,10 @@ const Utils = (function() {
      * Hide the loading overlay
      */
     function hideLoading() {
-        document.getElementById('loading-overlay').classList.add('hide');
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) {
+            overlay.classList.add('hide');
+        }
     }
     
     /**
@@ -98,6 +127,11 @@ const Utils = (function() {
         
         // Update debug info every 500ms
         setInterval(() => {
+            if (typeof AppState === 'undefined') {
+                debugDiv.innerHTML = 'AppState not available';
+                return;
+            }
+            
             const isHistorical = AppState.activeDataset === 'historical';
             
             if (isHistorical) {
@@ -116,15 +150,17 @@ const Utils = (function() {
         }, 500);
     }
     
-    // Return public methods
-    return {
-        formatDateTime,
-        calculateMarkerSize,
-        calculateMarkerColor,
-        showStatus,
-        hideStatus,
-        showLoading,
-        hideLoading,
-        addDebugInfo
-    };
-})();
+    // Assign methods to the Utils object
+    exports.formatDateTime = formatDateTime;
+    exports.calculateMarkerSize = calculateMarkerSize;
+    exports.calculateMarkerColor = calculateMarkerColor;
+    exports.showStatus = showStatus;
+    exports.hideStatus = hideStatus;
+    exports.showLoading = showLoading;
+    exports.hideLoading = hideLoading;
+    exports.addDebugInfo = addDebugInfo;
+    
+})(window.Utils);
+
+// Signal that Utils is fully loaded
+console.log('Utils module loaded and initialized');

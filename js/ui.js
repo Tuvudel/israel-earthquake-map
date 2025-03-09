@@ -2,7 +2,12 @@
  * UI Manager for the Earthquake Visualization App
  * Handles all user interface components and interactions
  */
-const UIManager = (function() {
+
+// Define UIManager in the global scope immediately
+window.UIManager = {};
+
+// Then implement its functionality
+(function(exports) {
     /**
      * Set up all UI components and event listeners
      */
@@ -21,6 +26,7 @@ const UIManager = (function() {
         const recentFilters = document.getElementById('recent-filters');
         const historicalFilters = document.getElementById('historical-filters');
         const yearRangeStats = document.getElementById('year-range-stats');
+        const avgPerYearStats = document.getElementById('avg-per-year-stats');
         
         // Switch to recent data tab
         recentTab.addEventListener('click', () => {
@@ -31,6 +37,7 @@ const UIManager = (function() {
             recentFilters.classList.add('active');
             historicalFilters.classList.remove('active');
             yearRangeStats.classList.add('hide');
+            avgPerYearStats.classList.add('hide'); // Hide earthquakes per year for recent view
             
             // Set the active dataset to recent
             AppState.activeDataset = 'recent';
@@ -63,6 +70,7 @@ const UIManager = (function() {
             historicalFilters.classList.add('active');
             recentFilters.classList.remove('active');
             yearRangeStats.classList.remove('hide');
+            avgPerYearStats.classList.remove('hide'); // Show earthquakes per year for historical view
             
             // Set the active dataset to historical
             AppState.activeDataset = 'historical';
@@ -232,11 +240,37 @@ const UIManager = (function() {
      */
     function updateStatisticsDisplay() {
         const stats = DataManager.getStatistics();
+        const isHistorical = AppState.activeDataset === 'historical';
+        
+        // Debug log to check statistics values
+        console.log('Statistics for ' + (isHistorical ? 'historical' : 'recent') + ' data:', stats);
         
         document.getElementById('total-count').textContent = 
             `${stats.count.toLocaleString()}${stats.count < stats.totalCount ? ' (of ' + stats.totalCount.toLocaleString() + ')' : ''}`;
         document.getElementById('avg-magnitude').textContent = stats.avgMagnitude.toFixed(2);
         document.getElementById('max-magnitude').textContent = stats.maxMagnitude.toFixed(2);
+        document.getElementById('avg-depth').textContent = stats.avgDepth.toFixed(2);
+        
+        // Only show earthquakes per year in historical mode
+        const avgPerYearElement = document.getElementById('avg-per-year');
+        const avgPerYearStats = document.getElementById('avg-per-year-stats');
+        
+        if (isHistorical) {
+            avgPerYearStats.classList.remove('hide');
+            
+            if (stats.avgPerYear !== null) {
+                // For large numbers, use whole numbers; for small numbers, show decimals
+                const formattedValue = stats.avgPerYear >= 10 
+                    ? Math.round(stats.avgPerYear).toLocaleString() 
+                    : stats.avgPerYear.toFixed(1);
+                avgPerYearElement.textContent = formattedValue;
+            } else {
+                avgPerYearElement.textContent = 'N/A';
+            }
+        } else {
+            // Hide in recent data view
+            avgPerYearStats.classList.add('hide');
+        }
         
         // Update year range if in historical mode
         if (stats.yearRange) {
@@ -245,10 +279,12 @@ const UIManager = (function() {
         }
     }
     
-    // Return public methods
-    return {
-        setupUI,
-        displayEarthquakeDetails,
-        updateStatisticsDisplay
-    };
-})();
+    // Assign methods to the UIManager object
+    exports.setupUI = setupUI;
+    exports.displayEarthquakeDetails = displayEarthquakeDetails;
+    exports.updateStatisticsDisplay = updateStatisticsDisplay;
+    
+})(window.UIManager);
+
+// Signal that UIManager is fully loaded
+console.log('UIManager module loaded and initialized');

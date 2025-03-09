@@ -2,7 +2,12 @@
  * Data management module for the Earthquake Visualization App
  * Handles loading, processing, and filtering earthquake data
  */
-const DataManager = (function() {
+
+// Define DataManager in the global scope immediately
+window.DataManager = {};
+
+// Then implement its functionality
+(function(exports) {
     /**
      * Load recent earthquake data from CSV
      * @returns {Promise} Promise that resolves when data is loaded
@@ -109,13 +114,17 @@ const DataManager = (function() {
                 dateTime = null;
             }
             
+            // Ensure magnitude and depth are numeric values
+            const magnitude = parseFloat(item.Mag) || 0;
+            const depth = parseFloat(item['Depth(Km)']) || 0;
+            
             return {
                 id: item.epiid ? String(item.epiid).replace(/^'|'$/g, '') : '',
                 dateTime: dateTime,
-                magnitude: parseFloat(item.Mag) || 0,
+                magnitude: magnitude,
                 latitude: parseFloat(item.Lat) || 0,
                 longitude: parseFloat(item.Long) || 0,
-                depth: parseFloat(item['Depth(Km)']) || 0,
+                depth: depth,
                 region: item.Region || 'Unknown',
                 type: item.Type || 'Unknown'
             };
@@ -125,6 +134,10 @@ const DataManager = (function() {
         });
         
         console.log(`Processed ${AppState.data.recent.raw.length} recent earthquake records`);
+        // Log a sample record to help with debugging
+        if (AppState.data.recent.raw.length > 0) {
+            console.log('Sample recent earthquake record:', AppState.data.recent.raw[0]);
+        }
     }
     
     /**
@@ -439,19 +452,32 @@ const DataManager = (function() {
             const earthquakes = AppState.data.historical.displayed;
             let avgMagnitude = 0;
             let maxMagnitude = 0;
+            let avgDepth = 0;
+            let avgPerYear = 0;
             
             if (displayedCount > 0) {
                 // Calculate average and max magnitude with optimized approach
                 let totalMagnitude = 0;
+                let totalDepth = 0;
                 maxMagnitude = earthquakes[0].magnitude;
                 
                 for (let i = 0; i < displayedCount; i++) {
                     const mag = earthquakes[i].magnitude;
+                    const depth = earthquakes[i].depth;
                     totalMagnitude += mag;
+                    totalDepth += depth;
                     if (mag > maxMagnitude) maxMagnitude = mag;
                 }
                 
                 avgMagnitude = totalMagnitude / displayedCount;
+                avgDepth = totalDepth / displayedCount;
+                
+                // Calculate earthquakes per year
+                if (AppState.filters.historical.yearRange) {
+                    const [minYear, maxYear] = AppState.filters.historical.yearRange;
+                    const yearSpan = maxYear - minYear + 1; // +1 because range is inclusive
+                    avgPerYear = filteredCount / yearSpan; // Use filtered count for more accurate statistics
+                }
             }
             
             return {
@@ -459,6 +485,8 @@ const DataManager = (function() {
                 totalCount: filteredCount,
                 avgMagnitude,
                 maxMagnitude,
+                avgDepth,
+                avgPerYear,
                 yearRange: AppState.filters.historical.yearRange
             };
         } else {
@@ -468,11 +496,49 @@ const DataManager = (function() {
             
             let avgMagnitude = 0;
             let maxMagnitude = 0;
+            let avgDepth = 0;
+            // For recent data, earthquakes per year doesn't make sense
+            let avgPerYear = null;
             
             if (count > 0) {
-                const totalMagnitude = earthquakes.reduce((sum, quake) => sum + quake.magnitude, 0);
+                // Log first few records for debugging
+                console.log(`Recent data statistics calculation. First 2 records:`, 
+                    earthquakes.slice(0, 2));
+                
+                let totalMagnitude = 0;
+                let totalDepth = 0;
+                maxMagnitude = 0;
+                
+                // More explicit calculation to avoid potential issues
+                for (let i = 0; i < count; i++) {
+                    const quake = earthquakes[i];
+                    // Make sure values are numeric
+                    const mag = parseFloat(quake.magnitude) || 0;
+                    const depth = parseFloat(quake.depth) || 0;
+                    
+                    totalMagnitude += mag;
+                    totalDepth += depth;
+                    
+                    if (mag > maxMagnitude) {
+                        maxMagnitude = mag;
+                    }
+                }
+                
                 avgMagnitude = totalMagnitude / count;
-                maxMagnitude = Math.max(...earthquakes.map(quake => quake.magnitude));
+                avgDepth = totalDepth / count;
+                
+                // Safety check for NaN values
+                if (isNaN(avgMagnitude)) avgMagnitude = 0;
+                if (isNaN(avgDepth)) avgDepth = 0;
+                if (isNaN(maxMagnitude)) maxMagnitude = 0;
+                
+                console.log(`Recent statistics calculated: `, {
+                    totalMagnitude,
+                    avgMagnitude,
+                    totalDepth,
+                    avgDepth,
+                    maxMagnitude
+                });
             }
             
             return {
@@ -480,6 +546,8 @@ const DataManager = (function() {
                 totalCount: count,
                 avgMagnitude,
                 maxMagnitude,
+                avgDepth,
+                avgPerYear,
                 yearRange: null
             };
         }
@@ -493,13 +561,15 @@ const DataManager = (function() {
         document.getElementById('last-updated').textContent = now.toLocaleString();
     }
     
-    // Return public methods
-    return {
-        loadRecentData,
-        loadHistoricalData,
-        applyFilters,
-        getCurrentFilteredData,
-        getStatistics,
-        updateLastUpdatedTime
-    };
-})();
+    // Assign methods to the existing DataManager object
+    exports.loadRecentData = loadRecentData;
+    exports.loadHistoricalData = loadHistoricalData;
+    exports.applyFilters = applyFilters;
+    exports.getCurrentFilteredData = getCurrentFilteredData;
+    exports.getStatistics = getStatistics;
+    exports.updateLastUpdatedTime = updateLastUpdatedTime;
+    
+})(window.DataManager);
+
+// Signal that DataManager is fully loaded
+console.log('DataManager module loaded and initialized');

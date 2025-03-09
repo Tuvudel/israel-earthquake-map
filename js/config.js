@@ -2,7 +2,9 @@
  * Configuration settings for the Earthquake Visualization App
  * Controls URLs, map settings, colors, and visualization parameters
  */
-const CONFIG = {
+
+// Define CONFIG in the global scope immediately
+window.CONFIG = {
     // Base URLs for data
     urls: {
         recentCsv: 'https://raw.githubusercontent.com/Tuvudel/israel-map/main/data/last30_event.csv',
@@ -53,3 +55,6 @@ const CONFIG = {
         }
     }
 };
+
+// Signal that CONFIG is loaded
+console.log('CONFIG module loaded');
