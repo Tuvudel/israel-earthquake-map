@@ -32,10 +32,10 @@ window.MapManager = {};
             // Track zoom level for adaptive rendering
             map.on('zoomend', function() {
                 const newZoom = map.getZoom();
-                if (newZoom !== AppState.currentZoom) {
-                    AppState.currentZoom = newZoom;
+                if (newZoom !== window.AppState.currentZoom) {
+                    window.AppState.currentZoom = newZoom;
                     // Re-render with appropriate sampling for zoom level
-                    if (AppState.activeDataset === 'historical') {
+                    if (window.AppState.activeDataset === 'historical') {
                         // Use a small delay to ensure smooth zooming
                         setTimeout(() => {
                             renderCurrentData();
@@ -46,20 +46,20 @@ window.MapManager = {};
             
             // Track viewport for viewport-constrained rendering
             map.on('moveend', function() {
-                AppState.viewportBounds = map.getBounds();
+                window.AppState.viewportBounds = map.getBounds();
                 // No need to re-render on every pan, only on bigger movements
-                if (AppState.activeDataset === 'historical' && CONFIG.render.useCanvas) {
+                if (window.AppState.activeDataset === 'historical' && CONFIG.render.useCanvas) {
                     // Skip re-rendering if the last render was very recent (for smooth panning)
                     const now = Date.now();
-                    if (now - AppState.performance.lastRenderTime > 500) {
+                    if (now - window.AppState.performance.lastRenderTime > 500) {
                         renderCurrentData();
                     }
                 }
             });
             
             // Initial viewport bounds
-            AppState.viewportBounds = map.getBounds();
-            AppState.currentZoom = map.getZoom();
+            window.AppState.viewportBounds = map.getBounds();
+            window.AppState.currentZoom = map.getZoom();
             
             return map;
         } catch (error) {
@@ -83,8 +83,19 @@ window.MapManager = {};
         
         legendControl.onAdd = function() {
             const div = L.DomUtil.create('div', 'legend');
-            const activeDataset = AppState.activeDataset;
-            const colorMode = AppState.colorMode[activeDataset];
+            let colorMode = 'depth'; // Default fallback
+            
+            // Safely get the current dataset and color mode
+            try {
+                const activeDataset = window.AppState.activeDataset || 'recent';
+                if (window.AppState.colorMode && 
+                    window.AppState.colorMode[activeDataset] !== undefined) {
+                    colorMode = window.AppState.colorMode[activeDataset];
+                }
+                console.log("Active color mode:", colorMode);
+            } catch (e) {
+                console.error("Error getting color mode:", e);
+            }
             
             if (colorMode === 'magnitude') {
                 // Magnitude legend
@@ -100,45 +111,45 @@ window.MapManager = {};
         legendControl.addTo(map);
     }
     
-/**
- * Create HTML for magnitude legend
- * @returns {string} HTML for magnitude legend
- */
-function createMagnitudeLegend() {
-    return `
-        <h4>Legend</h4>
-        <div><strong>Magnitude:</strong></div>
-        <div class="legend-item">
-            <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.verySmall};"></div>
-            <span>&lt; 2 (Very Small)</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.small};"></div>
-            <span>2-3 (Small)</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.medium};"></div>
-            <span>3-4 (Medium)</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.large};"></div>
-            <span>4-5 (Large)</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.veryLarge};"></div>
-            <span>5-6 (Very Large)</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.major};"></div>
-            <span>6-7 (Major)</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.great};"></div>
-            <span>&gt; 7 (Great)</span>
-        </div>
-        <div><strong>Size:</strong> Inversely proportional to depth<br>(deeper events are smaller)</div>
-    `;
-}
+    /**
+     * Create HTML for magnitude legend
+     * @returns {string} HTML for magnitude legend
+     */
+    function createMagnitudeLegend() {
+        return `
+            <h4>Legend</h4>
+            <div><strong>Magnitude:</strong></div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.verySmall};"></div>
+                <span>&lt; 2 (Very Small)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.small};"></div>
+                <span>2-3 (Small)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.medium};"></div>
+                <span>3-4 (Medium)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.large};"></div>
+                <span>4-5 (Large)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.veryLarge};"></div>
+                <span>5-6 (Very Large)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.major};"></div>
+                <span>6-7 (Major)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: ${CONFIG.colors.magnitude.great};"></div>
+                <span>&gt; 7 (Great)</span>
+            </div>
+            <div><strong>Size:</strong> Inversely proportional to depth<br>(deeper events are smaller)</div>
+        `;
+    }
     
     /**
      * Create HTML for depth legend
@@ -173,25 +184,25 @@ function createMagnitudeLegend() {
      */
     function clearAllMapLayers() {
         // Remove standard marker layer if it exists
-        if (AppState.markerLayer) {
-            AppState.map.removeLayer(AppState.markerLayer);
-            AppState.markerLayer = null;
+        if (window.AppState.markerLayer) {
+            window.AppState.map.removeLayer(window.AppState.markerLayer);
+            window.AppState.markerLayer = null;
         }
         
         // Remove canvas layer if it exists
-        if (AppState.canvasLayer) {
-            AppState.map.removeLayer(AppState.canvasLayer);
-            AppState.canvasLayer = null;
+        if (window.AppState.canvasLayer) {
+            window.AppState.map.removeLayer(window.AppState.canvasLayer);
+            window.AppState.canvasLayer = null;
         }
         
         // Remove any other layers that might have been added
-        if (AppState.heatLayer) {
-            AppState.map.removeLayer(AppState.heatLayer);
-            AppState.heatLayer = null;
+        if (window.AppState.heatLayer) {
+            window.AppState.map.removeLayer(window.AppState.heatLayer);
+            window.AppState.heatLayer = null;
         }
         
         // Force a redraw of the map to ensure all visual elements are cleared
-        AppState.map.invalidateSize();
+        window.AppState.map.invalidateSize();
     }
     
     /**
@@ -199,19 +210,19 @@ function createMagnitudeLegend() {
      */
     function renderCurrentData() {
         console.time('renderCurrentData');
-        AppState.performance.lastRenderTime = Date.now();
+        window.AppState.performance.lastRenderTime = Date.now();
         
         // First, clear all existing layers
         clearAllMapLayers();
         
         // Update the legend to match current color mode
-        updateLegend(AppState.map);
+        updateLegend(window.AppState.map);
         
-        const isHistorical = AppState.activeDataset === 'historical';
+        const isHistorical = window.AppState.activeDataset === 'historical';
         let earthquakes;
         
         if (isHistorical) {
-            earthquakes = AppState.data.historical.displayed;
+            earthquakes = window.AppState.data.historical.displayed;
             // For historical data, choose the appropriate rendering method
             if (CONFIG.render.useCanvas && earthquakes.length > CONFIG.render.maxStandardMarkers) {
                 renderCanvasMarkers(earthquakes);
@@ -219,16 +230,16 @@ function createMagnitudeLegend() {
                 displayEarthquakeMarkers(earthquakes);
             }
         } else {
-            earthquakes = AppState.data.recent.filtered;
+            earthquakes = window.AppState.data.recent.filtered;
             displayEarthquakeMarkers(earthquakes);
         }
         
         // Update information panel
-        UIManager.updateStatisticsDisplay();
+        window.UIManager.updateStatisticsDisplay();
         
         // Track rendering performance
-        AppState.performance.renderDuration = Date.now() - AppState.performance.lastRenderTime;
-        console.log(`Rendering completed in ${AppState.performance.renderDuration}ms`);
+        window.AppState.performance.renderDuration = Date.now() - window.AppState.performance.lastRenderTime;
+        console.log(`Rendering completed in ${window.AppState.performance.renderDuration}ms`);
         console.timeEnd('renderCurrentData');
     }
     
@@ -243,22 +254,22 @@ function createMagnitudeLegend() {
         clearAllMapLayers();
         
         // Create a simple layer group for markers
-        AppState.markerLayer = L.layerGroup();
+        window.AppState.markerLayer = L.layerGroup();
         
         // Show a warning if there are a lot of earthquakes
         if (earthquakes.length > 1000) {
             console.warn(`Rendering ${earthquakes.length} earthquake markers using standard markers.`);
-            Utils.showStatus(`Displaying ${earthquakes.length} earthquakes - this might be slow. Consider applying more filters.`);
+            window.Utils.showStatus(`Displaying ${earthquakes.length} earthquakes - this might be slow. Consider applying more filters.`);
         }
         
         // Only render what's potentially visible for large datasets
         let markersToRender = earthquakes;
         
         // If we have over 1000 points and it's historical data, filter by viewport
-        if (earthquakes.length > 1000 && AppState.activeDataset === 'historical' && AppState.viewportBounds) {
+        if (earthquakes.length > 1000 && window.AppState.activeDataset === 'historical' && window.AppState.viewportBounds) {
             // Add padding to the bounds to include points just outside the viewport
             const padFactor = 0.2; // 20% padding
-            const bounds = AppState.viewportBounds;
+            const bounds = window.AppState.viewportBounds;
             
             // Calculate padded bounds
             const latPad = (bounds.getNorth() - bounds.getSouth()) * padFactor;
@@ -293,8 +304,8 @@ function createMagnitudeLegend() {
             const depth = parseFloat(quake.depth) || 0;
             
             // Determine marker size and color
-            const markerSize = Utils.calculateMarkerSize(magnitude, depth);
-            const markerColor = Utils.calculateMarkerColor(depth, magnitude);
+            const markerSize = window.Utils.calculateMarkerSize(magnitude, depth);
+            const markerColor = window.Utils.calculateMarkerColor(depth, magnitude);
             
             // Create a circular marker
             const marker = L.circleMarker([quake.latitude, quake.longitude], {
@@ -309,7 +320,7 @@ function createMagnitudeLegend() {
             // Add popup with information
             const popupContent = `
                 <strong>Magnitude:</strong> ${quake.magnitude.toFixed(1)}<br>
-                <strong>Date & Time:</strong> ${Utils.formatDateTime(quake.dateTime)}<br>
+                <strong>Date & Time:</strong> ${window.Utils.formatDateTime(quake.dateTime)}<br>
                 <strong>Depth:</strong> ${quake.depth.toFixed(1)} km<br>
                 <strong>Region:</strong> ${quake.region || 'Unknown'}<br>
                 <strong>Type:</strong> ${quake.type || 'Unknown'}
@@ -321,8 +332,8 @@ function createMagnitudeLegend() {
             
             // Add click event to display details in the info panel
             marker.on('click', () => {
-                AppState.selectedEarthquake = quake;
-                UIManager.displayEarthquakeDetails(quake);
+                window.AppState.selectedEarthquake = quake;
+                window.UIManager.displayEarthquakeDetails(quake);
             });
             
             // Collect markers for batch adding
@@ -330,18 +341,18 @@ function createMagnitudeLegend() {
         }
         
         // Add all markers to the layer in a single operation
-        markers.forEach(marker => AppState.markerLayer.addLayer(marker));
+        markers.forEach(marker => window.AppState.markerLayer.addLayer(marker));
         
         // Add the layer to the map
-        AppState.map.addLayer(AppState.markerLayer);
+        window.AppState.map.addLayer(window.AppState.markerLayer);
         
         // Show appropriate status messages
         if (earthquakes.length === 0) {
-            Utils.showStatus("No earthquakes match the current filters. Try adjusting your criteria.");
+            window.Utils.showStatus("No earthquakes match the current filters. Try adjusting your criteria.");
         } else if (markersToRender.length < earthquakes.length) {
-            Utils.showStatus(`Showing ${markersToRender.length} of ${earthquakes.length} earthquakes in the current viewport. Zoom out to see more, or pan the map.`);
+            window.Utils.showStatus(`Showing ${markersToRender.length} of ${earthquakes.length} earthquakes in the current viewport. Zoom out to see more, or pan the map.`);
         } else {
-            Utils.hideStatus();
+            window.Utils.hideStatus();
         }
         
         console.timeEnd('displayEarthquakeMarkers');
@@ -360,7 +371,7 @@ function createMagnitudeLegend() {
         // Check for very large datasets
         if (earthquakes.length > 10000) {
             console.warn(`Rendering ${earthquakes.length} points on canvas, performance may be impacted`);
-            Utils.showStatus(`Rendering ${earthquakes.length} earthquakes. For better performance, apply more filters.`);
+            window.Utils.showStatus(`Rendering ${earthquakes.length} earthquakes. For better performance, apply more filters.`);
         }
         
         // Create an array of features for faster canvas rendering
@@ -372,8 +383,8 @@ function createMagnitudeLegend() {
             const magnitude = parseFloat(quake.magnitude) || 0;
             const depth = parseFloat(quake.depth) || 0;
             
-            const markerSize = Utils.calculateMarkerSize(magnitude, depth);
-            const markerColor = Utils.calculateMarkerColor(depth, magnitude);
+            const markerSize = window.Utils.calculateMarkerSize(magnitude, depth);
+            const markerColor = window.Utils.calculateMarkerColor(depth, magnitude);
             
             return {
                 type: 'Feature',
@@ -410,7 +421,7 @@ function createMagnitudeLegend() {
                 // Add popup
                 const popupContent = `
                     <strong>Magnitude:</strong> ${quake.magnitude.toFixed(1)}<br>
-                    <strong>Date & Time:</strong> ${Utils.formatDateTime(quake.dateTime)}<br>
+                    <strong>Date & Time:</strong> ${window.Utils.formatDateTime(quake.dateTime)}<br>
                     <strong>Depth:</strong> ${quake.depth.toFixed(1)} km<br>
                     <strong>Region:</strong> ${quake.region || 'Unknown'}<br>
                     <strong>Type:</strong> ${quake.type || 'Unknown'}
@@ -419,8 +430,8 @@ function createMagnitudeLegend() {
                 
                 // Add click handler
                 marker.on('click', () => {
-                    AppState.selectedEarthquake = quake;
-                    UIManager.displayEarthquakeDetails(quake);
+                    window.AppState.selectedEarthquake = quake;
+                    window.UIManager.displayEarthquakeDetails(quake);
                 });
                 
                 return marker;
@@ -428,16 +439,16 @@ function createMagnitudeLegend() {
         };
         
         // Use a normal GeoJSON layer with optimized rendering
-        AppState.canvasLayer = L.geoJSON({ 
+        window.AppState.canvasLayer = L.geoJSON({ 
             type: 'FeatureCollection', 
             features: features 
-        }, geojsonOptions).addTo(AppState.map);
+        }, geojsonOptions).addTo(window.AppState.map);
         
         // Show a message if no earthquakes match the current filters
         if (earthquakes.length === 0) {
-            Utils.showStatus("No earthquakes match the current filters. Try adjusting your criteria.");
+            window.Utils.showStatus("No earthquakes match the current filters. Try adjusting your criteria.");
         } else {
-            Utils.hideStatus();
+            window.Utils.hideStatus();
         }
         
         console.timeEnd('renderCanvasMarkers');

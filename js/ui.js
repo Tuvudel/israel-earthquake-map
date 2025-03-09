@@ -157,34 +157,62 @@ window.UIManager = {};
         });
     }
     
-    /**
-     * Set up the color mode toggle for both recent and historical data
-     */
-    function setupColorModeToggle() {
-        const recentColorMode = document.getElementById('color-mode-recent');
-        const historicalColorMode = document.getElementById('color-mode-historical');
-        
-        // Set initial values from AppState
-        recentColorMode.value = AppState.colorMode.recent;
-        historicalColorMode.value = AppState.colorMode.historical;
-        
-        // Add event listeners for changes
-        recentColorMode.addEventListener('change', () => {
-            AppState.colorMode.recent = recentColorMode.value;
-            if (AppState.activeDataset === 'recent') {
-                // Update the map with new color mode
-                MapManager.renderCurrentData();
-            }
-        });
-        
-        historicalColorMode.addEventListener('change', () => {
-            AppState.colorMode.historical = historicalColorMode.value;
-            if (AppState.activeDataset === 'historical') {
-                // Update the map with new color mode
-                MapManager.renderCurrentData();
-            }
-        });
+/**
+ * Set up the color mode toggle for both recent and historical data
+ */
+function setupColorModeToggle() {
+    const recentColorMode = document.getElementById('color-mode-recent');
+    const historicalColorMode = document.getElementById('color-mode-historical');
+    
+    // Make sure we have the DOM elements
+    if (!recentColorMode || !historicalColorMode) {
+        console.error('Color mode toggle elements not found');
+        return;
     }
+    
+    // Set initial values from AppState
+    if (window.AppState && window.AppState.colorMode) {
+        recentColorMode.value = window.AppState.colorMode.recent || 'depth';
+        historicalColorMode.value = window.AppState.colorMode.historical || 'depth';
+    }
+    
+    // Add event listeners for changes with extra debugging
+    recentColorMode.addEventListener('change', () => {
+        console.log('Color mode changed to:', recentColorMode.value);
+        
+        // Ensure AppState and its properties exist
+        if (!window.AppState) window.AppState = {};
+        if (!window.AppState.colorMode) window.AppState.colorMode = {};
+        
+        // Update the state
+        window.AppState.colorMode.recent = recentColorMode.value;
+        
+        if (window.AppState.activeDataset === 'recent') {
+            // Update the map with new color mode
+            console.log('Applying color mode change to map');
+            window.MapManager.renderCurrentData();
+        }
+    });
+    
+    historicalColorMode.addEventListener('change', () => {
+        console.log('Color mode changed to:', historicalColorMode.value);
+        
+        // Ensure AppState and its properties exist
+        if (!window.AppState) window.AppState = {};
+        if (!window.AppState.colorMode) window.AppState.colorMode = {};
+        
+        // Update the state
+        window.AppState.colorMode.historical = historicalColorMode.value;
+        
+        if (window.AppState.activeDataset === 'historical') {
+            // Update the map with new color mode
+            console.log('Applying color mode change to map');
+            window.MapManager.renderCurrentData();
+        }
+    });
+    
+    console.log('Color mode toggles initialized successfully');
+}
     
     /**
      * Set up event listeners for filter controls
