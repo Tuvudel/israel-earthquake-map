@@ -41,8 +41,8 @@ window.CONFIG = {
             medium: '#FF9800',      // 3-4 (Orange)
             large: '#E53935',       // 4-5 (Red)
             veryLarge: '#9C27B0',   // 5-6 (Purple)
-            major: '#3F51B5',       // 6-7 (Indigo)
-            great: '#880E4F'        // > 7 (Dark Magenta)
+            major: '#3F51B5',       // 6-7 (Indigo Blue)
+            great: '#000000'        // > 7 (Black)
         },
         // Plate boundary colors
         plateBoundaries: {

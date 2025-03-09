@@ -118,6 +118,10 @@ window.DataManager = {};
             const magnitude = parseFloat(item.Mag) || 0;
             const depth = parseFloat(item['Depth(Km)']) || 0;
             
+            // Determine if earthquake was felt
+            // Type 'F' indicates a felt earthquake
+            const wasFelt = item.Type === 'F';
+            
             return {
                 id: item.epiid ? String(item.epiid).replace(/^'|'$/g, '') : '',
                 dateTime: dateTime,
@@ -126,7 +130,8 @@ window.DataManager = {};
                 longitude: parseFloat(item.Long) || 0,
                 depth: depth,
                 region: item.Region || 'Unknown',
-                type: item.Type || 'Unknown'
+                type: item.Type || 'Unknown',
+                felt: wasFelt
             };
         }).filter(item => {
             // Filter out items with invalid coordinates or dates
@@ -262,7 +267,7 @@ window.DataManager = {};
      * Apply filters to recent earthquake data
      */
     function applyRecentFilters() {
-        const { minMagnitude, timePeriod } = AppState.filters.recent;
+        const { minMagnitude, timePeriod, feltOnly } = AppState.filters.recent;
         
         // Start with all data
         let filtered = [...AppState.data.recent.raw];
@@ -270,6 +275,11 @@ window.DataManager = {};
         // Apply magnitude filter
         if (minMagnitude > 0) {
             filtered = filtered.filter(quake => quake.magnitude >= minMagnitude);
+        }
+        
+        // Apply felt filter
+        if (feltOnly) {
+            filtered = filtered.filter(quake => quake.felt === true);
         }
         
         // Apply time period filter

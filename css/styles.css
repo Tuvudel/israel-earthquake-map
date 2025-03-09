@@ -1,4 +1,12 @@
-/* Base styles */
+.felt-status {
+    color: #4CAF50;
+    font-weight: bold;
+    margin-top: 8px;
+    padding: 4px 8px;
+    background-color: rgba(76, 175, 80, 0.1);
+    border-radius: 4px;
+    display: inline-block;
+}/* Base styles */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -190,7 +198,9 @@ footer {
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    line-height: 1.5;
+    line-height: 1.4;
+    max-width: 240px;
+    font-size: 0.9rem;
 }
 
 .legend-item {
@@ -205,6 +215,62 @@ footer {
     margin-right: 8px;
     border-radius: 50%;
     border: 1px solid #000;
+}
+
+/* Size examples for depth legend */
+.size-scale-info {
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.compact-size-examples {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    clear: both; /* Prevent overlap with other legend items */
+    position: relative;
+    width: 100%;
+}
+
+.size-example-item {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 75px; /* Increased height to prevent overlap */
+    width: 100%;
+    margin-bottom: 2px;
+    padding-top: 15px; /* Add space at the top */
+}
+
+.size-labels {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    font-size: 0.75rem;
+    color: #444;
+}
+
+.size-circle {
+    border-radius: 50%;
+    background: #555;
+    border: 1px solid #000;
+}
+
+.size-m3 {
+    width: 14px;
+    height: 14px;
+}
+
+.size-m5 {
+    width: 35px;
+    height: 35px;
+}
+
+.size-m7 {
+    width: 70px;
+    height: 70px;
 }
 
 /* Legend line style for plate boundaries */
@@ -635,7 +701,7 @@ footer {
     .legend {
         padding: 5px;
         max-width: 150px;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
     }
 
     .legend-item {
@@ -646,6 +712,27 @@ footer {
         width: 15px;
         height: 15px;
         margin-right: 5px;
+    }
+    
+    /* Adjust size examples for mobile */
+    .size-example-item {
+        height: 25px;
+        gap: 8px;
+    }
+    
+    .size-m3 {
+        width: 8px;
+        height: 8px;
+    }
+
+    .size-m5 {
+        width: 20px;
+        height: 20px;
+    }
+
+    .size-m7 {
+        width: 35px;
+        height: 35px;
     }
 }
 

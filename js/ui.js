@@ -272,6 +272,7 @@ function setupColorModeToggle() {
         // Recent data filter controls
         const recentMagnitudeFilter = document.getElementById('recent-magnitude-filter');
         const recentDateFilter = document.getElementById('recent-date-filter');
+        const feltFilter = document.getElementById('felt-filter');
         
         // Historical data filter controls
         const historicalMagnitudeFilter = document.getElementById('historical-magnitude-filter');
@@ -293,6 +294,7 @@ function setupColorModeToggle() {
                 // Update filter states
                 AppState.filters.recent.minMagnitude = parseFloat(recentMagnitudeFilter.value);
                 AppState.filters.recent.timePeriod = recentDateFilter.value;
+                AppState.filters.recent.feltOnly = feltFilter.checked;
                 AppState.filters.historical.minMagnitude = parseFloat(historicalMagnitudeFilter.value);
                 
                 // Clear previous layers before applying new filters
@@ -332,6 +334,7 @@ function setupColorModeToggle() {
         // Add event listeners
         recentMagnitudeFilter.addEventListener('change', handleFilterChange);
         recentDateFilter.addEventListener('change', handleFilterChange);
+        feltFilter.addEventListener('change', handleFilterChange);
         historicalMagnitudeFilter.addEventListener('change', handleFilterChange);
         renderModeHistorical.addEventListener('change', handleRenderModeChange);
     }
@@ -534,6 +537,10 @@ function setupColorModeToggle() {
             return;
         }
         
+        // Check if the earthquake was felt
+        const feltStatus = quake.felt ? 
+            '<div class="detail-item felt-status">✓ Felt Earthquake</div>' : '';
+        
         detailsElement.innerHTML = `
             <div class="detail-item">
                 <strong>Magnitude:</strong> ${quake.magnitude.toFixed(1)}
@@ -556,6 +563,7 @@ function setupColorModeToggle() {
             <div class="detail-item">
                 <strong>Event ID:</strong> ${quake.id || 'Unknown'}
             </div>
+            ${feltStatus}
         `;
         
         // On mobile, auto-expand the info panel when a quake is selected

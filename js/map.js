@@ -192,7 +192,19 @@ window.MapManager = {};
                 <div class="legend-color" style="background-color: ${CONFIG.colors.depth.deep};"></div>
                 <span>&gt; 20 km (Deep)</span>
             </div>
-            <div><strong>Size:</strong> Proportional to magnitude</div>
+            <div style="margin-top: 10px;"><strong>Size:</strong> <span class="size-scale-info">Shows magnitude (cubic scale)</span></div>
+            <div class="compact-size-examples">
+                <div class="size-example-item">
+                    <div class="size-circle size-m3"></div>
+                    <div class="size-circle size-m5"></div>
+                    <div class="size-circle size-m7"></div>
+                </div>
+                <div class="size-labels">
+                    <span>M3</span>
+                    <span>M5</span>
+                    <span>M7</span>
+                </div>
+            </div>
         `;
     }
     
@@ -545,6 +557,7 @@ window.MapManager = {};
                 <strong>Depth:</strong> ${quake.depth.toFixed(1)} km<br>
                 <strong>Region:</strong> ${quake.region || 'Unknown'}<br>
                 <strong>Type:</strong> ${quake.type || 'Unknown'}
+                ${quake.felt ? '<br><span style="color: #4CAF50; font-weight: bold;">✓ Felt Earthquake</span>' : ''}
             `;
             marker.bindPopup(popupContent);
             
@@ -819,7 +832,7 @@ window.MapManager = {};
                 window.AppState.clusterLayer.addLayer(marker);
             });
             
-            // Add the cluster layer to the map
+            // Add the cluster layer to the map with high z-index to deal with larger markers
             window.AppState.map.addLayer(window.AppState.clusterLayer);
             
             // Add tooltips to clusters after they're created

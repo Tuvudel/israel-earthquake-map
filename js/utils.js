@@ -43,6 +43,12 @@ window.Utils = {};
         // Get the current color mode
         const colorMode = AppState.colorMode[activeDataset];
         
+        // Get current zoom level to adjust marker size
+        const currentZoom = AppState.currentZoom || 6;
+        // Calculate a zoom factor - at lower zoom levels we need larger markers
+        // to maintain visibility of the difference between magnitudes
+        const zoomFactor = Math.max(0.8, (10 - currentZoom) * 0.1 + 1);
+        
         if (colorMode === 'magnitude') {
             // When coloring by magnitude, size is based on depth
             // Make the relationship between depth and size more pronounced
@@ -56,19 +62,40 @@ window.Utils = {};
             
             if (depth < 5) {
                 // Very shallow: 15-18px
-                return 18 - (depth * 0.6); 
+                return (18 - (depth * 0.6)) * zoomFactor; 
             } else if (depth < 30) {
                 // Medium depth: 8-15px
-                return 15 - ((depth - 5) * 0.28);
+                return (15 - ((depth - 5) * 0.28)) * zoomFactor;
             } else {
                 // Deep: 5-8px
-                return Math.max(5, 8 - ((depth - 30) * 0.05));
+                return Math.max(5, (8 - ((depth - 30) * 0.05))) * zoomFactor;
             }
         } else {
             // Default - when coloring by depth, size is based on magnitude
-            // Linear scale that ensures small earthquakes are visible
-            // But larger earthquakes have more visual prominence
-            return Math.max(5, Math.min(20, magnitude * 2));
+            // Use cubic scale to make larger earthquakes MUCH more visually prominent
+            // Calculate size using cubic formula: 4 + (magnitude^3)/2
+            // This creates a dramatic difference between magnitude levels, especially at high values
+            
+            // For reference:
+            // M2: 8px
+            // M3: 13.5px
+            // M4: 24px
+            // M5: 41.5px
+            // M6: 68px
+            // M7: 105px
+            // M8: 152px
+            
+            // Base size of 4px for very small earthquakes
+            const baseSize = 4;
+            
+            // Use cubic scaling to make larger magnitudes dramatically more prominent
+            const cubicSize = baseSize + (Math.pow(magnitude, 3) / 2);
+            
+            // Apply zoom factor to adjust for zoom level
+            const sizeWithZoom = cubicSize * zoomFactor;
+            
+            // Cap the maximum size to prevent extremely large markers
+            return Math.max(4, Math.min(150, sizeWithZoom));
         }
     }
     
