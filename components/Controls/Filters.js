@@ -22,16 +22,9 @@ export class Filters {
         // Historical data filter controls
         this.historicalMagnitudeFilter = document.getElementById('historical-magnitude-filter');
         this.historicalColorMode = document.getElementById('color-mode-historical');
-        this.renderModeHistorical = document.getElementById('render-mode-historical');
         this.historicalPlateBoundaries = document.getElementById('plate-boundaries-historical');
         
-        // Set the render mode to 'points' and disable clustering
-        // This is because MapLibre GL handles points efficiently already
-        if (this.renderModeHistorical) {
-            this.renderModeHistorical.value = 'points';
-            this.renderModeHistorical.disabled = true;
-            this.renderModeHistorical.title = "Clustering is disabled - MapLibre GL handles all points efficiently";
-        }
+        // Note: The render mode dropdown has been removed as it's no longer relevant
         
         // Initialize filter debounce timeout
         this.filterTimeout = null;
@@ -101,13 +94,6 @@ export class Filters {
             });
         }
         
-        // Historical render mode
-        if (this.renderModeHistorical) {
-            this.renderModeHistorical.addEventListener('change', () => {
-                this.handleRenderModeChange(this.renderModeHistorical.value);
-            });
-        }
-        
         // Historical plate boundaries toggle
         if (this.historicalPlateBoundaries) {
             this.historicalPlateBoundaries.addEventListener('change', () => {
@@ -172,33 +158,6 @@ export class Filters {
     }
     
     /**
-     * Handle render mode changes
-     * @param {string} mode - New render mode
-     */
-    handleRenderModeChange(mode) {
-        // Show loading indicator
-        showLoading('Changing render mode...');
-        
-        // Update state with new render mode
-        stateManager.setState({
-            renderMode: {
-                historical: mode
-            }
-        });
-        
-        // Re-render if in historical mode
-        const state = stateManager.getState();
-        if (state.activeDataset === 'historical') {
-            setTimeout(() => {
-                mapService.renderData();
-                hideLoading();
-            }, 10);
-        } else {
-            hideLoading();
-        }
-    }
-    
-    /**
      * Handle plate boundaries toggle
      * @param {boolean} show - Whether to show plate boundaries
      */
@@ -249,10 +208,6 @@ export class Filters {
         
         if (this.historicalColorMode) {
             this.historicalColorMode.value = state.colorMode.historical;
-        }
-        
-        if (this.renderModeHistorical) {
-            this.renderModeHistorical.value = state.renderMode.historical;
         }
         
         // Plate boundaries

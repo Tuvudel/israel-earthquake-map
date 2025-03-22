@@ -4,7 +4,7 @@
  */
 import { config } from '../config.js';
 import { stateManager } from '../state/StateManager.js';
-import { convertToGeoJSON } from '../utils/calculations.js';
+import { dataService } from './DataService.js';
 import { plateBoundariesService } from './PlateBoundariesService.js';
 import { showStatus, hideStatus, showLoading, hideLoading } from '../utils/domUtils.js';
 
@@ -16,6 +16,61 @@ class MapService {
         this.sourceInitialized = false;
         this.mapReady = false;
         this.mapLoadPromise = null; // Track map loading state
+        
+        // Rendering optimizations
+        this._isRendering = false;
+        this._renderRequested = false;
+        this._lastRenderTimestamp = 0;
+        this._currentZoom = 0;
+        this._renderCount = 0;
+        
+        // Tracking visible data for incremental updates
+        this._visibleFeatures = new Map();
+        this._currentLayers = new Set();
+        
+        // Debug variables
+        this._debugRenderTime = 0;
+        
+        // Throttle metadata
+        this.throttleMap = new Map();
+    }
+    
+    /**
+     * Throttle a function call to avoid excessive execution
+     * @param {string} key - Unique identifier for the throttled function
+     * @param {Function} fn - Function to throttle
+     * @param {number} delay - Delay in milliseconds
+     * @returns {Function} Throttled function
+     */
+    throttle(key, fn, delay = 100) {
+        return (...args) => {
+            const now = performance.now();
+            const info = this.throttleMap.get(key) || { lastCall: 0 };
+            
+            if (now - info.lastCall >= delay) {
+                info.lastCall = now;
+                this.throttleMap.set(key, info);
+                return fn(...args);
+            }
+            
+            if (!info.scheduled) {
+                info.scheduled = true;
+                info.args = args;
+                this.throttleMap.set(key, info);
+                
+                setTimeout(() => {
+                    const currentInfo = this.throttleMap.get(key);
+                    currentInfo.scheduled = false;
+                    currentInfo.lastCall = performance.now();
+                    this.throttleMap.set(key, currentInfo);
+                    fn(...currentInfo.args);
+                }, delay - (now - info.lastCall));
+            } else {
+                // Update arguments for the scheduled call
+                info.args = args;
+                this.throttleMap.set(key, info);
+            }
+        };
     }
     
     /**
@@ -59,11 +114,28 @@ class MapService {
                     center: config.map.center,
                     zoom: config.map.zoom,
                     minZoom: config.map.minZoom,
-                    maxZoom: config.map.maxZoom
+                    maxZoom: config.map.maxZoom,
+                    attributionControl: false, // We'll add our own for more control
+                    // Key fix: Enable scroll zoom without requiring the Ctrl key modifier
+                    scrollZoom: {
+                        around: 'center',
+                        control: {
+                            disableCtrlZoom: true // This disables the Ctrl requirement for zooming
+                        }
+                    }
                 });
                 
+                // Add attribution with more control over position
+                this.map.addControl(new maplibregl.AttributionControl({
+                    compact: true
+                }), 'bottom-right');
+                
                 // Add navigation controls
-                this.map.addControl(new maplibregl.NavigationControl(), 'top-right');
+                this.map.addControl(new maplibregl.NavigationControl({
+                    showCompass: true,
+                    showZoom: true,
+                    visualizePitch: true
+                }), 'top-right');
                 
                 // Add scale to the map
                 this.map.addControl(new maplibregl.ScaleControl({
@@ -84,9 +156,6 @@ class MapService {
                         
                         // Initialize sources once the map is loaded
                         this.initializeMapSources();
-                        
-                        // Create the legend
-                        this.createLegend();
                         
                         // Mark map as ready
                         this.mapReady = true;
@@ -128,38 +197,76 @@ class MapService {
     }
     
     /**
+     * Apply performance optimizations to the map
+     * @private
+     */
+    _applyMapPerformanceOptimizations() {
+        if (!this.map) return;
+        
+        // Optimize fade duration for tile transitions
+        if (this.map.getStyle() && this.map.getStyle().transition) {
+            this.map.getStyle().transition = {
+                duration: 0, // Instant transitions for faster rendering
+                delay: 0
+            };
+        }
+        
+        // Reduce memory usage and improve performance
+        if (typeof this.map.setMaxTileCacheSize === 'function') {
+            // Only keep necessary tiles in memory
+            this.map.setMaxTileCacheSize(100);
+        }
+        
+        // Disable map animations for performance
+        if (typeof this.map.setRenderWorldCopies === 'function') {
+            // Disable world copies for better performance
+            this.map.setRenderWorldCopies(false);
+        }
+        
+        // Set cooperative gestures for better mobile experience if available
+        if (typeof this.map.setCooperativeGestures === 'function') {
+            this.map.setCooperativeGestures(true);
+        }
+    }
+    
+    /**
      * Set up map event handlers
      */
     setupEventHandlers() {
         if (!this.map) return;
         
-        // Variables for debouncing map events
-        let moveTimeout = null;
-        const debounceDelay = 300; // ms
-        
-        // Debounced handler for zoom and move events - ONLY updates state, no styling or rendering
-        const handleMapChange = () => {
-            // Clear any existing timeout
-            if (moveTimeout) clearTimeout(moveTimeout);
-            
-            // Only set a new timeout if we're not currently processing map changes
-            moveTimeout = setTimeout(() => {
-                try {
-                    // Just update the state with new bounds and zoom level
-                    // Do NOT trigger any styling updates or renders
-                    this.updateStateFromMap();
-                } catch (err) {
-                    console.warn('Error handling map change:', err);
-                }
-            }, debounceDelay);
-        };
+        // Create throttled update handler
+        const handleMapChange = this.throttle('mapChange', () => {
+            // Just update the state with new bounds and zoom level
+            this.updateStateFromMap();
+        }, 100);
         
         // Set up zooming and panning event handlers
         this.map.on('zoomend', handleMapChange);
         this.map.on('moveend', handleMapChange);
         
+        // Use throttled handler for better performance during continuous interactions
+        this.map.on('zoom', () => {
+            // Update current zoom without triggering full state update
+            this._currentZoom = this.map.getZoom();
+        });
+        
         // Set up click handlers for earthquakes
         this.setupClickHandlers();
+        
+        // Handle viewport changes that could affect what's displayed
+        this.map.on('moveend', this.throttle('moveEnd', () => {
+            if (Math.abs(this._currentZoom - this.map.getZoom()) >= 0.5) {
+                // Significant zoom change, may need to update rendered points
+                this._currentZoom = this.map.getZoom();
+                
+                // Only trigger re-render if we haven't rendered recently
+                const now = performance.now();
+                if (now - this._lastRenderTimestamp > 300) {
+                    this.scheduleRender();
+                }
+            }
+        }, 200));
     }
     
     /**
@@ -182,77 +289,31 @@ class MapService {
             // Add source for recent earthquakes
             this.map.addSource(config.maplibre.sources.recent, {
                 type: 'geojson',
-                data: { type: 'FeatureCollection', features: [] }
+                data: { type: 'FeatureCollection', features: [] },
+                buffer: 1, // Lower buffer for better performance
+                maxzoom: 22 // Maximum zoom level for the source
             });
             
             // Add source for historical earthquakes
             this.map.addSource(config.maplibre.sources.historical, {
                 type: 'geojson',
-                data: { type: 'FeatureCollection', features: [] }
+                data: { type: 'FeatureCollection', features: [] },
+                buffer: 1, // Lower buffer for better performance
+                maxzoom: 22 // Maximum zoom level for the source
             });
             
             // Add source for plate boundaries
             this.map.addSource(config.maplibre.sources.plateBoundaries, {
                 type: 'geojson',
-                data: { type: 'FeatureCollection', features: [] }
+                data: { type: 'FeatureCollection', features: [] },
+                maxzoom: 22
             });
             
-            // Add layer for recent earthquakes
-            this.map.addLayer({
-                id: config.maplibre.layers.recentEarthquakes,
-                type: 'circle',
-                source: config.maplibre.sources.recent,
-                paint: {
-                    // Circle color by depth (default)
-                    'circle-color': [
-                        'case',
-                        ['<', ['get', 'depth'], 5], config.colors.depth.veryShallow,
-                        ['<', ['get', 'depth'], 10], config.colors.depth.shallow,
-                        ['<', ['get', 'depth'], 20], config.colors.depth.medium,
-                        config.colors.depth.deep
-                    ],
-                    // Circle radius by magnitude
-                    'circle-radius': [
-                        '+',
-                        4,
-                        ['/', ['*', ['get', 'magnitude'], ['get', 'magnitude'], ['get', 'magnitude']], 2]
-                    ],
-                    'circle-stroke-width': 1,
-                    'circle-stroke-color': '#000000',
-                    'circle-opacity': 0.8
-                },
-                layout: {
-                    visibility: 'none' // Start hidden
-                }
-            });
+            // Create layer for recent earthquakes
+            this._createEarthquakeLayer(config.maplibre.layers.recentEarthquakes, config.maplibre.sources.recent);
             
-            // Add layer for historical earthquakes
-            this.map.addLayer({
-                id: config.maplibre.layers.historicalEarthquakes,
-                type: 'circle',
-                source: config.maplibre.sources.historical,
-                paint: {
-                    // Same settings as recent earthquakes
-                    'circle-color': [
-                        'case',
-                        ['<', ['get', 'depth'], 5], config.colors.depth.veryShallow,
-                        ['<', ['get', 'depth'], 10], config.colors.depth.shallow,
-                        ['<', ['get', 'depth'], 20], config.colors.depth.medium,
-                        config.colors.depth.deep
-                    ],
-                    'circle-radius': [
-                        '+',
-                        4,
-                        ['/', ['*', ['get', 'magnitude'], ['get', 'magnitude'], ['get', 'magnitude']], 2]
-                    ],
-                    'circle-stroke-width': 1,
-                    'circle-stroke-color': '#000000',
-                    'circle-opacity': 0.8
-                },
-                layout: {
-                    visibility: 'none' // Start hidden
-                }
-            });
+            // Create layer for historical earthquakes
+            this._createEarthquakeLayer(config.maplibre.layers.historicalEarthquakes, config.maplibre.sources.historical);
             
             // Add layer for plate boundaries
             this.map.addLayer({
@@ -315,6 +376,55 @@ class MapService {
                 setTimeout(() => this.initializeMapSources(), 500);
             }
         }
+    }
+    
+    /**
+     * Create an earthquake layer with optimized rendering settings
+     * @private
+     * @param {string} layerId - ID for the layer
+     * @param {string} sourceId - ID of the source to use
+     */
+    _createEarthquakeLayer(layerId, sourceId) {
+        // Create the layer with optimized settings for rendering 26K+ markers
+        this.map.addLayer({
+            id: layerId,
+            type: 'circle',
+            source: sourceId,
+            paint: {
+                // Color by depth initially (will be updated based on user selection)
+                'circle-color': [
+                    'case',
+                    ['<', ['get', 'depth'], 5], config.colors.depth.veryShallow,
+                    ['<', ['get', 'depth'], 10], config.colors.depth.shallow,
+                    ['<', ['get', 'depth'], 20], config.colors.depth.medium,
+                    config.colors.depth.deep
+                ],
+                // Optimized circle radius calculation for large datasets
+                'circle-radius': [
+                    'interpolate', ['linear'], ['get', 'magnitude'],
+                    0, 3,
+                    2, 5,
+                    3, 8,
+                    4, 12,
+                    5, 18,
+                    6, 25,
+                    7, 40
+                ],
+                'circle-stroke-width': 0.5, // Thinner stroke for better performance
+                'circle-stroke-color': '#000000',
+                'circle-opacity': 0.8,
+                // Optimized with zoom-based opacity adjustment
+                'circle-stroke-opacity': [
+                    'interpolate', ['linear'], ['zoom'],
+                    5, 0.1, // Almost invisible stroke at lower zoom levels
+                    8, 0.5,
+                    12, 1.0
+                ]
+            },
+            layout: {
+                visibility: 'none' // Start hidden
+            }
+        });
     }
     
     /**
@@ -471,197 +581,17 @@ class MapService {
     }
     
     /**
-     * Create a map legend based on current color mode
+     * Schedule a render for the next animation frame
+     * Prevents multiple simultaneous renders
      */
-    createLegend() {
-        // Remove any existing legend
-        if (this.legendElement) {
-            this.legendElement.remove();
-        }
+    scheduleRender() {
+        if (this._renderRequested) return;
         
-        // Create a new legend div
-        const legendDiv = document.createElement('div');
-        legendDiv.className = 'legend';
-        
-        // Get the current state
-        const state = stateManager.getState();
-        const activeDataset = state.activeDataset;
-        const colorMode = state.colorMode[activeDataset];
-        
-        // Determine which legend to create
-        if (colorMode === 'magnitude') {
-            // Magnitude legend
-            legendDiv.innerHTML = this.createMagnitudeLegend();
-        } else {
-            // Depth legend (default)
-            legendDiv.innerHTML = this.createDepthLegend();
-        }
-        
-        // Add plate boundaries info if we're showing them
-        if (state.showPlateBoundaries) {
-            legendDiv.innerHTML += this.createPlateBoundariesLegend();
-        }
-        
-        // Add the legend to the map container
-        const mapContainer = document.getElementById('map');
-        if (mapContainer) {
-            mapContainer.appendChild(legendDiv);
-        }
-        
-        // Store reference to the legend
-        this.legendElement = legendDiv;
-    }
-    
-    /**
-     * Create HTML for magnitude legend
-     * @returns {string} HTML for magnitude legend
-     */
-    createMagnitudeLegend() {
-        return `
-            <h4>Legend</h4>
-            <div><strong>Magnitude:</strong></div>
-            <div class="legend-item">
-                <div class="legend-color" style="background-color: ${config.colors.magnitude.verySmall};"></div>
-                <span>&lt; 2 (Very Small)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background-color: ${config.colors.magnitude.small};"></div>
-                <span>2-3 (Small)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background-color: ${config.colors.magnitude.medium};"></div>
-                <span>3-4 (Medium)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background-color: ${config.colors.magnitude.large};"></div>
-                <span>4-5 (Large)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background-color: ${config.colors.magnitude.veryLarge};"></div>
-                <span>5-6 (Very Large)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background-color: ${config.colors.magnitude.major};"></div>
-                <span>6-7 (Major)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background-color: ${config.colors.magnitude.great};"></div>
-                <span>&gt; 7 (Great)</span>
-            </div>
-            <div><strong>Size:</strong> Inversely proportional to depth<br>(deeper events are smaller)</div>
-        `;
-    }
-    
-    /**
-     * Create HTML for depth legend
-     * @returns {string} HTML for depth legend
-     */
-    createDepthLegend() {
-        return `
-            <h4>Legend</h4>
-            <div><strong>Depth:</strong></div>
-            <div class="legend-item">
-                <div class="legend-color" style="background-color: ${config.colors.depth.veryShallow};"></div>
-                <span>&lt; 5 km (Very Shallow)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background-color: ${config.colors.depth.shallow};"></div>
-                <span>5-10 km (Shallow)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background-color: ${config.colors.depth.medium};"></div>
-                <span>10-20 km (Medium)</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color" style="background-color: ${config.colors.depth.deep};"></div>
-                <span>&gt; 20 km (Deep)</span>
-            </div>
-            <div style="margin-top: 10px;"><strong>Size:</strong> <span class="size-scale-info">Shows magnitude (cubic scale)</span></div>
-            <div class="compact-size-examples">
-                <div class="size-example-item">
-                    <div class="size-circle size-m3"></div>
-                    <div class="size-circle size-m5"></div>
-                    <div class="size-circle size-m7"></div>
-                </div>
-                <div class="size-labels">
-                    <span>M3</span>
-                    <span>M5</span>
-                    <span>M7</span>
-                </div>
-            </div>
-        `;
-    }
-    
-    /**
-     * Create HTML for plate boundaries legend
-     * @returns {string} HTML for plate boundaries legend
-     */
-    createPlateBoundariesLegend() {
-        return `
-            <hr>
-            <div><strong>Plate Boundaries:</strong></div>
-            <div class="legend-item">
-                <div class="legend-line" style="background-color: ${config.colors.plateBoundaries.transform}; height: 4px; border: 1px solid white;"></div>
-                <span>Dead Sea Transform Fault</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-line" style="background-color: ${config.colors.plateBoundaries.divergent}; height: 4px; border: 1px solid white;"></div>
-                <span>Divergent Boundary</span>
-            </div>
-        `;
-    }
-    
-    /**
-     * Toggle display of plate boundaries
-     * @param {boolean} show - Whether to show plate boundaries
-     */
-    togglePlateBoundaries(show) {
-        if (!this.map) return;
-        
-        // Update the state
-        stateManager.setState({
-            showPlateBoundaries: show
+        this._renderRequested = true;
+        requestAnimationFrame(() => {
+            this._renderRequested = false;
+            this.renderData();
         });
-        
-        // Display or hide the boundaries on the map
-        if (show) {
-            this.displayPlateBoundaries();
-        } else {
-            this.map.setLayoutProperty(config.maplibre.layers.plateBoundaries, 'visibility', 'none');
-        }
-        
-        // Update the legend
-        this.createLegend();
-    }
-    
-    /**
-     * Display plate boundaries on the map
-     */
-    displayPlateBoundaries() {
-        if (!this.map) return;
-        
-        // Get plate boundary data from the service
-        const plateBoundaryData = plateBoundariesService.getEastAfricanRift();
-        
-        if (!plateBoundaryData) {
-            console.error('Plate boundaries data not found');
-            return;
-        }
-        
-        // Update the source data
-        try {
-            const source = this.map.getSource(config.maplibre.sources.plateBoundaries);
-            if (source) {
-                source.setData(plateBoundaryData);
-                
-                // Show the layer
-                this.map.setLayoutProperty(config.maplibre.layers.plateBoundaries, 'visibility', 'visible');
-                
-                console.log('Plate boundaries displayed');
-            }
-        } catch (err) {
-            console.error('Error displaying plate boundaries:', err);
-        }
     }
     
     /**
@@ -714,8 +644,8 @@ class MapService {
             // Full render - hide all layers first
             this.hideAllLayers();
             
-            // Update the legend to match current color mode
-            this.createLegend();
+            // Update layer visibility
+            this.updateLayerVisibility(activeDataset);
             
             // Render appropriate dataset
             if (activeDataset === 'historical') {
@@ -735,6 +665,7 @@ class MapService {
             // Calculate rendering duration without updating state every time
             const renderDuration = performance.now() - renderStart;
             console.log('Map render completed in', renderDuration.toFixed(2), 'ms');
+            this._lastRenderTimestamp = performance.now();
             
             // Only update performance metrics occasionally to avoid rendering loops
             this._renderCount = (this._renderCount || 0) + 1;
@@ -814,7 +745,7 @@ class MapService {
     /**
      * Render recent earthquake data
      */
-    renderRecentData() {
+    async renderRecentData() {
         // Get current state
         const state = stateManager.getState();
         const earthquakes = state.data.recent.filtered;
@@ -827,8 +758,8 @@ class MapService {
         
         console.log(`Rendering ${earthquakes.length} recent earthquakes`);
         
-        // Convert data to GeoJSON
-        const geojson = convertToGeoJSON(earthquakes);
+        // Convert data to GeoJSON with caching
+        const geojson = await dataService.convertToGeoJSON(earthquakes, 'recent');
         
         // Update the source with earthquake data
         try {
@@ -868,7 +799,7 @@ class MapService {
     /**
      * Render historical earthquake data
      */
-    renderHistoricalData() {
+    async renderHistoricalData() {
         // Get current state
         const state = stateManager.getState();
         const earthquakes = state.data.historical.filtered;
@@ -881,11 +812,13 @@ class MapService {
         
         console.log(`Rendering ${earthquakes.length} historical earthquakes`);
         
-        // Convert to GeoJSON
-        const geojson = convertToGeoJSON(earthquakes);
-        
-        // Update the source with earthquake data
         try {
+            // Create cache key based on filter settings and zoom
+            const cacheKey = `historical-${JSON.stringify(state.filters.historical)}-${Math.round(state.currentZoom)}`;
+            
+            // Convert to GeoJSON with caching
+            const geojson = await dataService.convertToGeoJSON(earthquakes, 'historical', cacheKey);
+            
             const source = this.map.getSource(config.maplibre.sources.historical);
             if (source) {
                 // First, hide the layer while updating to prevent partial renders
@@ -902,15 +835,6 @@ class MapService {
                 
                 // Hide status message for successful rendering
                 hideStatus();
-                
-                // Set displayed earthquakes reference (don't create a new copy in state)
-                stateManager.setState({
-                    data: {
-                        historical: {
-                            displayed: earthquakes // Just reference the filtered data directly
-                        }
-                    }
-                });
             } else {
                 console.error('Historical earthquakes source not found');
                 this.initializeMapSources(); // Try reinitializing sources
@@ -956,10 +880,13 @@ class MapService {
                 
                 // Size by depth (inverse relationship) with fixed sizing
                 this.map.setPaintProperty(layerId, 'circle-radius', [
-                    'case',
-                    ['<', ['get', 'depth'], 5], 18,
-                    ['<', ['get', 'depth'], 30], ['-', 15, ['*', 0.28, ['-', ['get', 'depth'], 5]]],
-                    ['max', 5, ['-', 8, ['*', 0.05, ['-', ['get', 'depth'], 30]]]]
+                    'interpolate', ['linear'], ['get', 'depth'],
+                    0, 18,
+                    5, 15,
+                    10, 12,
+                    20, 9,
+                    50, 6,
+                    100, 4
                 ]);
             } else {
                 // Color by depth (default)
@@ -973,9 +900,14 @@ class MapService {
                 
                 // Size by magnitude (cubic scale)
                 this.map.setPaintProperty(layerId, 'circle-radius', [
-                    '+',
-                    4,
-                    ['/', ['*', ['get', 'magnitude'], ['get', 'magnitude'], ['get', 'magnitude']], 2]
+                    'interpolate', ['linear'], ['get', 'magnitude'],
+                    0, 3,
+                    2, 5,
+                    3, 8,
+                    4, 12,
+                    5, 18,
+                    6, 25,
+                    7, 40
                 ]);
             }
             
@@ -1011,6 +943,51 @@ class MapService {
         
         // Hide popup
         this.hidePopup();
+    }
+    
+    /**
+     * Toggle display of plate boundaries
+     * @param {boolean} show - Whether to show plate boundaries
+     */
+    togglePlateBoundaries(show) {
+        if (!this.map) return;
+        
+        // Display or hide the boundaries on the map
+        if (show) {
+            this.displayPlateBoundaries();
+        } else {
+            this.map.setLayoutProperty(config.maplibre.layers.plateBoundaries, 'visibility', 'none');
+        }
+    }
+    
+    /**
+     * Display plate boundaries on the map
+     */
+    displayPlateBoundaries() {
+        if (!this.map) return;
+        
+        // Get plate boundary data from the service
+        const plateBoundaryData = plateBoundariesService.getEastAfricanRift();
+        
+        if (!plateBoundaryData) {
+            console.error('Plate boundaries data not found');
+            return;
+        }
+        
+        // Update the source data
+        try {
+            const source = this.map.getSource(config.maplibre.sources.plateBoundaries);
+            if (source) {
+                source.setData(plateBoundaryData);
+                
+                // Show the layer
+                this.map.setLayoutProperty(config.maplibre.layers.plateBoundaries, 'visibility', 'visible');
+                
+                console.log('Plate boundaries displayed');
+            }
+        } catch (err) {
+            console.error('Error displaying plate boundaries:', err);
+        }
     }
     
     /**
@@ -1103,6 +1080,25 @@ class MapService {
             // Try to show the popup anyway
             this.showPopup(coords, `Magnitude ${earthquake.magnitude.toFixed(1)} earthquake at ${earthquake.depth.toFixed(1)} km depth`);
         }
+    }
+    
+    /**
+     * Clean up resources before application shutdown
+     */
+    destroy() {
+        // Remove popup
+        this.hidePopup();
+        
+        // Clean up map if it exists
+        if (this.map) {
+            this.map.remove();
+            this.map = null;
+        }
+        
+        // Clear caches and state
+        this._visibleFeatures.clear();
+        this._currentLayers.clear();
+        this.throttleMap.clear();
     }
 }
 

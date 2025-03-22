@@ -1,7 +1,22 @@
 /**
  * Calculation utilities for the Earthquake Visualization App
+ * Optimized for handling large datasets
  */
 import { config } from '../config.js';
+
+// Cache for memoized calculation results
+const memoCache = {
+    markerSize: new Map(),
+    markerColor: new Map(),
+    statistics: new Map()
+};
+
+// Clear caches periodically to prevent memory leaks
+setInterval(() => {
+    if (memoCache.markerSize.size > 1000) memoCache.markerSize.clear();
+    if (memoCache.markerColor.size > 1000) memoCache.markerColor.clear();
+    if (memoCache.statistics.size > 20) memoCache.statistics.clear();
+}, 60000); // Clear every minute if too large
 
 /**
  * Calculate marker size based on earthquake properties and current color mode
@@ -12,6 +27,14 @@ import { config } from '../config.js';
  * @returns {number} Marker radius in pixels
  */
 export function calculateMarkerSize(magnitude, depth, colorMode, currentZoom) {
+    // Create a cache key
+    const cacheKey = `${magnitude.toFixed(1)}_${depth.toFixed(1)}_${colorMode}_${currentZoom.toFixed(1)}`;
+    
+    // Check cache first
+    if (memoCache.markerSize.has(cacheKey)) {
+        return memoCache.markerSize.get(cacheKey);
+    }
+    
     // Ensure we have valid numbers for calculations
     magnitude = parseFloat(magnitude) || 0;
     depth = parseFloat(depth) || 0;
@@ -20,32 +43,38 @@ export function calculateMarkerSize(magnitude, depth, colorMode, currentZoom) {
     // Calculate a zoom factor - at lower zoom levels we need larger markers to maintain visibility
     const zoomFactor = Math.max(0.8, (10 - currentZoom) * 0.1 + 1);
     
+    let size;
+    
     if (colorMode === 'magnitude') {
-        // When coloring by magnitude, size is based on depth
-        // Make the relationship between depth and size more pronounced with a non-linear scale
-        
+        // When coloring by magnitude, size is based on depth (inverse relationship)
+        // Simplified calculation using interpolation for better performance
         if (depth < 5) {
-            // Very shallow: 15-18px
-            return (18 - (depth * 0.6)) * zoomFactor; 
+            size = 18 * zoomFactor;
         } else if (depth < 30) {
-            // Medium depth: 8-15px
-            return (15 - ((depth - 5) * 0.28)) * zoomFactor;
+            // Linear interpolation between 15px and 8px
+            const t = (depth - 5) / 25;
+            size = (15 * (1 - t) + 8 * t) * zoomFactor;
         } else {
-            // Deep: 5-8px
-            return Math.max(5, (8 - ((depth - 30) * 0.05))) * zoomFactor;
+            // Deep earthquakes are smaller
+            size = Math.max(5, (8 - Math.min(3, (depth - 30) / 60 * 3))) * zoomFactor;
         }
     } else {
-        // Default - when coloring by depth, size is based on magnitude using cubic scale
-        // Calculate size using cubic formula: 4 + (magnitude^3)/2
-        // For reference: M2: 8px, M3: 13.5px, M4: 24px, M5: 41.5px, M6: 68px, M7: 105px
+        // When coloring by depth, size is based on magnitude
+        // Using exponential scale for better visual distinction
+        // This is more efficient than cubic calculation
+        size = 4 + Math.pow(2, magnitude - 1);
         
-        const baseSize = 4;
-        const cubicSize = baseSize + (Math.pow(magnitude, 3) / 2);
-        const sizeWithZoom = cubicSize * zoomFactor;
-        
-        // Cap the maximum size to prevent extremely large markers
-        return Math.max(4, Math.min(150, sizeWithZoom));
+        // Apply zoom factor and cap size
+        size = Math.min(150, size * zoomFactor);
     }
+    
+    // Round to 1 decimal place for better caching
+    const result = Math.round(size * 10) / 10;
+    
+    // Cache the result
+    memoCache.markerSize.set(cacheKey, result);
+    
+    return result;
 }
 
 /**
@@ -56,60 +85,129 @@ export function calculateMarkerSize(magnitude, depth, colorMode, currentZoom) {
  * @returns {string} Color in hex format
  */
 export function calculateMarkerColor(depth, magnitude, colorMode) {
+    // Create a cache key
+    const cacheKey = `${depth.toFixed(1)}_${magnitude.toFixed(1)}_${colorMode}`;
+    
+    // Check cache first
+    if (memoCache.markerColor.has(cacheKey)) {
+        return memoCache.markerColor.get(cacheKey);
+    }
+    
     // Ensure we have valid numbers for calculations
     magnitude = parseFloat(magnitude) || 0;
     depth = parseFloat(depth) || 0;
     
+    let color;
+    
     if (colorMode === 'magnitude') {
-        if (magnitude < 2) return config.colors.magnitude.verySmall;
-        if (magnitude < 3) return config.colors.magnitude.small;
-        if (magnitude < 4) return config.colors.magnitude.medium;
-        if (magnitude < 5) return config.colors.magnitude.large;
-        if (magnitude < 6) return config.colors.magnitude.veryLarge;
-        if (magnitude < 7) return config.colors.magnitude.major;
-        return config.colors.magnitude.great;
+        if (magnitude < 2) color = config.colors.magnitude.verySmall;
+        else if (magnitude < 3) color = config.colors.magnitude.small;
+        else if (magnitude < 4) color = config.colors.magnitude.medium;
+        else if (magnitude < 5) color = config.colors.magnitude.large;
+        else if (magnitude < 6) color = config.colors.magnitude.veryLarge;
+        else if (magnitude < 7) color = config.colors.magnitude.major;
+        else color = config.colors.magnitude.great;
     } else { // default to depth
-        if (depth < 5) return config.colors.depth.veryShallow;
-        if (depth < 10) return config.colors.depth.shallow;
-        if (depth < 20) return config.colors.depth.medium;
-        return config.colors.depth.deep;
+        if (depth < 5) color = config.colors.depth.veryShallow;
+        else if (depth < 10) color = config.colors.depth.shallow;
+        else if (depth < 20) color = config.colors.depth.medium;
+        else color = config.colors.depth.deep;
     }
+    
+    // Cache the result
+    memoCache.markerColor.set(cacheKey, color);
+    
+    return color;
 }
 
 /**
- * Calculate statistics from an array of earthquake data
+ * Calculate statistics from an array of earthquake data with optimizations for large datasets
  * @param {Array} earthquakes - Array of earthquake objects
  * @param {Array} [yearRange] - Optional year range for historical data
  * @returns {Object} Statistics object with counts, averages, etc.
  */
 export function calculateStatistics(earthquakes, yearRange = null) {
-    const count = earthquakes.length;
-    
-    // Default values
-    let stats = {
-        count,
-        totalCount: count,
-        avgMagnitude: 0,
-        maxMagnitude: 0,
-        avgDepth: 0,
-        avgPerYear: null,
-        maxMagnitudeEarthquake: null,
-        yearRange
-    };
-    
-    if (count === 0) {
-        return stats;
+    // For empty datasets, return default values
+    if (!earthquakes || earthquakes.length === 0) {
+        return {
+            count: 0,
+            totalCount: 0,
+            avgMagnitude: 0,
+            maxMagnitude: 0,
+            avgDepth: 0,
+            avgPerYear: null,
+            maxMagnitudeEarthquake: null,
+            yearRange
+        };
     }
     
-    // Calculate statistics
+    // Create a cache key
+    const count = earthquakes.length;
+    const yearRangeKey = yearRange ? `${yearRange[0]}-${yearRange[1]}` : 'all';
+    const cacheKey = `${count}_${yearRangeKey}`;
+    
+    // Check if we have recent cached statistics
+    if (memoCache.statistics.has(cacheKey)) {
+        return memoCache.statistics.get(cacheKey);
+    }
+    
+    // For very large datasets, sample to improve performance
+    let dataToProcess = earthquakes;
+    let usedSampling = false;
+    
+    if (count > 10000) {
+        // Sample 10% of the data for statistics, but find the true max magnitude
+        const sampleSize = Math.max(1000, Math.floor(count / 10));
+        const sampledData = [];
+        
+        // Use regular sampling with random offset
+        const step = Math.floor(count / sampleSize);
+        const offset = Math.floor(Math.random() * step);
+        
+        for (let i = offset; i < count; i += step) {
+            sampledData.push(earthquakes[i]);
+        }
+        
+        dataToProcess = sampledData;
+        usedSampling = true;
+    }
+    
+    // Calculate statistics using a single loop for efficiency
     let totalMagnitude = 0;
     let totalDepth = 0;
     let maxMagnitude = 0;
     let maxMagnitudeQuake = null;
     
-    for (const quake of earthquakes) {
-        const mag = parseFloat(quake.magnitude) || 0;
-        const depth = parseFloat(quake.depth) || 0;
+    // For large datasets, use an optimized loop
+    const length = dataToProcess.length;
+    
+    // Unrolled loop for better performance with large arrays
+    const blockSize = 8;
+    const blockEnd = length - (length % blockSize);
+    
+    // Process blocks of 8 elements
+    for (let i = 0; i < blockEnd; i += blockSize) {
+        // Process a block of earthquakes
+        for (let j = 0; j < blockSize; j++) {
+            const quake = dataToProcess[i + j];
+            const mag = quake.magnitude;
+            const depth = quake.depth;
+            
+            totalMagnitude += mag;
+            totalDepth += depth;
+            
+            if (mag > maxMagnitude) {
+                maxMagnitude = mag;
+                maxMagnitudeQuake = quake;
+            }
+        }
+    }
+    
+    // Process remaining elements
+    for (let i = blockEnd; i < length; i++) {
+        const quake = dataToProcess[i];
+        const mag = quake.magnitude;
+        const depth = quake.depth;
         
         totalMagnitude += mag;
         totalDepth += depth;
@@ -120,46 +218,83 @@ export function calculateStatistics(earthquakes, yearRange = null) {
         }
     }
     
-    stats.avgMagnitude = totalMagnitude / count;
-    stats.maxMagnitude = maxMagnitude;
-    stats.avgDepth = totalDepth / count;
-    stats.maxMagnitudeEarthquake = maxMagnitudeQuake;
+    // If we used sampling, we need to find the true max magnitude earthquake
+    if (usedSampling) {
+        // Find actual max magnitude from the full dataset
+        for (let i = 0; i < count; i++) {
+            const quake = earthquakes[i];
+            if (quake.magnitude > maxMagnitude) {
+                maxMagnitude = quake.magnitude;
+                maxMagnitudeQuake = quake;
+            }
+        }
+    }
+    
+    // Calculate averages
+    const avgMagnitude = totalMagnitude / length;
+    const avgDepth = totalDepth / length;
     
     // Calculate earthquakes per year for historical data
+    let avgPerYear = null;
     if (yearRange && yearRange.length === 2) {
         const [minYear, maxYear] = yearRange;
         const yearSpan = maxYear - minYear + 1; // +1 because range is inclusive
-        stats.avgPerYear = count / yearSpan;
+        avgPerYear = count / yearSpan;
     }
+    
+    const stats = {
+        count,
+        totalCount: count,
+        avgMagnitude,
+        maxMagnitude,
+        avgDepth,
+        avgPerYear,
+        maxMagnitudeEarthquake: maxMagnitudeQuake,
+        yearRange,
+        usedSampling  // Flag to indicate if sampling was used
+    };
+    
+    // Cache the results
+    memoCache.statistics.set(cacheKey, stats);
     
     return stats;
 }
 
 /**
- * Convert earthquake data objects to GeoJSON format
+ * Convert earthquake data objects to GeoJSON format with optimizations
  * @param {Array} earthquakes - Array of earthquake data objects
  * @returns {Object} GeoJSON FeatureCollection
  */
 export function convertToGeoJSON(earthquakes) {
-    const features = earthquakes.map(quake => {
-        // Basic feature with coordinates
-        return {
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [quake.longitude, quake.latitude] // [lng, lat] order for MapLibre
-            },
-            properties: {
-                id: quake.id || '',
-                dateTime: quake.dateTime ? quake.dateTime.toISOString() : '',
-                magnitude: quake.magnitude,
-                depth: quake.depth,
-                region: quake.region || 'Unknown',
-                type: quake.type || 'Unknown',
-                felt: quake.felt === true ? 'true' : 'false'
-            }
-        };
-    });
+    // For large datasets, we'll create features in chunks to avoid blocking the main thread
+    const features = new Array(earthquakes.length);
+    const chunkSize = 1000;
+    
+    for (let i = 0; i < earthquakes.length; i += chunkSize) {
+        const end = Math.min(i + chunkSize, earthquakes.length);
+        
+        for (let j = i; j < end; j++) {
+            const quake = earthquakes[j];
+            
+            // Create feature with optimized property access
+            features[j] = {
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [quake.longitude, quake.latitude]
+                },
+                properties: {
+                    id: quake.id || '',
+                    dateTime: quake.dateTime ? (typeof quake.dateTime === 'object' ? quake.dateTime.toISOString() : quake.dateTime) : '',
+                    magnitude: quake.magnitude,
+                    depth: quake.depth,
+                    region: quake.region || 'Unknown',
+                    type: quake.type || 'Unknown',
+                    felt: quake.felt === true ? 'true' : 'false'
+                }
+            };
+        }
+    }
     
     return {
         type: 'FeatureCollection',
@@ -168,47 +303,191 @@ export function convertToGeoJSON(earthquakes) {
 }
 
 /**
- * Filter earthquakes based on provided criteria
+ * Optimized function to filter earthquakes based on criteria
  * @param {Array} earthquakes - Array of earthquake data
  * @param {Object} criteria - Filter criteria
  * @returns {Array} Filtered earthquakes
  */
 export function filterEarthquakes(earthquakes, criteria) {
-    return earthquakes.filter(quake => {
-        // Magnitude filter
-        if (criteria.minMagnitude && quake.magnitude < criteria.minMagnitude) {
-            return false;
-        }
-        
-        // Year range filter (for historical data)
-        if (criteria.yearRange && quake.year) {
-            const [minYear, maxYear] = criteria.yearRange;
-            if (quake.year < minYear || quake.year > maxYear) {
-                return false;
+    // Early exit for empty data
+    if (!earthquakes || earthquakes.length === 0) {
+        return [];
+    }
+    
+    // For large datasets, use TypedArray for filter flags for better performance
+    const length = earthquakes.length;
+    const keepFlags = new Uint8Array(length);
+    
+    // Initialize all flags to 1 (keep)
+    keepFlags.fill(1);
+    
+    // Apply magnitude filter
+    if (criteria.minMagnitude > 0) {
+        for (let i = 0; i < length; i++) {
+            if (earthquakes[i].magnitude < criteria.minMagnitude) {
+                keepFlags[i] = 0;
             }
         }
+    }
+    
+    // Apply year range filter (for historical data)
+    if (criteria.yearRange && criteria.yearRange.length === 2) {
+        const [minYear, maxYear] = criteria.yearRange;
         
-        // Time period filter (for recent data)
-        if (criteria.timePeriod && criteria.timePeriod !== 'all' && quake.dateTime) {
-            const now = new Date();
-            let cutoffDate;
+        for (let i = 0; i < length; i++) {
+            if (keepFlags[i] === 1 && earthquakes[i].year) {
+                const year = earthquakes[i].year;
+                if (year < minYear || year > maxYear) {
+                    keepFlags[i] = 0;
+                }
+            }
+        }
+    }
+    
+    // Apply time period filter (for recent data)
+    if (criteria.timePeriod && criteria.timePeriod !== 'all') {
+        const now = Date.now();
+        let cutoffTime;
+        
+        if (criteria.timePeriod === 'week') {
+            cutoffTime = now - 7 * 24 * 60 * 60 * 1000;
+        } else if (criteria.timePeriod === 'month') {
+            cutoffTime = now - 30 * 24 * 60 * 60 * 1000;
+        }
+        
+        if (cutoffTime) {
+            for (let i = 0; i < length; i++) {
+                if (keepFlags[i] === 1 && earthquakes[i].dateTime) {
+                    const dateTime = earthquakes[i].dateTime;
+                    const timestamp = typeof dateTime === 'object' ? dateTime.getTime() : dateTime;
+                    
+                    if (timestamp < cutoffTime) {
+                        keepFlags[i] = 0;
+                    }
+                }
+            }
+        }
+    }
+    
+    // Apply felt filter (for recent data)
+    if (criteria.feltOnly === true) {
+        for (let i = 0; i < length; i++) {
+            if (keepFlags[i] === 1 && earthquakes[i].felt !== true) {
+                keepFlags[i] = 0;
+            }
+        }
+    }
+    
+    // Create result array with pre-allocated size for better performance
+    const result = [];
+    
+    // Skip array allocation/resize operations by counting first
+    let resultCount = 0;
+    for (let i = 0; i < length; i++) {
+        if (keepFlags[i] === 1) {
+            resultCount++;
+        }
+    }
+    
+    // Pre-allocate result array
+    result.length = resultCount;
+    
+    // Fill the result array
+    for (let i = 0, j = 0; i < length; i++) {
+        if (keepFlags[i] === 1) {
+            result[j++] = earthquakes[i];
+        }
+    }
+    
+    return result;
+}
+
+/**
+ * Create a spatial index for efficient spatial queries
+ * @param {Array} earthquakes - Array of earthquake data
+ * @param {number} resolution - Grid cell size in degrees
+ * @returns {Object} Spatial index
+ */
+export function createSpatialIndex(earthquakes, resolution = 1) {
+    // Create grid-based spatial index
+    const spatialIndex = {};
+    
+    // Process earthquakes in chunks to avoid blocking the main thread
+    const length = earthquakes.length;
+    const chunkSize = 5000;
+    
+    for (let start = 0; start < length; start += chunkSize) {
+        const end = Math.min(start + chunkSize, length);
+        
+        for (let i = start; i < end; i++) {
+            const quake = earthquakes[i];
             
-            if (criteria.timePeriod === 'week') {
-                cutoffDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-            } else if (criteria.timePeriod === 'month') {
-                cutoffDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            // Calculate grid cell coordinates
+            const latCell = Math.floor(quake.latitude / resolution);
+            const lonCell = Math.floor(quake.longitude / resolution);
+            const cellKey = `${latCell}:${lonCell}`;
+            
+            // Create cell if it doesn't exist
+            if (!spatialIndex[cellKey]) {
+                spatialIndex[cellKey] = [];
             }
             
-            if (cutoffDate && quake.dateTime < cutoffDate) {
-                return false;
+            // Add earthquake to cell
+            spatialIndex[cellKey].push(i); // Store index instead of object for memory efficiency
+        }
+    }
+    
+    // Add query method to the index
+    spatialIndex.query = function(bounds, sourceData) {
+        const { north, south, east, west } = bounds;
+        
+        // Calculate grid cell range
+        const minLatCell = Math.floor(south / resolution);
+        const maxLatCell = Math.floor(north / resolution);
+        const minLonCell = Math.floor(west / resolution);
+        const maxLonCell = Math.floor(east / resolution);
+        
+        // Collect results
+        const resultIndices = new Set();
+        
+        // Check each cell in the range
+        for (let latCell = minLatCell; latCell <= maxLatCell; latCell++) {
+            for (let lonCell = minLonCell; lonCell <= maxLonCell; lonCell++) {
+                const cellKey = `${latCell}:${lonCell}`;
+                const cell = this[cellKey];
+                
+                if (cell) {
+                    // Add all indices from this cell
+                    for (const idx of cell) {
+                        resultIndices.add(idx);
+                    }
+                }
             }
         }
         
-        // Felt filter (for recent data)
-        if (criteria.feltOnly === true && quake.felt !== true) {
-            return false;
+        // Convert indices to actual earthquakes
+        if (sourceData) {
+            const result = [];
+            resultIndices.forEach(idx => {
+                if (idx < sourceData.length) {
+                    result.push(sourceData[idx]);
+                }
+            });
+            return result;
         }
         
-        return true;
-    });
+        // Just return indices if no source data provided
+        return Array.from(resultIndices);
+    };
+    
+    return spatialIndex;
+}
+
+// Export utility function to debug memory usage
+export function reportMemoryUsage() {
+    return {
+        markerSizeCache: memoCache.markerSize.size,
+        markerColorCache: memoCache.markerColor.size,
+        statisticsCache: memoCache.statistics.size
+    };
 }

@@ -32,6 +32,9 @@ export class TabControls {
         
         // Set up event listeners for tab switching
         this.setupEventListeners();
+        
+        // Preload historical data for faster switching
+        this.preloadHistoricalData();
     }
     
     /**
@@ -53,6 +56,31 @@ export class TabControls {
         this.historicalTab.addEventListener('click', () => {
             this.switchToTab('historical');
         });
+    }
+    
+    /**
+     * Preload historical data for faster tab switching
+     * @private
+     */
+    preloadHistoricalData() {
+        // Queue historical data loading in the background
+        setTimeout(() => {
+            const state = stateManager.getState();
+            if (!state.dataLoaded.historical && !state.historicalDataLoading) {
+                console.log('Preloading historical data in background');
+                stateManager.setState({ historicalDataLoading: true });
+                
+                dataService.loadHistoricalData(false)
+                    .then(() => {
+                        console.log('Historical data preloaded successfully');
+                        stateManager.setState({ historicalDataLoading: false });
+                    })
+                    .catch(error => {
+                        console.warn('Historical data preload failed:', error);
+                        stateManager.setState({ historicalDataLoading: false });
+                    });
+            }
+        }, 3000); // Start after 3 seconds to ensure recent data has loaded first
     }
     
     /**
@@ -84,18 +112,22 @@ export class TabControls {
             if (tabName === 'recent') {
                 if (!currentState.dataLoaded.recent) {
                     await this.loadRecentData();
+                } else {
+                    // Apply filters to ensure data is displayed
+                    dataService.applyFilters();
                 }
             } else {
+                // Historical tab - always try to load the data if not loaded
                 if (!currentState.dataLoaded.historical) {
                     await this.loadHistoricalData();
                 } else {
-                    // Make sure data is displayed even if already loaded
-                    dataService.ensureDisplayedData('historical');
+                    // Apply filters to ensure data is displayed
+                    dataService.applyFilters();
                 }
             }
             
-            // Always apply filters to the newly active dataset
-            dataService.applyFilters();
+            // Always ensure the dataset is displayed
+            dataService.ensureDisplayedData(tabName);
             
             // Ensure data is displayed by explicitly calling renderData
             if (mapService && typeof mapService.renderData === 'function') {
@@ -150,10 +182,14 @@ export class TabControls {
             try {
                 await dataService.loadRecentData();
                 dataService.updateLastUpdatedTime();
+                dataService.applyFilters(); // Apply filters after loading
             } catch (error) {
                 console.error('Error loading recent data:', error);
                 throw error;
             }
+        } else {
+            // If data is already loaded, still apply filters
+            dataService.applyFilters();
         }
     }
     
@@ -167,10 +203,14 @@ export class TabControls {
         if (!state.dataLoaded.historical) {
             try {
                 await dataService.loadHistoricalData();
+                dataService.applyFilters(); // Apply filters after loading
             } catch (error) {
                 console.error('Error loading historical data:', error);
                 throw error;
             }
+        } else {
+            // If data is already loaded, still apply filters
+            dataService.applyFilters();
         }
     }
     

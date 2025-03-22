@@ -244,7 +244,6 @@ export class Map {
             }
             
             // Resize the map to match the new container size
-            // IMPORTANT: Check if resize is available before calling it
             if (this.map && typeof this.map.resize === 'function') {
                 this.map.resize();
             } else {

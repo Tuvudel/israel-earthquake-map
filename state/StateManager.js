@@ -8,10 +8,15 @@ class StateManager {
     constructor(initialState) {
         this.state = {...initialState};
         this.listeners = [];
-        this.previousState = {...initialState}; // Keep track of previous state for change detection
+        this.previousState = structuredClone(initialState); // Use structuredClone instead of JSON.parse/stringify
         this.updateQueue = []; // Queue updates to batch them
         this.isProcessingUpdates = false; // Flag to track if we're processing updates
         this.updateScheduled = false; // Flag to track if an update is scheduled
+        this.lastUpdateTime = 0; // Track last update time for throttling
+        
+        // Cache for memoized operations
+        this.stateCache = new Map();
+        this.cacheTimeout = null;
     }
 
     /**
@@ -19,6 +24,42 @@ class StateManager {
      */
     getState() {
         return {...this.state};
+    }
+    
+    /**
+     * Get a specific part of the state with memoization
+     * @param {string} path - Path to the state property
+     * @param {boolean} useCache - Whether to use cached value
+     */
+    getStateSection(path, useCache = true) {
+        if (!path) return this.getState();
+        
+        if (useCache && this.stateCache.has(path)) {
+            return this.stateCache.get(path);
+        }
+        
+        const parts = path.split('.');
+        let value = this.state;
+        
+        for (const part of parts) {
+            if (value === null || value === undefined) return undefined;
+            value = value[part];
+        }
+        
+        // Cache the value
+        if (useCache) {
+            this.stateCache.set(path, structuredClone(value));
+            
+            // Clear cache after some time
+            if (!this.cacheTimeout) {
+                this.cacheTimeout = setTimeout(() => {
+                    this.stateCache.clear();
+                    this.cacheTimeout = null;
+                }, 5000);
+            }
+        }
+        
+        return value;
     }
 
     /**
@@ -28,6 +69,24 @@ class StateManager {
      * @param {*} [value] - Value to set (if path is provided)
      */
     setState(pathOrState, value) {
+        // Throttle updates to prevent excessive processing
+        const now = performance.now();
+        const timeSinceLastUpdate = now - this.lastUpdateTime;
+        
+        if (timeSinceLastUpdate < 16) { // Basic 60fps throttling
+            // Queue the update
+            this.updateQueue.push({pathOrState, value});
+            
+            // Schedule processing of updates if not already scheduled
+            if (!this.updateScheduled) {
+                this.updateScheduled = true;
+                
+                // Use requestAnimationFrame for smoother UI
+                requestAnimationFrame(() => this._processUpdates());
+            }
+            return;
+        }
+        
         // Queue the update
         this.updateQueue.push({pathOrState, value});
         
@@ -54,8 +113,9 @@ class StateManager {
             // Start timing for performance tracking
             const startTime = performance.now();
             
-            // Store a copy of the previous state
-            this.previousState = JSON.parse(JSON.stringify(this.state));
+            // Store a copy of the previous state (only for affected paths)
+            const affectedPaths = new Set();
+            const updateSnapshot = [...this.updateQueue];
             
             // Apply all queued updates
             while (this.updateQueue.length > 0) {
@@ -63,16 +123,16 @@ class StateManager {
                 
                 // Case 1: Object update
                 if (typeof pathOrState === 'object' && value === undefined) {
-                    this._updateWithObject(pathOrState);
+                    this._updateWithObject(pathOrState, affectedPaths);
                 } 
                 // Case 2: Path-based update
                 else if (typeof pathOrState === 'string') {
-                    this._updateWithPath(pathOrState, value);
+                    this._updateWithPath(pathOrState, value, affectedPaths);
                 }
             }
             
-            // Find what parts of the state have changed
-            const changedPaths = this._getChangedPaths();
+            // Convert paths set to array
+            const changedPaths = Array.from(affectedPaths);
             
             // Only notify listeners if something actually changed
             if (changedPaths.length > 0) {
@@ -83,6 +143,21 @@ class StateManager {
             const renderDuration = performance.now() - startTime;
             this.state.performance.lastRenderTime = Date.now();
             this.state.performance.renderDuration = renderDuration;
+            this.lastUpdateTime = performance.now();
+            
+            // Clear affected sections from cache
+            changedPaths.forEach(path => {
+                this.stateCache.delete(path);
+                
+                // Also delete parent paths
+                const parts = path.split('.');
+                while (parts.length > 0) {
+                    parts.pop();
+                    if (parts.length > 0) {
+                        this.stateCache.delete(parts.join('.'));
+                    }
+                }
+            });
             
             console.debug('State update completed in', renderDuration.toFixed(2), 'ms');
         } catch (error) {
@@ -93,7 +168,7 @@ class StateManager {
             // If more updates were queued during processing, process them
             if (this.updateQueue.length > 0) {
                 this.updateScheduled = true;
-                queueMicrotask(() => this._processUpdates());
+                requestAnimationFrame(() => this._processUpdates());
             }
         }
     }
@@ -102,16 +177,16 @@ class StateManager {
      * Private method to update state with an object
      * @private
      */
-    _updateWithObject(newPartialState) {
+    _updateWithObject(newPartialState, affectedPaths) {
         // Merge the new partial state with current state
-        this._mergeStates(this.state, newPartialState);
+        this._mergeStates(this.state, newPartialState, '', affectedPaths);
     }
 
     /**
      * Private method to update state with a path and value
      * @private
      */
-    _updateWithPath(path, value) {
+    _updateWithPath(path, value, affectedPaths) {
         const parts = path.split('.');
         let current = this.state;
         
@@ -129,15 +204,23 @@ class StateManager {
         
         // Set the value at the specified path
         const finalPart = parts[parts.length - 1];
-        current[finalPart] = value;
+        const oldValue = current[finalPart];
+        
+        // Only update if value is different
+        if (!Object.is(oldValue, value)) {
+            current[finalPart] = value;
+            affectedPaths.add(path);
+        }
     }
 
     /**
      * Private method to recursively merge objects
      * @private
      */
-    _mergeStates(target, source) {
+    _mergeStates(target, source, path = '', affectedPaths) {
         Object.keys(source).forEach(key => {
+            const currentPath = path ? `${path}.${key}` : key;
+            
             if (
                 source[key] !== null && 
                 typeof source[key] === 'object' && 
@@ -146,61 +229,19 @@ class StateManager {
                 // Create an empty object if target[key] is null or undefined
                 if (target[key] === null || target[key] === undefined) {
                     target[key] = {};
+                    affectedPaths.add(currentPath);
                 }
                 
                 // Recursively merge nested objects
-                this._mergeStates(target[key], source[key]);
+                this._mergeStates(target[key], source[key], currentPath, affectedPaths);
             } else {
                 // Direct assignment for primitives, arrays, etc.
-                target[key] = source[key];
+                if (!Object.is(target[key], source[key])) {
+                    target[key] = source[key];
+                    affectedPaths.add(currentPath);
+                }
             }
         });
-    }
-
-    /**
-     * Get a list of paths that have changed between previous and current state
-     * @private
-     * @returns {Array} Array of path strings that have changed
-     */
-    _getChangedPaths() {
-        const paths = [];
-        
-        // Helper function to compare objects recursively
-        const compareObjects = (prevObj, newObj, path = '') => {
-            // Check all keys in new object
-            for (const key of Object.keys(newObj)) {
-                const currentPath = path ? `${path}.${key}` : key;
-                
-                // If key doesn't exist in previous object, it's new
-                if (!(key in prevObj)) {
-                    paths.push(currentPath);
-                    continue;
-                }
-                
-                // If both values are objects (but not arrays), recurse
-                if (
-                    typeof newObj[key] === 'object' && newObj[key] !== null && !Array.isArray(newObj[key]) &&
-                    typeof prevObj[key] === 'object' && prevObj[key] !== null && !Array.isArray(prevObj[key])
-                ) {
-                    compareObjects(prevObj[key], newObj[key], currentPath);
-                }
-                // If values are different, record the path
-                else if (JSON.stringify(newObj[key]) !== JSON.stringify(prevObj[key])) {
-                    paths.push(currentPath);
-                }
-            }
-            
-            // Check for deleted keys
-            for (const key of Object.keys(prevObj)) {
-                if (!(key in newObj)) {
-                    const currentPath = path ? `${path}.${key}` : key;
-                    paths.push(currentPath);
-                }
-            }
-        };
-        
-        compareObjects(this.previousState, this.state);
-        return paths;
     }
 
     /**
@@ -229,15 +270,14 @@ class StateManager {
      * @param {Array} changedPaths - Array of paths that have changed
      */
     _notifyListeners(changedPaths) {
+        const changedPathsSet = new Set(changedPaths);
+        
         // For each listener, check if its selector is affected by the changed paths
         this.listeners.forEach(({ callback, selector }) => {
             try {
                 // If a selector is provided, only call the listener if the selected state is affected
                 if (selector) {
                     const selectedState = selector(this.state);
-                    
-                    // This is a simplified check - in a real implementation, you'd want to
-                    // determine if the selector's result depends on any of the changed paths
                     callback(selectedState, this.state);
                 } else {
                     // Otherwise, call with the full state
