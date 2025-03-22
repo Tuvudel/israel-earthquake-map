@@ -307,7 +307,10 @@ window.DataManager = {};
      */
     function applyRecentFilters() {
         try {
-            const { minMagnitude, timePeriod, feltOnly } = AppState.filters.recent;
+            // Get filters from AppState, using safe defaults if properties are missing
+            const minMagnitude = AppState.filters.recent.minMagnitude || 0;
+            const timePeriod = AppState.filters.recent.timePeriod || 'month';
+            const feltOnly = AppState.filters.recent.feltOnly === true;
             
             // Start with all data
             let filtered = [...AppState.data.recent.raw];
@@ -321,8 +324,8 @@ window.DataManager = {};
                 console.log(`After magnitude filter: ${filtered.length} earthquakes`);
             }
             
-            // Apply felt filter - only if explicitly true (not undefined, null, or false)
-            if (feltOnly === true) {
+            // Apply felt filter
+            if (feltOnly) {
                 // Log some data to help debug
                 const feltQuakes = filtered.filter(quake => quake.felt === true);
                 console.log(`Found ${feltQuakes.length} felt earthquakes before applying filter`);
@@ -364,134 +367,69 @@ window.DataManager = {};
     function applyHistoricalFilters() {
         console.time('applyHistoricalFilters');
         
-        const { minMagnitude, yearRange } = AppState.filters.historical;
-        let filtered = [];
-        
-        // Use indexed data for faster filtering
-        if (AppState.data.historical.indexed.byYear && Object.keys(AppState.data.historical.indexed.byYear).length > 0) {
-            // Optimization: Use year index to quickly get earthquakes in the year range
-            if (yearRange && yearRange.length === 2) {
-                const [minYear, maxYear] = yearRange;
-                
-                // Only loop through the years in our range
-                for (let year = minYear; year <= maxYear; year++) {
-                    const quakesInYear = AppState.data.historical.indexed.byYear[year] || [];
+        try {
+            // Get filters from AppState, using safe defaults if properties are missing
+            const minMagnitude = AppState.filters.historical.minMagnitude || 0;
+            const yearRange = AppState.filters.historical.yearRange || [
+                CONFIG.years.min, 
+                CONFIG.years.max
+            ];
+            
+            let filtered = [];
+            
+            // Use indexed data for faster filtering
+            if (AppState.data.historical.indexed.byYear && Object.keys(AppState.data.historical.indexed.byYear).length > 0) {
+                // Optimization: Use year index to quickly get earthquakes in the year range
+                if (yearRange && yearRange.length === 2) {
+                    const [minYear, maxYear] = yearRange;
                     
-                    // If we also have a magnitude filter, apply it
-                    if (minMagnitude > 0) {
-                        quakesInYear.forEach(quake => {
-                            if (quake.magnitude >= minMagnitude) {
-                                filtered.push(quake);
-                            }
-                        });
-                    } else {
-                        // No magnitude filter, add all quakes for this year
-                        filtered = filtered.concat(quakesInYear);
+                    // Only loop through the years in our range
+                    for (let year = minYear; year <= maxYear; year++) {
+                        const quakesInYear = AppState.data.historical.indexed.byYear[year] || [];
+                        
+                        // If we also have a magnitude filter, apply it
+                        if (minMagnitude > 0) {
+                            quakesInYear.forEach(quake => {
+                                if (quake.magnitude >= minMagnitude) {
+                                    filtered.push(quake);
+                                }
+                            });
+                        } else {
+                            // No magnitude filter, add all quakes for this year
+                            filtered = filtered.concat(quakesInYear);
+                        }
                     }
                 }
+            } else {
+                // Fallback to standard filtering if indices aren't available
+                filtered = [...AppState.data.historical.raw];
+                
+                // Apply magnitude filter
+                if (minMagnitude > 0) {
+                    filtered = filtered.filter(quake => quake.magnitude >= minMagnitude);
+                }
+                
+                // Apply year range filter
+                if (yearRange && yearRange.length === 2) {
+                    const [minYear, maxYear] = yearRange;
+                    filtered = filtered.filter(quake => {
+                        if (quake.year) {
+                            return quake.year >= minYear && quake.year <= maxYear;
+                        }
+                        return false;
+                    });
+                }
             }
-        } else {
-            // Fallback to standard filtering if indices aren't available
-            filtered = [...AppState.data.historical.raw];
             
-            // Apply magnitude filter
-            if (minMagnitude > 0) {
-                filtered = filtered.filter(quake => quake.magnitude >= minMagnitude);
-            }
-            
-            // Apply year range filter
-            if (yearRange && yearRange.length === 2) {
-                const [minYear, maxYear] = yearRange;
-                filtered = filtered.filter(quake => {
-                    if (quake.year) {
-                        return quake.year >= minYear && quake.year <= maxYear;
-                    }
-                    return false;
-                });
-            }
+            AppState.data.historical.filtered = filtered;
+            console.log(`Applied filters: ${filtered.length} historical earthquakes match criteria`);
+        } catch (err) {
+            console.error('Error applying historical filters:', err);
+            // Fallback to unfiltered data
+            AppState.data.historical.filtered = [...AppState.data.historical.raw];
         }
         
-        AppState.data.historical.filtered = filtered;
-        
-        // Apply adaptive sampling only if not using clustering
-        if (AppState.renderMode.historical !== 'cluster') {
-            applyAdaptiveSampling();
-            console.log(`After sampling: ${AppState.data.historical.displayed.length} earthquakes will be displayed`);
-        } else {
-            // When clustering, we can use all data points - clustering handles performance
-            AppState.data.historical.displayed = filtered;
-            console.log(`Using all ${filtered.length} earthquakes with clustering`);
-        }
-        
-        console.log(`Applied filters: ${filtered.length} historical earthquakes match criteria`);
         console.timeEnd('applyHistoricalFilters');
-    }
-    
-    /**
-     * Apply adaptive sampling to reduce the number of points based on zoom level
-     */
-    function applyAdaptiveSampling() {
-        console.time('applyAdaptiveSampling');
-        
-        const { filtered } = AppState.data.historical;
-        const currentZoom = AppState.currentZoom;
-        
-        // Find the appropriate sample rate for the current zoom level
-        let sampleRate = 1.0; // Default: show all points
-        
-        for (let i = 0; i < CONFIG.render.sampling.zoomThresholds.length; i++) {
-            const threshold = CONFIG.render.sampling.zoomThresholds[i];
-            if (currentZoom <= threshold.zoom) {
-                sampleRate = threshold.sampleRate;
-                break;
-            }
-        }
-        
-        // If we're showing everything, no need for sampling
-        if (sampleRate >= 1.0) {
-            AppState.data.historical.displayed = filtered;
-            console.timeEnd('applyAdaptiveSampling');
-            return;
-        }
-        
-        // Determine how many points to show
-        const totalPoints = filtered.length;
-        const pointsToShow = Math.max(1, Math.floor(totalPoints * sampleRate));
-        
-        let sampled;
-        
-        if (CONFIG.render.sampling.prioritizeByCriteria) {
-            // Sort by magnitude (descending) so we prioritize larger earthquakes
-            sampled = [...filtered].sort((a, b) => b.magnitude - a.magnitude);
-            // Take the top N points
-            sampled = sampled.slice(0, pointsToShow);
-        } else {
-            // Random sampling (using reservoir sampling algorithm)
-            sampled = [];
-            
-            // Always include first N points
-            for (let i = 0; i < pointsToShow && i < totalPoints; i++) {
-                sampled.push(filtered[i]);
-            }
-            
-            // For each remaining point, randomly decide if it should replace an existing one
-            for (let i = pointsToShow; i < totalPoints; i++) {
-                const j = Math.floor(Math.random() * (i + 1));
-                if (j < pointsToShow) {
-                    sampled[j] = filtered[i];
-                }
-            }
-        }
-        
-        // Filter points to only those in current viewport if we're working with a large dataset
-        if (AppState.viewportBounds && filtered.length > 1000) {
-            sampled = sampled.filter(quake => 
-                AppState.viewportBounds.contains([quake.latitude, quake.longitude])
-            );
-        }
-        
-        AppState.data.historical.displayed = sampled;
-        console.timeEnd('applyAdaptiveSampling');
     }
     
     /**
@@ -502,8 +440,7 @@ window.DataManager = {};
         if (AppState.activeDataset === 'recent') {
             return AppState.data.recent.filtered;
         } else {
-            // For historical data, return the subsampled/displayed data
-            return AppState.data.historical.displayed;
+            return AppState.data.historical.filtered;
         }
     }
     

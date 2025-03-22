@@ -6,7 +6,9 @@
     background-color: rgba(76, 175, 80, 0.1);
     border-radius: 4px;
     display: inline-block;
-}/* Base styles */
+}
+
+/* Base styles */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -131,39 +133,47 @@ footer {
     border-top: 1px solid #ddd;
 }
 
-/* Earthquake marker styling */
-.earthquake-marker {
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-weight: bold;
-    font-size: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-/* Earthquake cluster styling */
-.earthquake-cluster {
-    background-clip: padding-box;
-    border-radius: 50%;
-}
-
-.earthquake-cluster div {
+/* MapLibre Popup styles */
+.maplibre-popup {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    padding: 10px;
+    z-index: 1000;
+    max-width: 300px;
     font-size: 14px;
-    color: #fff;
-    font-weight: bold;
-    text-shadow: 0 1px 1px rgba(0,0,0,0.6);
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-    opacity: 0.9;
-    transform: scale(1);
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transform: translate(-50%, -100%);
+    margin-top: -15px;
 }
 
-.earthquake-cluster div:hover {
-    opacity: 1;
-    transform: scale(1.05);
+.maplibre-popup-content {
+    margin-right: 20px;
+}
+
+.maplibre-popup:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+}
+
+.maplibre-popup-close {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    font-size: 16px;
+    color: #999;
+    cursor: pointer;
+}
+
+.maplibre-popup-close:hover {
+    color: #333;
 }
 
 /* Year range slider styles */
@@ -194,6 +204,9 @@ footer {
 
 /* Map legend styles */
 .legend {
+    position: absolute;
+    bottom: 30px;
+    right: 10px;
     background: white;
     padding: 10px;
     border-radius: 5px;
@@ -201,6 +214,7 @@ footer {
     line-height: 1.4;
     max-width: 240px;
     font-size: 0.9rem;
+    z-index: 10;
 }
 
 .legend-item {
@@ -297,8 +311,7 @@ footer {
     display: none;
 }
 
-/* Tab styles - MODIFIED */
-/* Tab group container - MODIFIED */
+/* Tab styles */
 .tab-group {
     display: flex;
     gap: 2px;
@@ -307,7 +320,6 @@ footer {
     z-index: 1;
 }
 
-/* Tab buttons - MODIFIED */
 .tab-button {
     flex: 1;
     padding: 0.5rem;
@@ -325,13 +337,11 @@ footer {
     top: 3px;
 }
 
-/* Tab hover effect - NEW */
 .tab-button:hover:not(.active) {
     background-color: #d1d5d9;
     color: #333;
 }
 
-/* Active tab - MODIFIED */
 .tab-button.active {
     background-color: #4682B4;
     color: white;
@@ -340,7 +350,6 @@ footer {
     z-index: 1;
 }
 
-/* Tab content - MODIFIED */
 .tab-content {
     display: none;
     padding: 1rem;
@@ -352,7 +361,6 @@ footer {
     z-index: 0;
 }
 
-/* Active tab content - MODIFIED */
 .tab-content.active {
     display: block;
     border-top: 3px solid #4682B4;
@@ -410,28 +418,6 @@ footer {
     z-index: 1000;
 }
 
-/* Custom marker cluster color overrides */
-.marker-cluster-small {
-    background-color: rgba(181, 226, 140, 0.7);
-}
-.marker-cluster-small div {
-    background-color: rgba(110, 204, 57, 0.8);
-}
-
-.marker-cluster-medium {
-    background-color: rgba(241, 211, 87, 0.7);
-}
-.marker-cluster-medium div {
-    background-color: rgba(240, 194, 12, 0.8);
-}
-
-.marker-cluster-large {
-    background-color: rgba(253, 156, 115, 0.7);
-}
-.marker-cluster-large div {
-    background-color: rgba(241, 128, 23, 0.8);
-}
-
 /* Tooltip styling */
 .cluster-tooltip {
     background-color: rgba(255, 255, 255, 0.9);
@@ -442,54 +428,7 @@ footer {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-.cluster-tooltip::before {
-    border-top-color: #4682B4;
-}
-
-.leaflet-tooltip-top.cluster-tooltip::before {
-    border-top-color: #4682B4;
-}
-
-/* Plate boundary styling */
-.plate-boundary {
-    animation: pulse-boundary 3s infinite;
-    stroke-width: 5px;
-    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.8));
-    z-index: 1000 !important;
-    pointer-events: all;
-}
-
-@keyframes pulse-boundary {
-    0% { stroke-opacity: 0.8; stroke-width: 5px; }
-    50% { stroke-opacity: 1; stroke-width: 6px; }
-    100% { stroke-opacity: 0.8; stroke-width: 5px; }
-}
-
-/* Ensure fault lines are visible on all backgrounds */
-.leaflet-overlay-pane path.plate-boundary {
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.boundary-tooltip {
-    background-color: rgba(255, 255, 255, 0.9);
-    border: 1px solid #FF5733;
-    border-radius: 4px;
-    padding: 6px 8px;
-    font-size: 13px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Highlight and pulse effect for max magnitude earthquake */
-.highlight-marker {
-    z-index: 1000 !important;
-}
-
-/* Standard pulse marker animation */
-.pulse-marker {
-    animation: pulse-animation 1.5s infinite;
-}
-
+/* Pulse effect for max magnitude earthquake */
 @keyframes pulse-animation {
     0% {
         opacity: 0.6;
@@ -503,12 +442,6 @@ footer {
         opacity: 0.6;
         transform: scale(0.8);
     }
-}
-
-/* Enhanced pulse animation for max magnitude marker */
-.max-pulse-marker {
-    animation: max-pulse-animation 1.2s infinite;
-    z-index: 9998 !important;
 }
 
 @keyframes max-pulse-animation {
@@ -580,6 +513,35 @@ footer {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+
+/* MapLibre GL JS specific styles */
+.maplibregl-popup {
+    max-width: 300px;
+}
+
+.maplibregl-popup-content {
+    padding: 12px;
+    font-size: 13px;
+    border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.maplibregl-popup-close-button {
+    font-size: 16px;
+    padding: 0 6px;
+}
+
+/* Custom markers for highlighted earthquakes */
+.highlighted-earthquake {
+    background-color: #FF00FF;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    animation: max-pulse-animation 1.2s infinite;
 }
 
 /* Responsive adjustments */

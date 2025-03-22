@@ -46,7 +46,7 @@ window.Utils = {};
         // Get current zoom level to adjust marker size
         const currentZoom = AppState.currentZoom || 6;
         // Calculate a zoom factor - at lower zoom levels we need larger markers
-        // to maintain visibility of the difference between magnitudes
+        // to maintain visibility
         const zoomFactor = Math.max(0.8, (10 - currentZoom) * 0.1 + 1);
         
         if (colorMode === 'magnitude') {
@@ -74,8 +74,6 @@ window.Utils = {};
             // Default - when coloring by depth, size is based on magnitude
             // Use cubic scale to make larger earthquakes MUCH more visually prominent
             // Calculate size using cubic formula: 4 + (magnitude^3)/2
-            // This creates a dramatic difference between magnitude levels, especially at high values
-            
             // For reference:
             // M2: 8px
             // M3: 13.5px
@@ -227,13 +225,13 @@ window.Utils = {};
             
             if (isHistorical) {
                 debugDiv.innerHTML = `
-                    Zoom: ${AppState.currentZoom} | 
+                    Zoom: ${AppState.currentZoom.toFixed(1)} | 
                     Points: ${AppState.data.historical.displayed.length}/${AppState.data.historical.filtered.length} | 
                     Render: ${AppState.performance.renderDuration}ms
                 `;
             } else {
                 debugDiv.innerHTML = `
-                    Zoom: ${AppState.currentZoom} | 
+                    Zoom: ${AppState.currentZoom.toFixed(1)} | 
                     Points: ${AppState.data.recent.filtered.length} | 
                     Render: ${AppState.performance.renderDuration}ms
                 `;

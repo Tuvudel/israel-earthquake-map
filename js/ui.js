@@ -17,12 +17,12 @@ window.UIManager = {};
         setupFilterListeners();
         setupColorModeToggle();
         setupMaxMagnitudeClick();
-        setupInfoPanelToggle(); // Add new mobile feature
-        setupResponsiveLayout(); // Add responsive layout handling
-        setupPlateBoundariesToggle(); // Add plate boundaries toggle
+        setupInfoPanelToggle();
+        setupResponsiveLayout();
+        setupPlateBoundariesToggle();
     }
     
-    /**
+  /**
      * Set up tab switching between recent and historical data
      */
     function setupTabSwitching() {
@@ -33,10 +33,18 @@ window.UIManager = {};
         const yearRangeStats = document.getElementById('year-range-stats');
         const avgPerYearStats = document.getElementById('avg-per-year-stats');
         
+        // Track if a tab switch is in progress to prevent double-switching
+        let tabSwitchInProgress = false;
+        
         // Switch to recent data tab
         recentTab.addEventListener('click', () => {
+            // Prevent multiple clicks from triggering multiple switches
+            if (tabSwitchInProgress) return;
+            tabSwitchInProgress = true;
+            
             Utils.showLoading('Loading recent earthquake data...');
             
+            // Update UI state
             recentTab.classList.add('active');
             historicalTab.classList.remove('active');
             recentFilters.classList.add('active');
@@ -44,32 +52,55 @@ window.UIManager = {};
             yearRangeStats.classList.add('hide');
             avgPerYearStats.classList.add('hide'); // Hide earthquakes per year for recent view
             
-            // Set the active dataset to recent
+            // Update app state
             AppState.activeDataset = 'recent';
             
-            // Clear all map layers before switching tabs
-            MapManager.clearAllMapLayers();
-            
-            // If recent data is loaded, display it
-            if (AppState.dataLoaded.recent) {
-                MapManager.renderCurrentData();
-                Utils.hideLoading();
-            } else {
-                DataManager.loadRecentData().then(() => {
-                    MapManager.renderCurrentData();
-                }).catch(error => {
-                    console.error('Failed to load recent data:', error);
-                    Utils.showStatus('Error loading recent earthquake data. Please try refreshing the page.', true);
-                }).finally(() => {
-                    Utils.hideLoading();
-                });
+            // Safe map layer clearing, with error handling
+            try {
+                // Clear all map layers first for a clean transition
+                MapManager.hideAllLayers();
+            } catch (err) {
+                console.warn('Error clearing map layers, continuing anyway:', err);
             }
+            
+            // Sequential process to ensure data is loaded and rendered correctly
+            const switchProcess = () => {
+                return (AppState.dataLoaded.recent ? 
+                    Promise.resolve() : 
+                    DataManager.loadRecentData()
+                ).then(() => {
+                    // Ensure filters are applied
+                    DataManager.applyFilters();
+                    
+                    // Small delay to ensure the UI has updated
+                    return new Promise(resolve => setTimeout(resolve, 50));
+                }).then(() => {
+                    console.log('Recent tab: Rendering data...');
+                    MapManager.renderCurrentData();
+                });
+            };
+            
+            // Execute the switch process with proper error handling
+            switchProcess()
+                .catch(error => {
+                    console.error('Error in tab switch to recent data:', error);
+                    Utils.showStatus('Error loading recent earthquake data. Please try refreshing the page.', true);
+                })
+                .finally(() => {
+                    Utils.hideLoading();
+                    tabSwitchInProgress = false;
+                });
         });
         
         // Switch to historical data tab
         historicalTab.addEventListener('click', () => {
+            // Prevent multiple clicks from triggering multiple switches
+            if (tabSwitchInProgress) return;
+            tabSwitchInProgress = true;
+            
             Utils.showLoading('Loading historical earthquake data...');
             
+            // Update UI state
             historicalTab.classList.add('active');
             recentTab.classList.remove('active');
             historicalFilters.classList.add('active');
@@ -77,27 +108,48 @@ window.UIManager = {};
             yearRangeStats.classList.remove('hide');
             avgPerYearStats.classList.remove('hide'); // Show earthquakes per year for historical view
             
-            // Set the active dataset to historical
+            // Update app state
             AppState.activeDataset = 'historical';
+            AppState.renderMode.historical = 'points'; // Always use points mode
             
-            // Clear all map layers before switching tabs
-            MapManager.clearAllMapLayers();
-            
-            // If historical data is loaded, display it
-            if (AppState.dataLoaded.historical) {
-                MapManager.renderCurrentData();
-                Utils.hideLoading();
-            } else {
-                // Load historical data
-                DataManager.loadHistoricalData().then(() => {
-                    MapManager.renderCurrentData();
-                }).catch(error => {
-                    console.error('Failed to load historical data:', error);
-                    Utils.showStatus('Error loading historical earthquake data. Please try refreshing the page.', true);
-                }).finally(() => {
-                    Utils.hideLoading();
-                });
+            // Safe map layer clearing, with error handling
+            try {
+                // Clear all map layers first for a clean transition
+                MapManager.hideAllLayers();
+            } catch (err) {
+                console.warn('Error clearing map layers, continuing anyway:', err);
             }
+            
+            // Create a sequential loading process to ensure correct data display
+            const switchProcess = () => {
+                // First, ensure data is loaded
+                return (AppState.dataLoaded.historical ? 
+                    Promise.resolve() : 
+                    DataManager.loadHistoricalData()
+                ).then(() => {
+                    // Ensure filters are applied after data is loaded
+                    console.log('Historical data loaded, applying filters...');
+                    DataManager.applyFilters();
+                    
+                    // Add a short delay to ensure UI has updated
+                    return new Promise(resolve => setTimeout(resolve, 50));
+                }).then(() => {
+                    // Now render the data
+                    console.log('Historical tab: Rendering data...');
+                    MapManager.renderCurrentData();
+                });
+            };
+            
+            // Execute the switch process with proper error handling
+            switchProcess()
+                .catch(error => {
+                    console.error('Error in tab switch to historical data:', error);
+                    Utils.showStatus('Error loading historical earthquake data. Please try refreshing the page.', true);
+                })
+                .finally(() => {
+                    Utils.hideLoading();
+                    tabSwitchInProgress = false;
+                });
         });
     }
     
@@ -144,9 +196,6 @@ window.UIManager = {};
                 const yearRange = values.map(Number);
                 AppState.filters.historical.yearRange = yearRange;
                 
-                // Clear all previous layers before applying new year filter
-                MapManager.clearAllMapLayers();
-                
                 if (AppState.activeDataset === 'historical') {
                     // Apply filters in a small timeout to allow UI to update
                     setTimeout(() => {
@@ -161,66 +210,65 @@ window.UIManager = {};
         });
     }
     
-/**
- * Set up the color mode toggle for both recent and historical data
- */
-function setupColorModeToggle() {
-    const recentColorMode = document.getElementById('color-mode-recent');
-    const historicalColorMode = document.getElementById('color-mode-historical');
-    
-    // Make sure we have the DOM elements
-    if (!recentColorMode || !historicalColorMode) {
-        console.error('Color mode toggle elements not found');
-        return;
-    }
-    
-    // Set initial values from AppState
-    if (window.AppState && window.AppState.colorMode) {
-        recentColorMode.value = window.AppState.colorMode.recent || 'depth';
-        historicalColorMode.value = window.AppState.colorMode.historical || 'depth';
-    }
-    
-    // Add event listeners for changes with extra debugging
-    recentColorMode.addEventListener('change', () => {
-        console.log('Color mode changed to:', recentColorMode.value);
+    /**
+     * Set up the color mode toggle for both recent and historical data
+     */
+    function setupColorModeToggle() {
+        const recentColorMode = document.getElementById('color-mode-recent');
+        const historicalColorMode = document.getElementById('color-mode-historical');
         
-        // Ensure AppState and its properties exist
-        if (!window.AppState) window.AppState = {};
-        if (!window.AppState.colorMode) window.AppState.colorMode = {};
-        
-        // Update the state
-        window.AppState.colorMode.recent = recentColorMode.value;
-        
-        if (window.AppState.activeDataset === 'recent') {
-            // Update the map with new color mode
-            console.log('Applying color mode change to map');
-            window.MapManager.renderCurrentData();
+        // Make sure we have the DOM elements
+        if (!recentColorMode || !historicalColorMode) {
+            console.error('Color mode toggle elements not found');
+            return;
         }
-    });
-    
-    historicalColorMode.addEventListener('change', () => {
-        console.log('Color mode changed to:', historicalColorMode.value);
         
-        // Ensure AppState and its properties exist
-        if (!window.AppState) window.AppState = {};
-        if (!window.AppState.colorMode) window.AppState.colorMode = {};
-        
-        // Update the state
-        window.AppState.colorMode.historical = historicalColorMode.value;
-        
-        if (window.AppState.activeDataset === 'historical') {
-            // Update the map with new color mode
-            console.log('Applying color mode change to map');
-            window.MapManager.renderCurrentData();
+        // Set initial values from AppState
+        if (window.AppState && window.AppState.colorMode) {
+            recentColorMode.value = window.AppState.colorMode.recent || 'depth';
+            historicalColorMode.value = window.AppState.colorMode.historical || 'depth';
         }
-    });
-    
-    console.log('Color mode toggles initialized successfully');
-}
+        
+        // Add event listeners for changes with extra debugging
+        recentColorMode.addEventListener('change', () => {
+            console.log('Color mode changed to:', recentColorMode.value);
+            
+            // Ensure AppState and its properties exist
+            if (!window.AppState) window.AppState = {};
+            if (!window.AppState.colorMode) window.AppState.colorMode = {};
+            
+            // Update the state
+            window.AppState.colorMode.recent = recentColorMode.value;
+            
+            if (window.AppState.activeDataset === 'recent') {
+                // Update the map with new color mode
+                console.log('Applying color mode change to map');
+                window.MapManager.renderCurrentData();
+            }
+        });
+        
+        historicalColorMode.addEventListener('change', () => {
+            console.log('Color mode changed to:', historicalColorMode.value);
+            
+            // Ensure AppState and its properties exist
+            if (!window.AppState) window.AppState = {};
+            if (!window.AppState.colorMode) window.AppState.colorMode = {};
+            
+            // Update the state
+            window.AppState.colorMode.historical = historicalColorMode.value;
+            
+            if (window.AppState.activeDataset === 'historical') {
+                // Update the map with new color mode
+                console.log('Applying color mode change to map');
+                window.MapManager.renderCurrentData();
+            }
+        });
+        
+        console.log('Color mode toggles initialized successfully');
+    }
 
     /**
      * Set up plate boundaries toggle
-     * NEW FUNCTION
      */
     function setupPlateBoundariesToggle() {
         const recentPlateBoundaries = document.getElementById('plate-boundaries-recent');
@@ -282,9 +330,13 @@ function setupColorModeToggle() {
         const historicalMagnitudeFilter = document.getElementById('historical-magnitude-filter');
         const renderModeHistorical = document.getElementById('render-mode-historical');
         
-        // Set initial render mode from AppState
-        if (window.AppState && window.AppState.renderMode) {
-            renderModeHistorical.value = window.AppState.renderMode.historical || 'cluster';
+        // Disable the render mode dropdown since we're only using points mode
+        if (renderModeHistorical) {
+            renderModeHistorical.value = 'points';
+            renderModeHistorical.disabled = true;
+            
+            // Add a title explaining why it's disabled
+            renderModeHistorical.title = "Clustering is disabled - MapLibre GL handles all points efficiently";
         }
         
         // Function to handle filter changes with debounce
@@ -311,9 +363,6 @@ function setupColorModeToggle() {
                     
                     AppState.filters.historical.minMagnitude = parseFloat(historicalMagnitudeFilter.value);
                     
-                    // Clear previous layers before applying new filters
-                    MapManager.clearAllMapLayers();
-                    
                     // Apply filters in a small timeout to allow UI to update
                     setTimeout(() => {
                         DataManager.applyFilters();
@@ -335,9 +384,6 @@ function setupColorModeToggle() {
             
             // Update render mode state
             window.AppState.renderMode.historical = renderModeHistorical.value;
-            
-            // Clear existing layers
-            MapManager.clearAllMapLayers();
             
             // If we're in historical mode, re-render with the new render mode
             if (window.AppState.activeDataset === 'historical') {
@@ -422,7 +468,6 @@ function setupColorModeToggle() {
     
     /**
      * Set up info panel toggle button for mobile view
-     * NEW FUNCTION
      */
     function setupInfoPanelToggle() {
         const toggleBtn = document.getElementById('toggle-info-panel');
@@ -470,8 +515,8 @@ function setupColorModeToggle() {
             // Force a resize event on the map after a small delay to handle the layout change
             setTimeout(function() {
                 if (window.AppState && window.AppState.map) {
-                    window.AppState.map.invalidateSize();
-                    console.log('Map size invalidated');
+                    window.AppState.map.resize();
+                    console.log('Map size updated');
                 }
             }, 300);
         });
@@ -479,7 +524,6 @@ function setupColorModeToggle() {
     
     /**
      * Setup responsive layout adjustments
-     * NEW FUNCTION
      */
     function setupResponsiveLayout() {
         console.log('Setting up responsive layout');
@@ -490,8 +534,8 @@ function setupColorModeToggle() {
             // Update map size when window is resized
             if (window.AppState && window.AppState.map) {
                 setTimeout(function() {
-                    window.AppState.map.invalidateSize();
-                    console.log('Map size invalidated after resize');
+                    window.AppState.map.resize();
+                    console.log('Map size updated after resize');
                 }, 100);
             }
         });
@@ -521,8 +565,8 @@ function setupColorModeToggle() {
                 // Force map resize
                 setTimeout(function() {
                     if (window.AppState && window.AppState.map) {
-                        window.AppState.map.invalidateSize();
-                        console.log('Map size invalidated after auto-collapse');
+                        window.AppState.map.resize();
+                        console.log('Map size updated after auto-collapse');
                     }
                 }, 300);
             }
@@ -536,8 +580,8 @@ function setupColorModeToggle() {
             console.log('Orientation changed');
             setTimeout(function() {
                 if (window.AppState && window.AppState.map) {
-                    window.AppState.map.invalidateSize();
-                    console.log('Map size invalidated after orientation change');
+                    window.AppState.map.resize();
+                    console.log('Map size updated after orientation change');
                     
                     // Re-check mobile view after orientation change
                     checkMobileView();
@@ -607,7 +651,7 @@ function setupColorModeToggle() {
             // Force map resize
             setTimeout(() => {
                 if (window.AppState && window.AppState.map) {
-                    window.AppState.map.invalidateSize();
+                    window.AppState.map.resize();
                 }
             }, 300);
         }

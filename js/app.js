@@ -5,10 +5,6 @@
 // Define AppState in the global scope immediately
 window.AppState = {
     map: null,
-    markerLayer: null,
-    canvasLayer: null,
-    clusterLayer: null, // Added for marker clustering
-    plateBoundaryOutlineLayer: null, // Added for plate boundary outline
     activeDataset: 'recent',
     currentZoom: 6, // Default zoom level, will be updated with CONFIG value
     viewportBounds: null,
@@ -44,14 +40,14 @@ window.AppState = {
             yearRange: [1981, 2023] // Default values, will be updated with CONFIG values
         }
     },
-    // New color mode setting
+    // Color mode setting
     colorMode: {
-        recent: 'depth', // Default is 'depth', alternative is 'magnitude'
-        historical: 'depth'
+        recent: 'magnitude', // Default is 'depth', alternative is 'magnitude'
+        historical: 'magnitude'
     },
     // Render mode for historical data
     renderMode: {
-        historical: 'cluster' // Default is 'cluster', alternatives are 'points'
+        historical: 'points' // Default is 'cluster', alternatives are 'points'
     },
     // Rendering performance tracking
     performance: {
@@ -61,10 +57,7 @@ window.AppState = {
     // Plate boundaries toggle state
     showPlateBoundaries: false,
     yearSlider: null,
-    selectedEarthquake: null,
-    // Dedicated worker for background data processing (future enhancement)
-    worker: null,
-    renderMethod: 'standard' // 'standard', 'canvas', or 'binned'
+    selectedEarthquake: null
 };
 
 // Define App in the global scope immediately
@@ -100,25 +93,14 @@ window.App = {};
             // Uncomment for development/testing
             // window.Utils.addDebugInfo();
             
-            // Load recent data
-            window.DataManager.loadRecentData().then(() => {
-                // Show recent data initially
-                window.MapManager.renderCurrentData();
-                window.DataManager.updateLastUpdatedTime();
-            }).catch(error => {
-                console.error('Failed to load recent data:', error);
-                window.Utils.showStatus('Error loading recent earthquake data. Please try refreshing the page.', true);
-            }).finally(() => {
-                window.Utils.hideLoading();
-            });
-            
-            // Preload historical data in the background for faster tab switching
-            setTimeout(() => {
-                window.DataManager.loadHistoricalData().catch(error => {
-                    console.warn('Background loading of historical data failed:', error);
-                    // We don't show an error message here since this is a background task
+            // Load recent data after map is fully loaded
+            if (AppState.map.loaded()) {
+                loadInitialData();
+            } else {
+                AppState.map.on('load', function() {
+                    loadInitialData();
                 });
-            }, 2000); // Start loading after 2 seconds to not compete with initial rendering
+            }
             
         } catch (error) {
             console.error('Application initialization error:', error);
@@ -132,12 +114,38 @@ window.App = {};
     }
     
     /**
+     * Load initial data and set up the map
+     * @private
+     */
+    function loadInitialData() {
+        // Load recent data
+        window.DataManager.loadRecentData().then(() => {
+            // Show recent data initially
+            window.MapManager.renderCurrentData();
+            window.DataManager.updateLastUpdatedTime();
+        }).catch(error => {
+            console.error('Failed to load recent data:', error);
+            window.Utils.showStatus('Error loading recent earthquake data. Please try refreshing the page.', true);
+        }).finally(() => {
+            window.Utils.hideLoading();
+        });
+        
+        // Preload historical data in the background for faster tab switching
+        setTimeout(() => {
+            window.DataManager.loadHistoricalData().catch(error => {
+                console.warn('Background loading of historical data failed:', error);
+                // We don't show an error message here since this is a background task
+            });
+        }, 2000); // Start loading after 2 seconds to not compete with initial rendering
+    }
+    
+    /**
      * Verify that all required external libraries are loaded
      * @private
      */
     function checkDependencies() {
-        if (typeof L === 'undefined') {
-            throw new Error('Leaflet map library not loaded');
+        if (typeof maplibregl === 'undefined') {
+            throw new Error('MapLibre GL JS library not loaded');
         }
         
         if (typeof Papa === 'undefined') {
