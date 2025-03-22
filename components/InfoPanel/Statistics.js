@@ -4,7 +4,6 @@
  */
 import { stateManager } from '../../state/StateManager.js';
 import { dataService } from '../../services/DataService.js';
-import { mapService } from '../../services/MapService.js';
 import { formatNumber, formatLargeNumber, formatYearRange } from '../../utils/formatting.js';
 import { setText } from '../../utils/domUtils.js';
 
@@ -19,17 +18,15 @@ export class Statistics {
         // Elements for statistics display
         this.totalCountElement = document.getElementById('total-count');
         this.avgMagnitudeElement = document.getElementById('avg-magnitude');
-        this.maxMagnitudeElement = document.getElementById('max-magnitude');
+        this.medianMagnitudeElement = document.getElementById('median-magnitude');
         this.avgDepthElement = document.getElementById('avg-depth');
+        this.medianDepthElement = document.getElementById('median-depth');
         this.avgPerYearElement = document.getElementById('avg-per-year');
         this.yearRangeElement = document.getElementById('year-range');
         
         // Elements for showing/hiding year-related stats
         this.yearRangeStats = document.getElementById('year-range-stats');
         this.avgPerYearStats = document.getElementById('avg-per-year-stats');
-        
-        // Set up event listeners
-        this.setupEventListeners();
         
         // Subscribe to state changes for updating statistics
         this.unsubscribeFromState = stateManager.subscribe(
@@ -43,18 +40,6 @@ export class Statistics {
         
         // Initial statistics update
         this.updateStatistics(stateManager.getState());
-    }
-    
-    /**
-     * Set up event listeners
-     */
-    setupEventListeners() {
-        // Add click handler for max magnitude
-        if (this.maxMagnitudeElement) {
-            this.maxMagnitudeElement.title = "Click to center map on max magnitude earthquake";
-            this.maxMagnitudeElement.classList.add('clickable');
-            this.maxMagnitudeElement.addEventListener('click', this.handleMaxMagnitudeClick.bind(this));
-        }
     }
     
     /**
@@ -74,12 +59,16 @@ export class Statistics {
             setText(this.avgMagnitudeElement, formatNumber(stats.avgMagnitude, 2));
         }
         
-        if (this.maxMagnitudeElement) {
-            setText(this.maxMagnitudeElement, formatNumber(stats.maxMagnitude, 2));
+        if (this.medianMagnitudeElement) {
+            setText(this.medianMagnitudeElement, formatNumber(stats.medianMagnitude, 2));
         }
         
         if (this.avgDepthElement) {
             setText(this.avgDepthElement, formatNumber(stats.avgDepth, 2));
+        }
+        
+        if (this.medianDepthElement) {
+            setText(this.medianDepthElement, formatNumber(stats.medianDepth, 2));
         }
         
         // Show/hide and update year-specific statistics
@@ -104,24 +93,6 @@ export class Statistics {
                 setText(this.avgPerYearElement, formattedValue);
             }
         }
-        
-        // Store max magnitude earthquake for the click handler
-        this.maxMagnitudeEarthquake = stats.maxMagnitudeEarthquake;
-    }
-    
-    /**
-     * Handle click on max magnitude statistic
-     */
-    handleMaxMagnitudeClick() {
-        if (!this.maxMagnitudeEarthquake) {
-            console.warn('No max magnitude earthquake available');
-            return;
-        }
-        
-        console.log('Centering on max magnitude earthquake:', this.maxMagnitudeEarthquake);
-        
-        // Center the map on the max magnitude earthquake
-        mapService.centerAndHighlightEarthquake(this.maxMagnitudeEarthquake);
     }
     
     /**
@@ -130,11 +101,6 @@ export class Statistics {
     destroy() {
         if (this.unsubscribeFromState) {
             this.unsubscribeFromState();
-        }
-        
-        // Remove event listeners
-        if (this.maxMagnitudeElement) {
-            this.maxMagnitudeElement.removeEventListener('click', this.handleMaxMagnitudeClick);
         }
     }
 }

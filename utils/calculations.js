@@ -120,145 +120,158 @@ export function calculateMarkerColor(depth, magnitude, colorMode) {
     return color;
 }
 
-/**
- * Calculate statistics from an array of earthquake data with optimizations for large datasets
- * @param {Array} earthquakes - Array of earthquake objects
- * @param {Array} [yearRange] - Optional year range for historical data
- * @returns {Object} Statistics object with counts, averages, etc.
- */
-export function calculateStatistics(earthquakes, yearRange = null) {
-    // For empty datasets, return default values
-    if (!earthquakes || earthquakes.length === 0) {
-        return {
-            count: 0,
-            totalCount: 0,
-            avgMagnitude: 0,
-            maxMagnitude: 0,
-            avgDepth: 0,
-            avgPerYear: null,
-            maxMagnitudeEarthquake: null,
-            yearRange
-        };
-    }
-    
-    // Create a cache key
-    const count = earthquakes.length;
-    const yearRangeKey = yearRange ? `${yearRange[0]}-${yearRange[1]}` : 'all';
-    const cacheKey = `${count}_${yearRangeKey}`;
-    
-    // Check if we have recent cached statistics
-    if (memoCache.statistics.has(cacheKey)) {
-        return memoCache.statistics.get(cacheKey);
-    }
-    
-    // For very large datasets, sample to improve performance
-    let dataToProcess = earthquakes;
-    let usedSampling = false;
-    
-    if (count > 10000) {
-        // Sample 10% of the data for statistics, but find the true max magnitude
-        const sampleSize = Math.max(1000, Math.floor(count / 10));
-        const sampledData = [];
-        
-        // Use regular sampling with random offset
-        const step = Math.floor(count / sampleSize);
-        const offset = Math.floor(Math.random() * step);
-        
-        for (let i = offset; i < count; i += step) {
-            sampledData.push(earthquakes[i]);
+    /**
+     * Calculate the median value from an array of numbers
+     * @param {Array<number>} values - Array of numeric values
+     * @returns {number} Median value
+     */
+    export function calculateMedian(values) {
+        if (!values || values.length === 0) {
+            return 0;
         }
         
-        dataToProcess = sampledData;
-        usedSampling = true;
+        // Sort the values
+        const sorted = [...values].sort((a, b) => a - b);
+        const middle = Math.floor(sorted.length / 2);
+        
+        // For even-length arrays, average the middle two values
+        if (sorted.length % 2 === 0) {
+            return (sorted[middle - 1] + sorted[middle]) / 2;
+        }
+        
+        // For odd-length arrays, return the middle value
+        return sorted[middle];
     }
-    
-    // Calculate statistics using a single loop for efficiency
-    let totalMagnitude = 0;
-    let totalDepth = 0;
-    let maxMagnitude = 0;
-    let maxMagnitudeQuake = null;
-    
-    // For large datasets, use an optimized loop
-    const length = dataToProcess.length;
-    
-    // Unrolled loop for better performance with large arrays
-    const blockSize = 8;
-    const blockEnd = length - (length % blockSize);
-    
-    // Process blocks of 8 elements
-    for (let i = 0; i < blockEnd; i += blockSize) {
-        // Process a block of earthquakes
-        for (let j = 0; j < blockSize; j++) {
-            const quake = dataToProcess[i + j];
+
+    /**
+     * Calculate statistics from an array of earthquake data with optimizations for large datasets
+     * @param {Array} earthquakes - Array of earthquake objects
+     * @param {Array} [yearRange] - Optional year range for historical data
+     * @returns {Object} Statistics object with counts, averages, medians, etc.
+     */
+    export function calculateStatistics(earthquakes, yearRange = null) {
+        // For empty datasets, return default values
+        if (!earthquakes || earthquakes.length === 0) {
+            return {
+                count: 0,
+                totalCount: 0,
+                avgMagnitude: 0,
+                medianMagnitude: 0,
+                avgDepth: 0,
+                medianDepth: 0,
+                avgPerYear: null,
+                yearRange
+            };
+        }
+        
+        // Create a cache key
+        const count = earthquakes.length;
+        const yearRangeKey = yearRange ? `${yearRange[0]}-${yearRange[1]}` : 'all';
+        const cacheKey = `${count}_${yearRangeKey}`;
+        
+        // Check if we have recent cached statistics
+        if (memoCache.statistics.has(cacheKey)) {
+            return memoCache.statistics.get(cacheKey);
+        }
+        
+        // For very large datasets, sample to improve performance
+        let dataToProcess = earthquakes;
+        let usedSampling = false;
+        
+        if (count > 10000) {
+            // Sample 10% of the data for statistics
+            const sampleSize = Math.max(1000, Math.floor(count / 10));
+            const sampledData = [];
+            
+            // Use regular sampling with random offset
+            const step = Math.floor(count / sampleSize);
+            const offset = Math.floor(Math.random() * step);
+            
+            for (let i = offset; i < count; i += step) {
+                sampledData.push(earthquakes[i]);
+            }
+            
+            dataToProcess = sampledData;
+            usedSampling = true;
+        }
+        
+        // Calculate statistics using a single loop for efficiency
+        let totalMagnitude = 0;
+        let totalDepth = 0;
+        const magnitudes = [];
+        const depths = [];
+        
+        // For large datasets, use an optimized loop
+        const length = dataToProcess.length;
+        
+        // Unrolled loop for better performance with large arrays
+        const blockSize = 8;
+        const blockEnd = length - (length % blockSize);
+        
+        // Process blocks of 8 elements
+        for (let i = 0; i < blockEnd; i += blockSize) {
+            // Process a block of earthquakes
+            for (let j = 0; j < blockSize; j++) {
+                const quake = dataToProcess[i + j];
+                const mag = quake.magnitude;
+                const depth = quake.depth;
+                
+                totalMagnitude += mag;
+                totalDepth += depth;
+                
+                // Store values for median calculation
+                magnitudes.push(mag);
+                depths.push(depth);
+            }
+        }
+        
+        // Process remaining elements
+        for (let i = blockEnd; i < length; i++) {
+            const quake = dataToProcess[i];
             const mag = quake.magnitude;
             const depth = quake.depth;
             
             totalMagnitude += mag;
             totalDepth += depth;
             
-            if (mag > maxMagnitude) {
-                maxMagnitude = mag;
-                maxMagnitudeQuake = quake;
-            }
+            // Store values for median calculation
+            magnitudes.push(mag);
+            depths.push(depth);
         }
-    }
-    
-    // Process remaining elements
-    for (let i = blockEnd; i < length; i++) {
-        const quake = dataToProcess[i];
-        const mag = quake.magnitude;
-        const depth = quake.depth;
         
-        totalMagnitude += mag;
-        totalDepth += depth;
+        // Calculate medians
+        const medianMagnitude = calculateMedian(magnitudes);
+        const medianDepth = calculateMedian(depths);
         
-        if (mag > maxMagnitude) {
-            maxMagnitude = mag;
-            maxMagnitudeQuake = quake;
+        // Calculate averages
+        const avgMagnitude = totalMagnitude / length;
+        const avgDepth = totalDepth / length;
+        
+        // Calculate earthquakes per year for historical data
+        let avgPerYear = null;
+        if (yearRange && yearRange.length === 2) {
+            const [minYear, maxYear] = yearRange;
+            const yearSpan = maxYear - minYear + 1; // +1 because range is inclusive
+            avgPerYear = count / yearSpan;
         }
+        
+        const stats = {
+            count,
+            totalCount: count,
+            avgMagnitude,
+            medianMagnitude,
+            avgDepth,
+            medianDepth,
+            avgPerYear,
+            yearRange,
+            usedSampling  // Flag to indicate if sampling was used
+        };
+        
+        // Cache the results
+        memoCache.statistics.set(cacheKey, stats);
+        
+        return stats;
     }
-    
-    // If we used sampling, we need to find the true max magnitude earthquake
-    if (usedSampling) {
-        // Find actual max magnitude from the full dataset
-        for (let i = 0; i < count; i++) {
-            const quake = earthquakes[i];
-            if (quake.magnitude > maxMagnitude) {
-                maxMagnitude = quake.magnitude;
-                maxMagnitudeQuake = quake;
-            }
-        }
-    }
-    
-    // Calculate averages
-    const avgMagnitude = totalMagnitude / length;
-    const avgDepth = totalDepth / length;
-    
-    // Calculate earthquakes per year for historical data
-    let avgPerYear = null;
-    if (yearRange && yearRange.length === 2) {
-        const [minYear, maxYear] = yearRange;
-        const yearSpan = maxYear - minYear + 1; // +1 because range is inclusive
-        avgPerYear = count / yearSpan;
-    }
-    
-    const stats = {
-        count,
-        totalCount: count,
-        avgMagnitude,
-        maxMagnitude,
-        avgDepth,
-        avgPerYear,
-        maxMagnitudeEarthquake: maxMagnitudeQuake,
-        yearRange,
-        usedSampling  // Flag to indicate if sampling was used
-    };
-    
-    // Cache the results
-    memoCache.statistics.set(cacheKey, stats);
-    
-    return stats;
-}
 
 /**
  * Convert earthquake data objects to GeoJSON format with optimizations

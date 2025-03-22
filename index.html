@@ -13,6 +13,7 @@
 
     <!-- Our custom CSS -->
     <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/earthquake-table.css" />
 </head>
 <body>
     <div id="loading-overlay" class="loading-overlay">
@@ -53,8 +54,15 @@
                 <div class="filter-group">
                     <label for="color-mode-recent">Color By:</label>
                     <select id="color-mode-recent">
-                        <option value="depth" selected>Depth</option>
-                        <option value="magnitude">Magnitude</option>
+                        <option value="magnitude" selected>Magnitude</option>
+                        <option value="depth">Depth</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="size-mode-recent">Size By:</label>
+                    <select id="size-mode-recent">
+                        <option value="magnitude" selected>Magnitude</option>
+                        <option value="depth">Depth</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -85,8 +93,15 @@
                 <div class="filter-group">
                     <label for="color-mode-historical">Color By:</label>
                     <select id="color-mode-historical">
-                        <option value="depth" selected>Depth</option>
-                        <option value="magnitude">Magnitude</option>
+                        <option value="magnitude" selected>Magnitude</option>
+                        <option value="depth">Depth</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="size-mode-historical">Size By:</label>
+                    <select id="size-mode-historical">
+                        <option value="magnitude" selected>Magnitude</option>
+                        <option value="depth">Depth</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -122,23 +137,25 @@
         
         <div class="info-panel" id="info-panel">
             <h2>Earthquake Information</h2>
-            <div id="earthquake-details">
-                <p>Select an earthquake on the map to view details.</p>
-            </div>
+            
             <div class="statistics" id="statistics-container">
                 <h3>Statistics</h3>
                 <p>Total earthquakes: <span id="total-count">0</span></p>
                 <p>Average magnitude: <span id="avg-magnitude">0</span></p>
-                <p>Max magnitude: <span id="max-magnitude">0</span></p>
+                <p>Median magnitude: <span id="median-magnitude">0</span></p>
                 <p>Average depth: <span id="avg-depth">0</span> km</p>
+                <p>Median depth: <span id="median-depth">0</span> km</p>
                 <p id="avg-per-year-stats">Earthquakes per year: <span id="avg-per-year">0</span></p>
                 <p id="year-range-stats" class="hide">Year range: <span id="year-range">N/A</span></p>
             </div>
+            
+            <!-- The earthquake table will be dynamically inserted into this container -->
+            <div id="earthquake-table-container" class="earthquake-table-wrapper"></div>
         </div>
     </main>
     
     <footer>
-        <p>Data source: Israel Geophysical Institute | Last updated: <span id="last-updated">Loading...</span></p>
+        <p>Data source: <a href="https://eq.gsi.gov.il/heb/earthquake/searchEQS.php" target="_blank" rel="noopener noreferrer">Israel Geophysical Institute</a> | Last updated: <span id="last-updated">Loading...</span></p>
     </footer>
 
     <!-- MapLibre GL JS popup container -->

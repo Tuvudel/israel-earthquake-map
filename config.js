@@ -40,29 +40,33 @@ export const config = {
     
     // Color settings for visualization
     colors: {
-        // Depth colors (as hex for better performance)
+        // Depth colors - expanded categories
         depth: {
-            veryShallow: '#FFD700', // < 5km
-            shallow: '#FFA500',     // 5-10km
-            medium: '#FF6347',      // 10-20km
-            deep: '#FF0000'         // > 20km
+            veryShallow: '#FFD700', // < 5km (Gold)
+            shallow: '#FFA500',     // 5-10km (Orange)
+            moderate: '#FF8C00',    // 10-15km (Dark Orange) - added
+            medium: '#FF6347',      // 15-20km (Tomato)
+            deep: '#FF4500',        // 20-30km (Orange Red) - updated
+            veryDeep: '#E60000',    // 30-50km (Red) - added
+            ultraDeep: '#8B0000'    // > 50km (Dark Red) - added
         },
-        // Magnitude colors with more distinct values
+        // Magnitude colors with added micro category
         magnitude: {
-            verySmall: '#66BB6A',   // < 2 (Green)
-            small: '#FFEB3B',       // 2-3 (Yellow)
-            medium: '#FF9800',      // 3-4 (Orange)
-            large: '#E53935',       // 4-5 (Red)
-            veryLarge: '#9C27B0',   // 5-6 (Purple)
-            major: '#3F51B5',       // 6-7 (Indigo Blue)
-            great: '#000000'        // > 7 (Black)
+            micro: '#BBDDC6',      // < 1 (Light Green) - nearly invisible
+            verySmall: '#66BB6A',  // 1-2 (Green)
+            small: '#FFEB3B',      // 2-3 (Yellow)
+            medium: '#FF9800',     // 3-4 (Orange)
+            large: '#E53935',      // 4-5 (Red)
+            veryLarge: '#9C27B0',  // 5-6 (Purple)
+            major: '#3F51B5',      // 6-7 (Indigo Blue)
+            great: '#000000'       // > 7 (Black)
         },
-        // Plate boundary colors
+        // Plate boundary colors - updated to black
         plateBoundaries: {
-            default: '#FF5733',     // Default color for all boundaries
-            transform: '#FF5733',   // Transform faults (like Dead Sea Transform)
-            divergent: '#FF9966',   // Divergent boundaries
-            convergent: '#CC3300'   // Convergent boundaries
+            default: '#000000',     // Default color - black
+            transform: '#000000',   // Transform faults - black
+            divergent: '#333333',   // Divergent boundaries - dark gray
+            convergent: '#000000'   // Convergent boundaries - black
         }
     },
     
@@ -160,19 +164,19 @@ export const config = {
     
     // Plate boundaries settings
     plateBoundaries: {
-        // Line style options - optimized for performance
+        // Line style options - optimized for subtlety
         style: {
-            weight: 3,              // Reduced line width for better performance
-            opacity: 0.8,           // Slight reduction in opacity
+            weight: 3,              // Reduced from 5 to 2 for more subtle appearance
+            opacity: 0.9,           // Reduced opacity for better balance
             dashArray: null,        // Solid line (no dash pattern)
             lineCap: 'round',       // Round ends of lines
             lineJoin: 'round',      // Round line joins
             outlineColor: 'white',  // White outline
-            outlineWidth: 0.5,      // Reduced outline width
+            outlineWidth: 0.5,      // Thin outline width
             zIndexOffset: 100       // Lower z-index for better performance
         },
         // Default visibility state
-        defaultVisible: false
+        defaultVisible: true        // Show by default
     },
     
     // Web Worker settings

@@ -315,7 +315,7 @@ class MapService {
             // Create layer for historical earthquakes
             this._createEarthquakeLayer(config.maplibre.layers.historicalEarthquakes, config.maplibre.sources.historical);
             
-            // Add layer for plate boundaries
+            // Add layer for plate boundaries with thinner black lines
             this.map.addLayer({
                 id: config.maplibre.layers.plateBoundaries,
                 type: 'line',
@@ -336,7 +336,7 @@ class MapService {
                 layout: {
                     'line-cap': config.plateBoundaries.style.lineCap,
                     'line-join': config.plateBoundaries.style.lineJoin,
-                    visibility: 'none'
+                    'visibility': 'visible' // Default to visible
                 }
             });
             
@@ -767,8 +767,13 @@ class MapService {
             if (source) {
                 source.setData(geojson);
                 
-                // Update layer styling based on current color mode
-                this.updateLayerStyling(config.maplibre.layers.recentEarthquakes, state.colorMode.recent);
+                // Update layer styling based on current color mode and size mode
+                // Pass both color mode and size mode to updateLayerStyling
+                this.updateLayerStyling(
+                    config.maplibre.layers.recentEarthquakes, 
+                    state.colorMode.recent,
+                    state.sizeMode?.recent || 'magnitude'
+                );
                 
                 // Show the layer
                 this.map.setLayoutProperty(config.maplibre.layers.recentEarthquakes, 'visibility', 'visible');
@@ -827,8 +832,13 @@ class MapService {
                 // Set the data
                 source.setData(geojson);
                 
-                // Update layer styling based on current color mode
-                this.updateLayerStyling(config.maplibre.layers.historicalEarthquakes, state.colorMode.historical);
+                // Update layer styling based on current color mode and size mode
+                // Pass both color mode and size mode to updateLayerStyling
+                this.updateLayerStyling(
+                    config.maplibre.layers.historicalEarthquakes, 
+                    state.colorMode.historical,
+                    state.sizeMode?.historical || 'magnitude'
+                );
                 
                 // Now show the layer after all updates are complete
                 this.map.setLayoutProperty(config.maplibre.layers.historicalEarthquakes, 'visibility', 'visible');
@@ -857,18 +867,24 @@ class MapService {
     }
     
     /**
-     * Update styling for earthquake layers based on color mode
+     * Update styling for earthquake layers based on color mode and size mode
      * @param {string} layerId - Layer ID to update
      * @param {string} colorMode - Color mode ('magnitude' or 'depth')
+     * @param {string} sizeMode - Size mode ('magnitude' or 'depth')
      */
-    updateLayerStyling(layerId, colorMode) {
+    updateLayerStyling(layerId, colorMode, sizeMode) {
         if (!this.map) return;
         
         try {
+            console.log(`Updating layer styling: layerId=${layerId}, colorMode=${colorMode}, sizeMode=${sizeMode}`);
+            
+            // Set color expression based on color mode
+            let colorExpression;
             if (colorMode === 'magnitude') {
                 // Color by magnitude
-                this.map.setPaintProperty(layerId, 'circle-color', [
+                colorExpression = [
                     'case',
+                    ['<', ['get', 'magnitude'], 1], config.colors.magnitude.micro, // Added micro category
                     ['<', ['get', 'magnitude'], 2], config.colors.magnitude.verySmall,
                     ['<', ['get', 'magnitude'], 3], config.colors.magnitude.small,
                     ['<', ['get', 'magnitude'], 4], config.colors.magnitude.medium,
@@ -876,44 +892,74 @@ class MapService {
                     ['<', ['get', 'magnitude'], 6], config.colors.magnitude.veryLarge,
                     ['<', ['get', 'magnitude'], 7], config.colors.magnitude.major,
                     config.colors.magnitude.great
-                ]);
-                
-                // Size by depth (inverse relationship) with fixed sizing
-                this.map.setPaintProperty(layerId, 'circle-radius', [
-                    'interpolate', ['linear'], ['get', 'depth'],
-                    0, 18,
-                    5, 15,
-                    10, 12,
-                    20, 9,
-                    50, 6,
-                    100, 4
-                ]);
+                ];
             } else {
-                // Color by depth (default)
-                this.map.setPaintProperty(layerId, 'circle-color', [
+                // Color by depth (default) with expanded categories
+                colorExpression = [
                     'case',
                     ['<', ['get', 'depth'], 5], config.colors.depth.veryShallow,
                     ['<', ['get', 'depth'], 10], config.colors.depth.shallow,
+                    ['<', ['get', 'depth'], 15], config.colors.depth.moderate,
                     ['<', ['get', 'depth'], 20], config.colors.depth.medium,
-                    config.colors.depth.deep
-                ]);
-                
-                // Size by magnitude (cubic scale)
-                this.map.setPaintProperty(layerId, 'circle-radius', [
-                    'interpolate', ['linear'], ['get', 'magnitude'],
-                    0, 3,
-                    2, 5,
-                    3, 8,
-                    4, 12,
-                    5, 18,
-                    6, 25,
-                    7, 40
-                ]);
+                    ['<', ['get', 'depth'], 30], config.colors.depth.deep,
+                    ['<', ['get', 'depth'], 50], config.colors.depth.veryDeep,
+                    config.colors.depth.ultraDeep
+                ];
             }
             
-            // Set fixed stroke and opacity that won't change with zoom
+            // Apply color expression
+            this.map.setPaintProperty(layerId, 'circle-color', colorExpression);
+            
+            // Set size expression based on size mode
+            let sizeExpression;
+            if (sizeMode === 'magnitude') {
+                // Size by magnitude on a cubic scale
+                // Make earthquakes with magnitude < 1 very small
+                sizeExpression = [
+                    'interpolate', ['exponential', 3], ['get', 'magnitude'],
+                    0, 1,     // Very tiny for micro earthquakes
+                    1, 3,     // Still very small for < magnitude 1
+                    2, 5,     // Small
+                    3, 8,     // Medium
+                    4, 27,    // Cubic scale kicks in more noticeably
+                    5, 64,    // Significantly larger
+                    6, 125,   // Very large
+                    7, 216    // Massive for major earthquakes
+                ];
+            } else {
+                // Size inversely proportional to depth
+                // Also make earthquakes with magnitude < 1 very small regardless of depth
+                sizeExpression = [
+                    'case',
+                    ['<', ['get', 'magnitude'], 1],
+                    1, // Very small for micro earthquakes
+                    [
+                        'interpolate', ['linear'], ['get', 'depth'],
+                        0, 40,      // Surface events are large
+                        5, 35,      // Very shallow
+                        10, 30,     // Shallow
+                        15, 25,     // Moderate
+                        20, 20,     // Medium
+                        30, 15,     // Deep
+                        50, 10,     // Very deep
+                        100, 5      // Ultra deep
+                    ]
+                ];
+            }
+            
+            // Apply size expression
+            this.map.setPaintProperty(layerId, 'circle-radius', sizeExpression);
+            
+            // Also reduce opacity for very small earthquakes
+            this.map.setPaintProperty(layerId, 'circle-opacity', [
+                'case',
+                ['<', ['get', 'magnitude'], 1], 0.4, // Less visible for micro earthquakes
+                0.8 // Normal opacity for others
+            ]);
+            
+            // Set fixed stroke width
             this.map.setPaintProperty(layerId, 'circle-stroke-width', 1);
-            this.map.setPaintProperty(layerId, 'circle-opacity', 0.8);
+            
         } catch (error) {
             console.error('Error updating layer styling:', error);
             // Don't rethrow as this is not a critical error
@@ -1080,6 +1126,30 @@ class MapService {
             // Try to show the popup anyway
             this.showPopup(coords, `Magnitude ${earthquake.magnitude.toFixed(1)} earthquake at ${earthquake.depth.toFixed(1)} km depth`);
         }
+    }
+
+        /**
+     * Reset the map view to the initial state
+     */
+    resetMapView() {
+        if (!this.map) return;
+        
+        console.log('Resetting map view to initial position');
+        
+        // Fly to initial position with default zoom
+        this.map.flyTo({
+            center: config.map.center,
+            zoom: config.map.zoom,
+            pitch: config.map.pitch,
+            bearing: config.map.bearing,
+            duration: 1000 // 1 second animation
+        });
+        
+        // Hide highlighted earthquake
+        this.map.setLayoutProperty(config.maplibre.layers.highlight, 'visibility', 'none');
+        
+        // Hide popup
+        this.hidePopup();
     }
     
     /**

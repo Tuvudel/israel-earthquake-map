@@ -4,22 +4,44 @@
 
 /**
  * Format a date object to a readable string
- * @param {Date} dateObj - Date object
+ * @param {Date|string|number} dateObj - Date object, ISO string, or timestamp
+ * @param {boolean} [use24Hour=false] - Whether to use 24-hour format
  * @returns {string} Formatted date string
  */
-export function formatDateTime(dateObj) {
-    if (!(dateObj instanceof Date) || isNaN(dateObj.getTime())) {
-        return 'Unknown';
+export function formatDateTime(dateObj, use24Hour = false) {
+    // Handle different types of date inputs
+    if (typeof dateObj === 'string') {
+        // If it's a string, convert to Date
+        dateObj = new Date(dateObj);
+    } else if (typeof dateObj === 'number') {
+        // If it's a timestamp, convert to Date
+        dateObj = new Date(dateObj);
     }
     
-    return dateObj.toLocaleString(undefined, {
+    // Check if date is valid
+    if (!(dateObj instanceof Date) || isNaN(dateObj.getTime())) {
+        return 'Loading...'; // Changed from 'Unknown' to indicate it's temporary
+    }
+    
+    // Format options including UTC timezone
+    const options = {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-        second: '2-digit'
-    });
+        second: '2-digit',
+        timeZone: 'UTC',
+        hour12: !use24Hour
+    };
+    
+    try {
+        return dateObj.toLocaleString(undefined, options);
+    } catch (error) {
+        // Fallback formatting in case of localization issues
+        const isoString = dateObj.toISOString();
+        return isoString.replace('T', ' ').substring(0, 19) + ' UTC';
+    }
 }
 
 /**
@@ -62,7 +84,9 @@ export function formatMagnitude(magnitude) {
     const magValue = Number(magnitude);
     let description = '';
     
-    if (magValue < 2) {
+    if (magValue < 1) {
+        description = 'Micro';
+    } else if (magValue < 2) {
         description = 'Very Small';
     } else if (magValue < 3) {
         description = 'Small';

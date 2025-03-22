@@ -42,8 +42,13 @@ export const initialState = {
     },
     // Color mode setting
     colorMode: {
-        recent: 'depth', // Options are 'depth', 'magnitude'
-        historical: 'depth'
+        recent: 'magnitude', // Changed from 'depth' to 'magnitude'
+        historical: 'magnitude'
+    },
+    // Size mode setting - new parameter
+    sizeMode: {
+        recent: 'magnitude', // Options are 'magnitude', 'depth'
+        historical: 'magnitude'
     },
     // Render mode for historical data
     renderMode: {

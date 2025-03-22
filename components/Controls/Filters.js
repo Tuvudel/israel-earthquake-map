@@ -17,11 +17,13 @@ export class Filters {
         this.recentDateFilter = document.getElementById('recent-date-filter');
         this.feltFilter = document.getElementById('felt-filter');
         this.recentColorMode = document.getElementById('color-mode-recent');
+        this.recentSizeMode = document.getElementById('size-mode-recent'); // New size mode control
         this.recentPlateBoundaries = document.getElementById('plate-boundaries-recent');
         
         // Historical data filter controls
         this.historicalMagnitudeFilter = document.getElementById('historical-magnitude-filter');
         this.historicalColorMode = document.getElementById('color-mode-historical');
+        this.historicalSizeMode = document.getElementById('size-mode-historical'); // New size mode control
         this.historicalPlateBoundaries = document.getElementById('plate-boundaries-historical');
         
         // Note: The render mode dropdown has been removed as it's no longer relevant
@@ -73,6 +75,13 @@ export class Filters {
             });
         }
         
+        // Recent size mode (new)
+        if (this.recentSizeMode) {
+            this.recentSizeMode.addEventListener('change', () => {
+                this.handleSizeModeChange('recent', this.recentSizeMode.value);
+            });
+        }
+        
         // Recent plate boundaries toggle
         if (this.recentPlateBoundaries) {
             this.recentPlateBoundaries.addEventListener('change', () => {
@@ -91,6 +100,13 @@ export class Filters {
         if (this.historicalColorMode) {
             this.historicalColorMode.addEventListener('change', () => {
                 this.handleColorModeChange('historical', this.historicalColorMode.value);
+            });
+        }
+        
+        // Historical size mode (new)
+        if (this.historicalSizeMode) {
+            this.historicalSizeMode.addEventListener('change', () => {
+                this.handleSizeModeChange('historical', this.historicalSizeMode.value);
             });
         }
         
@@ -158,6 +174,29 @@ export class Filters {
     }
     
     /**
+     * Handle size mode changes
+     * @param {string} datasetType - Type of dataset ('recent' or 'historical')
+     * @param {string} mode - New size mode ('depth' or 'magnitude')
+     */
+    handleSizeModeChange(datasetType, mode) {
+        // Show loading indicator
+        showLoading('Updating visualization...');
+        
+        // Update state with new size mode
+        stateManager.setState({
+            sizeMode: {
+                [datasetType]: mode
+            }
+        });
+        
+        // Re-render the map
+        setTimeout(() => {
+            mapService.renderData();
+            hideLoading();
+        }, 10);
+    }
+    
+    /**
      * Handle plate boundaries toggle
      * @param {boolean} show - Whether to show plate boundaries
      */
@@ -201,6 +240,11 @@ export class Filters {
             this.recentColorMode.value = state.colorMode.recent;
         }
         
+        // Recent size mode (new)
+        if (this.recentSizeMode) {
+            this.recentSizeMode.value = state.sizeMode?.recent || 'magnitude';
+        }
+        
         // Historical filters
         if (this.historicalMagnitudeFilter) {
             this.historicalMagnitudeFilter.value = state.filters.historical.minMagnitude;
@@ -208,6 +252,11 @@ export class Filters {
         
         if (this.historicalColorMode) {
             this.historicalColorMode.value = state.colorMode.historical;
+        }
+        
+        // Historical size mode (new)
+        if (this.historicalSizeMode) {
+            this.historicalSizeMode.value = state.sizeMode?.historical || 'magnitude';
         }
         
         // Plate boundaries

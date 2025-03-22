@@ -18,6 +18,7 @@ export class Legend {
             this.update.bind(this),
             state => ({
                 colorMode: state.colorMode,
+                sizeMode: state.sizeMode,
                 activeDataset: state.activeDataset,
                 showPlateBoundaries: state.showPlateBoundaries
             })
@@ -29,29 +30,31 @@ export class Legend {
      * @param {Object} state - Current application state (or relevant subset)
      */
     update(state) {
-        // Get the active colorMode based on the active dataset
+        // Get the active colorMode and sizeMode based on the active dataset
         const colorMode = state.colorMode[state.activeDataset];
+        const sizeMode = state.sizeMode ? state.sizeMode[state.activeDataset] : 'magnitude';
         
         // Create or update the legend container
         this.remove(); // Remove any existing legend
-        this.createLegend(colorMode, state.showPlateBoundaries);
+        this.createLegend(colorMode, sizeMode, state.showPlateBoundaries);
     }
     
     /**
      * Create the legend element and add it to the map
      * @param {string} colorMode - Current color mode (magnitude or depth)
+     * @param {string} sizeMode - Current size mode (magnitude or depth)
      * @param {boolean} showPlateBoundaries - Whether plate boundaries are shown
      */
-    createLegend(colorMode, showPlateBoundaries) {
+    createLegend(colorMode, sizeMode, showPlateBoundaries) {
         // Create legend container
         this.container = document.createElement('div');
         this.container.className = 'legend';
         
         // Determine which legend content to create
         if (colorMode === 'magnitude') {
-            this.container.innerHTML = this.createMagnitudeLegend();
+            this.container.innerHTML = this.createMagnitudeLegend(sizeMode);
         } else {
-            this.container.innerHTML = this.createDepthLegend();
+            this.container.innerHTML = this.createDepthLegend(sizeMode);
         }
         
         // Add plate boundaries info if they're shown
@@ -68,12 +71,13 @@ export class Legend {
     
     /**
      * Create HTML for magnitude legend
+     * @param {string} sizeMode - Current size mode (magnitude or depth)
      * @returns {string} HTML for magnitude legend
      */
-    createMagnitudeLegend() {
+    createMagnitudeLegend(sizeMode) {
         return `
             <h4>Legend</h4>
-            <div><strong>Magnitude:</strong></div>
+            <div><strong>Color:</strong> <span>Magnitude</span></div>
             <div class="legend-item">
                 <div class="legend-color" style="background-color: ${config.colors.magnitude.verySmall};"></div>
                 <span>&lt; 2 (Very Small)</span>
@@ -102,18 +106,35 @@ export class Legend {
                 <div class="legend-color" style="background-color: ${config.colors.magnitude.great};"></div>
                 <span>&gt; 7 (Great)</span>
             </div>
-            <div><strong>Size:</strong> Inversely proportional to depth<br>(deeper events are smaller)</div>
+            <div style="margin-top: 10px;">
+                <strong>Size:</strong> ${sizeMode === 'magnitude' ? 
+                    'Magnitude (cubic scale)' : 
+                    'Inversely proportional to depth'}
+            </div>
+            <div class="compact-size-examples">
+                <div class="size-example-item">
+                    <div class="size-circle size-m3"></div>
+                    <div class="size-circle size-m5"></div>
+                    <div class="size-circle size-m7"></div>
+                </div>
+                <div class="size-labels">
+                    <span>${sizeMode === 'magnitude' ? 'M3' : '30km'}</span>
+                    <span>${sizeMode === 'magnitude' ? 'M5' : '15km'}</span>
+                    <span>${sizeMode === 'magnitude' ? 'M7' : '5km'}</span>
+                </div>
+            </div>
         `;
     }
     
     /**
-     * Create HTML for depth legend
+     * Create HTML for depth legend with expanded categories
+     * @param {string} sizeMode - Current size mode (magnitude or depth)
      * @returns {string} HTML for depth legend
      */
-    createDepthLegend() {
+    createDepthLegend(sizeMode) {
         return `
             <h4>Legend</h4>
-            <div><strong>Depth:</strong></div>
+            <div><strong>Color:</strong> <span>Depth</span></div>
             <div class="legend-item">
                 <div class="legend-color" style="background-color: ${config.colors.depth.veryShallow};"></div>
                 <span>&lt; 5 km (Very Shallow)</span>
@@ -123,14 +144,30 @@ export class Legend {
                 <span>5-10 km (Shallow)</span>
             </div>
             <div class="legend-item">
+                <div class="legend-color" style="background-color: ${config.colors.depth.moderate};"></div>
+                <span>10-15 km (Moderate)</span>
+            </div>
+            <div class="legend-item">
                 <div class="legend-color" style="background-color: ${config.colors.depth.medium};"></div>
-                <span>10-20 km (Medium)</span>
+                <span>15-20 km (Medium)</span>
             </div>
             <div class="legend-item">
                 <div class="legend-color" style="background-color: ${config.colors.depth.deep};"></div>
-                <span>&gt; 20 km (Deep)</span>
+                <span>20-30 km (Deep)</span>
             </div>
-            <div style="margin-top: 10px;"><strong>Size:</strong> <span class="size-scale-info">Shows magnitude (cubic scale)</span></div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: ${config.colors.depth.veryDeep};"></div>
+                <span>30-50 km (Very Deep)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: ${config.colors.depth.ultraDeep};"></div>
+                <span>&gt; 50 km (Ultra Deep)</span>
+            </div>
+            <div style="margin-top: 10px;">
+                <strong>Size:</strong> <span class="size-scale-info">
+                    ${sizeMode === 'magnitude' ? 'Magnitude (cubic scale)' : 'Inversely proportional to depth'}
+                </span>
+            </div>
             <div class="compact-size-examples">
                 <div class="size-example-item">
                     <div class="size-circle size-m3"></div>
@@ -138,28 +175,28 @@ export class Legend {
                     <div class="size-circle size-m7"></div>
                 </div>
                 <div class="size-labels">
-                    <span>M3</span>
-                    <span>M5</span>
-                    <span>M7</span>
+                    <span>${sizeMode === 'magnitude' ? 'M3' : '30km'}</span>
+                    <span>${sizeMode === 'magnitude' ? 'M5' : '15km'}</span>
+                    <span>${sizeMode === 'magnitude' ? 'M7' : '5km'}</span>
                 </div>
             </div>
         `;
     }
     
     /**
-     * Create HTML for plate boundaries legend
+     * Create HTML for plate boundaries legend - updated with new colors
      * @returns {string} HTML for plate boundaries legend
      */
     createPlateBoundariesLegend() {
         return `
             <hr>
-            <div><strong>Plate Boundaries:</strong></div>
+            <div><strong>Fault Lines:</strong></div>
             <div class="legend-item">
-                <div class="legend-line" style="background-color: ${config.colors.plateBoundaries.transform}; height: 4px; border: 1px solid white;"></div>
+                <div class="legend-line" style="background-color: ${config.colors.plateBoundaries.transform}; height: 2px; border: 1px solid #555;"></div>
                 <span>Dead Sea Transform Fault</span>
             </div>
             <div class="legend-item">
-                <div class="legend-line" style="background-color: ${config.colors.plateBoundaries.divergent}; height: 4px; border: 1px solid white;"></div>
+                <div class="legend-line" style="background-color: ${config.colors.plateBoundaries.divergent}; height: 2px; border: 1px solid #555;"></div>
                 <span>Divergent Boundary</span>
             </div>
         `;

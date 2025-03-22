@@ -1,11 +1,11 @@
 /**
  * Info Panel Component for the Earthquake Visualization App
- * Displays details about selected earthquakes and toggles panel visibility
+ * Displays statistics and interactive table of earthquakes
  */
 import { stateManager } from '../../state/StateManager.js';
 import { Statistics } from './Statistics.js';
-import { formatDateTime, formatDepth, formatMagnitude } from '../../utils/formatting.js';
-import { toggleClass, setContent } from '../../utils/domUtils.js';
+import { EarthquakeTable } from './EarthquakeTable.js';
+import { toggleClass } from '../../utils/domUtils.js';
 
 export class InfoPanel {
     /**
@@ -14,23 +14,20 @@ export class InfoPanel {
      */
     constructor(containerId = 'info-panel') {
         this.container = document.getElementById(containerId);
-        this.detailsElement = document.getElementById('earthquake-details');
         this.toggleButton = document.getElementById('toggle-info-panel');
         
-        // Initialize the Statistics component
+        // Initialize sub-components
         this.statistics = new Statistics();
+        
+        // Create container for the earthquake table if it doesn't exist
+        this.createTableContainer();
+        this.earthquakeTable = new EarthquakeTable('earthquake-table-container');
         
         // Track panel expanded state
         this.isExpanded = true;
         
         // Set up event listeners
         this.setupEventListeners();
-        
-        // Subscribe to state changes to update the earthquake details
-        this.unsubscribeFromState = stateManager.subscribe(
-            this.updateEarthquakeDetails.bind(this),
-            state => ({ selectedEarthquake: state.selectedEarthquake })
-        );
         
         // Check mobile view for initial layout
         this.checkMobileView();
@@ -41,68 +38,34 @@ export class InfoPanel {
     }
     
     /**
+     * Create a container for the earthquake table
+     */
+    createTableContainer() {
+        // Check if container already exists
+        if (!document.getElementById('earthquake-table-container')) {
+            // Create the container
+            const tableContainer = document.createElement('div');
+            tableContainer.id = 'earthquake-table-container';
+            tableContainer.className = 'earthquake-table-wrapper';
+            
+            // Find where to insert in the DOM (after statistics container)
+            const statisticsContainer = document.getElementById('statistics-container');
+            if (statisticsContainer && statisticsContainer.parentNode) {
+                statisticsContainer.parentNode.insertBefore(tableContainer, statisticsContainer.nextSibling);
+            } else if (this.container) {
+                // Fallback - append to info panel
+                this.container.appendChild(tableContainer);
+            }
+        }
+    }
+    
+    /**
      * Set up event listeners for the info panel
      */
     setupEventListeners() {
         // Set up toggle button for mobile view
         if (this.toggleButton) {
             this.toggleButton.addEventListener('click', this.togglePanel.bind(this));
-        }
-    }
-    
-    /**
-     * Update earthquake details based on selected earthquake
-     * @param {Object} state - Current state (or relevant subset)
-     */
-    updateEarthquakeDetails(state) {
-        if (!this.detailsElement) return;
-        
-        const quake = state.selectedEarthquake;
-        
-        if (!quake) {
-            setContent(this.detailsElement, '<p>Select an earthquake on the map to view details.</p>');
-            return;
-        }
-        
-        // Check if the earthquake was felt
-        const feltStatus = quake.felt === true ? 
-            '<div class="detail-item felt-status">✓ Felt Earthquake</div>' : '';
-        
-        // Get earthquake type with clearer display
-        const quakeType = quake.type || 'Unknown';
-        const typeDisplay = quakeType === 'F' ? 'Felt Earthquake' : quakeType;
-        
-        // Create details HTML
-        const detailsHTML = `
-            <div class="detail-item">
-                <strong>Magnitude:</strong> ${formatMagnitude(quake.magnitude)}
-            </div>
-            <div class="detail-item">
-                <strong>Date & Time:</strong> ${formatDateTime(quake.dateTime)}
-            </div>
-            <div class="detail-item">
-                <strong>Coordinates:</strong> ${quake.latitude.toFixed(4)}, ${quake.longitude.toFixed(4)}
-            </div>
-            <div class="detail-item">
-                <strong>Depth:</strong> ${formatDepth(quake.depth)}
-            </div>
-            <div class="detail-item">
-                <strong>Region:</strong> ${quake.region || 'Unknown'}
-            </div>
-            <div class="detail-item">
-                <strong>Event Type:</strong> ${typeDisplay}
-            </div>
-            <div class="detail-item">
-                <strong>Event ID:</strong> ${quake.id || 'Unknown'}
-            </div>
-            ${feltStatus}
-        `;
-        
-        setContent(this.detailsElement, detailsHTML);
-        
-        // On mobile, auto-expand the info panel when a quake is selected
-        if (!this.isExpanded && window.innerWidth <= 768) {
-            this.expandPanel();
         }
     }
     
@@ -165,10 +128,6 @@ export class InfoPanel {
      * Clean up resources
      */
     destroy() {
-        if (this.unsubscribeFromState) {
-            this.unsubscribeFromState();
-        }
-        
         if (this.toggleButton) {
             this.toggleButton.removeEventListener('click', this.togglePanel);
         }
@@ -178,6 +137,10 @@ export class InfoPanel {
         
         if (this.statistics) {
             this.statistics.destroy();
+        }
+        
+        if (this.earthquakeTable) {
+            this.earthquakeTable.destroy();
         }
     }
 }

@@ -25,6 +25,7 @@ export class Map {
         this._lastState = {
             activeDataset: null,
             colorMode: null,
+            sizeMode: null,
             showPlateBoundaries: null,
             dataLoaded: { recent: false, historical: false },
             filteredDataLength: { recent: 0, historical: 0 },
@@ -88,6 +89,13 @@ export class Map {
                               this._lastState.colorMode[newState.activeDataset];
         }
         
+        // Check for size mode changes
+        let sizeModeChanged = false;
+        if (newState.sizeMode && this._lastState.sizeMode && newState.activeDataset) {
+            sizeModeChanged = newState.sizeMode[newState.activeDataset] !== 
+                             this._lastState.sizeMode[newState.activeDataset];
+        }
+        
         const plateBoundariesChanged = newState.showPlateBoundaries !== this._lastState.showPlateBoundaries;
         
         // Check if data loading state changed
@@ -133,6 +141,7 @@ export class Map {
             ...this._lastState,
             activeDataset: newState.activeDataset,
             colorMode: newState.colorMode ? {...newState.colorMode} : this._lastState.colorMode,
+            sizeMode: newState.sizeMode ? {...newState.sizeMode} : this._lastState.sizeMode,
             showPlateBoundaries: newState.showPlateBoundaries,
             dataLoaded: newState.dataLoaded ? {...newState.dataLoaded} : this._lastState.dataLoaded,
             filters: newState.filters ? JSON.parse(JSON.stringify(newState.filters)) : this._lastState.filters,
@@ -145,6 +154,7 @@ export class Map {
         // Render if any important property changed - but NOT for zoom changes
         const shouldRender = activeDatasetChanged || 
                             colorModeChanged || 
+                            sizeModeChanged ||
                             plateBoundariesChanged || 
                             dataLoadedChanged || 
                             filtersChanged ||
@@ -154,6 +164,7 @@ export class Map {
             console.log('Map render triggered by: ' + 
                 (activeDatasetChanged ? 'activeDataset ' : '') +
                 (colorModeChanged ? 'colorMode ' : '') +
+                (sizeModeChanged ? 'sizeMode ' : '') +
                 (plateBoundariesChanged ? 'plateBoundaries ' : '') +
                 (dataLoadedChanged ? 'dataLoaded ' : '') +
                 (filtersChanged ? 'filters ' : '') +
