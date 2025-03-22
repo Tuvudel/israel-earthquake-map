@@ -5,27 +5,72 @@
 import { config } from '../config.js';
 import { stateManager } from '../state/StateManager.js';
 import { filterEarthquakes, calculateStatistics } from '../utils/calculations.js';
-import { showStatus, hideStatus } from '../utils/domUtils.js';
+import { showStatus, hideStatus, showLoading, hideLoading } from '../utils/domUtils.js';
+import { mapService } from './MapService.js';
 
 class DataService {
+    constructor() {
+        // Add data loading state tracking
+        this.dataLoadingState = {
+            recent: {
+                inProgress: false,
+                retryCount: 0,
+                lastError: null
+            },
+            historical: {
+                inProgress: false,
+                retryCount: 0,
+                lastError: null
+            }
+        };
+        
+        // Flag to prevent render loops
+        this._preventRenderLoop = false;
+        
+        // Flag to track initial render
+        this._initialRenderDone = false;
+        
+        // Maximum retry attempts
+        this.maxRetries = 3;
+    }
+    
     /**
      * Load recent earthquake data from CSV
+     * @param {boolean} [force=false] - Force reload even if already loaded
      * @returns {Promise} Promise that resolves when data is loaded
      */
-    async loadRecentData() {
-        // Check if we already have data loaded
+    async loadRecentData(force = false) {
+        // Prevent multiple simultaneous loading requests
+        if (this.dataLoadingState.recent.inProgress) {
+            console.log('Recent data loading already in progress, waiting...');
+            return this._waitForDataLoad('recent');
+        }
+        
+        // Check if we already have data loaded and not forcing a reload
         const state = stateManager.getState();
-        if (state.dataLoaded.recent) {
+        if (state.dataLoaded.recent && !force) {
+            console.log('Recent data already loaded, using cached data');
             return Promise.resolve();
         }
         
+        this.dataLoadingState.recent.inProgress = true;
         showStatus("Loading recent earthquake data...");
+        showLoading("Loading recent earthquake data...");
         
         try {
             const data = await this.fetchCsvData(config.urls.recentCsv);
+            if (!data || data.length === 0) {
+                throw new Error("No recent earthquake data returned");
+            }
+            
             const processedData = this.processRecentData(data);
             
-            // Update state with the raw data
+            // Pre-filter the data with current filter settings
+            const criteria = state.filters.recent;
+            const filtered = filterEarthquakes(processedData, criteria);
+            console.log(`Pre-filtered data: ${filtered.length} records match criteria`);
+            
+            // Update state with both raw and filtered data
             stateManager.setState({
                 dataLoaded: {
                     ...state.dataLoaded,
@@ -35,66 +80,198 @@ class DataService {
                     ...state.data,
                     recent: {
                         ...state.data.recent,
-                        raw: processedData
+                        raw: processedData,
+                        filtered: filtered,
+                        displayed: filtered
                     }
                 }
             });
             
-            // Apply filters to get filtered data
-            this.applyFilters();
+            // Force a render to display initial data
+            setTimeout(() => {
+                if (state.activeDataset === 'recent' && !this._initialRenderDone) {
+                    console.log('Forcing initial render after data load');
+                    this._initialRenderDone = true;
+                    mapService.renderData();
+                }
+            }, 50);
+            
             hideStatus();
+            hideLoading();
+            this.dataLoadingState.recent.inProgress = false;
             
             return processedData;
         } catch (error) {
             console.error("Error loading recent data:", error);
-            showStatus(`Failed to load recent earthquake data: ${error.message}`, true);
+            this.dataLoadingState.recent.lastError = error;
+            this.dataLoadingState.recent.inProgress = false;
+            
+            // Retry logic for network errors
+            if (this.dataLoadingState.recent.retryCount < this.maxRetries && 
+                (error.message.includes('fetch') || error.message.includes('network'))) {
+                
+                this.dataLoadingState.recent.retryCount++;
+                console.log(`Retrying recent data load (${this.dataLoadingState.recent.retryCount}/${this.maxRetries})...`);
+                
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        resolve(this.loadRecentData(force));
+                    }, 2000 * this.dataLoadingState.recent.retryCount); // Exponential backoff
+                });
+            }
+            
+            hideLoading();
+            showStatus(`Failed to load recent earthquake data: ${error.message}. Please try refreshing the page.`, true);
             throw error;
         }
     }
     
     /**
      * Load historical earthquake data from CSV
+     * @param {boolean} [force=false] - Force reload even if already loaded
      * @returns {Promise} Promise that resolves when data is loaded
      */
-    async loadHistoricalData() {
-        // Check if we already have data loaded
+    async loadHistoricalData(force = false) {
+        // Prevent multiple simultaneous loading requests
+        if (this.dataLoadingState.historical.inProgress) {
+            console.log('Historical data loading already in progress, waiting...');
+            return this._waitForDataLoad('historical');
+        }
+        
+        // Check if we already have data loaded and not forcing a reload
         const state = stateManager.getState();
-        if (state.dataLoaded.historical) {
+        if (state.dataLoaded.historical && !force) {
+            console.log('Historical data already loaded, using cached data');
             return Promise.resolve();
         }
         
+        this.dataLoadingState.historical.inProgress = true;
         showStatus("Loading historical earthquake data (this may take a moment)...");
+        showLoading("Loading historical earthquake data...");
         
         try {
             const data = await this.fetchCsvData(config.urls.historicalCsv);
-            const processedData = this.processHistoricalData(data);
+            if (!data || data.length === 0) {
+                throw new Error("No historical earthquake data returned");
+            }
             
-            // Update state with the raw data
+            const processedData = this.processHistoricalData(data);
+            const indices = this.buildHistoricalIndices(processedData);
+            
+            // Pre-filter the data with current filter settings
+            const criteria = state.filters.historical;
+            let filtered = [];
+            
+            if (indices && indices.byYear && Object.keys(indices.byYear).length > 0) {
+                // Use indices for faster filtering
+                if (criteria.yearRange && criteria.yearRange.length === 2) {
+                    const [minYear, maxYear] = criteria.yearRange;
+                    
+                    for (let year = minYear; year <= maxYear; year++) {
+                        const quakesInYear = indices.byYear[year] || [];
+                        
+                        if (criteria.minMagnitude > 0) {
+                            quakesInYear.forEach(quake => {
+                                if (quake.magnitude >= criteria.minMagnitude) {
+                                    filtered.push(quake);
+                                }
+                            });
+                        } else {
+                            filtered = filtered.concat(quakesInYear);
+                        }
+                    }
+                }
+            } else {
+                filtered = filterEarthquakes(processedData, criteria);
+            }
+            
+            console.log(`Pre-filtered historical data: ${filtered.length} records match criteria`);
+            
+            // Update state with both raw and filtered data
             stateManager.setState({
                 dataLoaded: {
                     ...state.dataLoaded,
                     historical: true
                 },
+                historicalDataQueued: false, // Clear the queue flag
                 data: {
                     ...state.data,
                     historical: {
                         ...state.data.historical,
                         raw: processedData,
-                        indexed: this.buildHistoricalIndices(processedData)
+                        filtered: filtered,
+                        displayed: filtered,
+                        indexed: indices
                     }
                 }
             });
             
-            // Apply filters to get filtered data
-            this.applyFilters();
+            // Force a render if we're on the historical tab
+            if (state.activeDataset === 'historical') {
+                setTimeout(() => {
+                    console.log('Forcing initial render of historical data');
+                    mapService.renderData();
+                }, 50);
+            }
+            
             hideStatus();
+            hideLoading();
+            this.dataLoadingState.historical.inProgress = false;
             
             return processedData;
         } catch (error) {
             console.error("Error loading historical data:", error);
-            showStatus(`Failed to load historical earthquake data: ${error.message}`, true);
+            this.dataLoadingState.historical.lastError = error;
+            this.dataLoadingState.historical.inProgress = false;
+            
+            // Retry logic for network errors
+            if (this.dataLoadingState.historical.retryCount < this.maxRetries &&
+                (error.message.includes('fetch') || error.message.includes('network'))) {
+                
+                this.dataLoadingState.historical.retryCount++;
+                console.log(`Retrying historical data load (${this.dataLoadingState.historical.retryCount}/${this.maxRetries})...`);
+                
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        resolve(this.loadHistoricalData(force));
+                    }, 2000 * this.dataLoadingState.historical.retryCount); // Exponential backoff
+                });
+            }
+            
+            hideLoading();
+            showStatus(`Failed to load historical earthquake data: ${error.message}. Please try refreshing the page.`, true);
             throw error;
         }
+    }
+    
+    /**
+     * Wait for an in-progress data load to complete
+     * @private
+     * @param {string} dataType - Type of data to wait for ('recent' or 'historical')
+     * @returns {Promise} Promise that resolves when data is loaded
+     */
+    _waitForDataLoad(dataType) {
+        return new Promise((resolve, reject) => {
+            const checkInterval = setInterval(() => {
+                if (!this.dataLoadingState[dataType].inProgress) {
+                    clearInterval(checkInterval);
+                    
+                    const state = stateManager.getState();
+                    if (state.dataLoaded[dataType]) {
+                        resolve();
+                    } else {
+                        reject(this.dataLoadingState[dataType].lastError || 
+                               new Error(`Failed to load ${dataType} data`));
+                    }
+                }
+            }, 200);
+            
+            // Set a timeout to prevent infinite waiting
+            setTimeout(() => {
+                clearInterval(checkInterval);
+                reject(new Error(`Timeout waiting for ${dataType} data load to complete`));
+            }, 30000); // 30 second timeout
+        });
     }
     
     /**
@@ -105,6 +282,7 @@ class DataService {
      */
     async fetchCsvData(url) {
         try {
+            console.log(`Fetching data from ${url}...`);
             const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`Failed to fetch CSV: ${response.status} ${response.statusText}`);
@@ -112,6 +290,14 @@ class DataService {
             
             const csvText = await response.text();
             console.log(`Fetched CSV data from ${url}, length: ${csvText.length} bytes`);
+            
+            if (!csvText || csvText.trim().length === 0) {
+                throw new Error('Empty CSV response received');
+            }
+            
+            // Log a small sample of the CSV data to help with debugging
+            const firstLines = csvText.split('\n').slice(0, 3).join('\n');
+            console.log('CSV data preview:', firstLines);
             
             return new Promise((resolve, reject) => {
                 Papa.parse(csvText, {
@@ -126,14 +312,40 @@ class DataService {
                         }
                         return value;
                     },
+                    // Add improved CSV parsing settings
+                    delimiter: ',', // Explicit delimiter
+                    delimitersToGuess: [',', '\t', '|'], // Try these if delimiter is unknown
+                    comments: '#', // Ignore comments
                     complete: results => {
                         if (results.errors && results.errors.length > 0) {
+                            // Log all parsing errors for diagnosis
                             console.warn('CSV parsing warnings:', results.errors);
+                            
+                            // Check if errors are critical
+                            const criticalErrors = results.errors.filter(
+                                err => err.type !== 'FieldMismatch' && err.type !== 'Delimiter'
+                            );
+                            
+                            if (criticalErrors.length > 0) {
+                                reject(new Error(`CSV parsing error: ${criticalErrors[0].message}`));
+                                return;
+                            }
                         }
+                        
+                        if (!results.data || results.data.length === 0) {
+                            reject(new Error('No data found in CSV'));
+                            return;
+                        }
+                        
+                        // Log some diagnostic information about the parsed data
+                        console.log('Parsed CSV headers:', results.meta.fields);
+                        console.log('First parsed record:', results.data[0]);
+                        console.log(`Total records parsed: ${results.data.length}`);
                         
                         resolve(results.data);
                     },
                     error: error => {
+                        console.error('CSV parsing error:', error);
                         reject(new Error(`CSV parsing error: ${error.message}`));
                     }
                 });
@@ -158,12 +370,16 @@ class DataService {
             // Create a standardized object from the CSV data
             let dateTime = null;
             try {
-                dateTime = new Date(item.DateTime || '');
+                const dateString = item.DateTime || '';
+                dateTime = new Date(dateString);
+                
+                // Validate date
                 if (isNaN(dateTime.getTime())) {
-                    throw new Error('Invalid date');
+                    console.warn('Invalid date:', dateString, 'for record:', item);
+                    dateTime = null;
                 }
             } catch (e) {
-                console.warn('Invalid date for record:', item);
+                console.warn('Date parsing error:', e, 'for record:', item);
                 dateTime = null;
             }
             
@@ -172,7 +388,6 @@ class DataService {
             const depth = parseFloat(item['Depth(Km)']) || 0;
             
             // Robust way to determine if earthquake was felt
-            // Make sure we check both "Type" and "type" and handle case sensitivity
             const typeField = item.Type || item.type;
             let wasFelt = false;
             
@@ -195,10 +410,17 @@ class DataService {
             };
         }).filter(item => {
             // Filter out items with invalid coordinates or dates
-            return item.latitude && item.longitude && item.dateTime;
+            const valid = item.latitude && item.longitude && item.dateTime;
+            if (!valid) {
+                console.warn('Filtering out invalid record:', item);
+            }
+            return valid;
         });
         
-        console.log(`Processed ${processed.length} recent earthquake records`);
+        // Count felt earthquakes for debugging
+        const feltCount = processed.filter(quake => quake.felt === true).length;
+        console.log(`Processed ${processed.length} recent earthquake records, ${feltCount} are marked as felt`);
+        
         return processed;
     }
     
@@ -235,6 +457,7 @@ class DataService {
                         
                         // Validate date
                         if (isNaN(dateTime.getTime())) {
+                            console.warn('Invalid date created from:', item.Date, item.Time);
                             dateTime = null;
                         }
                     }
@@ -245,17 +468,19 @@ class DataService {
             }
             
             // Get the best magnitude value from multiple possibilities
-            let magnitude = null;
-            if (item.M !== null && item.M !== undefined && item.M > -900) {
+            let magnitude = 0;
+            
+            // Try to find a valid magnitude value (not null, not undefined, not a sentinel value like -999)
+            const validValue = val => val !== null && val !== undefined && val > -900;
+            
+            if (validValue(item.M)) {
                 magnitude = item.M;
-            } else if (item.mb !== null && item.mb !== undefined && item.mb > -900) {
+            } else if (validValue(item.mb)) {
                 magnitude = item.mb;
-            } else if (item.ms !== null && item.ms !== undefined && item.ms > -900) {
+            } else if (validValue(item.ms)) {
                 magnitude = item.ms;
-            } else if (item.ml !== null && item.ml !== undefined && item.ml > -900) {
+            } else if (validValue(item.ml)) {
                 magnitude = item.ml;
-            } else {
-                magnitude = 0;
             }
             
             return {
@@ -273,8 +498,12 @@ class DataService {
                 rendered: false
             };
         }).filter(item => {
-            // Filter out items with invalid coordinates or dates
-            return item.latitude && item.longitude && item.dateTime && !isNaN(item.dateTime.getTime());
+            // Filter out items with invalid coordinates, dates, or suspicious values
+            return item.latitude && 
+                   item.longitude && 
+                   item.dateTime && 
+                   !isNaN(item.dateTime.getTime()) &&
+                   item.magnitude >= 0;
         });
         
         console.timeEnd('processHistoricalData');
@@ -290,6 +519,8 @@ class DataService {
      * @returns {Object} Indices for quick filtering
      */
     buildHistoricalIndices(earthquakes) {
+        console.time('buildHistoricalIndices');
+        
         // Build indices for faster filtering
         const byYear = {};
         const byMagnitude = {};
@@ -310,6 +541,10 @@ class DataService {
             }
             byMagnitude[roundedMag].push(quake);
         });
+        
+        console.timeEnd('buildHistoricalIndices');
+        console.log('Year index created with entries:', Object.keys(byYear).length);
+        console.log('Magnitude index created with entries:', Object.keys(byMagnitude).length);
         
         return {
             byYear,
@@ -365,6 +600,20 @@ class DataService {
                 }
             }
         });
+        
+        // Force a map render to ensure data is displayed initially
+        if (typeof mapService?.renderData === 'function' && 
+            state.activeDataset === 'recent' && 
+            !this._initialRenderDone) {
+            
+            console.log('Forcing initial render of recent data');
+            this._initialRenderDone = true;
+            
+            // Small delay to allow state to update
+            setTimeout(() => {
+                mapService.renderData();
+            }, 100);
+        }
         
         console.log(`Applied filters: ${filtered.length} recent earthquakes match criteria`);
     }
@@ -431,7 +680,27 @@ class DataService {
             }
         });
         
-        console.log(`Applied filters: ${filtered.length} historical earthquakes match criteria`);
+        // Trigger a map render if we're in historical mode - but use a flag to prevent loops
+        if (state.activeDataset === 'historical' && typeof mapService?.renderData === 'function' && !this._preventRenderLoop) {
+            // Set flag to prevent loops
+            this._preventRenderLoop = true;
+            
+            setTimeout(() => {
+                try {
+                    console.log('Triggering map render after historical filters applied');
+                    mapService.renderData();
+                } catch (error) {
+                    console.warn('Could not trigger map render:', error);
+                } finally {
+                    // Reset flag after a delay
+                    setTimeout(() => {
+                        this._preventRenderLoop = false;
+                    }, 500);
+                }
+            }, 0);
+        }
+        
+        console.log(`Applied filters: ${filtered.length} historical earthquakes match criteria}`);
     }
     
     /**
@@ -452,6 +721,30 @@ class DataService {
         }
         
         return calculateStatistics(earthquakes, yearRange);
+    }
+    
+    /**
+     * Ensure displayed data is populated for the given dataset
+     * @param {string} datasetType - Type of dataset ('recent' or 'historical')
+     */
+    ensureDisplayedData(datasetType) {
+        const state = stateManager.getState();
+        
+        // If filtered data exists but displayed data is empty, copy filtered to displayed
+        if (state.data[datasetType].filtered && 
+            state.data[datasetType].filtered.length > 0 &&
+            (!state.data[datasetType].displayed || state.data[datasetType].displayed.length === 0)) {
+            
+            stateManager.setState({
+                data: {
+                    [datasetType]: {
+                        displayed: state.data[datasetType].filtered
+                    }
+                }
+            });
+            
+            console.log(`Populated displayed data for ${datasetType} with ${state.data[datasetType].filtered.length} records`);
+        }
     }
     
     /**

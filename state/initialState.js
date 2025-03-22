@@ -9,6 +9,8 @@ export const initialState = {
         recent: false,
         historical: false
     },
+    // Flag to indicate historical data is queued for loading
+    historicalDataQueued: false,
     data: {
         recent: {
             raw: [],
@@ -45,12 +47,24 @@ export const initialState = {
     },
     // Render mode for historical data
     renderMode: {
-        historical: 'points' // Default is 'cluster', alternatives are 'points'
+        historical: 'points' // Default is 'points', alternatives could be 'cluster'
     },
     // Rendering performance tracking
     performance: {
         lastRenderTime: 0,
-        renderDuration: 0
+        renderDuration: 0,
+        avgRenderTime: 0,
+        renderCount: 0
+    },
+    // Network state
+    network: {
+        isOnline: navigator.onLine,
+        connectionType: navigator.connection ? navigator.connection.effectiveType : '4g'
+    },
+    // Application state
+    app: {
+        initialized: false,
+        mapReady: false
     },
     // Plate boundaries toggle state
     showPlateBoundaries: false,

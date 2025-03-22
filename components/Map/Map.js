@@ -20,6 +20,21 @@ export class Map {
         
         // Initialize the legend
         this.legend = new Legend();
+        
+        // Track last state to avoid unnecessary renders
+        this._lastState = {
+            activeDataset: null,
+            colorMode: null,
+            showPlateBoundaries: null,
+            dataLoaded: { recent: false, historical: false },
+            filteredDataLength: { recent: 0, historical: 0 },
+            currentZoom: null,
+            viewportBounds: null
+        };
+        
+        // Track render timing
+        this._lastRenderTime = 0;
+        this._lastSelectedEarthquake = null;
     }
     
     /**
@@ -32,15 +47,12 @@ export class Map {
             // Initialize the map using the MapService (await the Promise)
             this.map = await mapService.initializeMap(this.containerId);
             
-            // Subscribe to state changes after map is initialized
+            // Subscribe to state changes after map is initialized, using selective tracking
             this.unsubscribeFromState = stateManager.subscribe(state => {
-                // Only rerender the map if we have data and filters have changed
-                const modeChanged = state.colorMode || state.renderMode || state.showPlateBoundaries;
-                const filtersChanged = state.filters;
-                const dataChanged = state.data;
-                const selectedChanged = state.selectedEarthquake;
+                // Only rerender the map when important properties change
+                const shouldRender = this.shouldRenderForStateChange(state);
                 
-                if (modeChanged || filtersChanged || dataChanged || selectedChanged) {
+                if (shouldRender) {
                     this.render(state);
                 }
             });
@@ -61,6 +73,98 @@ export class Map {
     }
     
     /**
+     * Determine if render is needed based on state changes
+     * @param {Object} newState - New application state
+     * @returns {boolean} True if render is needed
+     */
+    shouldRenderForStateChange(newState) {
+        // Check if critical state properties have changed
+        const activeDatasetChanged = newState.activeDataset !== this._lastState.activeDataset;
+        
+        // Only check color mode if it exists in both states
+        let colorModeChanged = false;
+        if (newState.colorMode && this._lastState.colorMode && newState.activeDataset) {
+            colorModeChanged = newState.colorMode[newState.activeDataset] !== 
+                              this._lastState.colorMode[newState.activeDataset];
+        }
+        
+        const plateBoundariesChanged = newState.showPlateBoundaries !== this._lastState.showPlateBoundaries;
+        
+        // Check if data loading state changed
+        let dataLoadedChanged = false;
+        if (newState.dataLoaded && this._lastState.dataLoaded && newState.activeDataset) {
+            dataLoadedChanged = newState.dataLoaded[newState.activeDataset] !== 
+                               this._lastState.dataLoaded[newState.activeDataset];
+        }
+        
+        // Check if filtered data changed (specifically look at length as a quick check)
+        let filteredDataChanged = false;
+        if (newState.activeDataset === 'recent' && 
+            newState.data?.recent?.filtered?.length !== this._lastState.filteredDataLength?.recent) {
+            filteredDataChanged = true;
+            // Update cached length
+            this._lastState.filteredDataLength = this._lastState.filteredDataLength || {};
+            this._lastState.filteredDataLength.recent = newState.data?.recent?.filtered?.length;
+        } else if (newState.activeDataset === 'historical' && 
+                  newState.data?.historical?.filtered?.length !== this._lastState.filteredDataLength?.historical) {
+            filteredDataChanged = true;
+            // Update cached length
+            this._lastState.filteredDataLength = this._lastState.filteredDataLength || {};
+            this._lastState.filteredDataLength.historical = newState.data?.historical?.filtered?.length;
+        }
+        
+        // Only render for filter changes if they actually resulted in different data
+        let filtersChanged = false;
+        if (filteredDataChanged && newState.filters) {
+            filtersChanged = true;
+        }
+        
+        const selectedChanged = newState.selectedEarthquake !== this._lastState.selectedEarthquake;
+        
+        // Explicitly ignore zoom and bounds changes - keep track of them but don't trigger renders
+        // Check if zoom changed significantly - but we WON'T use this to trigger renders
+        const zoomChanged = Math.abs((newState.currentZoom || 0) - (this._lastState.currentZoom || 0)) > 0.2;
+        if (zoomChanged) {
+            console.log(`Zoom changed to ${newState.currentZoom.toFixed(1)} - not triggering render`);
+        }
+        
+        // Save key parts of the new state for next comparison
+        this._lastState = {
+            ...this._lastState,
+            activeDataset: newState.activeDataset,
+            colorMode: newState.colorMode ? {...newState.colorMode} : this._lastState.colorMode,
+            showPlateBoundaries: newState.showPlateBoundaries,
+            dataLoaded: newState.dataLoaded ? {...newState.dataLoaded} : this._lastState.dataLoaded,
+            filters: newState.filters ? JSON.parse(JSON.stringify(newState.filters)) : this._lastState.filters,
+            selectedEarthquake: newState.selectedEarthquake,
+            currentZoom: newState.currentZoom,
+            viewportBounds: newState.viewportBounds ? {...newState.viewportBounds} : this._lastState.viewportBounds
+            // filteredDataLength is maintained above
+        };
+        
+        // Render if any important property changed - but NOT for zoom changes
+        const shouldRender = activeDatasetChanged || 
+                            colorModeChanged || 
+                            plateBoundariesChanged || 
+                            dataLoadedChanged || 
+                            filtersChanged ||
+                            selectedChanged;
+                            
+        if (shouldRender) {
+            console.log('Map render triggered by: ' + 
+                (activeDatasetChanged ? 'activeDataset ' : '') +
+                (colorModeChanged ? 'colorMode ' : '') +
+                (plateBoundariesChanged ? 'plateBoundaries ' : '') +
+                (dataLoadedChanged ? 'dataLoaded ' : '') +
+                (filtersChanged ? 'filters ' : '') +
+                (selectedChanged ? 'selection ' : '')
+            );
+        }
+        
+        return shouldRender;
+    }
+    
+    /**
      * Render the map based on current state
      * @param {Object} state - Current application state
      */
@@ -78,7 +182,7 @@ export class Map {
             return;
         }
         
-        // Add a throttle to prevent too frequent map renders
+        // Throttle renders
         const now = Date.now();
         if (!this._lastRenderTime || (now - this._lastRenderTime > 100)) {
             // Render the earthquake data

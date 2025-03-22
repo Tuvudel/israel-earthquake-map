@@ -15,6 +15,7 @@ class MapService {
         this.legendElement = null;
         this.sourceInitialized = false;
         this.mapReady = false;
+        this.mapLoadPromise = null; // Track map loading state
     }
     
     /**
@@ -23,92 +24,139 @@ class MapService {
      * @returns {Promise<Object>} Promise resolving to MapLibre map instance
      */
     async initializeMap(containerId = 'map') {
-        try {
-            showLoading('Initializing map...');
-            
-            // Create the map with a simple style that will load reliably
-            this.map = new maplibregl.Map({
-                container: containerId,
-                style: {
-                    version: 8,
-                    sources: {
-                        'osm-tiles': {
-                            type: 'raster',
-                            tiles: [
-                                'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
-                            ],
-                            tileSize: 256,
-                            attribution: '© OpenStreetMap contributors'
-                        }
-                    },
-                    layers: [{
-                        id: 'osm-tiles',
-                        type: 'raster',
-                        source: 'osm-tiles',
-                        minzoom: 0,
-                        maxzoom: 19
-                    }]
-                },
-                center: config.map.center,
-                zoom: config.map.zoom,
-                minZoom: config.map.minZoom,
-                maxZoom: config.map.maxZoom
-            });
-            
-            // Add navigation controls
-            this.map.addControl(new maplibregl.NavigationControl(), 'top-right');
-            
-            // Add scale to the map
-            this.map.addControl(new maplibregl.ScaleControl({
-                maxWidth: 100,
-                unit: 'metric'
-            }), 'bottom-left');
-            
-            // Initialize custom popup
-            this.initializeCustomPopup();
-            
-            // Wait for the map to be loaded
-            return new Promise((resolve) => {
-                this.map.on('load', () => {
-                    console.log('Map loaded, initializing sources');
-                    
-                    // Set up event handlers
-                    this.setupEventHandlers();
-                    
-                    // Initialize sources once the map is loaded
-                    this.initializeMapSources();
-                    
-                    // Create the legend
-                    this.createLegend();
-                    
-                    // Mark map as ready
-                    this.mapReady = true;
-                    
-                    // Update state with map state
-                    this.updateStateFromMap();
-                    
-                    // Hide loading overlay
-                    hideLoading();
-                    
-                    // Resolve with the map instance
-                    resolve(this.map);
-                });
-            });
-        } catch (error) {
-            console.error('Map initialization error:', error);
-            hideLoading();
-            showStatus('Error initializing map: ' + error.message, true);
-            throw error;
+        // If map initialization is already in progress, return the existing promise
+        if (this.mapLoadPromise) {
+            return this.mapLoadPromise;
         }
+        
+        this.mapLoadPromise = new Promise(async (resolve, reject) => {
+            try {
+                showLoading('Initializing map...');
+                
+                // Create the map with a simple style that will load reliably
+                this.map = new maplibregl.Map({
+                    container: containerId,
+                    style: {
+                        version: 8,
+                        sources: {
+                            'osm-tiles': {
+                                type: 'raster',
+                                tiles: [
+                                    'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+                                ],
+                                tileSize: 256,
+                                attribution: '© OpenStreetMap contributors'
+                            }
+                        },
+                        layers: [{
+                            id: 'osm-tiles',
+                            type: 'raster',
+                            source: 'osm-tiles',
+                            minzoom: 0,
+                            maxzoom: 19
+                        }]
+                    },
+                    center: config.map.center,
+                    zoom: config.map.zoom,
+                    minZoom: config.map.minZoom,
+                    maxZoom: config.map.maxZoom
+                });
+                
+                // Add navigation controls
+                this.map.addControl(new maplibregl.NavigationControl(), 'top-right');
+                
+                // Add scale to the map
+                this.map.addControl(new maplibregl.ScaleControl({
+                    maxWidth: 100,
+                    unit: 'metric'
+                }), 'bottom-left');
+                
+                // Initialize custom popup
+                this.initializeCustomPopup();
+                
+                // Wait for the map to be loaded
+                this.map.on('load', () => {
+                    try {
+                        console.log('Map loaded, initializing sources');
+                        
+                        // Set up event handlers
+                        this.setupEventHandlers();
+                        
+                        // Initialize sources once the map is loaded
+                        this.initializeMapSources();
+                        
+                        // Create the legend
+                        this.createLegend();
+                        
+                        // Mark map as ready
+                        this.mapReady = true;
+                        
+                        // Update state with map state
+                        this.updateStateFromMap();
+                        
+                        // Hide loading overlay
+                        hideLoading();
+                        
+                        // Resolve with the map instance
+                        resolve(this.map);
+                    } catch (error) {
+                        console.error('Error during map initialization:', error);
+                        showStatus('Error initializing map: ' + error.message, true);
+                        hideLoading();
+                        reject(error);
+                    }
+                });
+                
+                // Add error handler for map loading
+                this.map.on('error', (e) => {
+                    console.error('MapLibre error:', e);
+                    if (!this.mapReady) {
+                        showStatus('Error initializing map: ' + e.error.message, true);
+                        hideLoading();
+                        reject(new Error('Map initialization failed: ' + e.error.message));
+                    }
+                });
+            } catch (error) {
+                console.error('Map initialization error:', error);
+                hideLoading();
+                showStatus('Error initializing map: ' + error.message, true);
+                reject(error);
+            }
+        });
+        
+        return this.mapLoadPromise;
     }
     
     /**
      * Set up map event handlers
      */
     setupEventHandlers() {
+        if (!this.map) return;
+        
+        // Variables for debouncing map events
+        let moveTimeout = null;
+        const debounceDelay = 300; // ms
+        
+        // Debounced handler for zoom and move events - ONLY updates state, no styling or rendering
+        const handleMapChange = () => {
+            // Clear any existing timeout
+            if (moveTimeout) clearTimeout(moveTimeout);
+            
+            // Only set a new timeout if we're not currently processing map changes
+            moveTimeout = setTimeout(() => {
+                try {
+                    // Just update the state with new bounds and zoom level
+                    // Do NOT trigger any styling updates or renders
+                    this.updateStateFromMap();
+                } catch (err) {
+                    console.warn('Error handling map change:', err);
+                }
+            }, debounceDelay);
+        };
+        
         // Set up zooming and panning event handlers
-        this.map.on('zoomend', () => this.updateStateFromMap());
-        this.map.on('moveend', () => this.updateStateFromMap());
+        this.map.on('zoomend', handleMapChange);
+        this.map.on('moveend', handleMapChange);
         
         // Set up click handlers for earthquakes
         this.setupClickHandlers();
@@ -122,6 +170,14 @@ class MapService {
         
         try {
             console.log('Initializing map sources and layers');
+            
+            // Check if the map is fully loaded
+            if (!this.map.isStyleLoaded()) {
+                console.warn('Map style not fully loaded, deferring source initialization');
+                // Try again after a short delay
+                setTimeout(() => this.initializeMapSources(), 200);
+                return;
+            }
             
             // Add source for recent earthquakes
             this.map.addSource(config.maplibre.sources.recent, {
@@ -251,6 +307,13 @@ class MapService {
         } catch (error) {
             console.error('Error initializing map sources:', error);
             this.sourceInitialized = false; // Reset flag on error
+            
+            // Try again after a delay if this was likely a timing issue
+            if (error.message.includes('style is not done loading') || 
+                error.message.includes('layers is not defined')) {
+                console.log('Retrying source initialization in 500ms...');
+                setTimeout(() => this.initializeMapSources(), 500);
+            }
         }
     }
     
@@ -264,15 +327,21 @@ class MapService {
         const bounds = this.map.getBounds();
         
         if (bounds) {
-            stateManager.setState({
-                currentZoom: zoom,
-                viewportBounds: {
-                    north: bounds.getNorth(),
-                    south: bounds.getSouth(),
-                    east: bounds.getEast(),
-                    west: bounds.getWest()
-                }
-            });
+            const currentState = stateManager.getState();
+            const currentZoom = currentState.currentZoom;
+            
+            // Only update state if zoom has changed significantly
+            if (Math.abs(zoom - currentZoom) >= 0.2) {
+                stateManager.setState({
+                    currentZoom: zoom,
+                    viewportBounds: {
+                        north: bounds.getNorth(),
+                        south: bounds.getSouth(),
+                        east: bounds.getEast(),
+                        west: bounds.getWest()
+                    }
+                });
+            }
         }
     }
     
@@ -597,24 +666,58 @@ class MapService {
     
     /**
      * Render earthquake data on the map
+     * @param {boolean} viewOnlyUpdate - If true, only update styling, not data sources
      */
-    renderData() {
-        if (!this.map || !this.sourceInitialized) {
-            console.warn('Map or sources not initialized yet');
+    renderData(viewOnlyUpdate = false) {
+        if (!this.map) {
+            console.warn('Map not initialized yet');
             return;
         }
+        
+        if (!this.sourceInitialized) {
+            console.warn('Map sources not initialized yet, retrying in 200ms');
+            setTimeout(() => this.renderData(viewOnlyUpdate), 200);
+            return;
+        }
+        
+        // Prevent recursive rendering
+        if (this._isRendering) {
+            console.warn('Render already in progress, skipping');
+            return;
+        }
+        
+        this._isRendering = true;
+        
+        // Track rendering time for performance metrics
+        const renderStart = performance.now();
+        console.log('Starting map render, viewOnlyUpdate:', viewOnlyUpdate);
         
         // Get current state
         const state = stateManager.getState();
         const activeDataset = state.activeDataset;
         
-        // Hide all layers first
-        this.hideAllLayers();
-        
-        // Update the legend to match current color mode
-        this.createLegend();
-        
         try {
+            // For view-only updates (panning/zooming), we don't need to reload the data
+            // just update layer visibility and styling
+            if (viewOnlyUpdate) {
+                // Update styling based on current zoom level
+                this.updateStylingForZoom(state.currentZoom);
+                
+                // Calculate rendering duration without updating state
+                const renderDuration = performance.now() - renderStart;
+                console.log(`View-only render completed in ${renderDuration.toFixed(2)} ms`);
+                
+                this._isRendering = false;
+                return;
+            }
+            
+            // Full render - hide all layers first
+            this.hideAllLayers();
+            
+            // Update the legend to match current color mode
+            this.createLegend();
+            
+            // Render appropriate dataset
             if (activeDataset === 'historical') {
                 this.renderHistoricalData();
             } else {
@@ -628,10 +731,83 @@ class MapService {
             
             // Hide any loading indicators
             hideLoading();
+            
+            // Calculate rendering duration without updating state every time
+            const renderDuration = performance.now() - renderStart;
+            console.log('Map render completed in', renderDuration.toFixed(2), 'ms');
+            
+            // Only update performance metrics occasionally to avoid rendering loops
+            this._renderCount = (this._renderCount || 0) + 1;
+            if (this._renderCount % 10 === 0) {
+                // Update state with aggregated performance metrics every 10 renders
+                window.setTimeout(() => {
+                    stateManager.setState({
+                        performance: {
+                            renderDuration: renderDuration,
+                            renderCount: this._renderCount
+                        }
+                    });
+                }, 100);
+            }
         } catch (err) {
             console.error('Error rendering data:', err);
             showStatus('Error rendering earthquake data: ' + err.message, true);
             hideLoading();
+        } finally {
+            this._isRendering = false;
+        }
+    }
+    
+    /**
+     * Update layer visibility based on active dataset
+     * @param {string} activeDataset - The active dataset ('recent' or 'historical')
+     */
+    updateLayerVisibility(activeDataset) {
+        try {
+            // Show only the layers for the active dataset
+            if (activeDataset === 'historical') {
+                this.map.setLayoutProperty(config.maplibre.layers.historicalEarthquakes, 'visibility', 'visible');
+                this.map.setLayoutProperty(config.maplibre.layers.recentEarthquakes, 'visibility', 'none');
+            } else {
+                this.map.setLayoutProperty(config.maplibre.layers.recentEarthquakes, 'visibility', 'visible');
+                this.map.setLayoutProperty(config.maplibre.layers.historicalEarthquakes, 'visibility', 'none');
+            }
+            
+            // Show plate boundaries if enabled
+            const state = stateManager.getState();
+            if (state.showPlateBoundaries) {
+                this.map.setLayoutProperty(config.maplibre.layers.plateBoundaries, 'visibility', 'visible');
+            } else {
+                this.map.setLayoutProperty(config.maplibre.layers.plateBoundaries, 'visibility', 'none');
+            }
+        } catch (error) {
+            // Silently fail - this is not critical
+            console.warn('Error updating layer visibility:', error);
+        }
+    }
+    
+    /**
+     * Update styling based on zoom level for better performance
+     * @param {number} zoom - Current zoom level
+     */
+    updateStylingForZoom(zoom) {
+        if (!this.map || !this.sourceInitialized) return;
+        
+        try {
+            // Skip all styling updates except for size - they're causing performance issues
+            // Just keep track of the zoom level for sizing calculations
+            
+            // This information will be used in layer definition and won't require
+            // constant style updates during zooming
+            this._currentZoom = zoom;
+            
+            // No updates to circle-stroke-width or circle-opacity - these were causing slowdowns
+            
+            // No direct style updates - the size calculations still happen
+            // but only when data is actually rendered, not during zoom
+        } catch (error) {
+            // Log error but don't disrupt map usage
+            console.warn('Error updating zoom information:', error);
         }
     }
     
@@ -668,10 +844,24 @@ class MapService {
                 
                 // Hide status message for successful rendering
                 hideStatus();
+            } else {
+                console.error('Recent earthquakes source not found');
+                this.initializeMapSources(); // Try reinitializing sources
             }
         } catch (error) {
             console.error('Error rendering recent data:', error);
-            throw error;
+            
+            // If this was likely a timing issue, try reinitializing the sources
+            if (error.message.includes('Source') || error.message.includes('source')) {
+                console.log('Attempting to reinitialize map sources...');
+                this.sourceInitialized = false;
+                this.initializeMapSources();
+                
+                // Try rendering again after a delay
+                setTimeout(() => this.renderRecentData(), 500);
+            } else {
+                throw error;
+            }
         }
     }
     
@@ -723,10 +913,22 @@ class MapService {
                 });
             } else {
                 console.error('Historical earthquakes source not found');
+                this.initializeMapSources(); // Try reinitializing sources
             }
         } catch (error) {
             console.error('Error rendering historical data:', error);
-            throw error;
+            
+            // If this was likely a timing issue, try reinitializing the sources
+            if (error.message.includes('Source') || error.message.includes('source')) {
+                console.log('Attempting to reinitialize map sources...');
+                this.sourceInitialized = false;
+                this.initializeMapSources();
+                
+                // Try rendering again after a delay
+                setTimeout(() => this.renderHistoricalData(), 500);
+            } else {
+                throw error;
+            }
         }
     }
     
@@ -738,42 +940,51 @@ class MapService {
     updateLayerStyling(layerId, colorMode) {
         if (!this.map) return;
         
-        if (colorMode === 'magnitude') {
-            // Color by magnitude
-            this.map.setPaintProperty(layerId, 'circle-color', [
-                'case',
-                ['<', ['get', 'magnitude'], 2], config.colors.magnitude.verySmall,
-                ['<', ['get', 'magnitude'], 3], config.colors.magnitude.small,
-                ['<', ['get', 'magnitude'], 4], config.colors.magnitude.medium,
-                ['<', ['get', 'magnitude'], 5], config.colors.magnitude.large,
-                ['<', ['get', 'magnitude'], 6], config.colors.magnitude.veryLarge,
-                ['<', ['get', 'magnitude'], 7], config.colors.magnitude.major,
-                config.colors.magnitude.great
-            ]);
+        try {
+            if (colorMode === 'magnitude') {
+                // Color by magnitude
+                this.map.setPaintProperty(layerId, 'circle-color', [
+                    'case',
+                    ['<', ['get', 'magnitude'], 2], config.colors.magnitude.verySmall,
+                    ['<', ['get', 'magnitude'], 3], config.colors.magnitude.small,
+                    ['<', ['get', 'magnitude'], 4], config.colors.magnitude.medium,
+                    ['<', ['get', 'magnitude'], 5], config.colors.magnitude.large,
+                    ['<', ['get', 'magnitude'], 6], config.colors.magnitude.veryLarge,
+                    ['<', ['get', 'magnitude'], 7], config.colors.magnitude.major,
+                    config.colors.magnitude.great
+                ]);
+                
+                // Size by depth (inverse relationship) with fixed sizing
+                this.map.setPaintProperty(layerId, 'circle-radius', [
+                    'case',
+                    ['<', ['get', 'depth'], 5], 18,
+                    ['<', ['get', 'depth'], 30], ['-', 15, ['*', 0.28, ['-', ['get', 'depth'], 5]]],
+                    ['max', 5, ['-', 8, ['*', 0.05, ['-', ['get', 'depth'], 30]]]]
+                ]);
+            } else {
+                // Color by depth (default)
+                this.map.setPaintProperty(layerId, 'circle-color', [
+                    'case',
+                    ['<', ['get', 'depth'], 5], config.colors.depth.veryShallow,
+                    ['<', ['get', 'depth'], 10], config.colors.depth.shallow,
+                    ['<', ['get', 'depth'], 20], config.colors.depth.medium,
+                    config.colors.depth.deep
+                ]);
+                
+                // Size by magnitude (cubic scale)
+                this.map.setPaintProperty(layerId, 'circle-radius', [
+                    '+',
+                    4,
+                    ['/', ['*', ['get', 'magnitude'], ['get', 'magnitude'], ['get', 'magnitude']], 2]
+                ]);
+            }
             
-            // Size by depth (inverse relationship)
-            this.map.setPaintProperty(layerId, 'circle-radius', [
-                'case',
-                ['<', ['get', 'depth'], 5], 18,
-                ['<', ['get', 'depth'], 30], ['-', 15, ['*', 0.28, ['-', ['get', 'depth'], 5]]],
-                ['max', 5, ['-', 8, ['*', 0.05, ['-', ['get', 'depth'], 30]]]]
-            ]);
-        } else {
-            // Color by depth (default)
-            this.map.setPaintProperty(layerId, 'circle-color', [
-                'case',
-                ['<', ['get', 'depth'], 5], config.colors.depth.veryShallow,
-                ['<', ['get', 'depth'], 10], config.colors.depth.shallow,
-                ['<', ['get', 'depth'], 20], config.colors.depth.medium,
-                config.colors.depth.deep
-            ]);
-            
-            // Size by magnitude (cubic scale)
-            this.map.setPaintProperty(layerId, 'circle-radius', [
-                '+',
-                4,
-                ['/', ['*', ['get', 'magnitude'], ['get', 'magnitude'], ['get', 'magnitude']], 2]
-            ]);
+            // Set fixed stroke and opacity that won't change with zoom
+            this.map.setPaintProperty(layerId, 'circle-stroke-width', 1);
+            this.map.setPaintProperty(layerId, 'circle-opacity', 0.8);
+        } catch (error) {
+            console.error('Error updating layer styling:', error);
+            // Don't rethrow as this is not a critical error
         }
     }
     
@@ -783,15 +994,20 @@ class MapService {
     hideAllLayers() {
         if (!this.map) return;
         
-        // Hide earthquake layers
-        this.map.setLayoutProperty(config.maplibre.layers.recentEarthquakes, 'visibility', 'none');
-        this.map.setLayoutProperty(config.maplibre.layers.historicalEarthquakes, 'visibility', 'none');
-        
-        // Hide plate boundaries
-        this.map.setLayoutProperty(config.maplibre.layers.plateBoundaries, 'visibility', 'none');
-        
-        // Hide highlighted marker
-        this.map.setLayoutProperty(config.maplibre.layers.highlight, 'visibility', 'none');
+        try {
+            // Hide earthquake layers
+            this.map.setLayoutProperty(config.maplibre.layers.recentEarthquakes, 'visibility', 'none');
+            this.map.setLayoutProperty(config.maplibre.layers.historicalEarthquakes, 'visibility', 'none');
+            
+            // Hide plate boundaries
+            this.map.setLayoutProperty(config.maplibre.layers.plateBoundaries, 'visibility', 'none');
+            
+            // Hide highlighted marker
+            this.map.setLayoutProperty(config.maplibre.layers.highlight, 'visibility', 'none');
+        } catch (error) {
+            console.warn('Error hiding layers, some layers may not be initialized yet:', error);
+            // Don't rethrow as this is not a critical error
+        }
         
         // Hide popup
         this.hidePopup();
@@ -840,40 +1056,53 @@ class MapService {
             }]
         };
         
-        // Update the highlight source and show it
-        const sourceId = `${config.maplibre.layers.highlight}-source`;
-        
-        if (this.map.getSource(sourceId)) {
-            // If source already exists, update it
-            this.map.getSource(sourceId).setData(highlightData);
-        } else {
-            // Create a new source
-            this.map.addSource(sourceId, {
-                type: 'geojson',
-                data: highlightData
-            });
+        try {
+            // Update the highlight source and show it
+            const sourceId = `${config.maplibre.layers.highlight}-source`;
+            
+            if (this.map.getSource(sourceId)) {
+                // If source already exists, update it
+                this.map.getSource(sourceId).setData(highlightData);
+            } else {
+                // Create a new source
+                this.map.addSource(sourceId, {
+                    type: 'geojson',
+                    data: highlightData
+                });
+                
+                // Make sure the layer uses this source
+                this.map.setLayoutProperty(
+                    config.maplibre.layers.highlight,
+                    'source',
+                    sourceId
+                );
+            }
+            
+            // Show the highlight layer
+            this.map.setLayoutProperty(config.maplibre.layers.highlight, 'visibility', 'visible');
+            
+            // Show popup with earthquake info
+            const popupContent = `
+                <strong>Maximum Magnitude Earthquake (${earthquake.magnitude.toFixed(1)})</strong><br>
+                <strong>Date & Time:</strong> ${new Date(earthquake.dateTime).toLocaleString()}<br>
+                <strong>Depth:</strong> ${earthquake.depth.toFixed(1)} km<br>
+                <strong>Region:</strong> ${earthquake.region || 'Unknown'}<br>
+                <strong>Type:</strong> ${earthquake.type || 'Unknown'}
+                ${earthquake.felt === true ? '<br><span style="color: #4CAF50; font-weight: bold;">✓ Felt Earthquake</span>' : ''}
+            `;
+            
+            this.showPopup(coords, popupContent);
+            
+            // Auto-hide the highlight after 5 seconds
+            setTimeout(() => {
+                this.map.setLayoutProperty(config.maplibre.layers.highlight, 'visibility', 'none');
+                this.hidePopup();
+            }, 5000);
+        } catch (error) {
+            console.error('Error highlighting earthquake:', error);
+            // Try to show the popup anyway
+            this.showPopup(coords, `Magnitude ${earthquake.magnitude.toFixed(1)} earthquake at ${earthquake.depth.toFixed(1)} km depth`);
         }
-        
-        // Update the layer source
-        this.map.setLayoutProperty(config.maplibre.layers.highlight, 'visibility', 'visible');
-        
-        // Show popup with earthquake info
-        const popupContent = `
-            <strong>Maximum Magnitude Earthquake (${earthquake.magnitude.toFixed(1)})</strong><br>
-            <strong>Date & Time:</strong> ${new Date(earthquake.dateTime).toLocaleString()}<br>
-            <strong>Depth:</strong> ${earthquake.depth.toFixed(1)} km<br>
-            <strong>Region:</strong> ${earthquake.region || 'Unknown'}<br>
-            <strong>Type:</strong> ${earthquake.type || 'Unknown'}
-            ${earthquake.felt === true ? '<br><span style="color: #4CAF50; font-weight: bold;">✓ Felt Earthquake</span>' : ''}
-        `;
-        
-        this.showPopup(coords, popupContent);
-        
-        // Auto-hide the highlight after 5 seconds
-        setTimeout(() => {
-            this.map.setLayoutProperty(config.maplibre.layers.highlight, 'visibility', 'none');
-            this.hidePopup();
-        }, 5000);
     }
 }
 

@@ -86,16 +86,31 @@ class App {
             // Hide loading right after first dataset is loaded
             hideLoading();
             
-            // Preload historical data in the background for faster tab switching
-            setTimeout(async () => {
+            // Instead of a background timeout, set a flag to load historical data when needed
+            stateManager.setState({
+                historicalDataQueued: true
+            });
+            
+            // Only preload historical data if the network is fast
+            // This uses the Network Information API where available
+            if (navigator.connection && 
+                (navigator.connection.effectiveType === '4g' || 
+                 navigator.connection.downlink > 1.5)) {
+                
+                console.log('Network seems fast, preloading historical data');
                 try {
                     await dataService.loadHistoricalData();
                     console.log('Historical data loaded in background');
                 } catch (error) {
                     console.warn('Background loading of historical data failed:', error);
-                    // We don't show an error message here since this is a background task
+                    // We'll retry when user switches to historical tab
+                    stateManager.setState({
+                        historicalDataQueued: true
+                    });
                 }
-            }, 2000); // Start loading after 2 seconds to not compete with initial rendering
+            } else {
+                console.log('Deferring historical data load until needed');
+            }
         } catch (error) {
             console.error('Failed to load initial data:', error);
             hideLoading();

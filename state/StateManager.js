@@ -8,6 +8,10 @@ class StateManager {
     constructor(initialState) {
         this.state = {...initialState};
         this.listeners = [];
+        this.previousState = {...initialState}; // Keep track of previous state for change detection
+        this.updateQueue = []; // Queue updates to batch them
+        this.isProcessingUpdates = false; // Flag to track if we're processing updates
+        this.updateScheduled = false; // Flag to track if an update is scheduled
     }
 
     /**
@@ -24,24 +28,74 @@ class StateManager {
      * @param {*} [value] - Value to set (if path is provided)
      */
     setState(pathOrState, value) {
-        // Start timing for performance tracking
-        const startTime = performance.now();
-
-        // Case 1: Object update
-        if (typeof pathOrState === 'object' && value === undefined) {
-            this._updateWithObject(pathOrState);
-        } 
-        // Case 2: Path-based update
-        else if (typeof pathOrState === 'string') {
-            this._updateWithPath(pathOrState, value);
+        // Queue the update
+        this.updateQueue.push({pathOrState, value});
+        
+        // Schedule processing of updates if not already scheduled
+        if (!this.updateScheduled) {
+            this.updateScheduled = true;
+            
+            // Use microtask to batch updates
+            queueMicrotask(() => this._processUpdates());
         }
-
-        // Notify all listeners of the state change
-        this._notifyListeners();
-
-        // Track performance
-        this.state.performance.lastRenderTime = Date.now();
-        this.state.performance.renderDuration = performance.now() - startTime;
+    }
+    
+    /**
+     * Process all queued updates
+     * @private
+     */
+    _processUpdates() {
+        if (this.isProcessingUpdates) return;
+        
+        this.isProcessingUpdates = true;
+        this.updateScheduled = false;
+        
+        try {
+            // Start timing for performance tracking
+            const startTime = performance.now();
+            
+            // Store a copy of the previous state
+            this.previousState = JSON.parse(JSON.stringify(this.state));
+            
+            // Apply all queued updates
+            while (this.updateQueue.length > 0) {
+                const {pathOrState, value} = this.updateQueue.shift();
+                
+                // Case 1: Object update
+                if (typeof pathOrState === 'object' && value === undefined) {
+                    this._updateWithObject(pathOrState);
+                } 
+                // Case 2: Path-based update
+                else if (typeof pathOrState === 'string') {
+                    this._updateWithPath(pathOrState, value);
+                }
+            }
+            
+            // Find what parts of the state have changed
+            const changedPaths = this._getChangedPaths();
+            
+            // Only notify listeners if something actually changed
+            if (changedPaths.length > 0) {
+                this._notifyListeners(changedPaths);
+            }
+            
+            // Track performance
+            const renderDuration = performance.now() - startTime;
+            this.state.performance.lastRenderTime = Date.now();
+            this.state.performance.renderDuration = renderDuration;
+            
+            console.debug('State update completed in', renderDuration.toFixed(2), 'ms');
+        } catch (error) {
+            console.error('Error processing state updates:', error);
+        } finally {
+            this.isProcessingUpdates = false;
+            
+            // If more updates were queued during processing, process them
+            if (this.updateQueue.length > 0) {
+                this.updateScheduled = true;
+                queueMicrotask(() => this._processUpdates());
+            }
+        }
     }
 
     /**
@@ -49,16 +103,8 @@ class StateManager {
      * @private
      */
     _updateWithObject(newPartialState) {
-        // Create a deep copy of the current state for comparison
-        const prevState = JSON.parse(JSON.stringify(this.state));
-        
         // Merge the new partial state with current state
         this._mergeStates(this.state, newPartialState);
-        
-        // Log changes for debugging
-        console.debug('State updated:', 
-            this._getStateChanges(prevState, this.state)
-        );
     }
 
     /**
@@ -84,8 +130,6 @@ class StateManager {
         // Set the value at the specified path
         const finalPart = parts[parts.length - 1];
         current[finalPart] = value;
-        
-        console.debug(`State updated at path '${path}':`, value);
     }
 
     /**
@@ -114,76 +158,55 @@ class StateManager {
     }
 
     /**
-     * Get a summary of changes between two states (for debugging)
+     * Get a list of paths that have changed between previous and current state
      * @private
+     * @returns {Array} Array of path strings that have changed
      */
-    _getStateChanges(prevState, newState, path = '') {
-        const changes = {};
+    _getChangedPaths() {
+        const paths = [];
         
-        // Compare properties in new state
-        for (const key of Object.keys(newState)) {
-            const newPath = path ? `${path}.${key}` : key;
-            
-            // If previous state doesn't have this key
-            if (!(key in prevState)) {
-                changes[newPath] = {
-                    type: 'added',
-                    value: newState[key]
-                };
-                continue;
-            }
-            
-            // If values are different
-            if (typeof newState[key] === 'object' && newState[key] !== null) {
-                // Handle case where prevState[key] is null but newState[key] is an object
-                if (prevState[key] === null) {
-                    changes[newPath] = {
-                        type: 'changed',
-                        oldValue: null,
-                        newValue: newState[key]
-                    };
+        // Helper function to compare objects recursively
+        const compareObjects = (prevObj, newObj, path = '') => {
+            // Check all keys in new object
+            for (const key of Object.keys(newObj)) {
+                const currentPath = path ? `${path}.${key}` : key;
+                
+                // If key doesn't exist in previous object, it's new
+                if (!(key in prevObj)) {
+                    paths.push(currentPath);
                     continue;
                 }
                 
-                // Recursively check nested objects
-                const nestedChanges = this._getStateChanges(
-                    prevState[key], 
-                    newState[key], 
-                    newPath
-                );
-                
-                // Only add if there are changes
-                if (Object.keys(nestedChanges).length > 0) {
-                    Object.assign(changes, nestedChanges);
+                // If both values are objects (but not arrays), recurse
+                if (
+                    typeof newObj[key] === 'object' && newObj[key] !== null && !Array.isArray(newObj[key]) &&
+                    typeof prevObj[key] === 'object' && prevObj[key] !== null && !Array.isArray(prevObj[key])
+                ) {
+                    compareObjects(prevObj[key], newObj[key], currentPath);
                 }
-            } else if (JSON.stringify(newState[key]) !== JSON.stringify(prevState[key])) {
-                changes[newPath] = {
-                    type: 'changed',
-                    oldValue: prevState[key],
-                    newValue: newState[key]
-                };
+                // If values are different, record the path
+                else if (JSON.stringify(newObj[key]) !== JSON.stringify(prevObj[key])) {
+                    paths.push(currentPath);
+                }
             }
-        }
-    
-    // Check for deleted properties
-    for (const key of Object.keys(prevState)) {
-        const newPath = path ? `${path}.${key}` : key;
+            
+            // Check for deleted keys
+            for (const key of Object.keys(prevObj)) {
+                if (!(key in newObj)) {
+                    const currentPath = path ? `${path}.${key}` : key;
+                    paths.push(currentPath);
+                }
+            }
+        };
         
-        if (!(key in newState)) {
-            changes[newPath] = {
-                type: 'deleted',
-                oldValue: prevState[key]
-            };
-        }
+        compareObjects(this.previousState, this.state);
+        return paths;
     }
-    
-    return changes;
-}
 
     /**
      * Subscribe to state changes
      * @param {Function} listener - Function to call when state changes
-     * @param {String} [selector] - Optional selector function to filter updates
+     * @param {Function} [selector] - Optional selector function to filter updates
      * @returns {Function} Unsubscribe function
      */
     subscribe(listener, selector = null) {
@@ -203,13 +226,18 @@ class StateManager {
     /**
      * Notify all listeners of state changes
      * @private
+     * @param {Array} changedPaths - Array of paths that have changed
      */
-    _notifyListeners() {
+    _notifyListeners(changedPaths) {
+        // For each listener, check if its selector is affected by the changed paths
         this.listeners.forEach(({ callback, selector }) => {
             try {
-                // If a selector is provided, only call the listener if the selected state has changed
+                // If a selector is provided, only call the listener if the selected state is affected
                 if (selector) {
                     const selectedState = selector(this.state);
+                    
+                    // This is a simplified check - in a real implementation, you'd want to
+                    // determine if the selector's result depends on any of the changed paths
                     callback(selectedState, this.state);
                 } else {
                     // Otherwise, call with the full state

@@ -4,7 +4,8 @@
  */
 import { stateManager } from '../../state/StateManager.js';
 import { dataService } from '../../services/DataService.js';
-import { showLoading, hideLoading, toggleClass } from '../../utils/domUtils.js';
+import { mapService } from '../../services/MapService.js';
+import { showLoading, hideLoading, toggleClass, showStatus } from '../../utils/domUtils.js';
 
 export class TabControls {
     /**
@@ -79,29 +80,36 @@ export class TabControls {
                 activeDataset: tabName
             });
             
-            // Use setTimeout to let the UI update before we start the heavy data loading
-            setTimeout(async () => {
-                // Load data if not already loaded
-                if (tabName === 'recent') {
-                    if (!currentState.dataLoaded.recent) {
-                        await this.loadRecentData();
-                    }
-                } else {
-                    if (!currentState.dataLoaded.historical) {
-                        await this.loadHistoricalData();
-                    }
+            // Direct data loading approach
+            if (tabName === 'recent') {
+                if (!currentState.dataLoaded.recent) {
+                    await this.loadRecentData();
                 }
-                
-                // Apply filters to the newly active dataset
-                dataService.applyFilters();
-                
-                hideLoading();
-                this.tabSwitchInProgress = false;
-            }, 100); // Small delay to let UI update
+            } else {
+                if (!currentState.dataLoaded.historical) {
+                    await this.loadHistoricalData();
+                } else {
+                    // Make sure data is displayed even if already loaded
+                    dataService.ensureDisplayedData('historical');
+                }
+            }
+            
+            // Always apply filters to the newly active dataset
+            dataService.applyFilters();
+            
+            // Ensure data is displayed by explicitly calling renderData
+            if (mapService && typeof mapService.renderData === 'function') {
+                console.log(`Rendering ${tabName} data after tab switch`);
+                mapService.renderData(false); // Force a full render
+            }
+            
+            hideLoading();
+            this.tabSwitchInProgress = false;
         } catch (error) {
             console.error(`Error switching to ${tabName} tab:`, error);
             hideLoading();
             this.tabSwitchInProgress = false;
+            showStatus(`Error loading ${tabName} data. ${error.message}`, true);
         }
     }
     
