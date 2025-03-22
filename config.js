@@ -3,8 +3,7 @@
  * Controls URLs, map settings, colors, and visualization parameters
  */
 
-// Define CONFIG in the global scope immediately
-window.CONFIG = {
+export const config = {
     // Base URLs for data
     urls: {
         recentCsv: 'https://raw.githubusercontent.com/Tuvudel/israel-map/main/data/last30_event.csv',
@@ -89,7 +88,7 @@ window.CONFIG = {
     // Render settings for optimization
     render: {
         // Default render mode for historical data
-        defaultHistoricalMode: 'cluster', // 'cluster', 'points'
+        defaultHistoricalMode: 'points', // 'cluster', 'points'
         
         // Maximum number of points to render with standard markers
         maxStandardMarkers: 10000, // MapLibre can handle much more than Leaflet
@@ -127,5 +126,19 @@ window.CONFIG = {
     }
 };
 
-// Signal that CONFIG is loaded
-console.log('CONFIG module loaded');
+// Export a way to update config at runtime (if needed)
+export const updateConfig = (path, value) => {
+    const parts = path.split('.');
+    let current = config;
+    
+    // Navigate to the correct nesting level
+    for (let i = 0; i < parts.length - 1; i++) {
+        const part = parts[i];
+        current = current[part];
+    }
+    
+    // Update the value
+    current[parts[parts.length - 1]] = value;
+    
+    return config;
+};

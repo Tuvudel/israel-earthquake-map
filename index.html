@@ -23,7 +23,7 @@
     <header>
         <h1>Israel Earthquake Map</h1>
 
-        <div class="tab-group">
+        <div class="tab-group" id="tab-controls">
             <button id="recent-tab" class="tab-button active">Last 30 Days</button>
             <button id="historical-tab" class="tab-button">Historical (1981-2023)</button>
         </div>
@@ -102,7 +102,7 @@
                 </div>
             </div>
             
-            <div class="year-slider-container">
+            <div class="year-slider-container" id="year-slider-container">
                 <label>Year Range:</label>
                 <div id="year-slider"></div>
                 <div class="slider-values">
@@ -127,12 +127,12 @@
             ℹ️
         </button>
         
-        <div class="info-panel">
+        <div class="info-panel" id="info-panel">
             <h2>Earthquake Information</h2>
             <div id="earthquake-details">
                 <p>Select an earthquake on the map to view details.</p>
             </div>
-            <div class="statistics">
+            <div class="statistics" id="statistics-container">
                 <h3>Statistics</h3>
                 <p>Total earthquakes: <span id="total-count">0</span></p>
                 <p>Average magnitude: <span id="avg-magnitude">0</span></p>
@@ -160,13 +160,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/geojson/0.5.0/geojson.min.js"></script>
     
-    <!-- Application scripts - order matters for dependencies -->
-    <script src="js/config.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/plate-boundaries.js"></script>
-    <script src="js/data.js"></script>
-    <script src="js/map.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/app.js"></script>
+    <!-- Application scripts - using ES modules -->
+    <script type="module" src="./app.js"></script>
 </body>
 </html>
