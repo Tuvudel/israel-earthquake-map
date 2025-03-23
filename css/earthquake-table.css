@@ -79,6 +79,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 0.9rem;
+    table-layout: fixed;
 }
 
 .earthquake-table th,
@@ -86,6 +87,7 @@
     padding: 0.6rem 0.75rem;
     text-align: left;
     border-bottom: 1px solid #eee;
+    position: relative;
 }
 
 .earthquake-table th {
@@ -100,6 +102,7 @@
 .earthquake-table tbody tr {
     position: relative;
     transition: background-color 0.2s ease;
+    border-left: 4px solid transparent; /* This ensures consistent spacing for all rows */
 }
 
 .earthquake-table tbody tr:hover {
@@ -111,15 +114,16 @@
     background-color: #e6f0ff;
 }
 
-/* Add a subtle indicator for selected rows */
-.earthquake-table tbody tr.selected::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background-color: #4682B4;
+/* Add a subtle indicator for selected rows - Modified for better alignment */
+.earthquake-table tbody tr.selected {
+    border-left: 4px solid #4682B4;
+    box-sizing: border-box;
+}
+
+/* Fix for alignment issues in selected rows */
+.earthquake-table tbody tr.selected td {
+    /* Keep padding consistent with non-selected rows */
+    padding: 0.6rem 0.75rem;
 }
 
 .earthquake-table td.magnitude {

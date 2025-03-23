@@ -210,11 +210,22 @@ export class EarthquakeTable {
         
         // Get the filtered data for the active dataset
         if (state.data && state.data[datasetType] && state.data[datasetType].filtered) {
+            // Track if we need to reset pagination
+            let resetPagination = false;
+            
             // Check if dataset type changed - if so, set default sort accordingly
             const currentDataType = this.datasetType;
             if (currentDataType !== datasetType) {
                 this.setDefaultSort(datasetType);
                 this.datasetType = datasetType;
+                resetPagination = true;
+            }
+            
+            // Check if data length changed (indicates filtering happened)
+            const oldLength = this.earthquakes ? this.earthquakes.length : 0;
+            const newLength = state.data[datasetType].filtered.length;
+            if (oldLength !== newLength) {
+                resetPagination = true;
             }
             
             this.earthquakes = state.data[datasetType].filtered;
@@ -229,8 +240,12 @@ export class EarthquakeTable {
             // Sort data with current sort settings
             this.sortData();
             
-            // Reset to first page and render
-            this.currentPage = 0;
+            // Only reset to first page when necessary
+            if (resetPagination) {
+                this.currentPage = 0;
+            }
+            
+            // Render the table with current page
             this.renderTable();
             
             // If there's a selected earthquake in the state, highlight it in the table
@@ -256,7 +271,8 @@ export class EarthquakeTable {
         // Add highlight to the matching row if found
         rows.forEach(row => {
             const rowId = row.getAttribute('data-id');
-            if (rowId === this.selectedQuakeId) {
+            // Compare as strings to avoid type mismatches
+            if (String(rowId) === String(this.selectedQuakeId)) {
                 row.classList.add('selected');
                 this.selectedRow = row;
                 
@@ -307,7 +323,7 @@ export class EarthquakeTable {
             }
             
             // Determine if this row should be highlighted
-            const isSelected = quake.id === this.selectedQuakeId;
+            const isSelected = String(quake.id) === String(this.selectedQuakeId);
             const selectedClass = isSelected ? 'selected' : '';
             
             tableHtml += `
@@ -328,15 +344,18 @@ export class EarthquakeTable {
                 const quakeId = row.getAttribute('data-id');
                 
                 // If clicking already selected row, deselect it and reset map
-                if (quakeId === this.selectedQuakeId && row.classList.contains('selected')) {
+                if (String(quakeId) === String(this.selectedQuakeId) && row.classList.contains('selected')) {
                     this.deselectEarthquake();
                     return;
                 }
                 
                 // Otherwise, select the earthquake
-                const quake = this.earthquakes.find(q => q.id === quakeId);
+                // Make ID matching more robust by comparing as strings
+                const quake = this.earthquakes.find(q => String(q.id) === String(quakeId));
                 if (quake) {
                     this.selectEarthquake(quake, row);
+                } else {
+                    console.warn(`Earthquake with ID ${quakeId} not found in the dataset`);
                 }
             });
         });
