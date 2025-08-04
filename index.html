@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Israel Earthquake Interactive Map</title>
+    
+    <!-- MapLibre GL JS -->
+    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+    <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header with filters -->
+        <header id="filters-panel">
+            <div class="container">
+                <div class="header-layout">
+                    <div class="title-section">
+                        <h1>Israel Earthquakes</h1>
+                        <div class="last-updated">
+                            <span id="last-updated">Last updated: Loading...</span>
+                            <div class="credits-container">
+                                <span class="credits-trigger">Credits</span>
+                                <div class="credits-popup">
+                                    <div>Data: <a href="https://eq.gsi.gov.il/heb/earthquake/lastEarthquakes.php" target="_blank">Israel Geophysical Institute</a></div>
+                                    <div>Target Icon: <a href="https://www.flaticon.com/free-icons/target" title="target icons">created by ibrandify - Flaticon</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="filters-container">
+                    <!-- Magnitude Filter -->
+                    <div class="filter-group">
+                        <label class="filter-label">Magnitude Classes:</label>
+                        <div class="custom-multiselect" id="magnitude-multiselect">
+                            <div class="multiselect-trigger">
+                                <span class="multiselect-text">All Selected</span>
+                                <span class="multiselect-arrow">▼</span>
+                            </div>
+                            <div class="multiselect-dropdown">
+                                <div class="multiselect-option" data-value="minor">
+                                    <input type="checkbox" id="minor-cb" checked>
+                                    <label for="minor-cb">
+                                        <span class="magnitude-indicator minor"></span>
+                                        Minor (2.5-3.9)
+                                    </label>
+                                </div>
+                                <div class="multiselect-option" data-value="light">
+                                    <input type="checkbox" id="light-cb" checked>
+                                    <label for="light-cb">
+                                        <span class="magnitude-indicator light"></span>
+                                        Light (4.0-4.9)
+                                    </label>
+                                </div>
+                                <div class="multiselect-option" data-value="moderate">
+                                    <input type="checkbox" id="moderate-cb" checked>
+                                    <label for="moderate-cb">
+                                        <span class="magnitude-indicator moderate"></span>
+                                        Moderate (5.0-5.9)
+                                    </label>
+                                </div>
+                                <div class="multiselect-option" data-value="strong">
+                                    <input type="checkbox" id="strong-cb" checked>
+                                    <label for="strong-cb">
+                                        <span class="magnitude-indicator strong"></span>
+                                        Strong (6.0-6.9)
+                                    </label>
+                                </div>
+                                <div class="multiselect-option" data-value="major">
+                                    <input type="checkbox" id="major-cb" checked>
+                                    <label for="major-cb">
+                                        <span class="magnitude-indicator major"></span>
+                                        Major (7.0+)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Year Range Filter -->
+                    <div class="filter-group">
+                        <label class="filter-label">Year Range:</label>
+                        <div class="year-slider-container">
+                            <input type="range" id="year-min" class="year-slider" min="2020" max="2025" value="2020">
+                            <input type="range" id="year-max" class="year-slider" min="2020" max="2025" value="2025">
+                            <div class="year-labels">
+                                <span id="year-min-label">2020</span>
+                                <span id="year-max-label">2025</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main content area -->
+        <main id="main-content">
+            <!-- Map container -->
+            <div id="map-container">
+                <div id="map"></div>
+                
+                <!-- Map Legend -->
+                <div id="map-legend">
+                    <h3>Legend</h3>
+                    <div class="legend-section">
+                        <h4>Magnitude</h4>
+                        <div class="legend-items">
+                            <div class="legend-item">
+                                <span class="legend-circle minor"></span>
+                                <span>Minor (2.5-3.9)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-circle light"></span>
+                                <span>Light (4.0-4.9)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-circle moderate"></span>
+                                <span>Moderate (5.0-5.9)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-circle strong"></span>
+                                <span>Strong (6.0-6.9)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-circle major"></span>
+                                <span>Major (7.0+)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="legend-section">
+                        <h4>Size Scale (by Magnitude)</h4>
+                        <div class="size-reference">
+                            <span class="size-circle size-small"></span>
+                            <span class="size-circle size-medium"></span>
+                            <span class="size-circle size-large"></span>
+                        </div>
+                        <div class="size-labels">
+                            <span>2.5-3.5</span>
+                            <span>4.0-5.0</span>
+                            <span>6.0+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right sidebar -->
+            <aside id="sidebar">
+                <!-- Statistics Panel -->
+                <div id="statistics-panel">
+                    <h2>Earthquake Statistics</h2>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="total-earthquakes">-</div>
+                            <div class="stat-label">Total Earthquakes</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="avg-magnitude">-</div>
+                            <div class="stat-label">Average Magnitude</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="avg-depth">-</div>
+                            <div class="stat-label">Average Depth (km)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="avg-per-year">-</div>
+                            <div class="stat-label">Average EQ per Year</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div id="data-table-panel">
+                    <h3>Earthquake Data</h3>
+                    <div class="table-container">
+                        <table id="earthquake-table">
+                            <thead>
+                                <tr>
+                                    <th class="sortable" data-column="datetime">
+                                        Date/Time (UTC)
+                                        <span class="sort-indicator"></span>
+                                    </th>
+                                    <th class="sortable" data-column="magnitude">
+                                        Magnitude
+                                        <span class="sort-indicator active desc"></span>
+                                    </th>
+                                    <th class="sortable" data-column="depth">
+                                        Depth (km)
+                                        <span class="sort-indicator"></span>
+                                    </th>
+                                    <th class="sortable" data-column="felt">
+                                        Felt
+                                        <span class="sort-indicator"></span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="earthquake-table-body">
+                                <!-- Table rows will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div id="pagination">
+                        <div class="pagination-info">
+                            <span id="pagination-info-text">Showing 1-10 of 0 earthquakes</span>
+                        </div>
+                        <div class="pagination-controls">
+                            <button id="prev-page" class="pagination-btn" disabled>Previous</button>
+                            <div id="page-numbers"></div>
+                            <button id="next-page" class="pagination-btn" disabled>Next</button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+
+        <!-- Loading indicator -->
+        <div id="loading" class="loading-overlay">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Loading earthquake data...</div>
+        </div>
+    </div>
+
+    <!-- JavaScript modules -->
+    <script src="js/main.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/statistics.js"></script>
+    <script src="js/table.js"></script>
+</body>
+</html>

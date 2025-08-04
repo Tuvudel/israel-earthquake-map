@@ -1,0 +1,366 @@
+// Table controller for handling the paginated, sortable earthquake data table
+class TableController {
+    constructor(app) {
+        this.app = app;
+        this.currentPage = 1;
+        this.itemsPerPage = 10;
+        this.sortColumn = 'magnitude';
+        this.sortDirection = 'desc';
+        
+        this.tableBody = document.getElementById('earthquake-table-body');
+        this.paginationInfo = document.getElementById('pagination-info-text');
+        this.pageNumbers = document.getElementById('page-numbers');
+        this.prevButton = document.getElementById('prev-page');
+        this.nextButton = document.getElementById('next-page');
+        
+        this.setupEventListeners();
+    }
+    
+    setupEventListeners() {
+        // Sort header click listeners
+        const sortableHeaders = document.querySelectorAll('.sortable');
+        sortableHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const column = header.getAttribute('data-column');
+                this.handleSort(column);
+            });
+        });
+        
+        // Pagination button listeners
+        if (this.prevButton) {
+            this.prevButton.addEventListener('click', () => {
+                if (this.currentPage > 1) {
+                    this.currentPage--;
+                    this.updateTable(this.app.filteredData, this.currentPage, this.sortColumn, this.sortDirection);
+                }
+            });
+        }
+        
+        if (this.nextButton) {
+            this.nextButton.addEventListener('click', () => {
+                const totalPages = this.calculateTotalPages(this.app.filteredData);
+                if (this.currentPage < totalPages) {
+                    this.currentPage++;
+                    this.updateTable(this.app.filteredData, this.currentPage, this.sortColumn, this.sortDirection);
+                }
+            });
+        }
+    }
+    
+    handleSort(column) {
+        if (this.sortColumn === column) {
+            // Toggle direction if same column
+            this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            // New column, default to descending for magnitude, ascending for others
+            this.sortColumn = column;
+            this.sortDirection = column === 'magnitude' ? 'desc' : 'asc';
+        }
+        
+        // Reset to first page when sorting changes
+        this.currentPage = 1;
+        
+        // Update sort indicators
+        this.updateSortIndicators();
+        
+        // Update table
+        this.updateTable(this.app.filteredData, this.currentPage, this.sortColumn, this.sortDirection);
+    }
+    
+    updateSortIndicators() {
+        // Remove all active indicators
+        const indicators = document.querySelectorAll('.sort-indicator');
+        indicators.forEach(indicator => {
+            indicator.classList.remove('active', 'asc', 'desc');
+        });
+        
+        // Add active indicator to current sort column
+        const activeHeader = document.querySelector(`[data-column="${this.sortColumn}"] .sort-indicator`);
+        if (activeHeader) {
+            activeHeader.classList.add('active', this.sortDirection);
+        }
+    }
+    
+    updateTable(earthquakeData, page = 1, sortColumn = 'magnitude', sortDirection = 'desc') {
+        if (!earthquakeData) {
+            this.displayEmptyTable();
+            return;
+        }
+        
+        // Update instance variables
+        this.currentPage = page;
+        this.sortColumn = sortColumn;
+        this.sortDirection = sortDirection;
+        
+        // Sort data
+        const sortedData = this.sortData(earthquakeData, sortColumn, sortDirection);
+        
+        // Calculate pagination
+        const totalItems = sortedData.length;
+        const totalPages = this.calculateTotalPages(sortedData);
+        const startIndex = (page - 1) * this.itemsPerPage;
+        const endIndex = Math.min(startIndex + this.itemsPerPage, totalItems);
+        const pageData = sortedData.slice(startIndex, endIndex);
+        
+        // Update table content
+        this.displayTableData(pageData);
+        
+        // Update pagination
+        this.updatePagination(page, totalPages, totalItems, startIndex + 1, endIndex);
+        
+        // Update sort indicators
+        this.updateSortIndicators();
+    }
+    
+    sortData(data, column, direction) {
+        return [...data].sort((a, b) => {
+            let aValue, bValue;
+            
+            switch (column) {
+                case 'datetime':
+                    aValue = a.properties.dateObject;
+                    bValue = b.properties.dateObject;
+                    break;
+                case 'magnitude':
+                    aValue = a.properties.magnitude || 0;
+                    bValue = b.properties.magnitude || 0;
+                    break;
+                case 'depth':
+                    aValue = a.properties.depth || 0;
+                    bValue = b.properties.depth || 0;
+                    break;
+                case 'felt':
+                    aValue = a.properties['felt?'] ? 1 : 0;
+                    bValue = b.properties['felt?'] ? 1 : 0;
+                    break;
+                default:
+                    return 0;
+            }
+            
+            if (aValue < bValue) {
+                return direction === 'asc' ? -1 : 1;
+            }
+            if (aValue > bValue) {
+                return direction === 'asc' ? 1 : -1;
+            }
+            return 0;
+        });
+    }
+    
+    displayTableData(pageData) {
+        if (!this.tableBody) return;
+        
+        if (pageData.length === 0) {
+            this.tableBody.innerHTML = `
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 20px; color: #666;">
+                        No earthquakes match the current filters
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+        
+        const rows = pageData.map(feature => {
+            const props = feature.properties;
+            const dateTime = this.formatDateTime(props['date-time'] || props.date);
+            const magnitude = props.magnitude ? props.magnitude.toFixed(1) : '-';
+            const depth = props.depth ? props.depth.toFixed(1) : '-';
+            const felt = props['felt?'] ? '<span class="felt-tag">Felt by people</span>' : '';
+            
+            return `
+                <tr data-epiid="${props.epiid}" class="earthquake-row">
+                    <td>${dateTime}</td>
+                    <td>
+                        <span class="magnitude-cell">
+                            <span class="magnitude-indicator ${props.magnitudeClass}"></span>
+                            ${magnitude}
+                        </span>
+                    </td>
+                    <td>${depth}</td>
+                    <td class="felt-cell">${felt}</td>
+                </tr>
+            `;
+        }).join('');
+        
+        this.tableBody.innerHTML = rows;
+        
+        // Add click listeners to rows
+        this.addRowClickListeners();
+    }
+    
+    addRowClickListeners() {
+        const rows = this.tableBody.querySelectorAll('.earthquake-row');
+        rows.forEach(row => {
+            row.addEventListener('click', () => {
+                const epiid = row.getAttribute('data-epiid');
+                const isCurrentlyHighlighted = row.classList.contains('highlighted');
+                
+                if (isCurrentlyHighlighted) {
+                    // If already highlighted, zoom out to default view
+                    this.clearHighlight();
+                    if (this.app.map) {
+                        this.app.map.zoomToDefault();
+                    }
+                } else {
+                    // Highlight and zoom to earthquake
+                    this.highlightEarthquake(epiid);
+                    if (this.app.map) {
+                        this.app.map.highlightEarthquake(epiid);
+                    }
+                }
+            });
+        });
+    }
+    
+    highlightEarthquake(epiid) {
+        // Remove previous highlights
+        this.clearHighlight();
+        
+        // Add highlight to selected row
+        const targetRow = this.tableBody.querySelector(`[data-epiid="${epiid}"]`);
+        if (targetRow) {
+            targetRow.classList.add('highlighted');
+            
+            // Remove highlight after 3 seconds
+            setTimeout(() => {
+                targetRow.classList.remove('highlighted');
+            }, 3000);
+        }
+    }
+    
+    clearHighlight() {
+        const previousHighlight = this.tableBody.querySelector('.highlighted');
+        if (previousHighlight) {
+            previousHighlight.classList.remove('highlighted');
+        }
+    }
+    
+    formatDateTime(dateTimeString) {
+        if (!dateTimeString) return '-';
+        
+        // Handle both "DD/MM/YYYY HH:MM:SS" and "DD/MM/YYYY" formats
+        const parts = dateTimeString.split(' ');
+        const datePart = parts[0];
+        const timePart = parts[1];
+        
+        if (timePart) {
+            // Full date-time
+            const [day, month, year] = datePart.split('/');
+            const [hour, minute] = timePart.split(':');
+            return `${day}/${month}/${year} ${hour}:${minute}`;
+        } else {
+            // Date only
+            return datePart;
+        }
+    }
+    
+    calculateTotalPages(data) {
+        return Math.ceil((data?.length || 0) / this.itemsPerPage);
+    }
+    
+    updatePagination(currentPage, totalPages, totalItems, startItem, endItem) {
+        // Update pagination info
+        if (this.paginationInfo) {
+            if (totalItems === 0) {
+                this.paginationInfo.textContent = 'No earthquakes to display';
+            } else {
+                this.paginationInfo.textContent = `Showing ${startItem}-${endItem} of ${totalItems} earthquakes`;
+            }
+        }
+        
+        // Update pagination buttons
+        if (this.prevButton) {
+            this.prevButton.disabled = currentPage <= 1;
+        }
+        
+        if (this.nextButton) {
+            this.nextButton.disabled = currentPage >= totalPages;
+        }
+        
+        // Hide page numbers (only show Previous/Next)
+        if (this.pageNumbers) {
+            this.pageNumbers.innerHTML = '';
+        }
+    }
+    
+    updatePageNumbers(currentPage, totalPages) {
+        if (!this.pageNumbers) return;
+        
+        if (totalPages <= 1) {
+            this.pageNumbers.innerHTML = '';
+            return;
+        }
+        
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+        
+        // Adjust start page if we're near the end
+        if (endPage - startPage + 1 < maxVisiblePages) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+        
+        let pageNumbersHTML = '';
+        
+        // Add first page and ellipsis if needed
+        if (startPage > 1) {
+            pageNumbersHTML += `<button class="page-number" data-page="1">1</button>`;
+            if (startPage > 2) {
+                pageNumbersHTML += '<span class="page-ellipsis">...</span>';
+            }
+        }
+        
+        // Add visible page numbers
+        for (let i = startPage; i <= endPage; i++) {
+            const isActive = i === currentPage ? 'active' : '';
+            pageNumbersHTML += `<button class="page-number ${isActive}" data-page="${i}">${i}</button>`;
+        }
+        
+        // Add last page and ellipsis if needed
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                pageNumbersHTML += '<span class="page-ellipsis">...</span>';
+            }
+            pageNumbersHTML += `<button class="page-number" data-page="${totalPages}">${totalPages}</button>`;
+        }
+        
+        this.pageNumbers.innerHTML = pageNumbersHTML;
+        
+        // Add click listeners to page numbers
+        const pageButtons = this.pageNumbers.querySelectorAll('.page-number');
+        pageButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const page = parseInt(button.getAttribute('data-page'));
+                this.currentPage = page;
+                this.updateTable(this.app.filteredData, page, this.sortColumn, this.sortDirection);
+            });
+        });
+    }
+    
+    displayEmptyTable() {
+        if (this.tableBody) {
+            this.tableBody.innerHTML = `
+                <tr>
+                    <td colspan="3" style="text-align: center; padding: 20px; color: #666;">
+                        No earthquake data available
+                    </td>
+                </tr>
+            `;
+        }
+        
+        if (this.paginationInfo) {
+            this.paginationInfo.textContent = 'No earthquakes to display';
+        }
+        
+        if (this.pageNumbers) {
+            this.pageNumbers.innerHTML = '';
+        }
+        
+        if (this.prevButton) this.prevButton.disabled = true;
+        if (this.nextButton) this.nextButton.disabled = true;
+    }
+}
+
+// Make TableController available globally
+window.TableController = TableController;
