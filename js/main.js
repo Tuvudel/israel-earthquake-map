@@ -65,25 +65,47 @@ class EarthquakeApp {
     
     initializeMobileToggle() {
         const toggleButton = document.getElementById('mobile-sidebar-toggle');
+        const legendButton = document.getElementById('mobile-legend-toggle');
+        const filtersButton = document.getElementById('mobile-filters-toggle');
         const sidebar = document.getElementById('sidebar');
+        const legend = document.getElementById('map-legend');
+        const filters = document.querySelector('.filters-container');
         const mapContainer = document.getElementById('map-container');
+        let sidebarVisible = false;
+        let legendVisible = false;
+        let filtersVisible = false;
         
-        console.log('Mobile toggle init:', { toggleButton, sidebar, mapContainer });
+        console.log('Mobile toggle init:', { toggleButton, legendButton, filtersButton, sidebar, legend, filters, mapContainer });
         
         if (!toggleButton || !sidebar) {
             console.warn('Mobile toggle elements not found');
             return;
         }
         
-        let sidebarVisible = false;
-        
-        // Ensure sidebar starts hidden on mobile
+        // Ensure sidebar and legend start hidden on mobile
         if (window.innerWidth <= 768) {
             sidebar.classList.remove('show');
+            if (legend) legend.classList.remove('show');
+            if (filters) filters.classList.remove('show');
+            
             const textEl = toggleButton.querySelector('.toggle-text');
             const iconEl = toggleButton.querySelector('.toggle-icon');
             if (textEl) textEl.textContent = 'Data';
             if (iconEl) iconEl.textContent = '📊';
+            
+            if (legendButton) {
+                const legendTextEl = legendButton.querySelector('.toggle-text');
+                const legendIconEl = legendButton.querySelector('.toggle-icon');
+                if (legendTextEl) legendTextEl.textContent = 'Legend';
+                if (legendIconEl) legendIconEl.textContent = '🗺️';
+            }
+            
+            if (filtersButton) {
+                const filtersTextEl = filtersButton.querySelector('.toggle-text');
+                const filtersIconEl = filtersButton.querySelector('.toggle-icon');
+                if (filtersTextEl) filtersTextEl.textContent = 'Filters';
+                if (filtersIconEl) filtersIconEl.textContent = '🔍';
+            }
         }
         
         toggleButton.addEventListener('click', (e) => {
@@ -94,6 +116,24 @@ class EarthquakeApp {
             console.log('Toggle clicked, sidebar visible:', sidebarVisible);
             
             if (sidebarVisible) {
+                // Close other overlays first
+                if (legendVisible) {
+                    legendVisible = false;
+                    legend.classList.remove('show');
+                    const legendTextEl = legendButton.querySelector('.toggle-text');
+                    const legendIconEl = legendButton.querySelector('.toggle-icon');
+                    if (legendTextEl) legendTextEl.textContent = 'Legend';
+                    if (legendIconEl) legendIconEl.textContent = '🗺️';
+                }
+                if (filtersVisible) {
+                    filtersVisible = false;
+                    filters.classList.remove('show');
+                    const filtersTextEl = filtersButton.querySelector('.toggle-text');
+                    const filtersIconEl = filtersButton.querySelector('.toggle-icon');
+                    if (filtersTextEl) filtersTextEl.textContent = 'Filters';
+                    if (filtersIconEl) filtersIconEl.textContent = '🔍';
+                }
+                
                 sidebar.classList.add('show');
                 if (mapContainer) mapContainer.classList.add('sidebar-open');
                 const textEl = toggleButton.querySelector('.toggle-text');
@@ -116,6 +156,117 @@ class EarthquakeApp {
                 }
             }, 300);
         });
+        
+        // Legend toggle functionality
+        if (legendButton && legend) {
+            
+            legendButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                legendVisible = !legendVisible;
+                console.log('Legend toggle clicked, legend visible:', legendVisible);
+                
+                if (legendVisible) {
+                    // Close other overlays first
+                    if (sidebarVisible) {
+                        sidebarVisible = false;
+                        sidebar.classList.remove('show');
+                        if (mapContainer) mapContainer.classList.remove('sidebar-open');
+                        const dataTextEl = toggleButton.querySelector('.toggle-text');
+                        const dataIconEl = toggleButton.querySelector('.toggle-icon');
+                        if (dataTextEl) dataTextEl.textContent = 'Data';
+                        if (dataIconEl) dataIconEl.textContent = '📊';
+                    }
+                    if (filtersVisible) {
+                        filtersVisible = false;
+                        filters.classList.remove('show');
+                        const filtersTextEl = filtersButton.querySelector('.toggle-text');
+                        const filtersIconEl = filtersButton.querySelector('.toggle-icon');
+                        if (filtersTextEl) filtersTextEl.textContent = 'Filters';
+                        if (filtersIconEl) filtersIconEl.textContent = '🔍';
+                    }
+                    
+                    legend.classList.add('show');
+                    const textEl = legendButton.querySelector('.toggle-text');
+                    const iconEl = legendButton.querySelector('.toggle-icon');
+                    if (textEl) textEl.textContent = 'Hide';
+                    if (iconEl) iconEl.textContent = '❌';
+                } else {
+                    legend.classList.remove('show');
+                    const textEl = legendButton.querySelector('.toggle-text');
+                    const iconEl = legendButton.querySelector('.toggle-icon');
+                    if (textEl) textEl.textContent = 'Legend';
+                    if (iconEl) iconEl.textContent = '🗺️';
+                }
+            });
+            
+            // Close legend when clicking outside on mobile
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 480 && legendVisible) {
+                    if (!legend.contains(e.target) && !legendButton.contains(e.target)) {
+                        legendVisible = false;
+                        legend.classList.remove('show');
+                        const textEl = legendButton.querySelector('.toggle-text');
+                        const iconEl = legendButton.querySelector('.toggle-icon');
+                        if (textEl) textEl.textContent = 'Legend';
+                        if (iconEl) iconEl.textContent = '🗺️';
+                    }
+                }
+            });
+        }
+        
+        // Filters toggle functionality
+        if (filtersButton && filters) {
+            filtersButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                filtersVisible = !filtersVisible;
+                console.log('Filters toggle clicked, filters visible:', filtersVisible);
+                
+                if (filtersVisible) {
+                    // Close other overlays first
+                    if (sidebarVisible) {
+                        sidebarVisible = false;
+                        sidebar.classList.remove('show');
+                        if (mapContainer) mapContainer.classList.remove('sidebar-open');
+                        const dataTextEl = toggleButton.querySelector('.toggle-text');
+                        const dataIconEl = toggleButton.querySelector('.toggle-icon');
+                        if (dataTextEl) dataTextEl.textContent = 'Data';
+                        if (dataIconEl) dataIconEl.textContent = '📊';
+                    }
+                    if (legendVisible) {
+                        legendVisible = false;
+                        legend.classList.remove('show');
+                        const legendTextEl = legendButton.querySelector('.toggle-text');
+                        const legendIconEl = legendButton.querySelector('.toggle-icon');
+                        if (legendTextEl) legendTextEl.textContent = 'Legend';
+                        if (legendIconEl) legendIconEl.textContent = '🗺️';
+                    }
+                    
+                    filters.classList.add('show');
+                    const iconEl = filtersButton.querySelector('.toggle-icon');
+                    if (iconEl) iconEl.textContent = '❌'; // X for close
+                } else {
+                    filters.classList.remove('show');
+                    const iconEl = filtersButton.querySelector('.toggle-icon');
+                    if (iconEl) iconEl.textContent = '🔍'; // Magnifying glass
+                }
+            });
+            
+            // Close filters when clicking outside on mobile
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 480 && filtersVisible) {
+                    if (!filters.contains(e.target) && !filtersButton.contains(e.target)) {
+                        filtersVisible = false;
+                        filters.classList.remove('show');
+                        const iconEl = filtersButton.querySelector('.toggle-icon');
+                        if (iconEl) iconEl.textContent = '🔍'; // Magnifying glass
+                    }
+                }
+            });
+        }
         
         // Close sidebar when clicking outside on mobile
         document.addEventListener('click', (e) => {
