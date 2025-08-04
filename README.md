@@ -13,7 +13,7 @@ An interactive web application for visualizing earthquake data across the Easter
 
 ## Live Demo
 
-🌍 **[View Live Demo](https://[username].github.io/israel-map/)**
+🌍 **[View Live Demo](https://tuvaludel.github.io/israel-map/)**
 
 ## Data Coverage
 
@@ -43,7 +43,7 @@ An interactive web application for visualizing earthquake data across the Easter
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/[username]/israel-map.git
+   git clone https://github.com/tuvaludel/israel-map.git
    cd israel-map
    ```
 

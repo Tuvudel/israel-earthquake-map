@@ -86,6 +86,9 @@ class MapController {
             }
         });
         
+        // Setup fault and plate boundary layers
+        this.setupFaultAndPlateLayer();
+        
         // Setup circle markers with proper colors and scaling
         this.setupCircleLayer();
         
@@ -94,6 +97,79 @@ class MapController {
         
         // Note: Earthquake labels removed due to glyphs requirement
         // Labels would need a custom font/glyphs configuration
+    }
+    
+    setupFaultAndPlateLayer() {
+        // Add fault lines data source
+        this.map.addSource('faults', {
+            type: 'geojson',
+            data: 'data/faults_plates/EMME_faults.geojson'
+        });
+        
+        // Add tectonic plate boundaries data sources
+        this.map.addSource('ridges', {
+            type: 'geojson',
+            data: 'data/faults_plates/ridge.geojson'
+        });
+        
+        this.map.addSource('trenches', {
+            type: 'geojson',
+            data: 'data/faults_plates/trench.geojson'
+        });
+        
+        this.map.addSource('transforms', {
+            type: 'geojson',
+            data: 'data/faults_plates/transform.geojson'
+        });
+        
+        // Add fault lines layer (solid black lines)
+        this.map.addLayer({
+            id: 'fault-lines',
+            type: 'line',
+            source: 'faults',
+            paint: {
+                'line-color': '#000000',
+                'line-width': 1.5,
+                'line-opacity': 0.8
+            }
+        });
+        
+        // Add tectonic plate boundary layers (dotted black lines)
+        this.map.addLayer({
+            id: 'plate-ridges',
+            type: 'line',
+            source: 'ridges',
+            paint: {
+                'line-color': '#000000',
+                'line-width': 1,
+                'line-opacity': 0.7,
+                'line-dasharray': [2, 2]
+            }
+        });
+        
+        this.map.addLayer({
+            id: 'plate-trenches',
+            type: 'line',
+            source: 'trenches',
+            paint: {
+                'line-color': '#000000',
+                'line-width': 1,
+                'line-opacity': 0.7,
+                'line-dasharray': [2, 2]
+            }
+        });
+        
+        this.map.addLayer({
+            id: 'plate-transforms',
+            type: 'line',
+            source: 'transforms',
+            paint: {
+                'line-color': '#000000',
+                'line-width': 1,
+                'line-opacity': 0.7,
+                'line-dasharray': [2, 2]
+            }
+        });
     }
     
 

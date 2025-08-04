@@ -351,6 +351,22 @@ body {
     border-radius: 50%;
 }
 
+.legend-line {
+    display: inline-block;
+}
+
+.legend-line.solid {
+    width: 20px;
+    height: 2px;
+    background-color: #000000;
+}
+
+.legend-line.dotted {
+    width: 20px;
+    background-color: #000000;
+    border-bottom: 1px dotted #ffffff;
+}
+
 .size-reference {
     display: flex;
     align-items: flex-end;
