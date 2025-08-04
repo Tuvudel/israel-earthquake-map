@@ -610,6 +610,443 @@ body {
     background: #f8f9fa;
 }
 
+/* Mobile sidebar toggle button */
+.mobile-sidebar-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 16px;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-height: 44px;
+    display: none;
+    align-items: center;
+    gap: 6px;
+}
+
+.mobile-sidebar-toggle:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
+}
+
+.mobile-sidebar-toggle:active {
+    transform: translateY(0);
+}
+
+.toggle-icon {
+    font-size: 1.1rem;
+}
+
+.toggle-text {
+    font-size: 0.8rem;
+}
+
+/* Hide toggle on desktop */
+@media (min-width: 769px) {
+    .mobile-sidebar-toggle {
+        display: none !important;
+    }
+}
+
+/* ===== MOBILE RESPONSIVENESS ===== */
+
+/* Tablet styles (768px and below) */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    /* Header adjustments */
+    .header-layout {
+        flex-direction: column;
+        gap: 20px;
+        align-items: stretch;
+    }
+    
+    .title-section {
+        text-align: center;
+    }
+    
+    #filters-panel h1 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+    
+    .last-updated {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    /* Filters container - stack vertically */
+    .filters-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    /* Sidebar becomes bottom panel on tablet */
+    #main-content {
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 200px);
+    }
+    
+    #map-container {
+        height: 60vh;
+        min-height: 400px;
+    }
+    
+    #sidebar {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid #ddd;
+        max-height: 40vh;
+    }
+    
+    /* Show mobile toggle on tablet */
+    .mobile-sidebar-toggle {
+        display: flex !important;
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    /* Statistics grid - single column on tablet */
+    .stat-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    
+    /* Map legend adjustments */
+    #map-legend {
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        min-width: auto;
+        padding: 12px;
+    }
+    
+    .legend-section {
+        margin-bottom: 10px;
+    }
+    
+    /* Table adjustments */
+    #earthquake-table {
+        font-size: 0.8rem;
+    }
+    
+    #earthquake-table th,
+    #earthquake-table td {
+        padding: 8px 6px;
+    }
+}
+
+/* Mobile styles (480px and below) */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 10px;
+    }
+    
+    /* Header mobile optimizations */
+    #header {
+        padding: 10px 0;
+    }
+    
+    #filters-panel h1 {
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+    }
+    
+    .last-updated {
+        font-size: 0.75rem;
+        gap: 8px;
+    }
+    
+    /* Mobile-first filter layout */
+    .filters-container {
+        gap: 12px;
+    }
+    
+    .filter-group {
+        margin-bottom: 0;
+    }
+    
+    .filter-label {
+        font-size: 0.85rem;
+        margin-bottom: 6px;
+    }
+    
+    /* Multiselect dropdowns - full width */
+    .custom-multiselect {
+        width: 100%;
+    }
+    
+    .multiselect-trigger {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+        min-height: 44px; /* Touch-friendly */
+    }
+    
+    .multiselect-dropdown {
+        max-height: 200px;
+    }
+    
+    .multiselect-option {
+        padding: 12px 15px;
+        min-height: 44px;
+    }
+    
+    .multiselect-option label {
+        font-size: 0.85rem;
+    }
+    
+    /* Date inputs - touch friendly */
+    .date-input {
+        padding: 12px;
+        font-size: 0.9rem;
+        min-height: 44px;
+    }
+    
+    /* Apply button - larger for touch */
+    .apply-filters-btn {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        min-height: 44px;
+        width: 100%;
+    }
+    
+    /* Main content mobile layout */
+    #main-content {
+        flex-direction: column;
+        height: calc(100vh - 160px);
+        min-height: 500px;
+    }
+    
+    #map-container {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        min-height: 350px;
+        position: relative;
+        display: block;
+    }
+    
+    #map {
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 350px;
+        display: block !important;
+    }
+    
+    #sidebar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-height: 70vh;
+        background: white;
+        border-top: 2px solid #ddd;
+        border-left: none;
+        z-index: 1000;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+        overflow-y: auto;
+    }
+    
+    #sidebar.show {
+        transform: translateY(0);
+    }
+    
+    /* Show mobile toggle on mobile */
+    .mobile-sidebar-toggle {
+        display: flex !important;
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    /* Adjust map container when sidebar is shown */
+    #map-container.sidebar-open {
+        height: 50vh;
+    }
+    
+    /* Statistics - single column */
+    .stat-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .stat-item {
+        padding: 12px;
+    }
+    
+    .stat-value {
+        font-size: 1.3rem;
+    }
+    
+    .stat-label {
+        font-size: 0.75rem;
+    }
+    
+    /* Mobile map legend */
+    #map-legend {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        padding: 10px;
+        max-height: 30vh;
+        overflow-y: auto;
+    }
+    
+    #map-legend h3 {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+    
+    .legend-section h4 {
+        font-size: 0.85rem;
+        margin-bottom: 6px;
+    }
+    
+    .legend-item {
+        font-size: 0.75rem;
+        gap: 6px;
+    }
+    
+    .legend-circle {
+        width: 10px;
+        height: 10px;
+    }
+    
+    /* Mobile table optimizations */
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    #earthquake-table {
+        font-size: 0.75rem;
+        min-width: 600px; /* Horizontal scroll for full data */
+    }
+    
+    #earthquake-table th,
+    #earthquake-table td {
+        padding: 8px 4px;
+        white-space: nowrap;
+    }
+    
+    /* Data table panel mobile */
+    #data-table-panel {
+        padding: 15px;
+    }
+    
+    #data-table-panel h3 {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+    
+    /* Pagination mobile */
+    .pagination-controls {
+        flex-wrap: wrap;
+        gap: 5px;
+        justify-content: center;
+    }
+    
+    .page-number {
+        min-width: 36px;
+        height: 36px;
+        font-size: 0.8rem;
+    }
+    
+    .pagination-info {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 0.75rem;
+    }
+    
+    /* Credits popup mobile */
+    .credits-popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90vw;
+        max-width: 300px;
+        z-index: 2000;
+    }
+    
+    /* Loading overlay mobile */
+    .loading-overlay {
+        backdrop-filter: blur(2px);
+    }
+    
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Very small mobile devices (320px and below) */
+@media (max-width: 320px) {
+    #filters-panel h1 {
+        font-size: 1.1rem;
+    }
+    
+    .last-updated {
+        font-size: 0.7rem;
+    }
+    
+    #map-container {
+        height: 45vh;
+        min-height: 250px;
+    }
+    
+    #sidebar {
+        max-height: 60vh;
+    }
+    
+    .mobile-sidebar-toggle {
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 14px;
+    }
+    
+    .toggle-icon {
+        font-size: 1rem;
+    }
+    
+    .toggle-text {
+        font-size: 0.75rem;
+    }
+    
+    .stat-value {
+        font-size: 1.2rem;
+    }
+    
+    #earthquake-table {
+        font-size: 0.7rem;
+    }
+    
+    .page-number {
+        min-width: 32px;
+        height: 32px;
+        font-size: 0.75rem;
+    }
+}
+
 .page-number.active {
     background: #3498db;
     color: white;

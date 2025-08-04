@@ -33,6 +33,14 @@ class EarthquakeApp {
             this.initializeMap();
             this.initializeFilters();
             this.initializeTable();
+            this.initializeMobileToggle();
+            
+            // Mobile-specific: Force map refresh after all components are loaded
+            if (window.innerWidth <= 768) {
+                setTimeout(() => {
+                    this.forceMapRefresh();
+                }, 500);
+            }
             
             // Initial data processing - wait for map to be ready
             if (this.map && this.map.map) {
@@ -51,7 +59,112 @@ class EarthquakeApp {
             
         } catch (error) {
             console.error('Error initializing app:', error);
-            this.showError('Failed to load earthquake data. Please refresh the page.');
+            this.showLoading(false);
+        }
+    }
+    
+    initializeMobileToggle() {
+        const toggleButton = document.getElementById('mobile-sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const mapContainer = document.getElementById('map-container');
+        
+        console.log('Mobile toggle init:', { toggleButton, sidebar, mapContainer });
+        
+        if (!toggleButton || !sidebar) {
+            console.warn('Mobile toggle elements not found');
+            return;
+        }
+        
+        let sidebarVisible = false;
+        
+        // Ensure sidebar starts hidden on mobile
+        if (window.innerWidth <= 768) {
+            sidebar.classList.remove('show');
+            const textEl = toggleButton.querySelector('.toggle-text');
+            const iconEl = toggleButton.querySelector('.toggle-icon');
+            if (textEl) textEl.textContent = 'Data';
+            if (iconEl) iconEl.textContent = '📊';
+        }
+        
+        toggleButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            sidebarVisible = !sidebarVisible;
+            console.log('Toggle clicked, sidebar visible:', sidebarVisible);
+            
+            if (sidebarVisible) {
+                sidebar.classList.add('show');
+                if (mapContainer) mapContainer.classList.add('sidebar-open');
+                const textEl = toggleButton.querySelector('.toggle-text');
+                const iconEl = toggleButton.querySelector('.toggle-icon');
+                if (textEl) textEl.textContent = 'Hide';
+                if (iconEl) iconEl.textContent = '❌';
+            } else {
+                sidebar.classList.remove('show');
+                if (mapContainer) mapContainer.classList.remove('sidebar-open');
+                const textEl = toggleButton.querySelector('.toggle-text');
+                const iconEl = toggleButton.querySelector('.toggle-icon');
+                if (textEl) textEl.textContent = 'Data';
+                if (iconEl) iconEl.textContent = '📊';
+            }
+            
+            // Resize map after layout change
+            setTimeout(() => {
+                if (this.map && this.map.map) {
+                    this.map.map.resize();
+                }
+            }, 300);
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 480 && sidebarVisible) {
+                if (!sidebar.contains(e.target) && !toggleButton.contains(e.target)) {
+                    sidebarVisible = false;
+                    sidebar.classList.remove('show');
+                    mapContainer.classList.remove('sidebar-open');
+                    toggleButton.querySelector('.toggle-text').textContent = 'Data';
+                    toggleButton.querySelector('.toggle-icon').textContent = '📊';
+                }
+            }
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                // Desktop view - reset mobile states
+                sidebar.classList.remove('show');
+                mapContainer.classList.remove('sidebar-open');
+                sidebarVisible = false;
+                toggleButton.querySelector('.toggle-text').textContent = 'Data';
+                toggleButton.querySelector('.toggle-icon').textContent = '📊';
+            }
+        });
+    }
+    
+    forceMapRefresh() {
+        console.log('Forcing map refresh for mobile...');
+        
+        if (this.map && this.map.map) {
+            // Force map container to have proper dimensions
+            const mapContainer = document.getElementById('map');
+            if (mapContainer) {
+                // Ensure container has dimensions
+                mapContainer.style.width = '100%';
+                mapContainer.style.height = '100%';
+                
+                // Force MapLibre to recalculate dimensions
+                this.map.map.resize();
+                
+                // Additional resize after a short delay
+                setTimeout(() => {
+                    this.map.map.resize();
+                    console.log('Map refreshed successfully');
+                }, 200);
+            }
+        } else {
+            console.warn('Map not available for refresh');
         }
     }
     

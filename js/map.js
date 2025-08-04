@@ -50,10 +50,26 @@ class MapController {
         // Wait for map to load before adding earthquake data
         this.map.on('load', () => {
             this.setupEarthquakeLayer();
+            
+            // Mobile-specific: Force resize after load
+            setTimeout(() => {
+                this.map.resize();
+                console.log('Map resized for mobile compatibility');
+            }, 100);
+            
             // Call app callback when map is ready
             if (this.app.mapReadyCallback) {
                 this.app.mapReadyCallback();
             }
+        });
+        
+        // Add window resize listener for mobile orientation changes
+        window.addEventListener('resize', () => {
+            setTimeout(() => {
+                if (this.map) {
+                    this.map.resize();
+                }
+            }, 100);
         });
         
         // Add event listeners
