@@ -1,0 +1,40 @@
+# GitHub Pages Configuration
+title: "Israel Earthquake Interactive Map"
+description: "Interactive visualization of earthquake data across the Eastern Mediterranean region"
+url: "https://[username].github.io"
+baseurl: "/israel-map"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Exclude files from processing
+exclude:
+  - README.md
+  - LICENSE
+  - .gitignore
+  - PRD.md
+
+# Include files
+include:
+  - _config.yml
+
+# GitHub Pages specific settings
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+# SEO and metadata
+lang: en
+author: "Israel Earthquake Map Team"
+twitter:
+  username: 
+facebook:
+  app_id: 
+  publisher: 
+
+# Social media and sharing
+social:
+  name: Israel Earthquake Interactive Map
+  links:
+    - https://github.com/[username]/israel-map
