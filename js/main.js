@@ -387,21 +387,10 @@ class EarthquakeApp {
         const minYear = Math.min(...years);
         const maxYear = Math.max(...years);
         
-        // Update slider ranges
-        const yearMinSlider = document.getElementById('year-min');
-        const yearMaxSlider = document.getElementById('year-max');
-        
-        yearMinSlider.min = minYear;
-        yearMinSlider.max = maxYear;
-        yearMinSlider.value = minYear;
-        
-        yearMaxSlider.min = minYear;
-        yearMaxSlider.max = maxYear;
-        yearMaxSlider.value = maxYear;
-        
-        // Update labels
-        document.getElementById('year-min-label').textContent = minYear;
-        document.getElementById('year-max-label').textContent = maxYear;
+        // Update the dual-range slider through the filter controller
+        if (this.filters && this.filters.setYearRange) {
+            this.filters.setYearRange(minYear, maxYear);
+        }
     }
     
     updateLastUpdated() {
