@@ -11,9 +11,9 @@ An interactive web application for visualizing earthquake data across the Easter
 - **Real-time Statistics**: Dynamic stats panel updating with filter changes
 - **Responsive Design**: Works on desktop and mobile devices
 
-## Live Demo
+## Live Map
 
-🌍 **[View Live Demo](https://tuvaludel.github.io/israel-map/)**
+🌍 **[View Live Map](https://tuvudel.github.io/israel-map/)**
 
 ## Data Coverage
 
@@ -33,30 +33,10 @@ An interactive web application for visualizing earthquake data across the Easter
 
 ## Technology Stack
 
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+- **Frontend**: HTML5, CSS3, JavaScript
 - **Mapping**: MapLibre GL JS
 - **Data Format**: GeoJSON
 - **Deployment**: GitHub Pages
-- **No Backend Required**: Fully client-side application
-
-## Local Development
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/tuvaludel/israel-map.git
-   cd israel-map
-   ```
-
-2. Start a local server:
-   ```bash
-   # Using Python 3
-   python -m http.server 8000
-   
-   # Using Node.js
-   npx serve .
-   ```
-
-3. Open `http://localhost:8000` in your browser
 
 ## File Structure
 
@@ -78,14 +58,6 @@ israel-map/
 └── README.md
 ```
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -93,10 +65,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - **Data Source**: Israel Geophysical Institute
-- **Icons**: Flaticon
 - **Mapping**: MapLibre GL JS community
 - **Inspiration**: Seismic monitoring and public safety awareness
 
----
-
-Built with ❤️ for earthquake awareness and education
