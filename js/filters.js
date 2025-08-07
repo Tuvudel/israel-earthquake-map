@@ -70,10 +70,10 @@ class FilterController {
 
         // Initialize with default values - will be updated when data loads
         this.yearRangeSlider = noUiSlider.create(sliderElement, {
-            start: [1981, 2025],
+            start: [1900, 2025],
             connect: true,
             range: {
-                'min': 1981,
+                'min': 1900,
                 'max': 2025
             },
             step: 1,
