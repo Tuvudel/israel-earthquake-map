@@ -321,12 +321,25 @@ class EarthquakeApp {
     
     async loadEarthquakeData() {
         try {
-            const response = await fetch('data/all_EQ_cleaned.geojson');
+            const url = 'data/all_EQ_cleaned.geojson';
+            console.log('[EQ] Fetching GeoJSON:', url);
+            const response = await fetch(url, { cache: 'no-cache' });
+            const contentLength = response.headers.get('content-length');
+            console.log('[EQ] Response status:', response.status, response.statusText, 'Content-Length:', contentLength);
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP ${response.status} ${response.statusText} while fetching ${url}`);
             }
-            
-            const data = await response.json();
+
+            // Read as text first to surface parse issues clearly
+            const text = await response.text();
+            console.log('[EQ] Received bytes:', text.length);
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (parseErr) {
+                console.error('[EQ] JSON parse error. First 300 chars:', text.slice(0, 300));
+                throw parseErr;
+            }
             this.earthquakeData = data.features;
             
             // Process dates and set up year range
@@ -337,7 +350,7 @@ class EarthquakeApp {
             console.log(`Loaded ${this.earthquakeData.length} earthquakes`);
             
         } catch (error) {
-            console.error('Error loading earthquake data:', error);
+            console.error('Error loading earthquake data:', error && (error.stack || error.message || error));
             throw error;
         }
     }

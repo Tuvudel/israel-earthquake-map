@@ -290,14 +290,19 @@ class MapController {
         const feature = e.features[0];
         const props = feature.properties;
         
+        // Prefer enriched USGS-style location_text; fallback to city/area/country
+        const locText = props.location_text 
+            || [props.city, props.area, props.country].filter(Boolean).join(', ');
+        const depthVal = Number(props.depth);
+        const depthText = Number.isFinite(depthVal) ? depthVal.toFixed(1) : (props.depth ?? '—');
+
         // Create popup content
         const popupContent = `
             <div class="earthquake-popup">
                 <h4>Magnitude ${props.magnitude}</h4>
                 <p><strong>Date:</strong> ${props['date-time'] || props.date}</p>
-                <p><strong>Depth:</strong> ${props.depth.toFixed(1)} km</p>
-                <p><strong>Location:</strong> ${props.city}, ${props.area}</p>
-                <p><strong>Country:</strong> ${props.country}</p>
+                <p><strong>Depth:</strong> ${depthText} km</p>
+                <p><strong>Location:</strong> ${locText}</p>
                 ${props['felt?'] ? '<p><span class="felt-indicator">Felt by people</span></p>' : ''}
             </div>
         `;

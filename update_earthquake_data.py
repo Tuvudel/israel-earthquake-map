@@ -8,7 +8,6 @@ import pandas as pd
 import geopandas as gpd
 import requests
 import json
-import reverse_geocoder as rg
 import pycountry
 from datetime import datetime
 import sys
@@ -72,39 +71,34 @@ def clean_recent_EQ(df):
     
     return df
 
-def batch_reverse_geocode(df):
-    """Add city, area, and country information using reverse geocoding."""
-    # Create list of coordinate tuples
-    coordinates = list(zip(df['latitude'], df['longitude']))
-    
-    # Pass the coordinate tuples to reverse geocoder to get results for all coordinates
-    results = rg.search(coordinates)
-    
-    # Extract required fields into separate lists (results is a list of dictionaries)
-    cities = [r['name'] for r in results]
-    areas = [r['admin1'] for r in results]
-    country_codes = [r['cc'] for r in results]
+def enrich_locations_local(df):
+    """Add city (nearest settlement), area (admin1), and country using local geospatial pipeline.
 
-    # Convert country codes to full names
-    def get_country_name(code):
-        try:
-            return pycountry.countries.get(alpha_2=code).name
-        except AttributeError:
-            return code  # Return original code if conversion fails
-    
-    countries = [get_country_name(code) for code in country_codes]
-    
-    # Add new columns to dataframe
-    df['city'] = cities
-    df['area'] = areas
-    df['country'] = countries
-
-    # Strip trailing backticks or single quotes from the city names 
-    df['city'] = df['city'].str.lstrip("`'")
-    # Remove ',' and text after it in the 'country' column
-    df['country'] = df['country'].str.split(',').str[0]
-
-    return df
+    Falls back to reverse geocoder style only if import/enrichment fails.
+    """
+    try:
+        from scripts.enrich_eq_locations import enrich_geocoding
+        import geopandas as gpd
+        gdf = gpd.GeoDataFrame(
+            df.copy(), geometry=gpd.points_from_xy(df['longitude'], df['latitude']), crs="EPSG:4326"
+        )
+        enriched = enrich_geocoding(gdf)
+        # Map to expected columns and include enriched location_text
+        out = df.copy()
+        out['city'] = enriched['nearest_city']
+        out['area'] = enriched.get('admin1', None)
+        out['country'] = enriched.get('country', None)
+        if 'location_text' in enriched.columns:
+            out['location_text'] = enriched['location_text']
+        return out
+    except Exception as e:
+        # Fallback: ensure required columns exist to avoid downstream KeyErrors
+        print(f"⚠️ Local enrichment failed, proceeding without enrichment: {e}")
+        out = df.copy()
+        for col in ("city", "area", "country"):
+            if col not in out.columns:
+                out[col] = ""
+        return out
 
 def load_existing_geojson(filepath):
     """Load the existing GeoJSON file and extract epiids."""
@@ -133,10 +127,10 @@ def filter_new_earthquakes(df, existing_epiids):
     return df_new
 
 def append_to_geojson(new_df, geojson_data, output_filepath):
-    """Convert new data to GeoJSON features and append to existing data."""
-    if len(new_df) == 0:
-        print("✓ No new earthquakes to add")
-        return
+    """Convert new data to GeoJSON features and append to existing data.
+
+    Always rewrites the output file after sanitizing values to ensure valid JSON.
+    """
     
     # Convert to GeoDataFrame
     gdf = gpd.GeoDataFrame(
@@ -145,40 +139,74 @@ def append_to_geojson(new_df, geojson_data, output_filepath):
     )
     gdf = gdf.set_crs(epsg=4326)  # Set the coordinate reference system to WGS84
     
+    # Helper to sanitize values for JSON (convert NaN to None)
+    def _san(v):
+        try:
+            import pandas as pd
+            return None if pd.isna(v) else v
+        except Exception:
+            return v
+
     # Convert to GeoJSON features
     new_features = []
+    has_loc_text = 'location_text' in new_df.columns
     for _, row in gdf.iterrows():
         feature = {
             "type": "Feature",
             "properties": {
-                "epiid": row['epiid'],
-                "latitude": row['latitude'],
-                "longitude": row['longitude'],
-                "date": row['date'],
-                "date-time": row['date-time'],
-                "magnitude": row['magnitude'],
-                "depth": row['depth'],
-                "felt?": row['felt?'],
-                "city": row['city'],
-                "area": row['area'],
-                "country": row['country']
+                "epiid": _san(row['epiid']),
+                "latitude": _san(row['latitude']),
+                "longitude": _san(row['longitude']),
+                "date": _san(row['date']),
+                "date-time": _san(row['date-time']),
+                "magnitude": _san(row['magnitude']),
+                "depth": _san(row['depth']),
+                "felt?": _san(row['felt?']),
+                "city": _san(row['city']),
+                "area": _san(row['area']),
+                "country": _san(row['country'])
             },
             "geometry": {
                 "type": "Point",
-                "coordinates": [row['longitude'], row['latitude']]
+                "coordinates": [_san(row['longitude']), _san(row['latitude'])]
             }
         }
+        if has_loc_text:
+            try:
+                feature["properties"]["location_text"] = _san(row['location_text'])
+            except Exception:
+                pass
         new_features.append(feature)
     
     # Add new features to the beginning of the existing features list
     # (so newest earthquakes appear first)
-    geojson_data['features'] = new_features + geojson_data['features']
+    if len(new_features) > 0:
+        geojson_data['features'] = new_features + geojson_data['features']
+
+    # Sanitize existing features' properties and coordinates
+    def _san_in_place(feature):
+        props = feature.get('properties', {})
+        for k, v in list(props.items()):
+            props[k] = _san(v)
+        geom = feature.get('geometry', {})
+        if geom.get('type') == 'Point':
+            coords = geom.get('coordinates', [])
+            if isinstance(coords, list) and len(coords) == 2:
+                geom['coordinates'] = [_san(coords[0]), _san(coords[1])]
+        feature['properties'] = props
+        feature['geometry'] = geom
+
+    for f in geojson_data.get('features', []):
+        _san_in_place(f)
     
     # Save updated GeoJSON
     with open(output_filepath, 'w', encoding='utf-8') as f:
-        json.dump(geojson_data, f, indent=None, separators=(',', ':'))
+        json.dump(geojson_data, f, indent=None, separators=(',', ':'), allow_nan=False)
     
-    print(f"✓ Added {len(new_features)} new earthquakes to {output_filepath}")
+    if len(new_features) > 0:
+        print(f"✓ Added {len(new_features)} new earthquakes to {output_filepath}")
+    else:
+        print("✓ No new earthquakes; sanitized and rewrote GeoJSON to ensure valid JSON")
 
 def main():
     """Main function to update earthquake data."""
@@ -196,9 +224,9 @@ def main():
     print("\n🧹 Cleaning earthquake data...")
     cleaned_df = clean_recent_EQ(raw_df.copy())
     
-    # Step 3: Add geocoding information
-    print("\n🗺️  Adding location information...")
-    geocoded_df = batch_reverse_geocode(cleaned_df)
+    # Step 3: Add local enrichment for location fields
+    print("\n🗺️  Enriching location fields (admin/nearest city)...")
+    geocoded_df = enrich_locations_local(cleaned_df)
     
     # Step 4: Load existing data
     print("\n📂 Loading existing earthquake database...")
