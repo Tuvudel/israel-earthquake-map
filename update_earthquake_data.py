@@ -12,6 +12,7 @@ import pycountry
 from datetime import datetime
 import sys
 import os
+from scripts.area_aggregation import aggregate_area
 
 def fetch_latest_eq_data(url="https://eq.gsi.gov.il/en/earthquake/files/last30_event.csv"):
     """Fetch the latest earthquake data from GSI CSV endpoint."""
@@ -88,8 +89,59 @@ def enrich_locations_local(df):
         out['city'] = enriched['nearest_city']
         out['area'] = enriched.get('admin1', None)
         out['country'] = enriched.get('country', None)
+        # Derive on_land from enrichment's 'offshore' flag
+        try:
+            if 'offshore' in enriched.columns:
+                out['on_land'] = enriched['offshore'].map({True: False, False: True})
+            else:
+                out['on_land'] = None
+            # Fallback: non-empty country implies on_land True when value is NA
+            out['on_land'] = out['on_land'].fillna(
+                out.get('country').astype(str).str.strip().ne('') if 'country' in out.columns else False
+            )
+        except Exception:
+            if 'on_land' not in out.columns:
+                out['on_land'] = None
+
+        # Normalize Cyprus-related territories under 'Cyprus'
+        def _norm_country(val):
+            if val is None:
+                return val
+            s = str(val).strip().lower()
+            aliases = {
+                'akrotiri', 'dhekelia', 'akrotiri sovereign base area', 'dhekelia cantonment',
+                'n.cyprus', 'n. cyprus', 'n cyprus',
+                'north cyprus', 'northern cyprus',
+                'cyprus u.n. buffer', 'cyprus un buffer',
+                'cyprus u.n. buffer zone', 'cyprus un buffer zone'
+            }
+            return 'Cyprus' if s in aliases else val
+
+        out['country'] = out['country'].apply(_norm_country)
+
+        # Aggregate admin1 areas into requested buckets per country
+        try:
+            out['area'] = out.apply(lambda r: aggregate_area(r.get('country'), r.get('area')), axis=1)
+        except Exception:
+            pass
+
+        # Prefer enriched location_text; fallback to simple "City, Country"
+        def _simple_loc(row):
+            c = row.get('city')
+            k = row.get('country')
+            if pd.isna(c) and pd.isna(k):
+                return pd.NA
+            if pd.isna(c):
+                return str(k)
+            if pd.isna(k):
+                return str(c)
+            return f"{c}, {k}"
+
         if 'location_text' in enriched.columns:
             out['location_text'] = enriched['location_text']
+            out['location_text'] = out['location_text'].fillna(out.apply(_simple_loc, axis=1))
+        else:
+            out['location_text'] = out.apply(_simple_loc, axis=1)
         return out
     except Exception as e:
         # Fallback: ensure required columns exist to avoid downstream KeyErrors
@@ -164,7 +216,8 @@ def append_to_geojson(new_df, geojson_data, output_filepath):
                 "felt?": _san(row['felt?']),
                 "city": _san(row['city']),
                 "area": _san(row['area']),
-                "country": _san(row['country'])
+                "country": _san(row['country']),
+                "on_land": _san(row.get('on_land'))
             },
             "geometry": {
                 "type": "Point",
@@ -183,17 +236,42 @@ def append_to_geojson(new_df, geojson_data, output_filepath):
     if len(new_features) > 0:
         geojson_data['features'] = new_features + geojson_data['features']
 
-    # Sanitize existing features' properties and coordinates
+    # Sanitize existing features' properties and coordinates, and whitelist properties
     def _san_in_place(feature):
         props = feature.get('properties', {})
-        for k, v in list(props.items()):
-            props[k] = _san(v)
+        # Only keep allowed keys
+        allowed = {
+            'epiid', 'latitude', 'longitude', 'date', 'date-time', 'magnitude', 'depth', 'felt?',
+            'city', 'area', 'country', 'on_land', 'location_text'
+        }
+        new_props = {}
+        for k in allowed:
+            if k in props:
+                new_props[k] = _san(props.get(k))
+        # Normalize country field for safety
+        try:
+            def _norm_country_write(val):
+                if val is None:
+                    return val
+                s = str(val).strip().lower()
+                aliases = {
+                    'akrotiri', 'dhekelia', 'akrotiri sovereign base area', 'dhekelia cantonment',
+                    'n.cyprus', 'n. cyprus', 'n cyprus',
+                    'north cyprus', 'northern cyprus',
+                    'cyprus u.n. buffer', 'cyprus un buffer',
+                    'cyprus u.n. buffer zone', 'cyprus un buffer zone'
+                }
+                return 'Cyprus' if s in aliases else val
+            if 'country' in new_props:
+                new_props['country'] = _norm_country_write(new_props.get('country'))
+        except Exception:
+            pass
         geom = feature.get('geometry', {})
         if geom.get('type') == 'Point':
             coords = geom.get('coordinates', [])
             if isinstance(coords, list) and len(coords) == 2:
                 geom['coordinates'] = [_san(coords[0]), _san(coords[1])]
-        feature['properties'] = props
+        feature['properties'] = new_props
         feature['geometry'] = geom
 
     for f in geojson_data.get('features', []):

@@ -166,7 +166,7 @@ class TableController {
             const dateTime = this.formatDateTime(props['date-time'] || props.date);
             const magnitude = props.magnitude ? props.magnitude.toFixed(1) : '-';
             const depth = props.depth ? props.depth.toFixed(1) : '-';
-            const felt = props['felt?'] ? '<span class="felt-tag">Felt by people</span>' : '';
+            const felt = props['felt?'] ? '<span class="felt-tag">Felt</span>' : '';
             
             return `
                 <tr data-epiid="${props.epiid}" class="earthquake-row">

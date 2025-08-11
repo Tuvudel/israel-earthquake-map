@@ -303,7 +303,7 @@ class MapController {
                 <p><strong>Date:</strong> ${props['date-time'] || props.date}</p>
                 <p><strong>Depth:</strong> ${depthText} km</p>
                 <p><strong>Location:</strong> ${locText}</p>
-                ${props['felt?'] ? '<p><span class="felt-indicator">Felt by people</span></p>' : ''}
+                ${props['felt?'] ? '<p><span class="felt-indicator">Felt</span></p>' : ''}
             </div>
         `;
         

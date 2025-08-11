@@ -20,6 +20,8 @@ class EarthquakeApp {
         
         this.init();
     }
+
+    // Country names are expected to be normalized in the data pipeline.
     
     async init() {
         try {
@@ -32,6 +34,8 @@ class EarthquakeApp {
             // Initialize components
             this.initializeMap();
             this.initializeFilters();
+            // Populate region filters (country/area) once filters are ready
+            this.populateRegionFilters(false);
             this.initializeTable();
             this.initializeMobileToggle();
             
@@ -385,6 +389,21 @@ class EarthquakeApp {
             props.magnitudeClass = this.classifyMagnitude(props.magnitude);
         });
     }
+
+    // Populate country and area dropdowns from loaded data
+    populateRegionFilters(preserve = true) {
+        if (!this.earthquakeData || !this.filters) return;
+        const countries = Array.from(new Set(
+            this.earthquakeData
+                .map(f => (f.properties.country || '').trim())
+                .filter(Boolean)
+        )).sort((a,b) => a.localeCompare(b));
+        const areas = Array.from(new Set(
+            this.earthquakeData.map(f => (f.properties.area || '').trim()).filter(Boolean)
+        )).sort((a,b) => a.localeCompare(b));
+        if (this.filters.setCountryOptions) this.filters.setCountryOptions(countries, preserve);
+        if (this.filters.setAreaOptions) this.filters.setAreaOptions(areas, preserve);
+    }
     
     classifyMagnitude(magnitude) {
         for (const [className, config] of Object.entries(this.magnitudeClasses)) {
@@ -446,24 +465,16 @@ class EarthquakeApp {
     }
     
     applyFilters() {
-        // Get filter values
         const selectedMagnitudes = this.getSelectedMagnitudes();
         const yearRange = this.getYearRange();
-        
-        // Filter data
+        const selectedCountry = this.filters.getSelectedCountry ? this.filters.getSelectedCountry() : 'all';
+        const selectedArea = this.filters.getSelectedArea ? this.filters.getSelectedArea() : 'all';
         this.filteredData = this.earthquakeData.filter(feature => {
             const props = feature.properties;
-            
-            // Magnitude filter
-            if (!selectedMagnitudes.includes(props.magnitudeClass)) {
-                return false;
-            }
-            
-            // Year filter
-            if (props.year < yearRange.min || props.year > yearRange.max) {
-                return false;
-            }
-            
+            if (!selectedMagnitudes.includes(props.magnitudeClass)) return false;
+            if (props.year < yearRange.min || props.year > yearRange.max) return false;
+            if (selectedCountry !== 'all' && (props.country || '').trim() !== selectedCountry) return false;
+            if (selectedArea !== 'all' && (props.area || '').trim() !== selectedArea) return false;
             return true;
         });
         
@@ -471,8 +482,59 @@ class EarthquakeApp {
         this.updateMap();
         this.updateStatistics();
         this.updateTable();
+        this.updateCascadingFilters();
         
         console.log(`Filtered to ${this.filteredData.length} earthquakes`);
+    }
+
+    // Update dependent filter options and year slider limits based on current selection
+    updateCascadingFilters() {
+        if (!this.filters) return;
+
+        const allData = this.earthquakeData || [];
+        const selectedMagnitudes = this.getSelectedMagnitudes();
+        const yearRange = this.getYearRange();
+        const selectedCountry = this.filters.getSelectedCountry ? this.filters.getSelectedCountry() : 'all';
+        const selectedArea = this.filters.getSelectedArea ? this.filters.getSelectedArea() : 'all';
+
+        // Helper filters
+        const filterByMagnitudes = (data) => data.filter(f => selectedMagnitudes.includes(f.properties.magnitudeClass));
+        const filterByYear = (data) => data.filter(f => {
+            const y = f.properties.year;
+            return Number.isFinite(y) && y >= yearRange.min && y <= yearRange.max;
+        });
+        const filterByCountry = (data) => selectedCountry === 'all' ? data : data.filter(f => (f.properties.country || '').trim() === selectedCountry);
+        const filterByArea = (data) => selectedArea === 'all' ? data : data.filter(f => (f.properties.area || '').trim() === selectedArea);
+
+        // Year limits: filter by other filters (country, area, magnitude) but NOT by year
+        const dataForYear = filterByCountry(filterByArea(filterByMagnitudes(allData)));
+        if (dataForYear.length) {
+            const years = dataForYear.map(f => f.properties.year).filter(v => Number.isFinite(v));
+            if (years.length) {
+                const minY = Math.min(...years);
+                const maxY = Math.max(...years);
+                if (this.filters.updateYearRangeLimits) this.filters.updateYearRangeLimits(minY, maxY);
+            }
+        }
+
+        // Country options: filter by other filters (area, magnitude, year) but NOT by country
+        const dataForCountry = filterByArea(filterByYear(filterByMagnitudes(allData)));
+        const countries = Array.from(new Set(
+            dataForCountry.map(f => (f.properties.country || '').trim()).filter(Boolean)
+        )).sort((a,b) => a.localeCompare(b));
+        if (this.filters.setCountryOptions) this.filters.setCountryOptions(countries, true);
+
+        // Area options: filter by other filters (country, magnitude, year) but NOT by area
+        const dataForArea = filterByCountry(filterByYear(filterByMagnitudes(allData)));
+        const areas = Array.from(new Set(
+            dataForArea.map(f => (f.properties.area || '').trim()).filter(Boolean)
+        )).sort((a,b) => a.localeCompare(b));
+        if (this.filters.setAreaOptions) this.filters.setAreaOptions(areas, true);
+
+        // Magnitude availability: filter by other filters (country, area, year) but NOT by magnitude
+        const dataForMagnitudes = filterByCountry(filterByArea(filterByYear(allData)));
+        const availableMagnitudes = new Set(dataForMagnitudes.map(f => f.properties.magnitudeClass));
+        if (this.filters.updateMagnitudeAvailability) this.filters.updateMagnitudeAvailability(availableMagnitudes);
     }
     
     getSelectedMagnitudes() {

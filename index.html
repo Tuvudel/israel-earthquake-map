@@ -86,8 +86,36 @@
                         </div>
                     </div>
                     
-                    <!-- Year Range Filter -->
+                    <!-- Country Filter (custom single-select styled like multiselect) -->
                     <div class="filter-group">
+                        <label class="filter-label">Country:</label>
+                        <div class="custom-multiselect" id="country-multiselect">
+                            <div class="multiselect-trigger">
+                                <span class="multiselect-text">All Countries</span>
+                                <span class="multiselect-arrow">▼</span>
+                            </div>
+                            <div class="multiselect-dropdown">
+                                <!-- Options populated by JS as radio inputs -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Area Filter (custom single-select styled like multiselect) -->
+                    <div class="filter-group">
+                        <label class="filter-label">Area:</label>
+                        <div class="custom-multiselect" id="area-multiselect">
+                            <div class="multiselect-trigger">
+                                <span class="multiselect-text">All Areas</span>
+                                <span class="multiselect-arrow">▼</span>
+                            </div>
+                            <div class="multiselect-dropdown">
+                                <!-- Options populated by JS as radio inputs -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Year Range Filter -->
+                    <div class="filter-group year-group">
                         <label class="filter-label">Year Range:</label>
                         <div class="year-slider-container">
                             <div id="year-range-slider"></div>
@@ -200,8 +228,8 @@
                             <div class="stat-label">Average Depth (km)</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-value" id="avg-per-year">-</div>
-                            <div class="stat-label">Average EQ per Year</div>
+                            <div class="stat-value" id="land-water-percent">-</div>
+                            <div class="stat-label">On Land / Water</div>
                         </div>
                     </div>
                 </div>
@@ -226,7 +254,7 @@
                                         <span class="sort-indicator"></span>
                                     </th>
                                     <th class="sortable" data-column="felt">
-                                        Felt
+                                        Felt?
                                         <span class="sort-indicator"></span>
                                     </th>
                                 </tr>
@@ -259,11 +287,11 @@
         </div>
     </div>
 
-    <!-- JavaScript modules -->
-    <script src="js/main.js"></script>
+    <!-- JavaScript modules: load controllers first, then app bootstrap -->
     <script src="js/map.js"></script>
     <script src="js/filters.js"></script>
     <script src="js/statistics.js"></script>
     <script src="js/table.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

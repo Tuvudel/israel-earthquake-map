@@ -26,10 +26,17 @@ body {
 }
 
 /* Header and filters */
+#filters-panel {
+    background: #f8fafc;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 16px 0;
+    margin-bottom: 0;
+}
+
 #header {
     background: white;
     border-bottom: 1px solid #ddd;
-    padding: 15px 0 15px 10px;
+    padding: 15px 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     position: relative;
     z-index: 1000;
@@ -120,6 +127,23 @@ body {
     gap: 10px;
 }
 
+/* Push year range group to the right on wider screens */
+.year-group {
+    margin-left: auto;
+    min-width: 260px;
+}
+
+/* Keep filters in a single row on desktop */
+@media (min-width: 1024px) {
+    .filters-container {
+        flex-wrap: nowrap;
+        align-items: flex-end; /* align bottoms of controls */
+    }
+    .filter-group {
+        flex: 0 0 auto;
+    }
+}
+
 .filter-label {
     font-weight: 600;
     color: #34495e;
@@ -129,20 +153,21 @@ body {
 /* Custom Multi-select Dropdown */
 .custom-multiselect {
     position: relative;
-    min-width: 200px;
-    font-size: 0.85rem;
+    width: 220px;
+    font-family: inherit;
 }
 
 .multiselect-trigger {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background: white;
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 10px 12px;
     cursor: pointer;
-    user-select: none;
+    font-family: inherit;
+    min-height: 40px; /* consistent height across filters */
 }
 
 .multiselect-trigger:hover {
@@ -161,17 +186,18 @@ body {
 
 .multiselect-dropdown {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 6px);
     left: 0;
     right: 0;
-    background: white;
-    border: 1px solid #ddd;
-    border-top: none;
-    border-radius: 0 0 4px 4px;
-    max-height: 200px;
-    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-height: 260px;
+    overflow: auto;
+    font-family: inherit;
+    display: none; /* keep closed by default */
     z-index: 1000;
-    display: none;
 }
 
 .custom-multiselect.open .multiselect-dropdown {
@@ -752,6 +778,14 @@ body {
     .container {
         padding: 0 15px;
     }
+    .select-filter {
+        min-width: 160px;
+        font-size: 0.9rem;
+    }
+    /* On tablets and below, don't push year group to the right */
+    .year-group {
+        margin-left: 0;
+    }
     
     /* Header adjustments */
     .header-layout {
@@ -887,6 +921,21 @@ body {
     }
     
     /* Header mobile optimizations */
+    .filters-container {
+        gap: 15px;
+    }
+    .filter-group {
+        width: 100%;
+    }
+    .select-filter {
+        width: 100%;
+        min-width: 0;
+        font-size: 1rem;
+        padding: 10px 12px;
+    }
+    .year-group {
+        width: 100%;
+    }
     #header {
         padding: 8px 0;
         position: relative;

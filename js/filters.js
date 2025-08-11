@@ -7,6 +7,7 @@ class FilterController {
         this.setupEventListeners();
         this.setupCustomMultiselect();
         this.setupYearRangeSlider();
+        this.setupSingleSelects();
     }
 
     setupCustomMultiselect() {
@@ -59,6 +60,40 @@ class FilterController {
 
     setupEventListeners() {
         // Event listeners are now handled by the dual-range slider setup
+    }
+
+    setupSingleSelects() {
+        this.initSingleSelect('country-multiselect');
+        this.initSingleSelect('area-multiselect');
+    }
+
+    initSingleSelect(id) {
+        const container = document.getElementById(id);
+        if (!container) return;
+        const trigger = container.querySelector('.multiselect-trigger');
+        const dropdown = container.querySelector('.multiselect-dropdown');
+        const text = container.querySelector('.multiselect-text');
+
+        trigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            container.classList.toggle('open');
+        });
+        document.addEventListener('click', (e) => {
+            if (!container.contains(e.target)) {
+                container.classList.remove('open');
+            }
+        });
+
+        // Delegate radio change inside dropdown
+        dropdown.addEventListener('change', (e) => {
+            const target = e.target;
+            if (target && target.name === id + '-radio') {
+                const label = target.getAttribute('data-label') || target.value;
+                if (text) text.textContent = label;
+                container.classList.remove('open');
+                this.applyFiltersDebounced();
+            }
+        });
     }
 
     setupYearRangeSlider() {
@@ -118,6 +153,20 @@ class FilterController {
         return Array.from(checkboxes).map(cb => cb.closest('.multiselect-option').dataset.value);
     }
     
+    getSelectedCountry() {
+        const container = document.getElementById('country-multiselect');
+        if (!container) return 'all';
+        const selected = container.querySelector('input[type="radio"][name="country-multiselect-radio"]:checked');
+        return selected ? selected.value : 'all';
+    }
+    
+    getSelectedArea() {
+        const container = document.getElementById('area-multiselect');
+        if (!container) return 'all';
+        const selected = container.querySelector('input[type="radio"][name="area-multiselect-radio"]:checked');
+        return selected ? selected.value : 'all';
+    }
+    
     getYearRange() {
         if (this.yearRangeSlider) {
             const values = this.yearRangeSlider.get();
@@ -154,6 +203,95 @@ class FilterController {
         
         // Update labels
         this.updateYearLabels(minYear, maxYear);
+    }
+
+    setCountryOptions(countries, preserveValue = true) {
+        this.renderSingleSelectOptions('country-multiselect', 'All Countries', countries, preserveValue);
+    }
+
+    setAreaOptions(areas, preserveValue = true) {
+        this.renderSingleSelectOptions('area-multiselect', 'All Areas', areas, preserveValue);
+    }
+
+    renderSingleSelectOptions(id, allLabel, values, preserveValue) {
+        const container = document.getElementById(id);
+        if (!container) return;
+        const dropdown = container.querySelector('.multiselect-dropdown');
+        const text = container.querySelector('.multiselect-text');
+        const name = id + '-radio';
+
+        let currentSelected = preserveValue ? this.getSelectedFromContainer(container, name) : 'all';
+        const valueSet = new Set(values);
+        if (currentSelected !== 'all' && !valueSet.has(currentSelected)) {
+            currentSelected = 'all';
+        }
+
+        dropdown.innerHTML = '';
+        // All option
+        dropdown.appendChild(this.createRadioOption(name, 'all', allLabel, currentSelected === 'all'));
+        // Value options
+        values.forEach(v => {
+            dropdown.appendChild(this.createRadioOption(name, v, v, currentSelected === v));
+        });
+
+        // Update visible text
+        if (text) text.textContent = (currentSelected === 'all') ? allLabel : currentSelected;
+    }
+
+    getSelectedFromContainer(container, radioName) {
+        const selected = container.querySelector(`input[type="radio"][name="${radioName}"]:checked`);
+        return selected ? selected.value : 'all';
+    }
+
+    createRadioOption(name, value, labelText, checked) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'multiselect-option';
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = name;
+        input.value = value;
+        input.setAttribute('data-label', labelText);
+        input.id = `${name}-${value}`;
+        if (checked) input.checked = true;
+        const label = document.createElement('label');
+        label.textContent = labelText;
+        label.setAttribute('for', input.id);
+        wrapper.appendChild(input);
+        wrapper.appendChild(label);
+        return wrapper;
+    }
+
+    // Enable/disable magnitude classes that have no results under current other filters
+    updateMagnitudeAvailability(availableSet) {
+        const multiselect = document.getElementById('magnitude-multiselect');
+        if (!multiselect) return;
+        const options = multiselect.querySelectorAll('.multiselect-option');
+        options.forEach(opt => {
+            const val = opt.dataset.value;
+            if (!val) return;
+            const checkbox = opt.querySelector('input[type="checkbox"]');
+            const isAvailable = availableSet.has(val);
+            if (checkbox) {
+                checkbox.disabled = !isAvailable;
+                opt.style.opacity = isAvailable ? '1' : '0.5';
+            }
+        });
+    }
+
+    // Update only the slider limits while preserving current handles where possible
+    updateYearRangeLimits(minYear, maxYear) {
+        if (!this.yearRangeSlider) return;
+        const prevRange = this.yearRangeSlider.options.range || {};
+        const limitsChanged = prevRange.min !== minYear || prevRange.max !== maxYear;
+
+        if (limitsChanged) {
+            // Update limits without firing events, then reset handles to new extremes
+            this.yearRangeSlider.updateOptions({
+                range: { min: minYear, max: maxYear }
+            }, false);
+            this.yearRangeSlider.set([minYear, maxYear]);
+            this.updateYearLabels(minYear, maxYear);
+        }
     }
 }
 

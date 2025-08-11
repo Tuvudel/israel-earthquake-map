@@ -5,7 +5,7 @@ class StatisticsController {
             totalEarthquakes: document.getElementById('total-earthquakes'),
             avgMagnitude: document.getElementById('avg-magnitude'),
             avgDepth: document.getElementById('avg-depth'),
-            avgPerYear: document.getElementById('avg-per-year')
+            landWaterPercent: document.getElementById('land-water-percent')
         };
     }
     
@@ -33,17 +33,45 @@ class StatisticsController {
             return sum + (feature.properties.depth || 0);
         }, 0);
         const avgDepth = totalEarthquakes > 0 ? totalDepth / totalEarthquakes : 0;
-        
-        // Calculate average earthquakes per year
-        const yearSpan = Math.max(1, yearRange.max - yearRange.min);
-        const avgPerYear = totalEarthquakes / yearSpan;
+
+        // Land vs Water percentage (robust parsing of properties.on_land)
+        const parseOnLand = (v) => {
+            if (v === true) return true;
+            if (v === false || v == null) return false;
+            if (typeof v === 'number') return v === 1;
+            if (typeof v === 'string') {
+                const s = v.trim().toLowerCase();
+                return s === 'true' || s === '1' || s === 'yes' || s === 'y';
+            }
+            return false;
+        };
+        const candidates = ['on_land', 'onland', 'is_on_land', 'land'];
+        const hasOnLandFlag = earthquakeData.some(f => {
+            const props = f.properties || {};
+            return candidates.some(k => k in props);
+        });
+        const getOnLand = (props) => {
+            if (hasOnLandFlag) {
+                for (const key of candidates) {
+                    if (key in props) return parseOnLand(props[key]);
+                }
+                return false;
+            }
+            // Fallback heuristic: non-empty country => land
+            const c = (props.country || '').trim();
+            return c.length > 0;
+        };
+        const landCount = earthquakeData.reduce((sum, feature) => sum + (getOnLand(feature.properties || {}) ? 1 : 0), 0);
+        const waterCount = totalEarthquakes - landCount;
+        const landPct = totalEarthquakes > 0 ? (landCount / totalEarthquakes) * 100 : 0;
+        const waterPct = totalEarthquakes > 0 ? (waterCount / totalEarthquakes) * 100 : 0;
         
         return {
             totalEarthquakes,
             avgMagnitude,
             avgDepth,
-            avgPerYear,
-            yearSpan
+            landPct,
+            waterPct
         };
     }
     
@@ -66,19 +94,18 @@ class StatisticsController {
                 stats.avgDepth.toFixed(1);
         }
         
-        // Update average per year
-        if (this.statisticsElements.avgPerYear) {
-            this.statisticsElements.avgPerYear.textContent = 
-                stats.avgPerYear.toFixed(1);
+        // Update land/water percentage
+        if (this.statisticsElements.landWaterPercent) {
+            this.statisticsElements.landWaterPercent.textContent = 
+                `${Math.round(stats.landPct)}% / ${Math.round(stats.waterPct)}%`;
         }
     }
     
     displayEmptyStatistics() {
-        Object.values(this.statisticsElements).forEach(element => {
-            if (element) {
-                element.textContent = '0';
-            }
-        });
+        if (this.statisticsElements.totalEarthquakes) this.statisticsElements.totalEarthquakes.textContent = '0';
+        if (this.statisticsElements.avgMagnitude) this.statisticsElements.avgMagnitude.textContent = '-';
+        if (this.statisticsElements.avgDepth) this.statisticsElements.avgDepth.textContent = '-';
+        if (this.statisticsElements.landWaterPercent) this.statisticsElements.landWaterPercent.textContent = '0% / 0%';
     }
     
     formatNumber(num) {

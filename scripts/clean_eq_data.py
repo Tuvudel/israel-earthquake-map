@@ -26,6 +26,7 @@ import requests
 
 # Local enrichment
 from scripts.enrich_eq_locations import enrich_geocoding
+from scripts.area_aggregation import aggregate_area
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 DATA_DIR = BASE_DIR / "data"
@@ -103,6 +104,41 @@ essential_cols = [
     "magnitude", "depth", "felt?"
 ]
 
+# Minimal, final schema for outputs (CSV properties and GeoJSON properties)
+TARGET_COLS_MINIMAL = [
+    "epiid", "latitude", "longitude", "date", "date-time",
+    "magnitude", "depth", "felt?",
+    "city", "area", "country", "on_land", "location_text",
+]
+
+# Columns to force-remove from outputs, if they still appear for any reason
+DROP_EXTRA_COLS = [
+    "nearest_city",
+    "nearest_city_pop",
+    "nearest_city_km",
+    "bearing_deg",
+    "nearest_major_city",
+    "nearest_major_city_km",
+    "nearest_city_country_code",
+    "nearest_city_country",
+    "eez_country",
+    # Admin helpers (we keep only 'area' which mirrors admin1)
+    "admin1",
+    "admin2",
+    # Enrichment helper fields and diagnostics
+    "nearest_city_iso_a2",
+    "_citydist_m",
+    "_a1dist_m",
+    "_a1fix_m",
+    "_dist_m",
+    "admin1_right",
+    "iso_a2",
+    "iso_a2_adm1",
+    "city_lat",
+    "city_lon",
+    "offshore",
+]
+
 
 def prepare_historical_df(raw_df: pd.DataFrame) -> pd.DataFrame:
     # Clean and order columns for historical only
@@ -120,11 +156,23 @@ def prepare_historical_df(raw_df: pd.DataFrame) -> pd.DataFrame:
 
 
 def write_outputs(gdf: gpd.GeoDataFrame):
+    # Enforce strict minimal schema right before writing
+    # Proactively drop any known extra columns
+    gdf = gdf.drop(columns=DROP_EXTRA_COLS, errors="ignore")
+
+    # Ensure required columns exist
+    for c in TARGET_COLS_MINIMAL:
+        if c not in gdf.columns:
+            gdf[c] = pd.NA
+    # Select columns in target order after ensuring their existence
+    cols_present = [c for c in TARGET_COLS_MINIMAL if c in gdf.columns]
+    gdf_out = gdf[cols_present + (["geometry"] if "geometry" in gdf.columns else [])].copy()
+
     # GeoJSON
     OUT_GEO.parent.mkdir(parents=True, exist_ok=True)
-    gdf.to_file(OUT_GEO, driver="GeoJSON")
+    gdf_out.to_file(OUT_GEO, driver="GeoJSON")
     # CSV (no geometry)
-    gdf.drop(columns=["geometry"], errors="ignore").to_csv(OUT_CSV, index=False)
+    gdf_out.drop(columns=["geometry"], errors="ignore").to_csv(OUT_CSV, index=False)
 
 
 def main():
@@ -147,15 +195,95 @@ def main():
     print("🗺️  Enriching location fields (admin/nearest city/land/EEZ if available)...")
     enriched = enrich_geocoding(gdf)
 
-    # Map minimal fields used by existing map popups, while preserving enriched columns
-    # Maintain backward-compatible city/area/country columns
-    enriched['city'] = enriched.get('nearest_city')
-    enriched['area'] = enriched.get('admin1')
-    enriched['country'] = enriched.get('country')
+    # Map minimal fields used by existing map popups
+    # Maintain backward-compatible columns: city, area, country
+    if 'nearest_city' in enriched.columns:
+        enriched['city'] = enriched['nearest_city']
+    if 'admin1' in enriched.columns:
+        enriched['area'] = enriched['admin1']
+
+    # Normalize Cyprus-related territories under 'Cyprus'
+    def _norm_country(val: str) -> str:
+        if val is None:
+            return val
+        s = str(val).strip().lower()
+        aliases = {
+            'akrotiri': 'cyprus',
+            'dhekelia': 'cyprus',
+            'akrotiri sovereign base area': 'cyprus',
+            'dhekelia cantonment': 'cyprus',
+            'n.cyprus': 'cyprus',
+            'n. cyprus': 'cyprus',
+            'n cyprus': 'cyprus',
+            'north cyprus': 'cyprus',
+            'northern cyprus': 'cyprus',
+            'cyprus u.n. buffer': 'cyprus',
+            'cyprus un buffer': 'cyprus',
+            'cyprus u.n. buffer zone': 'cyprus',
+            'cyprus un buffer zone': 'cyprus',
+        }
+        return 'Cyprus' if s in aliases else val
+
+    if 'country' in enriched.columns:
+        enriched['country'] = enriched['country'].apply(_norm_country)
+
+    # Aggregate admin1 areas into requested buckets per country
+    if 'area' in enriched.columns and 'country' in enriched.columns:
+        try:
+            enriched['area'] = enriched.apply(lambda r: aggregate_area(r.get('country'), r.get('area')), axis=1)
+        except Exception:
+            # If aggregation fails, leave original area values
+            pass
+
+    # Derive on_land from enrichment's 'offshore' flag, fallback to country presence
+    try:
+        if 'offshore' in enriched.columns:
+            # True offshore -> on_land False; False offshore -> on_land True
+            enriched['on_land'] = enriched['offshore'].map({True: False, False: True})
+        if 'on_land' not in enriched.columns:
+            enriched['on_land'] = pd.NA
+        # Fallback: if on_land is NA, consider events with a non-empty country as on land
+        enriched['on_land'] = enriched['on_land'].fillna(
+            enriched.get('country', pd.Series([pd.NA]*len(enriched))).astype(str).str.strip().ne('').fillna(False)
+        )
+    except Exception:
+        # In case of any error, ensure the column exists
+        if 'on_land' not in enriched.columns:
+            enriched['on_land'] = pd.NA
+
+    # Prefer enriched "location_text" (e.g., "19km NNE of Paphos coast") if provided by the
+    # enrichment pipeline; otherwise, fallback to a simple "City, Country" format
+    def _simple_loc(row):
+        c = row.get("city")
+        k = row.get("country")
+        if pd.isna(c) and pd.isna(k):
+            return pd.NA
+        if pd.isna(c):
+            return str(k)
+        if pd.isna(k):
+            return str(c)
+        return f"{c}, {k}"
+
+    if "location_text" in enriched.columns:
+        # Fill only missing values with the simple fallback
+        fallback = enriched.apply(_simple_loc, axis=1)
+        enriched["location_text"] = enriched["location_text"].fillna(fallback)
+    else:
+        enriched["location_text"] = enriched.apply(_simple_loc, axis=1)
+
+    # Strictly trim to minimal schema to avoid duplicate/extra columns
+    # Keep area (mirrors admin1) and drop admin1/admin2 and any nearest_* helper fields
+    # Drop extra columns early as well to avoid surprises
+    enriched = enriched.drop(columns=DROP_EXTRA_COLS, errors="ignore")
+    target_cols = TARGET_COLS_MINIMAL + ["geometry"]
+    for c in ["city", "area", "country", "location_text"]:
+        if c not in enriched.columns:
+            enriched[c] = pd.NA
+    trimmed = enriched[[c for c in target_cols if c != "geometry"] + ["geometry"]].copy()
 
     # Save outputs
     print(f"💾 Writing historical outputs to {OUT_GEO} and {OUT_CSV} ...")
-    write_outputs(enriched)
+    write_outputs(trimmed)
 
     print("✅ Done.")
 
