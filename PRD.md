@@ -127,7 +127,7 @@ An interactive web-based earthquake visualization map for Israel and the Eastern
 
 ## File Structure
 ```
-israel-map/
+israel-earthquake-map/
 ├── index.html              # Main HTML file
 ├── css/
 │   └── styles.css          # Main stylesheet

@@ -2,7 +2,7 @@
 title: "Israel Earthquake Interactive Map"
 description: "Interactive visualization of earthquake data across the Eastern Mediterranean region"
 url: "https://[username].github.io"
-baseurl: "/israel-map"
+baseurl: "/israel-earthquake-map"
 
 # Build settings
 markdown: kramdown
@@ -37,4 +37,4 @@ facebook:
 social:
   name: Israel Earthquake Interactive Map
   links:
-    - https://github.com/[username]/israel-map
+    - https://github.com/[username]/israel-earthquake-map

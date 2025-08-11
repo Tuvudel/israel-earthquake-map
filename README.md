@@ -13,7 +13,7 @@ An interactive web application for visualizing earthquake data across the Easter
 
 ## Live Map
 
-🌍 **[View Live Map](https://tuvudel.github.io/israel-map/)**
+🌍 **[View Live Map](https://tuvudel.github.io/israel-earthquake-map/)**
 
 ## Data Coverage
 
@@ -41,7 +41,7 @@ An interactive web application for visualizing earthquake data across the Easter
 ## File Structure
 
 ```
-israel-map/
+israel-earthquake-map/
 ├── index.html              # Main HTML file
 ├── css/
 │   └── styles.css          # Application styles
