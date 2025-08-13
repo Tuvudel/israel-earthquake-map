@@ -7,15 +7,9 @@ Returned names intentionally omit the country tag in parentheses (e.g., 'North',
 from __future__ import annotations
 from typing import Optional
 import unicodedata
+from scripts.normalization import normalize_cyprus
 
-# Country aliases normalized elsewhere in the pipeline, but we also guard here
-_CYPRUS_ALIASES = {
-    'akrotiri', 'dhekelia', 'n.cyprus', 'n. cyprus', 'n cyprus',
-    'north cyprus', 'northern cyprus',
-    'cyprus u.n. buffer', 'cyprus un buffer',
-    'cyprus u.n. buffer zone', 'cyprus un buffer zone',
-    'akrotiri sovereign base area', 'dhekelia cantonment',
-}
+# Country normalization (e.g., Cyprus territories) is centralized in scripts.normalization
 
 # Utility to normalize strings (lowercase, strip, remove diacritics)
 def _norm(s: Optional[str]) -> str:
@@ -36,12 +30,9 @@ def aggregate_area(country: Optional[str], area: Optional[str]) -> Optional[str]
     if area is None or str(area).strip() == '':
         return area
 
-    c = _norm(country)
+    # Normalize country per policy (e.g., Cyprus variants) and then standardize
+    c = _norm(normalize_cyprus(country))
     a = _norm(area)
-
-    # Normalize certain country aliases locally just in case
-    if c in _CYPRUS_ALIASES:
-        c = 'cyprus'
 
     # Some countries may appear with variants
     if c in {'saudi', 'saudi arabia', 'kingdom of saudi arabia'}:
@@ -115,3 +106,5 @@ def aggregate_area(country: Optional[str], area: Optional[str]) -> Optional[str]
 
     # Default: keep original area
     return area
+
+__all__ = ["aggregate_area"]

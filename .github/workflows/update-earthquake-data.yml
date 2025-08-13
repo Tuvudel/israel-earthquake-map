@@ -28,7 +28,7 @@ jobs:
         
     - name: Update earthquake data
       run: |
-        python update_earthquake_data.py
+        python scripts/update_earthquake_data.py
         
     - name: Check for changes
       id: verify-changed-files

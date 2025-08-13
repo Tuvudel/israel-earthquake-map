@@ -54,3 +54,5 @@ build/
 
 # Cache files
 .cache/
+*.pyc
+__pycache__/

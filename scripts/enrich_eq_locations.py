@@ -17,8 +17,8 @@ Outputs (added columns)
 - nearest_city: best-matching populated place (GeoNames), based on nearest within a reasonable distance
 - location_text: e.g. "12 km N of City, Admin1, Country"
 
-Note: Country name normalization (e.g., Cyprus territories) is handled in the pipeline caller
-(`scripts/clean_eq_data.py`) per project preference.
+Note: Country name normalization (e.g., Cyprus-related variants) is centralized in
+`scripts/normalization.normalize_cyprus` and applied by `scripts/pipeline_utils.py`.
 """
 
 from __future__ import annotations
