@@ -240,27 +240,27 @@ body {
 /* Magnitude colors */
 .magnitude-indicator.minor,
 .legend-circle.minor {
-    background-color: #57a337;
+    background-color: #6aa84f;
 }
 
 .magnitude-indicator.light,
 .legend-circle.light {
-    background-color: #d5bb21;
+    background-color: #d5bf5a;
 }
 
 .magnitude-indicator.moderate,
 .legend-circle.moderate {
-    background-color: #f89217;
+    background-color: #f2a144;
 }
 
 .magnitude-indicator.strong,
 .legend-circle.strong {
-    background-color: #e03426;
+    background-color: #d6553f;
 }
 
 .magnitude-indicator.major,
 .legend-circle.major {
-    background-color: #b60a1c;
+    background-color: #9e2f3a;
 }
 
 /* Year dual-range slider */

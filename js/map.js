@@ -64,8 +64,6 @@ class MapController {
             }, 100);
         });
         
-        // Add event listeners
-        this.setupEventListeners();
     }
     
     setupEarthquakeLayer() {
@@ -75,13 +73,15 @@ class MapController {
             data: {
                 type: 'FeatureCollection',
                 features: []
-            }
+            },
+            // Promote unique earthquake id for feature-state (hover highlight)
+            promoteId: 'epiid'
         });
         
         // Setup fault and plate boundary layers
         this.setupFaultAndPlateLayer();
         
-        // Setup circle markers with proper colors and scaling
+        // Setup circle markers with improved styling and halo
         this.setupCircleLayer();
         
         // Setup event listeners
@@ -167,32 +167,70 @@ class MapController {
 
     
     setupCircleLayer() {
-        // Circle layer with proper magnitude colors and cubic scaling
+        // Circle layer with smoother scaling and Positron-friendly colors
         this.map.addLayer({
             id: 'earthquake-circles',
             type: 'circle',
             source: 'earthquakes',
             paint: {
+                // size by magnitude (gentle at low mags, strong at high)
                 'circle-radius': [
                     'case',
                     ['has', 'magnitude'],
                     [
-                        'interpolate',
-                        ['linear'],
-                        ['get', 'magnitude'],
-                        2.5, 1,
-                        3.0, 2,
-                        3.5, 3,
-                        4.0, 6,
-                        4.5, 8,
-                        5.0, 10,
-                        5.5, 28,
-                        6.0, 36,
+                        'interpolate', ['linear'], ['get', 'magnitude'],
+                        2.5, 2,
+                        3.5, 5,
+                        4.5, 10,
+                        5.5, 22,
+                        6.0, 32,
                         6.5, 44,
-                        7.0, 54,
-                        8.0, 66
+                        7.0, 64
                     ],
                     4
+                ],
+                // color by magnitude class (muted palette to match Positron)
+                'circle-color': [
+                    'case',
+                    ['has', 'magnitudeClass'],
+                    [
+                        'match',
+                        ['get', 'magnitudeClass'],
+                        'minor', '#6aa84f',
+                        'light', '#d5bf5a',
+                        'moderate', '#f2a144',
+                        'strong', '#d6553f',
+                        'major', '#9e2f3a',
+                        '#95a5a6'
+                    ],
+                    '#95a5a6'
+                ],
+                'circle-opacity': [
+                    'case', ['boolean', ['feature-state', 'highlighted'], false], 1.0, 0.85
+                ],
+                'circle-stroke-width': 1.25,
+                'circle-stroke-color': '#ffffff'
+            }
+        });
+
+        // Soft glow below the circles for improved legibility
+        this.map.addLayer({
+            id: 'earthquake-glow',
+            type: 'circle',
+            source: 'earthquakes',
+            paint: {
+                'circle-radius': [
+                    '*',
+                    [
+                        'interpolate', ['linear'], ['get', 'magnitude'],
+                        2.5, 6,
+                        3.5, 12,
+                        4.5, 22,
+                        5.5, 40,
+                        6.5, 64,
+                        7.0, 92
+                    ],
+                    1.0
                 ],
                 'circle-color': [
                     'case',
@@ -200,25 +238,20 @@ class MapController {
                     [
                         'match',
                         ['get', 'magnitudeClass'],
-                        'minor', '#57a337',
-                        'light', '#d5bb21',
-                        'moderate', '#f89217',
-                        'strong', '#e03426',
-                        'major', '#b60a1c',
-                        '#95a5a6' // default color
+                        'minor', '#6aa84f',
+                        'light', '#d5bf5a',
+                        'moderate', '#f2a144',
+                        'strong', '#d6553f',
+                        'major', '#9e2f3a',
+                        '#95a5a6'
                     ],
                     '#95a5a6'
                 ],
-                'circle-opacity': [
-                    'case',
-                    ['boolean', ['feature-state', 'highlighted'], false],
-                    1.0,
-                    0.8
-                ],
-                'circle-stroke-width': 1,
-                'circle-stroke-color': '#ffffff'
+                'circle-opacity': 0.14,
+                'circle-blur': 0.6,
+                'circle-stroke-width': 0
             }
-        });
+        }, 'earthquake-circles'); // insert directly beneath circles
     }
     
     setupEventListeners() {
