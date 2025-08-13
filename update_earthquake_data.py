@@ -109,11 +109,17 @@ def enrich_locations_local(df):
                 return val
             s = str(val).strip().lower()
             aliases = {
+                # Sovereign base areas / local variants
                 'akrotiri', 'dhekelia', 'akrotiri sovereign base area', 'dhekelia cantonment',
-                'n.cyprus', 'n. cyprus', 'n cyprus',
-                'north cyprus', 'northern cyprus',
+                # Abbreviations and short forms for northern cyprus
+                'n.cyprus', 'n. cyprus', 'n cyprus', 'north cyprus', 'northern cyprus', 'trnc',
+                # Full and misspelled names of the self-declared entity
+                'turkish republic of northern cyprus', 'turkish republic of northen cyprus',
+                # UN buffer zone variants
                 'cyprus u.n. buffer', 'cyprus un buffer',
-                'cyprus u.n. buffer zone', 'cyprus un buffer zone'
+                'cyprus u.n. buffer zone', 'cyprus un buffer zone',
+                'united nations buffer zone in cyprus', 'united nations buffer zone',
+                'u.n. buffer zone in cyprus', 'u.n. buffer zone', 'un buffer zone in cyprus', 'un buffer zone'
             }
             return 'Cyprus' if s in aliases else val
 
@@ -142,6 +148,29 @@ def enrich_locations_local(df):
             out['location_text'] = out['location_text'].fillna(out.apply(_simple_loc, axis=1))
         else:
             out['location_text'] = out.apply(_simple_loc, axis=1)
+
+        # Remove 'area' (admin1) from location_text to avoid redundancy like "City, Area, Country"
+        def _strip_area(row):
+            lt = row.get('location_text')
+            area = row.get('area')
+            if lt is None or pd.isna(lt) or area is None or pd.isna(area):
+                return lt
+            try:
+                s = str(lt)
+                a = str(area).strip()
+                if not a:
+                    return s
+                # Replace occurrences of ", Area, " with ", " and trailing ", Area" with ""
+                import re
+                # Escape area for regex
+                ae = re.escape(a)
+                s = re.sub(r",\s*" + ae + r"\s*,\s*", ", ", s)
+                s = re.sub(r",\s*" + ae + r"\s*$", "", s)
+                return s
+            except Exception:
+                return lt
+
+        out['location_text'] = out.apply(_strip_area, axis=1)
         return out
     except Exception as e:
         # Fallback: ensure required columns exist to avoid downstream KeyErrors
@@ -255,15 +284,34 @@ def append_to_geojson(new_df, geojson_data, output_filepath):
                     return val
                 s = str(val).strip().lower()
                 aliases = {
+                    # Sovereign base areas / local variants
                     'akrotiri', 'dhekelia', 'akrotiri sovereign base area', 'dhekelia cantonment',
-                    'n.cyprus', 'n. cyprus', 'n cyprus',
-                    'north cyprus', 'northern cyprus',
+                    # Abbreviations and short forms for northern cyprus
+                    'n.cyprus', 'n. cyprus', 'n cyprus', 'north cyprus', 'northern cyprus', 'trnc',
+                    # Full and misspelled names of the self-declared entity
+                    'turkish republic of northern cyprus', 'turkish republic of northen cyprus',
+                    # UN buffer zone variants
                     'cyprus u.n. buffer', 'cyprus un buffer',
-                    'cyprus u.n. buffer zone', 'cyprus un buffer zone'
+                    'cyprus u.n. buffer zone', 'cyprus un buffer zone',
+                    'united nations buffer zone in cyprus', 'united nations buffer zone',
+                    'u.n. buffer zone in cyprus', 'u.n. buffer zone', 'un buffer zone in cyprus', 'un buffer zone'
                 }
                 return 'Cyprus' if s in aliases else val
             if 'country' in new_props:
                 new_props['country'] = _norm_country_write(new_props.get('country'))
+        except Exception:
+            pass
+        # Strip area from location_text if present
+        try:
+            lt = new_props.get('location_text')
+            area = new_props.get('area')
+            if isinstance(lt, str) and isinstance(area, str) and area.strip():
+                import re
+                ae = re.escape(area.strip())
+                # Remove ", Area, " and trailing ", Area"
+                lt2 = re.sub(r",\s*" + ae + r"\s*,\s*", ", ", lt)
+                lt2 = re.sub(r",\s*" + ae + r"\s*$", "", lt2)
+                new_props['location_text'] = lt2
         except Exception:
             pass
         geom = feature.get('geometry', {})

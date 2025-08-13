@@ -208,19 +208,17 @@ def main():
             return val
         s = str(val).strip().lower()
         aliases = {
-            'akrotiri': 'cyprus',
-            'dhekelia': 'cyprus',
-            'akrotiri sovereign base area': 'cyprus',
-            'dhekelia cantonment': 'cyprus',
-            'n.cyprus': 'cyprus',
-            'n. cyprus': 'cyprus',
-            'n cyprus': 'cyprus',
-            'north cyprus': 'cyprus',
-            'northern cyprus': 'cyprus',
-            'cyprus u.n. buffer': 'cyprus',
-            'cyprus un buffer': 'cyprus',
-            'cyprus u.n. buffer zone': 'cyprus',
-            'cyprus un buffer zone': 'cyprus',
+            # Sovereign base areas / local variants
+            'akrotiri', 'dhekelia', 'akrotiri sovereign base area', 'dhekelia cantonment',
+            # Abbreviations and short forms for northern cyprus
+            'n.cyprus', 'n. cyprus', 'n cyprus', 'north cyprus', 'northern cyprus', 'trnc',
+            # Full and misspelled names of the self-declared entity
+            'turkish republic of northern cyprus', 'turkish republic of northen cyprus',
+            # UN buffer zone variants
+            'cyprus u.n. buffer', 'cyprus un buffer',
+            'cyprus u.n. buffer zone', 'cyprus un buffer zone',
+            'united nations buffer zone in cyprus', 'united nations buffer zone',
+            'u.n. buffer zone in cyprus', 'u.n. buffer zone', 'un buffer zone in cyprus', 'un buffer zone'
         }
         return 'Cyprus' if s in aliases else val
 
@@ -270,6 +268,33 @@ def main():
         enriched["location_text"] = enriched["location_text"].fillna(fallback)
     else:
         enriched["location_text"] = enriched.apply(_simple_loc, axis=1)
+
+    # Remove 'area' (aggregated admin1) and raw 'admin1' from location_text
+    try:
+        import re
+        def _strip_area_admin1(row):
+            lt = row.get("location_text")
+            area = row.get("area")
+            a1 = row.get("admin1")
+            if lt is None or pd.isna(lt):
+                return lt
+            s = str(lt)
+            def strip_token(s, token):
+                if token is None or pd.isna(token):
+                    return s
+                t = str(token).strip()
+                if not t:
+                    return s
+                te = re.escape(t)
+                s = re.sub(r",\s*" + te + r"\s*,\s*", ", ", s)
+                s = re.sub(r",\s*" + te + r"\s*$", "", s)
+                return s
+            s = strip_token(s, a1)
+            s = strip_token(s, area)
+            return s
+        enriched["location_text"] = enriched.apply(_strip_area_admin1, axis=1)
+    except Exception:
+        pass
 
     # Strictly trim to minimal schema to avoid duplicate/extra columns
     # Keep area (mirrors admin1) and drop admin1/admin2 and any nearest_* helper fields
