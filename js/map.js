@@ -9,7 +9,47 @@ class MapController {
         this.initializeMap();
     }
     
-    initializeMap() {
+    // Determine the initial style to load based on environment and availability of a MapTiler key
+    async getInitialStyle() {
+        const isGithubPages = typeof location !== 'undefined' && /\.github\.io$/.test(location.hostname);
+        const isLocalhost = typeof location !== 'undefined' && /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+        const key = (typeof window !== 'undefined' && window.MAPTILER_KEY) ? String(window.MAPTILER_KEY).trim() : '';
+
+        // Local/dev: prefer bundled Positron style to avoid domain-lock issues
+        if (isLocalhost) {
+            return 'css/positron.json';
+        }
+
+        // If a MapTiler key is provided, load Positron style and inject the key
+        if (key) {
+            try {
+                const resp = await fetch('css/positron.json');
+                const style = await resp.json();
+                if (style && style.sources && style.sources.openmaptiles) {
+                    style.sources.openmaptiles.url = `https://api.maptiler.com/tiles/v3-openmaptiles/tiles.json?key=${encodeURIComponent(key)}`;
+                }
+                if (style && style.glyphs) {
+                    style.glyphs = `https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=${encodeURIComponent(key)}`;
+                }
+                console.info('Using Positron style with MapTiler API key');
+                return style;
+            } catch (e) {
+                console.warn('Failed to load Positron style with key, falling back to MapLibre demo style.', e);
+                return 'https://demotiles.maplibre.org/style.json';
+            }
+        }
+
+        // No key: on GitHub Pages, avoid demo key restrictions by using MapLibre demo style
+        if (isGithubPages) {
+            console.warn('No MAPTILER_KEY found. Using MapLibre demo style on GitHub Pages to avoid MapTiler demo key restrictions.');
+            return 'https://demotiles.maplibre.org/style.json';
+        }
+
+        // Default
+        return 'css/positron.json';
+    }
+
+    async initializeMap() {
         // Initialize MapLibre GL JS map
         // Enable RTL text for Hebrew/Arabic labels
         if (typeof maplibregl !== 'undefined' && typeof maplibregl.setRTLTextPlugin === 'function') {
@@ -24,9 +64,11 @@ class MapController {
             }
         }
 
+        const style = await this.getInitialStyle();
+
         this.map = new maplibregl.Map({
             container: 'map',
-            style: 'css/positron.json',
+            style,
             center: [35.2, 31.8], // Center on Israel
             zoom: 7,
             minZoom: 5,

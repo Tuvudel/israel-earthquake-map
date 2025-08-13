@@ -20,6 +20,39 @@ class EarthquakeApp {
         
         this.init();
     }
+    
+    // Setup clickable/togglable Credits popup for desktop and mobile
+    initializeCreditsPopup() {
+        try {
+            const container = document.querySelector('.credits-container');
+            if (!container) return;
+            const trigger = container.querySelector('.credits-trigger');
+            if (!trigger) return;
+
+            // Toggle on click (works for desktop and mobile)
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                container.classList.toggle('open');
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!container.contains(e.target)) {
+                    container.classList.remove('open');
+                }
+            });
+
+            // Close on Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    container.classList.remove('open');
+                }
+            });
+        } catch (err) {
+            console.warn('Failed to initialize Credits toggle:', err);
+        }
+    }
 
     // Country names are expected to be normalized in the data pipeline.
     
@@ -38,6 +71,7 @@ class EarthquakeApp {
             this.populateRegionFilters(false);
             this.initializeTable();
             this.initializeMobileToggle();
+            this.initializeCreditsPopup();
             
             // Mobile-specific: Force map refresh after all components are loaded
             if (window.innerWidth <= 768) {

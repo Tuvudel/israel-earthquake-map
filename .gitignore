@@ -56,3 +56,6 @@ build/
 .cache/
 *.pyc
 __pycache__/
+
+# Local secrets
+js/config.local.js

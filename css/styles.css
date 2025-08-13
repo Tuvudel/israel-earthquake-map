@@ -75,6 +75,10 @@ body {
     cursor: pointer;
     text-decoration: underline;
     font-size: 0.8rem;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
 }
 
 .credits-popup {
@@ -110,7 +114,21 @@ body {
     text-decoration: underline;
 }
 
-.credits-container:hover .credits-popup {
+.credits-popup .maptiler-logo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 6px;
+}
+
+.credits-popup .maptiler-logo {
+    height: 16px;
+    width: auto;
+    vertical-align: middle;
+}
+
+.credits-container:hover .credits-popup,
+.credits-container.open .credits-popup {
     display: block;
 }
 
