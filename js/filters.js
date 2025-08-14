@@ -4,10 +4,38 @@ class FilterController {
         this.onFilterChange = onFilterChange;
         this.debounceTimer = null;
         this.yearRangeSlider = null;
+        // Date filter state
+        this.dateMode = 'relative'; // 'relative' | 'range'
+        this.selectedRelative = '30days';
         this.setupEventListeners();
         this.setupCustomMultiselect();
         this.setupYearRangeSlider();
         this.setupSingleSelects();
+        this.setupDateFilterControls();
+    }
+
+    // Inline style enforcement to ensure small noUiSlider handles
+    applySmallSliderHandleStyles(sliderEl) {
+        if (!sliderEl) return;
+        const handles = sliderEl.querySelectorAll('.noUi-handle');
+        handles.forEach(h => {
+            // Clear inline styles so CSS rules take effect
+            h.style.width = '';
+            h.style.height = '';
+            h.style.borderRadius = '';
+            h.style.border = '';
+            h.style.background = '';
+            h.style.boxShadow = '';
+            h.style.top = '';
+            h.style.right = '';
+            const touch = h.querySelector('.noUi-touch-area');
+            if (touch) {
+                touch.style.width = '';
+                touch.style.height = '';
+                touch.style.left = '';
+                touch.style.top = '';
+            }
+        });
     }
 
     setupCustomMultiselect() {
@@ -122,14 +150,107 @@ class FilterController {
             }
         });
 
+        // Force tiny handles regardless of external CSS specificity
+        this.applySmallSliderHandleStyles(sliderElement);
+
         // Add event listener for slider changes
         this.yearRangeSlider.on('update', (values) => {
             this.updateYearLabels(values[0], values[1]);
+            // Re-apply to resist any dynamic style changes
+            this.applySmallSliderHandleStyles(sliderElement);
         });
 
         this.yearRangeSlider.on('change', () => {
             this.applyFiltersDebounced();
         });
+    }
+
+    setupDateFilterControls() {
+        const relBtn = document.getElementById('date-mode-relative');
+        const rangeBtn = document.getElementById('date-mode-range');
+        const relOptions = document.getElementById('relative-options');
+        const rangeContainer = document.getElementById('year-range-container');
+
+        const setMode = (mode) => {
+            this.dateMode = mode;
+            // Toggle active classes
+            if (relBtn && rangeBtn) {
+                if (mode === 'relative') {
+                    relBtn.classList.add('active');
+                    rangeBtn.classList.remove('active');
+                } else {
+                    rangeBtn.classList.add('active');
+                    relBtn.classList.remove('active');
+                }
+            }
+            // Show/hide containers
+            if (relOptions) relOptions.classList.toggle('hidden', mode !== 'relative');
+            if (rangeContainer) rangeContainer.classList.toggle('hidden', mode !== 'range');
+            // Update summary visibility
+            this.updateDateSummary();
+            this.applyFiltersDebounced();
+        };
+
+        if (relBtn) relBtn.addEventListener('click', () => setMode('relative'));
+        if (rangeBtn) rangeBtn.addEventListener('click', () => setMode('range'));
+
+        // Relative option buttons
+        if (relOptions) {
+            relOptions.addEventListener('click', (e) => {
+                const target = e.target;
+                if (!(target instanceof Element)) return;
+                const btn = target.closest('.option-btn');
+                if (!btn) return;
+                const val = btn.getAttribute('data-value');
+                if (!val) return;
+                this.selectedRelative = val;
+                // Toggle active in group
+                relOptions.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                this.updateDateSummary();
+                this.applyFiltersDebounced();
+            });
+        }
+
+        // Ensure initial UI reflects defaults
+        setMode(this.dateMode);
+    }
+
+    updateDateSummary() {
+        const el = document.getElementById('date-summary');
+        if (!el) return;
+        if (this.dateMode !== 'relative') {
+            el.classList.add('hidden');
+            el.textContent = '';
+            return;
+        }
+        const range = this.computeRelativeRange(this.selectedRelative);
+        if (!range) {
+            el.classList.add('hidden');
+            el.textContent = '';
+            return;
+        }
+        el.classList.remove('hidden');
+        el.innerHTML = `<span class="min">${this.formatDate(range.start)}</span><span class="max">${this.formatDate(range.end)}</span>`;
+    }
+
+    computeRelativeRange(value) {
+        const now = new Date();
+        let days = 30;
+        if (value === '1day') days = 1;
+        else if (value === '7days') days = 7;
+        else if (value === '30days') days = 30;
+        else if (value === '1year') days = 365;
+        const start = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
+        return { start, end: now };
+    }
+
+    formatDate(d) {
+        if (!(d instanceof Date)) return '';
+        const dd = String(d.getDate()).padStart(2, '0');
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const yyyy = d.getFullYear();
+        return `${dd}/${mm}/${yyyy}`;
     }
 
     updateYearLabels(minValue, maxValue) {
@@ -177,6 +298,13 @@ class FilterController {
         }
         // Fallback to default values if slider not available
         return { min: 2020, max: 2025 };
+    }
+
+    getDateFilter() {
+        if (this.dateMode === 'relative') {
+            return { mode: 'relative', value: this.selectedRelative };
+        }
+        return { mode: 'range', yearRange: this.getYearRange() };
     }
 
     setMagnitudeFilters(selectedClasses) {

@@ -284,32 +284,52 @@ body {
 /* Year dual-range slider */
 .year-slider-container {
     position: relative;
-    width: 200px;
+    width: 100%;
+    padding: 0 6px; /* keep handles within the card */
 }
 
 #year-range-slider {
-    margin: 10px 0;
+    margin: 8px 0;
+    /* Slider sizing variables */
+    --thumb-size: 16px;
+    --track-height: 4px;
+    --ring-color: rgba(17,24,39,0.16);
 }
 
-/* Custom noUiSlider styling to match existing design */
+/* Custom noUiSlider styling (Material UI look) */
 #year-range-slider .noUi-connect {
-    background: #3498db;
+    background: #111827; /* dark (was black-ish) */
 }
 
 #year-range-slider .noUi-horizontal {
-    height: 6px;
+    height: var(--track-height); /* slim track */
 }
 
 #year-range-slider .noUi-horizontal .noUi-handle {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: #3498db;
-    border: 2px solid white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    width: var(--thumb-size) !important;
+    height: var(--thumb-size) !important;
+    border-radius: 50% !important;
+    background: #ffffff !important;
+    border: 1px solid #111827 !important; /* dark border */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     cursor: pointer;
-    top: -5px;
-    right: -8px;
+    top: calc((var(--track-height) - var(--thumb-size)) / 2) !important; /* center over track */
+    right: calc(var(--thumb-size) / -2) !important; /* center on axis */
+    transform: none !important; /* prevent default translate from offsetting */
+}
+#year-range-slider .noUi-handle:before,
+#year-range-slider .noUi-handle:after {
+    display: none; /* hide default bars */
+}
+
+/* Enlarge invisible touch area for better usability without changing visual size */
+#year-range-slider .noUi-handle .noUi-touch-area {
+    position: absolute !important;
+    width: calc(max(24px, var(--thumb-size) + 8px)) !important;
+    height: calc(max(24px, var(--thumb-size) + 8px)) !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
 }
 
 #year-range-slider .noUi-horizontal .noUi-handle:before,
@@ -318,19 +338,31 @@ body {
 }
 
 #year-range-slider .noUi-base {
-    background: #ddd;
-    border-radius: 3px;
+    background: #e0e0e0; /* MUI grey[300] rail */
+    border-radius: 9999px; /* fully rounded track */
 }
 
 #year-range-slider .noUi-target {
-    background: #ddd;
-    border-radius: 3px;
+    background: #e0e0e0; /* rail */
+    border-radius: 9999px;
     border: none;
     box-shadow: none;
 }
 
 #year-range-slider .noUi-handle:hover {
-    background: #2980b9;
+    box-shadow: 0 0 0 6px rgba(17,24,39,0.16) !important; /* dark focus ring */
+}
+
+#year-range-slider .noUi-handle {
+    cursor: grab;
+}
+
+#year-range-slider .noUi-active .noUi-handle {
+    cursor: grabbing;
+}
+
+#year-range-slider .noUi-base, #year-range-slider .noUi-connects, #year-range-slider .noUi-connect {
+    cursor: pointer;
 }
 
 #year-range-slider .noUi-handle:focus {
@@ -347,6 +379,107 @@ body {
     font-size: 0.8rem;
     color: #666;
 }
+
+/* Date mode toggle and relative options */
+.date-mode-toggle {
+    display: inline-flex;
+    gap: 6px;
+    background: #f3f4f6; /* gray-100 */
+    border-radius: 8px;
+    padding: 2px;
+    margin-bottom: 8px;
+}
+
+.toggle-btn {
+    background: transparent;
+    border: none;
+    color: #4b5563; /* gray-600 */
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem; /* text-xs ~ 12-13px */
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.toggle-btn.active {
+    background: #ffffff;
+    color: #111827; /* gray-900 */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.toggle-btn .icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.relative-options {
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+}
+
+.option-btn {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    color: #374151; /* gray-700 */
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.75rem; /* text-xs */
+    font-weight: 600;
+}
+
+.option-btn.active {
+    background: #111827; /* gray-900 */
+    border-color: #111827;
+    color: #ffffff;
+}
+
+/* Card container for date filter */
+.date-filter-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb; /* gray-200 */
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* Mode row with summary text on the right */
+.date-mode-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.date-summary {
+    font-size: 12px; /* text-xs */
+    color: #6b7280; /* gray-500 */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.15;
+}
+.date-summary .min { opacity: 0.9; }
+.date-summary .max { opacity: 0.9; }
+
+.year-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px; /* text-xs */
+    color: #6b7280; /* gray-500 */
+    margin-bottom: 6px;
+}
+
+/* Utility */
+.hidden { display: none !important; }
+
+/* Handle size is controlled above on .noUi-horizontal .noUi-handle using variables.
+   Removed older strong overrides to make editing simpler. */
 
 /* Main content layout */
 #main-content {

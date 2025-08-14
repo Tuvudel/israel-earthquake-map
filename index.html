@@ -120,14 +120,47 @@
                         </div>
                     </div>
 
-                    <!-- Year Range Filter -->
+                    <!-- Date Filter (Relative | Range) -->
                     <div class="filter-group year-group">
-                        <label class="filter-label">Year Range:</label>
-                        <div class="year-slider-container">
-                            <div id="year-range-slider"></div>
-                            <div class="year-labels">
-                                <span id="year-min-label">2020</span>
-                                <span id="year-max-label">2025</span>
+                        <label class="filter-label">Date Filter:</label>
+                        <div class="date-filter-card">
+                            <!-- Mode Toggle + Summary -->
+                            <div class="date-mode-row">
+                                <div class="date-mode-toggle" id="date-mode-toggle">
+                                    <button type="button" class="toggle-btn active" data-mode="relative" id="date-mode-relative">
+                                        <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        <span>Recent</span>
+                                    </button>
+                                    <button type="button" class="toggle-btn" data-mode="range" id="date-mode-range">
+                                        <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                            <rect x="3" y="5" width="18" height="16" rx="2" ry="2" stroke="currentColor" stroke-width="2" fill="none"/>
+                                            <path d="M3 10h18" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                        <span>Historical</span>
+                                    </button>
+                                </div>
+                                <div class="date-summary hidden" id="date-summary"></div>
+                            </div>
+
+                            <!-- Relative options -->
+                            <div class="relative-options" id="relative-options">
+                                <button type="button" class="option-btn" data-value="1day">24h</button>
+                                <button type="button" class="option-btn" data-value="7days">7d</button>
+                                <button type="button" class="option-btn active" data-value="30days" id="relative-30d">30d</button>
+                                <button type="button" class="option-btn" data-value="1year">1y</button>
+                            </div>
+
+                            <!-- Year Range (shown when mode = range) -->
+                            <div class="year-slider-container hidden" id="year-range-container">
+                                <div class="year-labels">
+                                    <span id="year-min-label">2020</span>
+                                    <span id="year-max-label">2025</span>
+                                </div>
+                                <div id="year-range-slider"></div>
                             </div>
                         </div>
                     </div>

@@ -500,13 +500,28 @@ class EarthquakeApp {
     
     applyFilters() {
         const selectedMagnitudes = this.getSelectedMagnitudes();
-        const yearRange = this.getYearRange();
         const selectedCountry = this.filters.getSelectedCountry ? this.filters.getSelectedCountry() : 'all';
         const selectedArea = this.filters.getSelectedArea ? this.filters.getSelectedArea() : 'all';
+        const dateFilter = this.filters.getDateFilter ? this.filters.getDateFilter() : { mode: 'range', yearRange: this.getYearRange() };
+
+        // Precompute relative cutoff if needed
+        let cutoff = null;
+        if (dateFilter.mode === 'relative') {
+            cutoff = this.getRelativeCutoff(dateFilter.value);
+        }
+
         this.filteredData = this.earthquakeData.filter(feature => {
             const props = feature.properties;
             if (!selectedMagnitudes.includes(props.magnitudeClass)) return false;
-            if (props.year < yearRange.min || props.year > yearRange.max) return false;
+            // Time filter
+            if (dateFilter.mode === 'relative') {
+                if (!(props.dateObject instanceof Date)) return false;
+                if (props.dateObject < cutoff) return false;
+            } else {
+                const yr = props.year;
+                const yrRange = dateFilter.yearRange || this.getYearRange();
+                if (yr < yrRange.min || yr > yrRange.max) return false;
+            }
             if (selectedCountry !== 'all' && (props.country || '').trim() !== selectedCountry) return false;
             if (selectedArea !== 'all' && (props.area || '').trim() !== selectedArea) return false;
             return true;
@@ -527,16 +542,24 @@ class EarthquakeApp {
 
         const allData = this.earthquakeData || [];
         const selectedMagnitudes = this.getSelectedMagnitudes();
-        const yearRange = this.getYearRange();
+        const dateFilter = this.filters.getDateFilter ? this.filters.getDateFilter() : { mode: 'range', yearRange: this.getYearRange() };
+        const cutoff = (dateFilter.mode === 'relative') ? this.getRelativeCutoff(dateFilter.value) : null;
         const selectedCountry = this.filters.getSelectedCountry ? this.filters.getSelectedCountry() : 'all';
         const selectedArea = this.filters.getSelectedArea ? this.filters.getSelectedArea() : 'all';
 
         // Helper filters
         const filterByMagnitudes = (data) => data.filter(f => selectedMagnitudes.includes(f.properties.magnitudeClass));
-        const filterByYear = (data) => data.filter(f => {
-            const y = f.properties.year;
-            return Number.isFinite(y) && y >= yearRange.min && y <= yearRange.max;
-        });
+        const filterByTime = (data) => {
+            if (dateFilter.mode === 'relative') {
+                return data.filter(f => (f.properties.dateObject instanceof Date) && f.properties.dateObject >= cutoff);
+            } else {
+                const yrRange = dateFilter.yearRange || this.getYearRange();
+                return data.filter(f => {
+                    const y = f.properties.year;
+                    return Number.isFinite(y) && y >= yrRange.min && y <= yrRange.max;
+                });
+            }
+        };
         const filterByCountry = (data) => selectedCountry === 'all' ? data : data.filter(f => (f.properties.country || '').trim() === selectedCountry);
         const filterByArea = (data) => selectedArea === 'all' ? data : data.filter(f => (f.properties.area || '').trim() === selectedArea);
 
@@ -552,23 +575,40 @@ class EarthquakeApp {
         }
 
         // Country options: filter by other filters (area, magnitude, year) but NOT by country
-        const dataForCountry = filterByArea(filterByYear(filterByMagnitudes(allData)));
+        const dataForCountry = filterByArea(filterByTime(filterByMagnitudes(allData)));
         const countries = Array.from(new Set(
             dataForCountry.map(f => (f.properties.country || '').trim()).filter(Boolean)
         )).sort((a,b) => a.localeCompare(b));
         if (this.filters.setCountryOptions) this.filters.setCountryOptions(countries, true);
 
         // Area options: filter by other filters (country, magnitude, year) but NOT by area
-        const dataForArea = filterByCountry(filterByYear(filterByMagnitudes(allData)));
+        const dataForArea = filterByCountry(filterByTime(filterByMagnitudes(allData)));
         const areas = Array.from(new Set(
             dataForArea.map(f => (f.properties.area || '').trim()).filter(Boolean)
         )).sort((a,b) => a.localeCompare(b));
         if (this.filters.setAreaOptions) this.filters.setAreaOptions(areas, true);
 
         // Magnitude availability: filter by other filters (country, area, year) but NOT by magnitude
-        const dataForMagnitudes = filterByCountry(filterByArea(filterByYear(allData)));
+        const dataForMagnitudes = filterByCountry(filterByArea(filterByTime(allData)));
         const availableMagnitudes = new Set(dataForMagnitudes.map(f => f.properties.magnitudeClass));
         if (this.filters.updateMagnitudeAvailability) this.filters.updateMagnitudeAvailability(availableMagnitudes);
+    }
+
+    getRelativeCutoff(relativeValue) {
+        const now = new Date();
+        const msInDay = 24 * 60 * 60 * 1000;
+        switch (relativeValue) {
+            case '1day':
+                return new Date(now.getTime() - 1 * msInDay);
+            case '7days':
+                return new Date(now.getTime() - 7 * msInDay);
+            case '30days':
+                return new Date(now.getTime() - 30 * msInDay);
+            case '1year':
+                return new Date(now.getTime() - 365 * msInDay);
+            default:
+                return new Date(now.getTime() - 30 * msInDay);
+        }
     }
     
     getSelectedMagnitudes() {
