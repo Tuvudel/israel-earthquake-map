@@ -68,3 +68,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Mapping**: MapLibre GL JS community
 - **Inspiration**: Seismic monitoring and public safety awareness
 
+## Shoelace Integration and Table Redesign
+
+- We keep the native HTML `<table>` and existing sorting/pagination logic.
+- Shoelace components augment the UI:
+  - `<sl-card>` wraps the table panel.
+  - `<sl-badge>` replaces the "Felt?" tag in the table.
+  - `<sl-button>` is used for pagination controls.
+- Dependencies are included via CDN in `index.html`.
+- Special GeoJSON keys such as `props['felt?']` and `props['date-time']` are accessed safely with bracket notation in `js/table.js`.
+

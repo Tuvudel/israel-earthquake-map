@@ -24,6 +24,15 @@ class TableController {
                 const column = header.getAttribute('data-column');
                 this.handleSort(column);
             });
+
+            // Keyboard support: Enter/Space to sort
+            header.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    const column = header.getAttribute('data-column');
+                    this.handleSort(column);
+                }
+            });
         });
         
         // Pagination button listeners
@@ -78,6 +87,16 @@ class TableController {
         const activeHeader = document.querySelector(`[data-column="${this.sortColumn}"] .sort-indicator`);
         if (activeHeader) {
             activeHeader.classList.add('active', this.sortDirection);
+        }
+
+        // Update aria-sort on headers for accessibility
+        const headerCells = document.querySelectorAll('th.sortable');
+        headerCells.forEach(th => {
+            th.setAttribute('aria-sort', 'none');
+        });
+        const activeTh = document.querySelector(`th.sortable[data-column="${this.sortColumn}"]`);
+        if (activeTh) {
+            activeTh.setAttribute('aria-sort', this.sortDirection === 'asc' ? 'ascending' : 'descending');
         }
     }
     
@@ -166,17 +185,29 @@ class TableController {
             const dateTime = this.formatDateTime(props['date-time'] || props.date);
             const magnitude = props.magnitude ? props.magnitude.toFixed(1) : '-';
             const depth = props.depth ? props.depth.toFixed(1) : '-';
-            const felt = props['felt?'] ? '<span class="felt-tag">Felt</span>' : '';
+            const felt = props['felt?'] ? '<sl-badge variant="danger" pill>Felt</sl-badge>' : '';
+            // Shoelace tooltip for magnitude badge + humanized magnitude class label
+            const magnitudeBadgeInner =
+                props.magnitude != null && !Number.isNaN(props.magnitude)
+                    ? `<span class="mag-badge ${props.magnitudeClass}" aria-label="Magnitude ${magnitude}">${magnitude}</span>`
+                    : null;
+            const magnitudeClassLabel = props.magnitudeClass
+                ? props.magnitudeClass.charAt(0).toUpperCase() + props.magnitudeClass.slice(1)
+                : '';
+            const magnitudeBadge = magnitudeBadgeInner
+                ? `<sl-tooltip content="Magnitude ${magnitude} • ${magnitudeClassLabel}">${magnitudeBadgeInner}</sl-tooltip>`
+                : '-';
+
+            // Use sl-format-date when a Date object is available; fallback to current formatter
+            const dateIso = props.dateObject instanceof Date ? props.dateObject.toISOString() : null;
+            const dateCell = dateIso
+                ? `<sl-tooltip content="${dateTime} (UTC)"><sl-format-date date="${dateIso}" year="numeric" month="2-digit" day="2-digit" hour="2-digit" minute="2-digit" time-zone="UTC"></sl-format-date></sl-tooltip>`
+                : `${dateTime}`;
             
             return `
-                <tr data-epiid="${props.epiid}" class="earthquake-row">
-                    <td>${dateTime}</td>
-                    <td>
-                        <span class="magnitude-cell">
-                            <span class="magnitude-indicator ${props.magnitudeClass}"></span>
-                            ${magnitude}
-                        </span>
-                    </td>
+                <tr data-epiid="${props.epiid}" class="earthquake-row mag-${props.magnitudeClass}">
+                    <td>${dateCell}</td>
+                    <td class="mag-cell">${magnitudeBadge}</td>
                     <td>${depth}</td>
                     <td class="felt-cell">${felt}</td>
                 </tr>
@@ -342,7 +373,7 @@ class TableController {
         if (this.tableBody) {
             this.tableBody.innerHTML = `
                 <tr>
-                    <td colspan="3" style="text-align: center; padding: 20px; color: #666;">
+                    <td colspan="4" style="text-align: center; padding: 20px; color: #666;">
                         No earthquake data available
                     </td>
                 </tr>
