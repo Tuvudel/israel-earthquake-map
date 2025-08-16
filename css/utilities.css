@@ -1,0 +1,10 @@
+/* Utilities and tokens (extracted from css/styles.css) */
+.hidden { display: none !important; }
+
+/* Magnitude indicator colors shared by legend/table */
+.magnitude-indicator { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.magnitude-indicator.minor, .legend-circle.minor { background-color: #6aa84f; }
+.magnitude-indicator.light, .legend-circle.light { background-color: #d5bf5a; }
+.magnitude-indicator.moderate, .legend-circle.moderate { background-color: #f2a144; }
+.magnitude-indicator.strong, .legend-circle.strong { background-color: #d6553f; }
+.magnitude-indicator.major, .legend-circle.major { background-color: #9e2f3a; }

@@ -44,7 +44,18 @@ An interactive web application for visualizing earthquake data across the Easter
 israel-earthquake-map/
 ├── index.html              # Main HTML file
 ├── css/
-│   └── styles.css          # Application styles
+│   ├── index.css           # Aggregator entry point (imports modules; replaces styles.css)
+│   ├── base.css            # Base/reset and tokens
+│   ├── utilities.css       # Utilities and shared tokens
+│   ├── layout.css          # Page layout (map, sidebar)
+│   ├── responsive.css      # Media queries and responsive tweaks
+│   ├── components/         # Component styles
+│   │   ├── filters.css
+│   │   ├── legend.css
+│   │   ├── stats.css
+│   │   ├── table.css
+│   │   ├── toggles.css
+│   │   └── loading.css
 ├── js/
 │   ├── main.js            # Main application logic
 │   ├── map.js             # Map controller
@@ -57,6 +68,30 @@ israel-earthquake-map/
 │   └── icons/             # Map marker icons
 └── README.md
 ```
+
+## CSS Architecture
+
+- **Entry point**: `css/index.css` is the single stylesheet linked from `index.html`. It imports modules in this order:
+  1) `base.css`
+  2) `utilities.css`
+  3) `layout.css`
+  4) `components/*.css` (filters, legend, stats, table, toggles, loading)
+  5) `responsive.css`
+
+- **Legacy stylesheet**: Migration complete. The former `css/styles.css` has been removed. All styles now live under `css/` modules.
+
+- **Shoelace variables**: Table and UI components use Shoelace CSS variables (e.g., `--sl-color-neutral-*`) for consistent theming. Shoelace is included via CDN in `index.html`.
+
+### Migration status
+
+- The project now uses modular CSS exclusively via `css/index.css`. The legacy stylesheet has been removed after parity testing.
+
+### Conventions
+
+- Add new component styles under `css/components/` using clear, component-scoped selectors.
+- Avoid renaming selectors used by `index.html` or `js/*` to prevent regressions.
+- Put page layout rules in `layout.css` and utilities/tokens in `utilities.css`.
+- Centralize breakpoints and overrides in `responsive.css`.
 
 ## License
 
