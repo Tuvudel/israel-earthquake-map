@@ -15,6 +15,7 @@
     
     <!-- Shoelace (CDN autoloader) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.13.0/cdn/themes/light.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.13.0/cdn/themes/dark.css" />
     <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.13.0/cdn/shoelace-autoloader.js"></script>
     
     <!-- Custom CSS -->
@@ -22,7 +23,7 @@
 </head>
 <body>
     <div id="app">
-        <!-- Header with filters -->
+        <!-- Header (title & main filters) -->
         <header id="filters-panel">
             <div class="container">
                 <div class="header-layout">
@@ -40,134 +41,115 @@
                                         <a href="https://www.maptiler.com/" target="_blank" rel="noopener noreferrer" class="maptiler-logo-link" aria-label="MapTiler">
                                             <img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo" class="maptiler-logo">
                                         </a>
-                                        © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>
+                                        &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="filters-container">
-                    <!-- Magnitude Filter -->
-                    <div class="filter-group">
-                        <label class="filter-label">Magnitude Classes:</label>
-                        <div class="custom-multiselect" id="magnitude-multiselect">
-                            <div class="multiselect-trigger">
-                                <span class="multiselect-text">All Selected</span>
-                                <span class="multiselect-arrow">▼</span>
+                    <!-- Main Filters moved back to header: Magnitude / Country / Area -->
+                    <div id="pre-tab-filters" class="filters-container">
+                        <!-- Magnitude Filter -->
+                        <div class="filter-group">
+                            <label class="filter-label">Magnitude Classes:</label>
+                            <div class="custom-multiselect" id="magnitude-multiselect">
+                                <div class="multiselect-trigger">
+                                    <span class="multiselect-text">All Selected</span>
+                                    <span class="multiselect-arrow">&darr;</span>
+                                </div>
+                                <div class="multiselect-dropdown">
+                                    <div class="multiselect-option" data-value="minor">
+                                        <input type="checkbox" id="minor-cb" checked>
+                                        <label for="minor-cb">
+                                            <span class="magnitude-indicator minor"></span>
+                                            Minor (2.5-3.9)
+                                        </label>
+                                    </div>
+                                    <div class="multiselect-option" data-value="light">
+                                        <input type="checkbox" id="light-cb" checked>
+                                        <label for="light-cb">
+                                            <span class="magnitude-indicator light"></span>
+                                            Light (4.0-4.9)
+                                        </label>
+                                    </div>
+                                    <div class="multiselect-option" data-value="moderate">
+                                        <input type="checkbox" id="moderate-cb" checked>
+                                        <label for="moderate-cb">
+                                            <span class="magnitude-indicator moderate"></span>
+                                            Moderate (5.0-5.9)
+                                        </label>
+                                    </div>
+                                    <div class="multiselect-option" data-value="strong">
+                                        <input type="checkbox" id="strong-cb" checked>
+                                        <label for="strong-cb">
+                                            <span class="magnitude-indicator strong"></span>
+                                            Strong (6.0-6.9)
+                                        </label>
+                                    </div>
+                                    <div class="multiselect-option" data-value="major">
+                                        <input type="checkbox" id="major-cb" checked>
+                                        <label for="major-cb">
+                                            <span class="magnitude-indicator major"></span>
+                                            Major (7.0+)
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="multiselect-dropdown">
-                                <div class="multiselect-option" data-value="minor">
-                                    <input type="checkbox" id="minor-cb" checked>
-                                    <label for="minor-cb">
-                                        <span class="magnitude-indicator minor"></span>
-                                        Minor (2.5-3.9)
-                                    </label>
+                        </div>
+
+                        <!-- Country Filter (custom single-select styled like multiselect) -->
+                        <div class="filter-group">
+                            <label class="filter-label">Country:</label>
+                            <div class="custom-multiselect" id="country-multiselect">
+                                <div class="multiselect-trigger">
+                                    <span class="multiselect-text">All Countries</span>
+                                    <span class="multiselect-arrow">&darr;</span>
                                 </div>
-                                <div class="multiselect-option" data-value="light">
-                                    <input type="checkbox" id="light-cb" checked>
-                                    <label for="light-cb">
-                                        <span class="magnitude-indicator light"></span>
-                                        Light (4.0-4.9)
-                                    </label>
+                                <div class="multiselect-dropdown">
+                                    <!-- Options populated by JS as radio inputs -->
                                 </div>
-                                <div class="multiselect-option" data-value="moderate">
-                                    <input type="checkbox" id="moderate-cb" checked>
-                                    <label for="moderate-cb">
-                                        <span class="magnitude-indicator moderate"></span>
-                                        Moderate (5.0-5.9)
-                                    </label>
+                            </div>
+                        </div>
+
+                        <!-- Area Filter (custom single-select styled like multiselect) -->
+                        <div class="filter-group">
+                            <label class="filter-label">Area:</label>
+                            <div class="custom-multiselect" id="area-multiselect">
+                                <div class="multiselect-trigger">
+                                    <span class="multiselect-text">All Areas</span>
+                                    <span class="multiselect-arrow">&darr;</span>
                                 </div>
-                                <div class="multiselect-option" data-value="strong">
-                                    <input type="checkbox" id="strong-cb" checked>
-                                    <label for="strong-cb">
-                                        <span class="magnitude-indicator strong"></span>
-                                        Strong (6.0-6.9)
-                                    </label>
-                                </div>
-                                <div class="multiselect-option" data-value="major">
-                                    <input type="checkbox" id="major-cb" checked>
-                                    <label for="major-cb">
-                                        <span class="magnitude-indicator major"></span>
-                                        Major (7.0+)
-                                    </label>
+                                <div class="multiselect-dropdown">
+                                    <!-- Options populated by JS as radio inputs -->
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Country Filter (custom single-select styled like multiselect) -->
-                    <div class="filter-group">
-                        <label class="filter-label">Country:</label>
-                        <div class="custom-multiselect" id="country-multiselect">
-                            <div class="multiselect-trigger">
-                                <span class="multiselect-text">All Countries</span>
-                                <span class="multiselect-arrow">▼</span>
-                            </div>
-                            <div class="multiselect-dropdown">
-                                <!-- Options populated by JS as radio inputs -->
-                            </div>
+                    <!-- Header actions (top-right) -->
+                    <div id="header-actions" class="header-actions">
+                        <div class="basemap-toggle-row" title="Toggle basemap (Light/Dark)">
+                            <span class="basemap-icon sun" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="4"/>
+                                    <g stroke="currentColor" stroke-width="2" fill="none">
+                                        <line x1="12" y1="2" x2="12" y2="5"/>
+                                        <line x1="12" y1="19" x2="12" y2="22"/>
+                                        <line x1="2" y1="12" x2="5" y2="12"/>
+                                        <line x1="19" y1="12" x2="22" y2="12"/>
+                                        <line x1="4.2" y1="4.2" x2="6.4" y2="6.4"/>
+                                        <line x1="17.6" y1="17.6" x2="19.8" y2="19.8"/>
+                                        <line x1="4.2" y1="19.8" x2="6.4" y2="17.6"/>
+                                        <line x1="17.6" y1="6.4" x2="19.8" y2="4.2"/>
+                                    </g>
+                                </svg>
+                            </span>
+                            <sl-switch id="basemap-toggle" size="small" aria-label="Toggle dark basemap (Dark Matter)"></sl-switch>
+                            <span class="basemap-icon moon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                                </svg>
+                            </span>
                         </div>
-                    </div>
-
-                    <!-- Area Filter (custom single-select styled like multiselect) -->
-                    <div class="filter-group">
-                        <label class="filter-label">Area:</label>
-                        <div class="custom-multiselect" id="area-multiselect">
-                            <div class="multiselect-trigger">
-                                <span class="multiselect-text">All Areas</span>
-                                <span class="multiselect-arrow">▼</span>
-                            </div>
-                            <div class="multiselect-dropdown">
-                                <!-- Options populated by JS as radio inputs -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Date Filter (Relative | Range) -->
-                    <div class="filter-group year-group">
-                        <label class="filter-label">Date Filter:</label>
-                        <div class="date-filter-card">
-                            <!-- Mode Toggle + Summary -->
-                            <div class="date-mode-row">
-                                <div class="date-mode-toggle" id="date-mode-toggle">
-                                    <button type="button" class="toggle-btn active" data-mode="relative" id="date-mode-relative">
-                                        <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
-                                            <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                        <span>Recent</span>
-                                    </button>
-                                    <button type="button" class="toggle-btn" data-mode="range" id="date-mode-range">
-                                        <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                            <rect x="3" y="5" width="18" height="16" rx="2" ry="2" stroke="currentColor" stroke-width="2" fill="none"/>
-                                            <path d="M3 10h18" stroke="currentColor" stroke-width="2"/>
-                                            <path d="M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                        </svg>
-                                        <span>Historical</span>
-                                    </button>
-                                </div>
-                                <div class="date-summary hidden" id="date-summary"></div>
-                            </div>
-
-                            <!-- Relative options -->
-                            <div class="relative-options" id="relative-options">
-                                <button type="button" class="option-btn" data-value="1day">24h</button>
-                                <button type="button" class="option-btn" data-value="7days">7d</button>
-                                <button type="button" class="option-btn active" data-value="30days" id="relative-30d">30d</button>
-                                <button type="button" class="option-btn" data-value="1year">1y</button>
-                            </div>
-
-                            <!-- Year Range (shown when mode = range) -->
-                            <div class="year-slider-container hidden" id="year-range-container">
-                                <div class="year-labels">
-                                    <span id="year-min-label">2020</span>
-                                    <span id="year-max-label">2025</span>
-                                </div>
-                                <div id="year-range-slider"></div>
-                            </div>
-                        </div>
-                    </div>
                     </div>
                 </div>
             </div>
@@ -175,17 +157,17 @@
 
         <!-- Mobile toggles -->
         <button id="mobile-legend-toggle" class="mobile-legend-toggle" aria-label="Toggle legend">
-            <span class="toggle-icon">🗺️</span>
+            <span class="toggle-icon">&map;</span>
             <span class="toggle-text">Legend</span>
         </button>
         
         <button id="mobile-sidebar-toggle" class="mobile-sidebar-toggle" aria-label="Toggle data panel">
-            <span class="toggle-icon">📊</span>
+            <span class="toggle-icon">&rang;</span>
             <span class="toggle-text">Data</span>
         </button>
         
         <button id="mobile-filters-toggle" class="mobile-filters-toggle" aria-label="Toggle filters">
-            <span class="toggle-icon">🔍</span>
+            <span class="toggle-icon">&#128269;</span>
             <span class="toggle-text">Filters</span>
         </button>
 
@@ -249,79 +231,137 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
 
-            <!-- Right sidebar -->
+            <!-- Right sidebar with tabs and date filter -->
             <aside id="sidebar">
-                <!-- Statistics Panel -->
-                <div id="statistics-panel">
-                    <h2>Earthquake Statistics</h2>
-                    <div class="stat-grid">
-                        <div class="stat-item">
-                            <div class="stat-value" id="total-earthquakes">-</div>
-                            <div class="stat-label">Total Earthquakes</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value" id="avg-magnitude">-</div>
-                            <div class="stat-label">Average Magnitude</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value" id="avg-depth">-</div>
-                            <div class="stat-label">Average Depth (km)</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value" id="land-water-percent">-</div>
-                            <div class="stat-label">On Land / Water</div>
+                <sl-tab-group placement="top">
+                    <sl-tab slot="nav" panel="events" active>Events</sl-tab>
+                    <sl-tab slot="nav" panel="analytics">Analytics</sl-tab>
+
+                    <!-- Date Filter placed between tab selection and tab content -->
+                    <div id="date-filter-below-tabs" class="filters-container">
+                        <!-- Date Filter (Relative | Range) -->
+                        <div class="filter-group year-group">
+                            <div class="date-filter-card">
+                                <!-- Mode Toggle + Summary -->
+                                <div class="date-mode-row">
+                                    <div class="date-mode-toggle" id="date-mode-toggle">
+                                        <button type="button" class="toggle-btn active" data-mode="relative" id="date-mode-relative">
+                                            <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                                <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Recent</span>
+                                        </button>
+                                        <button type="button" class="toggle-btn" data-mode="range" id="date-mode-range">
+                                            <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <rect x="3" y="5" width="18" height="16" rx="2" ry="2" stroke="currentColor" stroke-width="2" fill="none"/>
+                                                <path d="M3 10h18" stroke="currentColor" stroke-width="2"/>
+                                                <path d="M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                            </svg>
+                                            <span>Historical</span>
+                                        </button>
+                                    </div>
+                                    <div class="date-summary hidden" id="date-summary"></div>
+                                </div>
+
+                                <!-- Relative options -->
+                                <div class="relative-options" id="relative-options">
+                                    <button type="button" class="option-btn" data-value="1day">24h</button>
+                                    <button type="button" class="option-btn" data-value="7days">7d</button>
+                                    <button type="button" class="option-btn active" data-value="30days" id="relative-30d">30d</button>
+                                    <button type="button" class="option-btn" data-value="1year">1y</button>
+                                </div>
+
+                                <!-- Year Range (shown when mode = range) -->
+                                <div class="year-slider-container hidden" id="year-range-container">
+                                    <div class="year-labels">
+                                        <span id="year-min-label">2020</span>
+                                        <span id="year-max-label">2025</span>
+                                    </div>
+                                    <div id="year-range-slider"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Data Table -->
-                <div id="data-table-panel">
-                    <sl-card class="table-card">
-                        <div slot="header">Earthquake Data</div>
-                        <div class="table-container">
-                            <table id="earthquake-table">
-                                <thead>
-                                    <tr>
-                                        <th class="sortable" data-column="datetime" scope="col" tabindex="0" aria-sort="none">
-                                            Date/Time (UTC)
-                                            <span class="sort-indicator"></span>
-                                        </th>
-                                        <th class="sortable" data-column="magnitude" scope="col" tabindex="0" aria-sort="descending">
-                                            Magnitude
-                                            <span class="sort-indicator active desc"></span>
-                                        </th>
-                                        <th class="sortable" data-column="depth" scope="col" tabindex="0" aria-sort="none">
-                                            Depth (km)
-                                            <span class="sort-indicator"></span>
-                                        </th>
-                                        <th class="sortable" data-column="felt" scope="col" tabindex="0" aria-sort="none">
-                                            Felt?
-                                            <span class="sort-indicator"></span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody id="earthquake-table-body">
-                                    <!-- Table rows will be populated by JavaScript -->
-                                </tbody>
-                            </table>
+                    <!-- Events Tab Panel -->
+                    <sl-tab-panel name="events">
+                        <div id="data-table-panel">
+                            <sl-card class="table-card">
+                                <div slot="header">Earthquake Data</div>
+                                <div class="table-container">
+                                    <table id="earthquake-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="sortable" data-column="datetime" scope="col" tabindex="0" aria-sort="none">
+                                                    Date/Time (UTC)
+                                                    <span class="sort-indicator"></span>
+                                                </th>
+                                                <th class="sortable" data-column="magnitude" scope="col" tabindex="0" aria-sort="descending">
+                                                    Magnitude
+                                                    <span class="sort-indicator active desc"></span>
+                                                </th>
+                                                <th class="sortable" data-column="depth" scope="col" tabindex="0" aria-sort="none">
+                                                    Depth (km)
+                                                    <span class="sort-indicator"></span>
+                                                </th>
+                                                <th class="sortable" data-column="felt" scope="col" tabindex="0" aria-sort="none">
+                                                    Felt?
+                                                    <span class="sort-indicator"></span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="earthquake-table-body">
+                                            <!-- Table rows will be populated by JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <!-- Pagination -->
+                                <div id="pagination">
+                                    <div class="pagination-info">
+                                        <span id="pagination-info-text" aria-live="polite">Showing 1-10 of 0 earthquakes</span>
+                                    </div>
+                                    <div class="pagination-controls">
+                                        <sl-button id="prev-page" class="pagination-btn" size="small" disabled>Previous</sl-button>
+                                        <div id="page-numbers"></div>
+                                        <sl-button id="next-page" class="pagination-btn" size="small" disabled>Next</sl-button>
+                                    </div>
+                                </div>
+                            </sl-card>
                         </div>
-                        
-                        <!-- Pagination -->
-                        <div id="pagination">
-                            <div class="pagination-info">
-                                <span id="pagination-info-text" aria-live="polite">Showing 1-10 of 0 earthquakes</span>
-                            </div>
-                            <div class="pagination-controls">
-                                <sl-button id="prev-page" class="pagination-btn" size="small" disabled>Previous</sl-button>
-                                <div id="page-numbers"></div>
-                                <sl-button id="next-page" class="pagination-btn" size="small" disabled>Next</sl-button>
+                    </sl-tab-panel>
+
+                    <!-- Analytics Tab Panel -->
+                    <sl-tab-panel name="analytics">
+                        <div id="statistics-panel">
+                            <h2>Earthquake Statistics</h2>
+                            <div class="stat-grid">
+                                <div class="stat-item">
+                                    <div class="stat-value" id="total-earthquakes">-</div>
+                                    <div class="stat-label">Total Earthquakes</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value" id="avg-magnitude">-</div>
+                                    <div class="stat-label">Average Magnitude</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value" id="avg-depth">-</div>
+                                    <div class="stat-label">Average Depth (km)</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value" id="land-water-percent">-</div>
+                                    <div class="stat-label">On Land / Water</div>
+                                </div>
                             </div>
                         </div>
-                    </sl-card>
-                </div>
+                    </sl-tab-panel>
+                </sl-tab-group>
+
             </aside>
         </main>
 

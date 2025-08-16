@@ -33,7 +33,7 @@
     .filter-group { width: 100%; }
     #main-content { flex-direction: column; height: auto; min-height: calc(100vh - 200px); }
     #map-container { height: 60vh; min-height: 400px; }
-    #sidebar { width: 100%; border-left: none; border-top: 1px solid #ddd; max-height: 40vh; }
+    #sidebar { width: 100%; border-left: none; border-top: 1px solid var(--border-1); max-height: 40vh; }
     .mobile-sidebar-toggle,
     .mobile-legend-toggle,
     .mobile-filters-toggle { display: flex !important; }
@@ -78,7 +78,27 @@
     .date-input { padding: 12px; font-size: 0.9rem; min-height: 44px; }
     .apply-filters-btn { padding: 12px 20px; font-size: 0.9rem; min-height: 44px; width: 100%; }
     .filters-container { display: none !important; }
-    .filters-container.show { display: block !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; background: white !important; border-top: 1px solid #ddd !important; padding: 15px !important; max-height: 60vh !important; overflow-y: auto !important; transform: translateY(0) !important; transition: transform 0.3s ease !important; z-index: 1000 !important; box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1) !important; visibility: visible !important; opacity: 1 !important; }
+    .filters-container.show { display: block !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; background: var(--surface-0) !important; border-top: 1px solid var(--border-1) !important; padding: 15px !important; max-height: 60vh !important; overflow-y: auto !important; transform: translateY(0) !important; transition: transform 0.3s ease !important; z-index: 1000 !important; box-shadow: var(--shadow-2) !important; visibility: visible !important; opacity: 1 !important; }
+    /* Keep the Date filter visible inside the sidebar when it is open */
+    #sidebar.show #date-filter-below-tabs.filters-container {
+        display: flex !important;
+        position: static !important;
+        background: transparent !important;
+        border-top: 0 !important;
+        padding: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        box-shadow: none !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    #sidebar.show #date-filter-below-tabs .filter-group { width: auto !important; margin: 0 auto !important; }
+    #sidebar.show #date-filter-below-tabs .date-filter-card { margin-left: auto !important; margin-right: auto !important; }
+    #sidebar.show #date-filter-below-tabs { width: 100% !important; margin-top: 10px !important; }
+
+    /* Push header content down so it sits below mobile overlay buttons */
+    #filters-panel { padding-top: 8px !important; }
+    .header-actions { position: static !important; align-self: flex-end; margin-top: 6px; }
     header { padding: 5px 10px !important; min-height: 50px !important; }
     .title-section { padding: 0 30px !important; }
     .title-section h1 { font-size: 1.1rem !important; margin: 0 !important; line-height: 1.2 !important; }
@@ -86,10 +106,10 @@
     .credits-trigger { font-size: 0.6rem !important; }
     #main-content { flex-direction: column !important; height: calc(100vh - 50px) !important; min-height: calc(100vh - 50px) !important; }
     #sidebar { display: none !important; }
-    #sidebar.show { display: block !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; max-height: 70vh !important; z-index: 1000 !important; background: white !important; border-top: 1px solid #ddd !important; box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1) !important; }
+    #sidebar.show { display: block !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; max-height: 70vh !important; z-index: 1000 !important; background: var(--surface-0) !important; border-top: 1px solid var(--border-1) !important; box-shadow: var(--shadow-2) !important; }
     #map-container { flex: 1; width: 100%; height: 100%; min-height: calc(100vh - 55px); position: relative; display: block; }
     #map { width: 100% !important; height: 100% !important; min-height: 350px; display: block !important; }
-    #sidebar { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; max-height: 70vh; background: white; border-top: 2px solid #ddd; border-left: none; z-index: 1000; transform: translateY(100%); transition: transform 0.3s ease; overflow-y: auto; }
+    #sidebar { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; max-height: 70vh; background: var(--surface-0); border-top: 2px solid var(--border-1); border-left: none; z-index: 1000; transform: translateY(100%); transition: transform 0.3s ease; overflow-y: auto; }
     #sidebar.show { transform: translateY(0); }
     .mobile-sidebar-toggle, .mobile-legend-toggle { display: flex !important; }
     .mobile-legend-toggle { position: absolute !important; top: 8px !important; left: 5px !important; bottom: auto !important; right: auto !important; padding: 3px 6px !important; font-size: 0.6rem !important; min-height: 22px !important; border-radius: 11px !important; z-index: 1002 !important; }

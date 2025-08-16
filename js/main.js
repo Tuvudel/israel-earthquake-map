@@ -107,13 +107,14 @@ class EarthquakeApp {
         const filtersButton = document.getElementById('mobile-filters-toggle');
         const sidebar = document.getElementById('sidebar');
         const legend = document.getElementById('map-legend');
-        const filters = document.querySelector('.filters-container');
+        const preTabFilters = document.getElementById('pre-tab-filters');
+        const filtersList = [preTabFilters].filter(Boolean); // Only toggle main filters on mobile; Date filter stays in sidebar
         const mapContainer = document.getElementById('map-container');
         let sidebarVisible = false;
         let legendVisible = false;
         let filtersVisible = false;
         
-        console.log('Mobile toggle init:', { toggleButton, legendButton, filtersButton, sidebar, legend, filters, mapContainer });
+        console.log('Mobile toggle init:', { toggleButton, legendButton, filtersButton, sidebar, legend, filtersList, mapContainer });
         
         if (!toggleButton || !sidebar) {
             console.warn('Mobile toggle elements not found');
@@ -124,7 +125,7 @@ class EarthquakeApp {
         if (window.innerWidth <= 768) {
             sidebar.classList.remove('show');
             if (legend) legend.classList.remove('show');
-            if (filters) filters.classList.remove('show');
+            filtersList.forEach(f => f.classList.remove('show'));
             
             const textEl = toggleButton.querySelector('.toggle-text');
             const iconEl = toggleButton.querySelector('.toggle-icon');
@@ -165,7 +166,7 @@ class EarthquakeApp {
                 }
                 if (filtersVisible) {
                     filtersVisible = false;
-                    filters.classList.remove('show');
+                    filtersList.forEach(f => f.classList.remove('show'));
                     const filtersTextEl = filtersButton.querySelector('.toggle-text');
                     const filtersIconEl = filtersButton.querySelector('.toggle-icon');
                     if (filtersTextEl) filtersTextEl.textContent = 'Filters';
@@ -218,7 +219,7 @@ class EarthquakeApp {
                     }
                     if (filtersVisible) {
                         filtersVisible = false;
-                        filters.classList.remove('show');
+                        filtersList.forEach(f => f.classList.remove('show'));
                         const filtersTextEl = filtersButton.querySelector('.toggle-text');
                         const filtersIconEl = filtersButton.querySelector('.toggle-icon');
                         if (filtersTextEl) filtersTextEl.textContent = 'Filters';
@@ -255,7 +256,7 @@ class EarthquakeApp {
         }
         
         // Filters toggle functionality
-        if (filtersButton && filters) {
+        if (filtersButton && filtersList.length) {
             filtersButton.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -283,11 +284,11 @@ class EarthquakeApp {
                         if (legendIconEl) legendIconEl.textContent = '🗺️';
                     }
                     
-                    filters.classList.add('show');
+                    filtersList.forEach(f => f.classList.add('show'));
                     const iconEl = filtersButton.querySelector('.toggle-icon');
                     if (iconEl) iconEl.textContent = '❌'; // X for close
                 } else {
-                    filters.classList.remove('show');
+                    filtersList.forEach(f => f.classList.remove('show'));
                     const iconEl = filtersButton.querySelector('.toggle-icon');
                     if (iconEl) iconEl.textContent = '🔍'; // Magnifying glass
                 }
@@ -296,9 +297,10 @@ class EarthquakeApp {
             // Close filters when clicking outside on mobile
             document.addEventListener('click', (e) => {
                 if (window.innerWidth <= 480 && filtersVisible) {
-                    if (!filters.contains(e.target) && !filtersButton.contains(e.target)) {
+                    const clickInsideFilters = filtersList.some(f => f.contains(e.target));
+                    if (!clickInsideFilters && !filtersButton.contains(e.target)) {
                         filtersVisible = false;
-                        filters.classList.remove('show');
+                        filtersList.forEach(f => f.classList.remove('show'));
                         const iconEl = filtersButton.querySelector('.toggle-icon');
                         if (iconEl) iconEl.textContent = '🔍'; // Magnifying glass
                     }

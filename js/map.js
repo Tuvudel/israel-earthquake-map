@@ -5,6 +5,8 @@ class MapController {
         this.map = null;
         this.earthquakeSource = null;
         this.hoveredEarthquakeId = null;
+        this.currentStyleName = 'positron';
+        this.eventHandlersBound = false;
         
         this.initializeMap();
     }
@@ -49,6 +51,132 @@ class MapController {
         return 'css/positron.json';
     }
 
+    // Helper: fetch style JSON and inject MapTiler key where applicable
+    async loadAndInjectStyle(path, key) {
+        const resp = await fetch(path);
+        const style = await resp.json();
+        if (key && style && style.sources && style.sources.openmaptiles) {
+            style.sources.openmaptiles.url = `https://api.maptiler.com/tiles/v3-openmaptiles/tiles.json?key=${encodeURIComponent(key)}`;
+        }
+        if (key && style && style.glyphs) {
+            style.glyphs = `https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=${encodeURIComponent(key)}`;
+        }
+        return style;
+    }
+
+    // Return a style object/url for the requested basemap
+    async getStyleForName(name) {
+        const isGithubPages = typeof location !== 'undefined' && /\.github\.io$/.test(location.hostname);
+        const isLocalhost = typeof location !== 'undefined' && /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+        const key = (typeof window !== 'undefined' && window.MAPTILER_KEY) ? String(window.MAPTILER_KEY).trim() : '';
+
+        if (name === 'positron') {
+            if (isLocalhost) return 'css/positron.json';
+            if (key) {
+                try {
+                    return await this.loadAndInjectStyle('css/positron.json', key);
+                } catch (e) {
+                    console.warn('Positron style with key failed, falling back to demo style.', e);
+                    return 'https://demotiles.maplibre.org/style.json';
+                }
+            }
+            if (isGithubPages) return 'https://demotiles.maplibre.org/style.json';
+            return 'css/positron.json';
+        }
+
+        if (name === 'dark_matter') {
+            try {
+                // Local/dev: use bundled style directly
+                if (isLocalhost) {
+                    return 'css/dark_matter.json';
+                }
+
+                // If a MapTiler key is provided, inject it into the bundled style
+                if (key) {
+                    return await this.loadAndInjectStyle('css/dark_matter.json', key);
+                }
+
+                // On GitHub Pages without a key, avoid MapTiler demo key restrictions by falling back
+                if (isGithubPages) {
+                    console.warn('No MAPTILER_KEY on GitHub Pages; falling back to MapLibre demo style for Dark Matter.');
+                    return 'https://demotiles.maplibre.org/style.json';
+                }
+
+                // Default without key (e.g., other hosts)
+                return 'css/dark_matter.json';
+            } catch (e) {
+                console.warn('Dark Matter style failed, falling back to Positron demo.', e);
+                return 'https://demotiles.maplibre.org/style.json';
+            }
+        }
+
+        // Fallback to initial logic
+        return await this.getInitialStyle();
+    }
+
+    // Apply site-wide theme based on basemap selection
+    applyThemeForStyle(isDark) {
+        const root = document.documentElement; // <html>
+        const body = document.body;
+        if (isDark) {
+            root.setAttribute('data-theme', 'dark');
+            body.classList.add('sl-theme-dark');
+        } else {
+            root.removeAttribute('data-theme');
+            body.classList.remove('sl-theme-dark');
+        }
+    }
+
+    // Switch basemap and rebuild custom layers
+    async setBasemap(name) {
+        if (!this.map) return;
+        this.currentStyleName = name;
+        const style = await this.getStyleForName(name);
+        this.map.setStyle(style);
+        // Use styledata which is guaranteed to fire after setStyle in MapLibre
+        this.map.once('styledata', () => {
+            // Rebuild sources/layers and reattach events as needed
+            this.setupEarthquakeLayer();
+            // Reapply current data
+            const data = (this.app && Array.isArray(this.app.filteredData)) ? this.app.filteredData : [];
+            this.updateEarthquakes(data);
+            // Ensure the basemap toggle reflects the current style
+            this.syncBasemapToggleUI();
+            // Apply site theme to match the basemap
+            this.applyThemeForStyle(this.currentStyleName === 'dark_matter');
+        });
+    }
+
+    // Attach handler to the basemap <sl-switch> (sun/moon)
+    setupBasemapToggle() {
+        const el = document.getElementById('basemap-toggle');
+        if (!el) return;
+        // Initialize UI to current style
+        el.checked = this.currentStyleName === 'dark_matter';
+        // Initialize site theme to match current style
+        this.applyThemeForStyle(el.checked);
+        // Shoelace emits "sl-change"; read el.checked
+        el.addEventListener('sl-change', () => {
+            const isDark = !!el.checked;
+            const target = isDark ? 'dark_matter' : 'positron';
+            // Apply site theme immediately for responsive UI
+            this.applyThemeForStyle(isDark);
+            if (target !== this.currentStyleName) {
+                this.setBasemap(target);
+            }
+        });
+    }
+
+    // Keep the toggle UI in sync when basemap changes programmatically
+    syncBasemapToggleUI() {
+        const el = document.getElementById('basemap-toggle');
+        if (!el) return;
+        const shouldBeChecked = this.currentStyleName === 'dark_matter';
+        if (el.checked !== shouldBeChecked) {
+            el.checked = shouldBeChecked;
+        }
+    }
+
     async initializeMap() {
         // Initialize MapLibre GL JS map
         // Enable RTL text for Hebrew/Arabic labels
@@ -80,6 +208,11 @@ class MapController {
         
         // Add scale control
         this.map.addControl(new maplibregl.ScaleControl(), 'bottom-right');
+
+        // Wire up basemap toggle (if present)
+        this.setupBasemapToggle();
+        // Ensure theme is applied on initial load
+        this.applyThemeForStyle(this.currentStyleName === 'dark_matter');
         
         // Wait for map to load before adding earthquake data
         this.map.on('load', () => {
@@ -126,8 +259,11 @@ class MapController {
         // Setup circle markers with improved styling and halo
         this.setupCircleLayer();
         
-        // Setup event listeners
-        this.setupEventListeners();
+        // Setup event listeners (only once, they persist across style changes)
+        if (!this.eventHandlersBound) {
+            this.setupEventListeners();
+            this.eventHandlersBound = true;
+        }
         
         // Note: Earthquake labels removed due to glyphs requirement
         // Labels would need a custom font/glyphs configuration
@@ -156,25 +292,28 @@ class MapController {
             data: 'data/faults_plates/transform.geojson'
         });
         
-        // Add fault lines layer (solid black lines)
+        // Determine line color depending on basemap (white on dark style)
+        const lineColor = (this.currentStyleName === 'dark_matter') ? '#ffffff' : '#000000';
+
+        // Add fault lines layer (solid lines)
         this.map.addLayer({
             id: 'fault-lines',
             type: 'line',
             source: 'faults',
             paint: {
-                'line-color': '#000000',
+                'line-color': lineColor,
                 'line-width': 1.5,
                 'line-opacity': 0.8
             }
         });
         
-        // Add tectonic plate boundary layers (dotted black lines)
+        // Add tectonic plate boundary layers (dotted lines)
         this.map.addLayer({
             id: 'plate-ridges',
             type: 'line',
             source: 'ridges',
             paint: {
-                'line-color': '#000000',
+                'line-color': lineColor,
                 'line-width': 1,
                 'line-opacity': 0.7,
                 'line-dasharray': [2, 2]
@@ -186,7 +325,7 @@ class MapController {
             type: 'line',
             source: 'trenches',
             paint: {
-                'line-color': '#000000',
+                'line-color': lineColor,
                 'line-width': 1,
                 'line-opacity': 0.7,
                 'line-dasharray': [2, 2]
@@ -198,7 +337,7 @@ class MapController {
             type: 'line',
             source: 'transforms',
             paint: {
-                'line-color': '#000000',
+                'line-color': lineColor,
                 'line-width': 1,
                 'line-opacity': 0.7,
                 'line-dasharray': [2, 2]
@@ -505,18 +644,18 @@ const popupStyles = `
 
 .earthquake-popup h4 {
     margin: 0 0 10px 0;
-    color: #2c3e50;
+    color: var(--text-1);
     font-size: 1.1rem;
 }
 
 .earthquake-popup p {
     margin: 5px 0;
-    color: #333;
+    color: var(--text-2);
 }
 
 .felt-indicator {
-    background: #e74c3c;
-    color: white;
+    background: var(--accent-600);
+    color: #ffffff;
     padding: 2px 6px;
     border-radius: 3px;
     font-size: 0.8rem;
@@ -525,12 +664,15 @@ const popupStyles = `
 
 .maplibregl-popup-content {
     padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: var(--radius-2);
+    background: var(--surface-0);
+    color: var(--text-1);
+    border: 1px solid var(--border-1);
+    box-shadow: var(--shadow-2);
 }
 
 .maplibregl-popup-tip {
-    border-top-color: white;
+    border-top-color: var(--surface-0);
 }
 </style>
 `;

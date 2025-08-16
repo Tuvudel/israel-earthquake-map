@@ -60,3 +60,4 @@ __pycache__/
 
 # Local secrets
 js/config.local.js
+js/config.js
