@@ -65,6 +65,54 @@ def filter_new_earthquakes(df, existing_epiids):
     print(f"✓ Found {new_count} new earthquakes out of {initial_count} total")
     return df_new
 
+def compute_change_stats(latest_df, existing_geojson):
+    """Compute counts of new and updated earthquakes versus the existing GeoJSON.
+
+    Updated = an existing epiid where any of latitude/longitude/magnitude/depth/felt? changed.
+    """
+    fields = ["latitude", "longitude", "magnitude", "depth", "felt?"]
+    try:
+        # Build existing properties DataFrame
+        existing_rows = []
+        for feat in existing_geojson.get("features", []):
+            props = (feat.get("properties", {}) or {})
+            row = {"epiid": str(props.get("epiid", "")).strip()}
+            for f in fields:
+                row[f] = props.get(f)
+            existing_rows.append(row)
+        existing_df = pd.DataFrame(existing_rows)
+
+        latest = latest_df[["epiid"] + fields].copy()
+        latest["epiid"] = latest["epiid"].astype(str).str.strip()
+        if not existing_df.empty:
+            existing_df["epiid"] = existing_df["epiid"].astype(str).str.strip()
+
+        merged = latest.merge(existing_df, on="epiid", how="left", suffixes=("_new", "_old"))
+
+        # New = not found in existing
+        new_count = int(merged["latitude_old"].isna().sum())
+
+        # Updated = found in existing and any target field differs
+        changed_any = pd.Series([False] * len(merged))
+        for f in fields:
+            a = merged[f + "_new"]
+            b = merged[f + "_old"]
+            diff = (a != b) & ~(a.isna() & b.isna())
+            changed_any = changed_any | (b.notna() & diff)
+        updated_count = int(changed_any.sum())
+
+        return int(new_count), int(updated_count)
+    except Exception:
+        # Fallback to simple new count only
+        existing_epiids = {
+            str((feat.get("properties", {}) or {}).get("epiid", "")).strip()
+            for feat in existing_geojson.get("features", [])
+        }
+        existing_epiids = {e for e in existing_epiids if e}
+        latest_epiids = set(latest_df.get("epiid", pd.Series([])).astype(str).str.strip())
+        new_count = len([e for e in latest_epiids if e not in existing_epiids])
+        return int(new_count), 0
+
 def main():
     """Main function to update earthquake data."""
     print("🌍 Starting earthquake data update...")
@@ -89,19 +137,19 @@ def main():
     
     # Step 4: Load existing data
     print("\n📂 Loading existing earthquake database...")
-    _, existing_epiids = load_existing_geojson(geojson_filepath)
+    existing_geojson, existing_epiids = load_existing_geojson(geojson_filepath)
     
-    # Step 5: Filter for new earthquakes only
-    print("\n🔍 Filtering for new earthquakes...")
-    new_earthquakes_df = filter_new_earthquakes(geocoded_df, existing_epiids)
+    # Step 5: Compute change stats (new vs updated) for this latest window
+    print("\n🔍 Computing changes (new vs updated) in the latest window...")
+    new_count, updated_count = compute_change_stats(geocoded_df, existing_geojson)
     
-    # Step 6: Append new data to GeoJSON
-    print("\n💾 Updating earthquake database...")
-    append_to_geojson_util(new_earthquakes_df, geojson_filepath)
-    if len(new_earthquakes_df) > 0:
-        print(f"✓ Added {len(new_earthquakes_df)} new earthquakes to {geojson_filepath}")
+    # Step 6: Upsert latest window into GeoJSON (updates + new)
+    print("\n💾 Updating earthquake database (upsert)...")
+    append_to_geojson_util(geocoded_df, geojson_filepath)
+    if (new_count + updated_count) > 0:
+        print(f"✓ Upserted {new_count} new and {updated_count} updated earthquakes into {geojson_filepath}")
     else:
-        print("✓ No new earthquakes; sanitized GeoJSON to ensure valid JSON")
+        print("✓ No changes detected; sanitized GeoJSON to ensure valid JSON")
 
     # Reload GeoJSON to report accurate total count after write
     try:
