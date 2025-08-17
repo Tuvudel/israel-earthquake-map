@@ -226,8 +226,8 @@ class TableController {
                     <div class="time-ago">${dateTime}</div>
                   `;
 
-            // Distance/descriptor from location_text if available
-            const distanceText = (props.location_text || '').trim();
+            // Distance display prefers dedicated field; fallback to location_text for compatibility
+            const distanceText = (props.distance_from || props.location_text || '').trim();
 
             return `
                 <tr data-epiid="${props.epiid}" class="earthquake-row mag-${props.magnitudeClass}">

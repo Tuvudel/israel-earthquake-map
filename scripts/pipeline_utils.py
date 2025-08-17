@@ -37,7 +37,7 @@ ESSENTIAL_COLS: list[str] = [
 TARGET_COLS_MINIMAL: list[str] = [
     "epiid", "latitude", "longitude", "date", "date-time",
     "magnitude", "depth", "felt?",
-    "city", "area", "country", "on_land", "location_text",
+    "city", "area", "country", "on_land", "location_text", "distance_from",
 ]
 
 DROP_EXTRA_COLS: list[str] = [
@@ -228,6 +228,10 @@ def enrich_and_format(df_or_gdf: pd.DataFrame | gpd.GeoDataFrame) -> gpd.GeoData
         enriched["location_text"] = enriched["location_text"].fillna(enriched.apply(_simple_loc, axis=1))
     else:
         enriched["location_text"] = enriched.apply(_simple_loc, axis=1)
+
+    # Ensure distance_from exists (older enrichers may not populate it)
+    if "distance_from" not in enriched.columns:
+        enriched["distance_from"] = pd.NA
 
     # Strip admin tokens from location_text to avoid redundancy
     enriched["location_text"] = [

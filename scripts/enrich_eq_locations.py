@@ -166,6 +166,32 @@ def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     return R * c
 
 
+def _cardinal_words(card: str) -> str:
+    """Map 16- or 8-wind abbreviations to human-friendly words.
+
+    Examples: N -> North, NE -> Northeast, NNE -> North-Northeast
+    """
+    mapping = {
+        "N": "North",
+        "NNE": "North-Northeast",
+        "NE": "Northeast",
+        "ENE": "East-Northeast",
+        "E": "East",
+        "ESE": "East-Southeast",
+        "SE": "Southeast",
+        "SSE": "South-Southeast",
+        "S": "South",
+        "SSW": "South-Southwest",
+        "SW": "Southwest",
+        "WSW": "West-Southwest",
+        "W": "West",
+        "WNW": "West-Northwest",
+        "NW": "Northwest",
+        "NNW": "North-Northwest",
+    }
+    return mapping.get(card, card)
+
+
 # ------------------------
 # Core enrichment function
 # ------------------------
@@ -409,10 +435,34 @@ def enrich_geocoding(eq_gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
 
     merged["location_text"] = merged.apply(_loc_text, axis=1)
 
+    # Compute distance_from, e.g., "10km North"
+    def _distance_from(row) -> Optional[str]:
+        try:
+            lat = float(row.get("latitude"))
+            lon = float(row.get("longitude"))
+            if pd.isna(lat) or pd.isna(lon):
+                return None
+            # City's coordinates captured as columns in near_city merge
+            cr = near_city.loc[near_city["epiid"] == row["epiid"]]
+            if cr.empty or pd.isna(cr.iloc[0].get("city_lat")) or pd.isna(cr.iloc[0].get("city_lon")):
+                return None
+            cy = float(cr.iloc[0]["city_lat"]) 
+            cx = float(cr.iloc[0]["city_lon"])
+            dist_km = _haversine_km(lat, lon, cy, cx)
+            bearing = _bearing_deg(lat, lon, cy, cx)
+            card_abbr = _bearing_to_cardinal_16(bearing)
+            card_words = _cardinal_words(card_abbr)
+            km_txt = f"{int(round(dist_km))}km"
+            return f"{km_txt} {card_words}".strip()
+        except Exception:
+            return None
+
+    merged["distance_from"] = merged.apply(_distance_from, axis=1)
+
     # Order and return, preserving geometry
     cols_keep = list(dict.fromkeys([
         *[c for c in eq.columns if c != "geometry"],
-        "admin1", "admin2", "country", "nearest_city", "location_text", "offshore", "geometry"
+        "admin1", "admin2", "country", "nearest_city", "location_text", "distance_from", "offshore", "geometry"
     ]))
     out = merged[cols_keep].copy()
     return out
