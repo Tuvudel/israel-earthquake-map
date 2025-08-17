@@ -199,7 +199,7 @@ class MapController {
             style,
             center: [35.2, 31.8], // Center on Israel
             zoom: 7,
-            minZoom: 5,
+            minZoom: 3,
             maxZoom: 15
         });
         
