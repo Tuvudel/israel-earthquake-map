@@ -183,10 +183,9 @@ class TableController {
         const rows = pageData.map(feature => {
             const props = feature.properties;
             const dateTime = this.formatDateTime(props['date-time'] || props.date);
-            const magnitude = props.magnitude ? props.magnitude.toFixed(1) : '-';
-            const depth = props.depth ? props.depth.toFixed(1) : '-';
-            const felt = props['felt?'] ? '<sl-badge variant="danger" pill>Felt</sl-badge>' : '';
-            // Shoelace tooltip for magnitude badge + humanized magnitude class label
+            const magnitude = (props.magnitude != null && !Number.isNaN(props.magnitude)) ? props.magnitude.toFixed(1) : '-';
+            const depth = (props.depth != null && !Number.isNaN(props.depth)) ? props.depth.toFixed(1) : '-';
+            const felt = props['felt?'] ? '<sl-badge variant="danger" pill size="small">Felt</sl-badge>' : '<span class="felt-none">—</span>';
             const magnitudeBadgeInner =
                 props.magnitude != null && !Number.isNaN(props.magnitude)
                     ? `<span class="mag-badge ${props.magnitudeClass}" aria-label="Magnitude ${magnitude}">${magnitude}</span>`
@@ -198,18 +197,70 @@ class TableController {
                 ? `<sl-tooltip content="Magnitude ${magnitude} • ${magnitudeClassLabel}">${magnitudeBadgeInner}</sl-tooltip>`
                 : '-';
 
-            // Use sl-format-date when a Date object is available; fallback to current formatter
+            // Location primary/secondary lines
+            const city = (props.city || '').trim();
+            const area = (props.area || '').trim();
+            const country = (props.country || '').trim();
+            const locationPrimary = city || area || country || 'Unknown location';
+            const regionParts = [];
+            if (city && (area || country)) {
+                if (area) regionParts.push(area);
+                if (country) regionParts.push(country);
+            } else if (!city && area && country) {
+                regionParts.push(area);
+                regionParts.push(country);
+            } else if (!city && !area && country) {
+                // only country -> no secondary line
+            }
+            const locationSecondary = regionParts.join(', ');
+
+            // Stacked time: relative time (time ago), date-only, and 24h UTC time
             const dateIso = props.dateObject instanceof Date ? props.dateObject.toISOString() : null;
-            const dateCell = dateIso
-                ? `<sl-tooltip content="${dateTime} (UTC)"><sl-format-date date="${dateIso}" year="numeric" month="2-digit" day="2-digit" hour="2-digit" minute="2-digit" time-zone="UTC"></sl-format-date></sl-tooltip>`
-                : `${dateTime}`;
-            
+            const timeStack = dateIso
+                ? `
+                    <div class="time-ago"><sl-relative-time date="${dateIso}" numeric="auto"></sl-relative-time></div>
+                    <div class="exact-date"><sl-format-date date="${dateIso}" year="numeric" month="2-digit" day="2-digit" time-zone="UTC" lang="en-GB"></sl-format-date></div>
+                    <div class="exact-time"><sl-format-date date="${dateIso}" hour="2-digit" minute="2-digit" time-zone="UTC" lang="en-GB"></sl-format-date> UTC</div>
+                  `
+                : `
+                    <div class="time-ago">${dateTime}</div>
+                  `;
+
+            // Distance/descriptor from location_text if available
+            const distanceText = (props.location_text || '').trim();
+
             return `
                 <tr data-epiid="${props.epiid}" class="earthquake-row mag-${props.magnitudeClass}">
-                    <td>${dateCell}</td>
-                    <td class="mag-cell">${magnitudeBadge}</td>
-                    <td>${depth}</td>
-                    <td class="felt-cell">${felt}</td>
+                    <td class="card-cell" colspan="4">
+                        <div class="event-card" role="group" aria-label="Earthquake ${props.epiid}">
+                            <div class="event-header">
+                                <div class="event-left">
+                                    <div class="event-magnitude">${magnitudeBadge}</div>
+                                    <div class="event-primary">
+                                        <div class="event-location">${locationPrimary}</div>
+                                        ${locationSecondary ? `<div class="event-region">${locationSecondary}</div>` : ''}
+                                    </div>
+                                </div>
+                                <div class="event-time">
+                                    ${timeStack}
+                                </div>
+                            </div>
+                            <div class="event-details">
+                                <div class="detail-item detail-depth">
+                                    <div class="detail-label">Depth</div>
+                                    <div class="detail-value">${depth !== '-' ? `${depth} km` : '-'}</div>
+                                </div>
+                                <div class="detail-item detail-distance">
+                                    <div class="detail-label">Distance</div>
+                                    <div class="detail-value">${distanceText || '—'}</div>
+                                </div>
+                                <div class="detail-item detail-felt">
+                                    <div class="detail-label">Felt?</div>
+                                    <div class="detail-value">${felt}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             `;
         }).join('');

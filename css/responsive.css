@@ -108,9 +108,30 @@
     /* Allow the mobile Filters toggle to reveal the header filters panel */
     #pre-tab-filters.filters-container.show { display: block !important; }
     #pre-tab-filters { overflow: hidden !important; }
-    .title-section { order: 1 !important; padding: 0 10px 0 120px !important; text-align: left !important; flex: 1 1 auto !important; min-width: 0 !important; }
-    .header-actions { position: absolute !important; top: 8px !important; right: 8px !important; margin: 0 !important; order: 2 !important; flex: 0 0 auto !important; z-index: 1001 !important; }
-    .header-actions sl-switch#basemap-toggle::part(base) { --width: 32px; }
+    .title-section { order: 1 !important; padding: 0px 0px 0 0px !important; text-align: left !important; flex: 1 1 auto !important; min-width: 0 !important; }
+    .header-actions { position: absolute !important; top: 0px !important; right: 0px !important; margin: 0 !important; order: 2 !important; flex: 0 0 auto !important; z-index: 1001 !important; }
+    /* Make mobile basemap toggle a bit smaller */
+    .header-actions sl-switch#basemap-toggle::part(base) { --width: 54px; }
+    sl-switch#basemap-toggle::part(control) { height: 22px; }
+    sl-switch#basemap-toggle::part(thumb) { width: 22px; height: 22px; }
+    /* Re-anchor light-mode rays/glow for smaller thumb center on mobile */
+    sl-switch#basemap-toggle::part(control) {
+        background-image:
+            /* top gloss */
+            linear-gradient(180deg, rgba(255,255,255,0.30), rgba(255,255,255,0)),
+            /* thin rays, anchored near mobile thumb center */
+            conic-gradient(from 0deg at 16px 50%,
+                transparent 0 12deg, rgba(255,255,255,0.18) 12deg 12.8deg, transparent 12.8deg 24deg,
+                rgba(255,255,255,0.16) 24deg 24.8deg, transparent 24.8deg 36deg,
+                rgba(255,255,255,0.14) 36deg 36.8deg, transparent 36.8deg 180deg,
+                transparent 180deg 332deg, rgba(255,255,255,0.12) 332deg 332.8deg, transparent 332.8deg 344deg,
+                rgba(255,255,255,0.12) 344deg 344.8deg, transparent 344.8deg 360deg
+            ),
+            /* soft radial glow behind the sun */
+            radial-gradient(circle at 16px 50%, rgba(253,230,138,0.55) 0%, rgba(253,230,138,0.0) 65%),
+            /* warm base */
+            linear-gradient(45deg, #f59e0b, #fbbf24);
+    }
     header { padding: 6px 0 !important; min-height: 56px !important; }
     .title-section h1 { font-size: 1.1rem !important; margin: 0 !important; line-height: 1.2 !important; }
     .last-updated { font-size: 0.6rem !important; margin-top: 1px !important; }
@@ -123,7 +144,7 @@
     #sidebar { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; max-height: 70vh; background: var(--surface-0); border-top: 2px solid var(--border-1); border-left: none; z-index: 1000; transform: translateY(100%); transition: transform 0.3s ease; overflow-y: auto; }
     #sidebar.show { transform: translateY(0); }
     .mobile-sidebar-toggle, .mobile-legend-toggle, .mobile-filters-toggle { display: inline-flex !important; }
-    /* Place mobile action buttons at the top-left in a tight row, left of the title */
+    /* Place mobile action buttons at the top-right, to the left of the basemap toggle */
     .mobile-sidebar-toggle, .mobile-legend-toggle, .mobile-filters-toggle {
         position: absolute !important;
         top: 8px !important;
@@ -140,16 +161,53 @@
         gap: 0 !important;
         z-index: 1001 !important;
     }
-    /* Order from left to right: Legend, Filters, Data */
-    .mobile-legend-toggle { left: 8px !important; }
-    .mobile-filters-toggle { left: 44px !important; }
-    .mobile-sidebar-toggle { left: 80px !important; }
+    /* Order from left to right (moving toward the right edge): Legend, Filters, Data, Basemap */
+    /* Leave ~60px at the far right for the basemap toggle; push buttons further left */
+    .mobile-legend-toggle { right: 150px !important; }
+    .mobile-filters-toggle { right: 115px !important; }
+    .mobile-sidebar-toggle { right: 80px !important; }
     .mobile-legend-toggle .toggle-text,
     .mobile-filters-toggle .toggle-text,
     .mobile-sidebar-toggle .toggle-text { display: none !important; }
     .mobile-legend-toggle .toggle-icon,
     .mobile-filters-toggle .toggle-icon,
     .mobile-sidebar-toggle .toggle-icon { font-size: 0.9rem !important; }
+    /* Increase button visibility with a soft halo/glow */
+    .mobile-legend-toggle,
+    .mobile-filters-toggle,
+    .mobile-sidebar-toggle {
+        background-color: var(--surface-0) !important;
+        /* Light theme border tinted by brand */
+        border: 1px solid rgba(37, 99, 235, 0.35) !important; /* #2563eb */
+        /* inner ring + brand glow + drop shadow */
+        box-shadow:
+            0 0 0 2px rgba(255, 255, 255, 0.75) !important,
+            0 0 0 10px rgba(37, 99, 235, 0.12) !important,
+            0 6px 16px rgba(0,0,0,0.25) !important;
+        -webkit-tap-highlight-color: transparent;
+    }
+    /* Dark theme: slightly stronger outer glow for contrast */
+    :root[data-theme='dark'] .mobile-legend-toggle,
+    :root[data-theme='dark'] .mobile-filters-toggle,
+    :root[data-theme='dark'] .mobile-sidebar-toggle {
+        box-shadow:
+            0 0 0 2px rgba(11, 16, 32, 0.85) !important, /* surface-0 dark */
+            0 0 0 12px rgba(96, 165, 250, 0.30) !important, /* #60a5fa */
+            0 8px 22px rgba(0,0,0,0.45) !important;
+        border-color: rgba(96, 165, 250, 0.45) !important;
+    }
+    .mobile-legend-toggle:hover,
+    .mobile-legend-toggle:focus-visible,
+    .mobile-filters-toggle:hover,
+    .mobile-filters-toggle:focus-visible,
+    .mobile-sidebar-toggle:hover,
+    .mobile-sidebar-toggle:focus-visible {
+        box-shadow:
+            0 0 0 2px rgba(255, 255, 255, 0.9) !important,
+            0 0 0 14px rgba(37, 99, 235, 0.20) !important,
+            0 10px 28px rgba(0,0,0,0.30) !important;
+        outline: none !important;
+    }
     #header { position: relative; }
     #map-container.sidebar-open { height: 50vh; }
     .stat-grid { grid-template-columns: 1fr; gap: 8px; }
@@ -192,15 +250,16 @@
     .page-number { min-width: 32px; height: 32px; font-size: 0.75rem; }
 }
 
-/* Ultra-small layout: split top-right controls into two rows */
+/* Ultra-small layout: keep buttons on the right; split into two rows if needed */
 @media (max-width: 360px) {
     header { min-height: 72px !important; }
     /* Keep basemap toggle top-right */
     .header-actions { top: 8px !important; right: 8px !important; }
-    /* Split left controls into two rows */
-    .mobile-legend-toggle { top: 8px !important; left: 8px !important; }
-    .mobile-filters-toggle { top: 8px !important; left: 44px !important; }
-    .mobile-sidebar-toggle { top: 40px !important; left: 8px !important; }
+    /* First row (right side): Legend, Filters */
+    .mobile-legend-toggle { top: 8px !important; right: 130px !important; left: auto !important; }
+    .mobile-filters-toggle { top: 8px !important; right: 94px !important; left: auto !important; }
+    /* Second row (right side): Data */
+    .mobile-sidebar-toggle { top: 40px !important; right: 130px !important; left: auto !important; }
 }
 
 /* Additional responsive blocks retained */

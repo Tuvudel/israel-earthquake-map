@@ -1,5 +1,7 @@
 /* Data table (extracted from css/styles.css) */
 .table-container { flex: 1; overflow-y: auto; border: 0; border-radius: 0; }
+/* prevent horizontal scroll within the sidebar for the table */
+.table-container { overflow-x: hidden; }
 
 /* Data table panel container */
 #data-table-panel { flex: 1; padding: 8px 16px 16px; display: flex; flex-direction: column; }
@@ -9,8 +11,8 @@
 .table-card::part(header) { background: var(--surface-0); border-bottom: 1px solid var(--border-1); color: var(--text-1); font-weight: 600; }
 .table-card::part(base) { border: 1px solid var(--border-1); box-shadow: var(--shadow-1); background: var(--surface-0); color: var(--text-1); }
 
-#earthquake-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-1); }
-#earthquake-table th { background: var(--surface-0); color: var(--text-2); padding: 12px 8px; text-align: left; font-weight: 600; border-bottom: 1px solid var(--border-1); position: sticky; top: 0; z-index: 10; }
+#earthquake-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; color: var(--text-1); table-layout: fixed; }
+#earthquake-table th { background: var(--surface-0); color: var(--text-2); padding: 12px 8px; text-align: left; font-weight: 600; border-bottom: 1px solid var(--border-1); position: sticky; top: 0; z-index: 10; white-space: normal; overflow: visible; text-overflow: clip; }
 #earthquake-table td { padding: 10px 8px; border-bottom: 1px solid var(--border-1); }
 #earthquake-table tbody tr:hover { background-color: var(--surface-1); }
 #earthquake-table tbody tr.highlighted { background-color: var(--sl-color-primary-100) !important; animation: highlight-pulse 0.5s ease-in-out; }
@@ -54,3 +56,41 @@
 .page-number { padding: 6px 10px; border: 1px solid var(--border-1); background: var(--surface-0); color: var(--text-1); cursor: pointer; border-radius: 6px; font-size: 0.8rem; min-width: 32px; text-align: center; transition: all 0.2s; box-shadow: var(--shadow-1); }
 .page-number:hover { background: var(--surface-1); }
 .page-number.active { background: var(--brand-600); color: #ffffff; border-color: var(--brand-600); box-shadow: var(--shadow-2); }
+
+/* --- Event Card Rows (inside table) --- */
+.card-cell { padding: 0 !important; }
+.card-cell { border-bottom: none !important; }
+.event-card { display: flex; flex-direction: column; gap: 10px; padding: 12px 14px; background: var(--surface-0); border-radius: 10px; border: 1px solid var(--border-1); box-shadow: var(--shadow-1); }
+.earthquake-row:hover .event-card { background: var(--surface-1); }
+.earthquake-row.highlighted .event-card { outline: 2px solid var(--brand-600); outline-offset: 0; }
+
+.event-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.event-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.event-magnitude .mag-badge { min-width: 36px; height: 36px; font-size: 0.95rem; padding: 0 10px; }
+.event-primary { display: flex; flex-direction: column; min-width: 0; }
+.event-location { font-weight: 700; color: var(--text-1); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.event-region { color: var(--text-3); font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.event-time { text-align: right; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.event-time .time-ago { font-weight: 600; color: var(--text-1); }
+.event-time .exact-date { color: var(--text-3); font-size: 0.8rem; }
+.event-time .exact-time { color: var(--text-3); font-size: 0.8rem; }
+
+.event-details { display: grid; grid-template-columns: minmax(64px, auto) 1fr auto; column-gap: 6px; row-gap: 6px; padding-top: 6px; border-top: 1px dashed var(--border-1); align-items: start; }
+.detail-item { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.detail-felt { justify-self: end; text-align: right; white-space: nowrap; }
+.detail-label { color: var(--text-3); font-size: 0.7rem; text-transform: uppercase; letter-spacing: .04em; }
+.detail-value { color: var(--text-1); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.felt-none { color: var(--text-3); }
+
+@media (max-width: 520px) {
+  /* Keep header in a row: magnitude/location left, time right */
+  .event-header { align-items: center; justify-content: space-between; flex-direction: row; }
+  .event-time { min-width: auto; text-align: right; align-items: flex-end; }
+  /* Keep all three detail items on one line with tighter spacing */
+  .event-details { grid-template-columns: minmax(60px, auto) 1fr auto; column-gap: 6px; }
+  .event-card { padding: 10px 12px; }
+  .event-magnitude .mag-badge { min-width: 30px; height: 30px; font-size: 0.85rem; padding: 0 8px; }
+  #earthquake-table th { padding: 10px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+}

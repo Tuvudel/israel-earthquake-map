@@ -128,27 +128,7 @@
                     <!-- Header actions (top-right) -->
                     <div id="header-actions" class="header-actions">
                         <div class="basemap-toggle-row" title="Toggle basemap (Light/Dark)">
-                            <span class="basemap-icon sun" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" width="18" height="20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="12" cy="12" r="4"/>
-                                    <g stroke="currentColor" stroke-width="2" fill="none">
-                                        <line x1="12" y1="2" x2="12" y2="5"/>
-                                        <line x1="12" y1="19" x2="12" y2="22"/>
-                                        <line x1="2" y1="12" x2="5" y2="12"/>
-                                        <line x1="19" y1="12" x2="22" y2="12"/>
-                                        <line x1="4.2" y1="4.2" x2="6.4" y2="6.4"/>
-                                        <line x1="17.6" y1="17.6" x2="19.8" y2="19.8"/>
-                                        <line x1="4.2" y1="19.8" x2="6.4" y2="17.6"/>
-                                        <line x1="17.6" y1="6.4" x2="19.8" y2="4.2"/>
-                                    </g>
-                                </svg>
-                            </span>
-                            <sl-switch id="basemap-toggle" size="small" aria-label="Toggle dark basemap (Dark Matter)"></sl-switch>
-                            <span class="basemap-icon moon" aria-hidden="true">
-                                <svg viewBox="0 0 24 24" width="18" height="20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                                </svg>
-                            </span>
+                            <sl-switch id="basemap-toggle" size="medium" aria-label="Toggle dark basemap (Dark Matter)"></sl-switch>
                         </div>
                     </div>
                 </div>
@@ -291,48 +271,45 @@
                     <!-- Events Tab Panel -->
                     <sl-tab-panel name="events">
                         <div id="data-table-panel">
-                            <sl-card class="table-card">
-                                <div slot="header">Earthquake Data</div>
-                                <div class="table-container">
-                                    <table id="earthquake-table">
-                                        <thead>
-                                            <tr>
-                                                <th class="sortable" data-column="datetime" scope="col" tabindex="0" aria-sort="none">
-                                                    Date/Time (UTC)
-                                                    <span class="sort-indicator"></span>
-                                                </th>
-                                                <th class="sortable" data-column="magnitude" scope="col" tabindex="0" aria-sort="descending">
-                                                    Magnitude
-                                                    <span class="sort-indicator active desc"></span>
-                                                </th>
-                                                <th class="sortable" data-column="depth" scope="col" tabindex="0" aria-sort="none">
-                                                    Depth (km)
-                                                    <span class="sort-indicator"></span>
-                                                </th>
-                                                <th class="sortable" data-column="felt" scope="col" tabindex="0" aria-sort="none">
-                                                    Felt?
-                                                    <span class="sort-indicator"></span>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="earthquake-table-body">
-                                            <!-- Table rows will be populated by JavaScript -->
-                                        </tbody>
-                                    </table>
+                            <div class="table-container">
+                                <table id="earthquake-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="sortable" data-column="datetime" scope="col" tabindex="0" aria-sort="none">
+                                                Date/Time (UTC)
+                                                <span class="sort-indicator"></span>
+                                            </th>
+                                            <th class="sortable" data-column="magnitude" scope="col" tabindex="0" aria-sort="descending">
+                                                Magnitude
+                                                <span class="sort-indicator active desc"></span>
+                                            </th>
+                                            <th class="sortable" data-column="depth" scope="col" tabindex="0" aria-sort="none">
+                                                Depth (km)
+                                                <span class="sort-indicator"></span>
+                                            </th>
+                                            <th class="sortable" data-column="felt" scope="col" tabindex="0" aria-sort="none">
+                                                Felt?
+                                                <span class="sort-indicator"></span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="earthquake-table-body">
+                                        <!-- Table rows will be populated by JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Pagination -->
+                            <div id="pagination">
+                                <div class="pagination-info">
+                                    <span id="pagination-info-text" aria-live="polite">Showing 1-10 of 0 earthquakes</span>
                                 </div>
-                                
-                                <!-- Pagination -->
-                                <div id="pagination">
-                                    <div class="pagination-info">
-                                        <span id="pagination-info-text" aria-live="polite">Showing 1-10 of 0 earthquakes</span>
-                                    </div>
-                                    <div class="pagination-controls">
-                                        <sl-button id="prev-page" class="pagination-btn" size="small" disabled>Previous</sl-button>
-                                        <div id="page-numbers"></div>
-                                        <sl-button id="next-page" class="pagination-btn" size="small" disabled>Next</sl-button>
-                                    </div>
+                                <div class="pagination-controls">
+                                    <sl-button id="prev-page" class="pagination-btn" size="small" disabled>Previous</sl-button>
+                                    <div id="page-numbers"></div>
+                                    <sl-button id="next-page" class="pagination-btn" size="small" disabled>Next</sl-button>
                                 </div>
-                            </sl-card>
+                            </div>
                         </div>
                     </sl-tab-panel>
 
