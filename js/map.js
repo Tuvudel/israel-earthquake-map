@@ -1,13 +1,58 @@
 // Map controller for MapLibre GL JS
+// Theme preference management (auto-detect + persistence)
+const THEME_STORAGE_KEY = 'theme'; // values: 'system' | 'light' | 'dark'
+const ThemeManager = {
+    getPreference() {
+        try { return localStorage.getItem(THEME_STORAGE_KEY) || 'system'; } catch (_) { return 'system'; }
+    },
+    setPreference(pref) {
+        try { localStorage.setItem(THEME_STORAGE_KEY, pref); } catch (_) {}
+    },
+    isDarkFromPreference(pref) {
+        if (pref === 'dark') return true;
+        if (pref === 'light') return false;
+        const mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+        return !!(mq && mq.matches);
+    },
+    listenToSystemChanges(callback) {
+        const mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+        if (!mq) return () => {};
+        const handler = (e) => {
+            // Only react when in 'system' mode
+            if (ThemeManager.getPreference() === 'system') {
+                callback(!!e.matches);
+            }
+        };
+        if (mq.addEventListener) mq.addEventListener('change', handler); else mq.addListener(handler);
+        return () => { if (mq.removeEventListener) mq.removeEventListener('change', handler); else mq.removeListener(handler); };
+    }
+};
+
 class MapController {
     constructor(app) {
         this.app = app;
         this.map = null;
         this.earthquakeSource = null;
         this.hoveredEarthquakeId = null;
-        this.currentStyleName = 'positron';
+        // Resolve initial theme/basemap from stored preference or system
+        const pref = ThemeManager.getPreference();
+        const initialIsDark = ThemeManager.isDarkFromPreference(pref);
+        this.currentStyleName = initialIsDark ? 'dark_matter' : 'positron';
         this.eventHandlersBound = false;
         
+        // Apply initial theme site-wide (also handled again by basemap switch for consistency)
+        try {
+            const root = document.documentElement;
+            const body = document.body;
+            if (initialIsDark) {
+                root.setAttribute('data-theme', 'dark');
+                body.classList.add('sl-theme-dark');
+            } else {
+                root.removeAttribute('data-theme');
+                body.classList.remove('sl-theme-dark');
+            }
+        } catch (_) {}
+
         this.initializeMap();
     }
     
@@ -161,8 +206,22 @@ class MapController {
             const target = isDark ? 'dark_matter' : 'positron';
             // Apply site theme immediately for responsive UI
             this.applyThemeForStyle(isDark);
+            // Persist explicit user preference (overrides system)
+            try { ThemeManager.setPreference(isDark ? 'dark' : 'light'); } catch (_) {}
             if (target !== this.currentStyleName) {
                 this.setBasemap(target);
+            }
+        });
+
+        // Listen to OS theme changes when in system mode
+        this._unsubSystemPref = ThemeManager.listenToSystemChanges((isDarkNow) => {
+            // Apply and sync
+            this.applyThemeForStyle(isDarkNow);
+            const target = isDarkNow ? 'dark_matter' : 'positron';
+            if (target !== this.currentStyleName) {
+                this.setBasemap(target);
+            } else {
+                this.syncBasemapToggleUI();
             }
         });
     }
@@ -192,7 +251,8 @@ class MapController {
             }
         }
 
-        const style = await this.getInitialStyle();
+        // Choose initial style to match resolved preference
+        const style = await this.getStyleForName(this.currentStyleName);
 
         this.map = new maplibregl.Map({
             container: 'map',
@@ -211,7 +271,7 @@ class MapController {
 
         // Wire up basemap toggle (if present)
         this.setupBasemapToggle();
-        // Ensure theme is applied on initial load
+        // Ensure theme is applied on initial load (redundant with constructor safety)
         this.applyThemeForStyle(this.currentStyleName === 'dark_matter');
         
         // Wait for map to load before adding earthquake data

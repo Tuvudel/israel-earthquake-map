@@ -20,6 +20,35 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/index.css">
+    <script>
+        // Apply saved/system theme ASAP to minimize flash
+        (function () {
+            try {
+                var pref = localStorage.getItem('theme') || 'system';
+                var isDark = (pref === 'dark') || (pref !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                var root = document.documentElement;
+                if (isDark) {
+                    root.setAttribute('data-theme', 'dark');
+                } else {
+                    root.removeAttribute('data-theme');
+                }
+                var applyBodyClass = function () {
+                    var b = document.body;
+                    if (!b) return;
+                    if (isDark) {
+                        b.classList.add('sl-theme-dark');
+                    } else {
+                        b.classList.remove('sl-theme-dark');
+                    }
+                };
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', applyBodyClass);
+                } else {
+                    applyBodyClass();
+                }
+            } catch (e) { /* no-op */ }
+        })();
+    </script>
 </head>
 <body>
     <div id="app">
