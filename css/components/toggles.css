@@ -21,6 +21,15 @@
     gap: 6px;
     backdrop-filter: saturate(120%) blur(6px);
 }
+.mobile-sidebar-toggle.active,
+.mobile-legend-toggle.active,
+.mobile-filters-toggle.active {
+    background-color: var(--accent-600);
+    background-image: none;
+    color: var(--surface-0);
+    border-color: var(--accent-600);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.28), 0 0 0 2px color-mix(in oklab, var(--accent-600), transparent 70%);
+}
 .mobile-sidebar-toggle { bottom: 20px; right: 20px; }
 .mobile-legend-toggle { bottom: 20px; right: 100px; }
 .mobile-filters-toggle { bottom: 20px; right: 5px; }
