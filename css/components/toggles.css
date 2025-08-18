@@ -26,22 +26,37 @@
 .mobile-filters-toggle.active {
     background-color: var(--accent-600);
     background-image: none;
-    color: var(--surface-0);
+    /* Use text-on-accent to maintain contrast in both themes */
+    color: var(--text-on-accent);
     border-color: var(--accent-600);
-    box-shadow: 0 8px 28px rgba(0,0,0,0.28), 0 0 0 2px color-mix(in oklab, var(--accent-600), transparent 70%);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.28);
 }
 .mobile-sidebar-toggle { bottom: 20px; right: 20px; }
 .mobile-legend-toggle { bottom: 20px; right: 100px; }
 .mobile-filters-toggle { bottom: 20px; right: 5px; }
-.mobile-sidebar-toggle:hover,
-.mobile-legend-toggle:hover,
-.mobile-filters-toggle:hover { transform: translateY(-2px); background-color: var(--surface-1); box-shadow: 0 8px 28px rgba(0,0,0,0.25), var(--shadow-2); border-color: var(--brand-600); }
+.mobile-sidebar-toggle:not(.active):hover,
+.mobile-legend-toggle:not(.active):hover,
+.mobile-filters-toggle:not(.active):hover { transform: translateY(-2px); background-color: var(--surface-1); box-shadow: 0 8px 28px rgba(0,0,0,0.25), var(--shadow-2); border-color: var(--brand-600); }
+.mobile-sidebar-toggle.active:hover,
+.mobile-legend-toggle.active:hover,
+.mobile-filters-toggle.active:hover { transform: translateY(-2px); background-color: var(--accent-600); border-color: var(--accent-600); }
 .mobile-sidebar-toggle:active,
 .mobile-legend-toggle:active,
 .mobile-filters-toggle:active { transform: translateY(0); }
 .mobile-sidebar-toggle:focus-visible,
 .mobile-legend-toggle:focus-visible,
-.mobile-filters-toggle:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring-color), 0 8px 28px rgba(0,0,0,0.25), var(--shadow-2); }
+.mobile-filters-toggle:focus-visible {
+    outline: none;
+    /* Subtle lift without an outer ring */
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25), var(--shadow-2);
+}
+.mobile-sidebar-toggle,
+.mobile-legend-toggle,
+.mobile-filters-toggle { -webkit-tap-highlight-color: transparent; }
+/* Ensure embedded SVGs follow currentColor for visibility */
+.mobile-sidebar-toggle svg,
+.mobile-legend-toggle svg,
+.mobile-filters-toggle svg { width: 18px; height: 18px; display: block; fill: currentColor; }
 .toggle-icon { font-size: 1rem; opacity: 0.9; }
 .toggle-text { font-size: 0.8rem; color: var(--text-2); }
 

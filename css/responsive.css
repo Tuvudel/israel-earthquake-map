@@ -193,23 +193,40 @@
     .mobile-legend-toggle .toggle-icon,
     .mobile-filters-toggle .toggle-icon,
     .mobile-sidebar-toggle .toggle-icon { font-size: 0.9rem !important; }
+    /* Ensure SVG icons inherit text color and are visible */
+    .mobile-legend-toggle svg,
+    .mobile-filters-toggle svg,
+    .mobile-sidebar-toggle svg { width: 18px; height: 18px; display: block; fill: currentColor; }
     /* Increase button visibility with a soft halo/glow */
     .mobile-legend-toggle,
     .mobile-filters-toggle,
     .mobile-sidebar-toggle {
         background-color: var(--surface-0) !important;
-        /* Light theme border tinted by brand */
-        border: 1px solid rgba(37, 99, 235, 0.35) !important; /* #2563eb */
-        /* inner ring + brand glow + drop shadow */
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75), 0 0 0 10px rgba(37, 99, 235, 0.12), 0 6px 16px rgba(0,0,0,0.25) !important;
+        /* Neutral border without brand tint */
+        border: 1px solid var(--border-1) !important;
+        /* Remove wide blue halo; keep a subtle drop shadow */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important;
         -webkit-tap-highlight-color: transparent;
+        outline: none;
     }
+    /* When active, ensure accent background + on-accent text override the base styles above */
+    .mobile-legend-toggle.active,
+    .mobile-filters-toggle.active,
+    .mobile-sidebar-toggle.active {
+        background-color: var(--accent-600) !important;
+        border-color: var(--accent-600) !important;
+        color: var(--text-on-accent) !important;
+    }
+    .mobile-legend-toggle.active .toggle-text,
+    .mobile-filters-toggle.active .toggle-text,
+    .mobile-sidebar-toggle.active .toggle-text { color: var(--text-on-accent) !important; }
     /* Dark theme: slightly stronger outer glow for contrast */
     :root[data-theme='dark'] .mobile-legend-toggle,
     :root[data-theme='dark'] .mobile-filters-toggle,
     :root[data-theme='dark'] .mobile-sidebar-toggle {
-        box-shadow: 0 0 0 2px rgba(11, 16, 32, 0.85), 0 0 0 12px rgba(96, 165, 250, 0.30), 0 8px 22px rgba(0,0,0,0.45) !important; /* surface-0 dark; #60a5fa */
-        border-color: rgba(96, 165, 250, 0.45) !important;
+        /* Subtle blue glow without a thick ring */
+        box-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 10px rgba(96, 165, 250, 0.18) !important;
+        border-color: var(--border-2) !important;
     }
     .mobile-legend-toggle:hover,
     .mobile-legend-toggle:focus-visible,
@@ -217,7 +234,8 @@
     .mobile-filters-toggle:focus-visible,
     .mobile-sidebar-toggle:hover,
     .mobile-sidebar-toggle:focus-visible {
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 0 14px rgba(37, 99, 235, 0.20), 0 10px 28px rgba(0,0,0,0.30) !important;
+        /* Slight emphasis on interaction without adding a thick halo */
+        box-shadow: 0 2px 12px rgba(0,0,0,0.30), 0 0 8px rgba(96,165,250,0.25) !important;
         outline: none !important;
     }
     #map-container.sidebar-open { height: 50vh; }

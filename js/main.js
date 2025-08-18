@@ -45,32 +45,73 @@ class EarthquakeApp {
                 btn.setAttribute('aria-pressed', expanded ? 'true' : 'false');
             };
 
+            // Backdrop helper for filters
+            const ensureFiltersBackdrop = () => {
+                let b = document.getElementById('filters-backdrop');
+                if (!b) {
+                    b = document.createElement('div');
+                    b.id = 'filters-backdrop';
+                    document.body.appendChild(b);
+                }
+                return b;
+            };
+
+            let lastFocusDesktop = null;
             const closeFilters = () => {
                 if (filtersPane) filtersPane.classList.remove('show');
+                const b = document.getElementById('filters-backdrop');
+                if (b) b.classList.remove('show');
                 setAria(filtersBtn, false);
+                if (filtersBtn) filtersBtn.classList.remove('active');
+                // restore focus
+                try { (lastFocusDesktop || filtersBtn)?.focus(); } catch (_) {}
             };
             const openFilters = () => {
-                if (filtersPane) filtersPane.classList.add('show');
+                const b = ensureFiltersBackdrop();
+                // Show backdrop (visual only; no click-to-close)
+                b.classList.add('show');
+                if (filtersPane) {
+                    filtersPane.classList.add('show');
+                    filtersPane.setAttribute('aria-modal', 'false'); // desktop: non-modal
+                    // remember focus and move focus into pane
+                    lastFocusDesktop = document.activeElement;
+                    setTimeout(() => { try { filtersPane.focus(); } catch (_) {} }, 0);
+                }
                 setAria(filtersBtn, true);
+                if (filtersBtn) filtersBtn.classList.add('active');
             };
             const closeLegend = () => {
                 if (legend) legend.classList.remove('show');
                 setAria(legendBtn, false);
+                if (legendBtn) legendBtn.classList.remove('active');
             };
             const openLegend = () => {
                 if (legend) legend.classList.add('show');
                 setAria(legendBtn, true);
+                if (legendBtn) legendBtn.classList.add('active');
             };
             const collapseSidebar = () => {
                 if (sidebar) sidebar.classList.add('collapsed');
                 setAria(dataBtn, false);
                 if (mapContainer) mapContainer.classList.remove('sidebar-open');
+                if (dataBtn) dataBtn.classList.remove('active');
             };
             const expandSidebar = () => {
                 if (sidebar) sidebar.classList.remove('collapsed');
                 setAria(dataBtn, true);
                 if (mapContainer) mapContainer.classList.add('sidebar-open');
+                if (dataBtn) dataBtn.classList.add('active');
             };
+
+            // Ensure backdrop exists and can close filters on desktop when clicked outside
+            const desktopBackdrop = ensureFiltersBackdrop();
+            if (desktopBackdrop && !desktopBackdrop.dataset.desktopBound) {
+                desktopBackdrop.addEventListener('click', () => {
+                    if (!isDesktop()) return;
+                    if (filtersPane && filtersPane.classList.contains('show')) closeFilters();
+                });
+                desktopBackdrop.dataset.desktopBound = '1';
+            }
 
             // Defaults for desktop: Data open, others closed
             const applyDesktopDefaults = () => {
@@ -131,6 +172,15 @@ class EarthquakeApp {
                     setAria(dataBtn, false);
                     closeFilters();
                     closeLegend();
+                }
+            });
+
+            // Close filters/legend with Escape on desktop
+            document.addEventListener('keydown', (e) => {
+                if (!isDesktop()) return;
+                if (e.key === 'Escape') {
+                    if (filtersPane && filtersPane.classList.contains('show')) closeFilters();
+                    if (legend && legend.classList.contains('show')) closeLegend();
                 }
             });
         } catch (err) {
@@ -253,22 +303,16 @@ class EarthquakeApp {
             if (filtersButton && filtersPane) filtersButton.setAttribute('aria-controls', 'filters-pane');
             
             const textEl = toggleButton.querySelector('.toggle-text');
-            const iconEl = toggleButton.querySelector('.toggle-icon');
             if (textEl) textEl.textContent = 'Data';
-            if (iconEl) iconEl.textContent = '📊';
             
             if (legendButton) {
                 const legendTextEl = legendButton.querySelector('.toggle-text');
-                const legendIconEl = legendButton.querySelector('.toggle-icon');
                 if (legendTextEl) legendTextEl.textContent = 'Legend';
-                if (legendIconEl) legendIconEl.textContent = '🗺️';
             }
             
             if (filtersButton) {
                 const filtersTextEl = filtersButton.querySelector('.toggle-text');
-                const filtersIconEl = filtersButton.querySelector('.toggle-icon');
                 if (filtersTextEl) filtersTextEl.textContent = 'Filters';
-                if (filtersIconEl) filtersIconEl.textContent = '🔍';
             }
         }
         
@@ -311,11 +355,9 @@ class EarthquakeApp {
                     if (legendButton) {
                         legendButton.classList.remove('active');
                         legendButton.setAttribute('aria-pressed', 'false');
+                        const legendTextEl = legendButton.querySelector('.toggle-text');
+                        if (legendTextEl) legendTextEl.textContent = 'Legend';
                     }
-                    const legendTextEl = legendButton.querySelector('.toggle-text');
-                    const legendIconEl = legendButton.querySelector('.toggle-icon');
-                    if (legendTextEl) legendTextEl.textContent = 'Legend';
-                    if (legendIconEl) legendIconEl.textContent = '🗺️';
                 }
                 if (filtersVisible) {
                     filtersVisible = false;
@@ -323,28 +365,22 @@ class EarthquakeApp {
                     if (filtersButton) {
                         filtersButton.classList.remove('active');
                         filtersButton.setAttribute('aria-pressed', 'false');
+                        const filtersTextEl = filtersButton.querySelector('.toggle-text');
+                        if (filtersTextEl) filtersTextEl.textContent = 'Filters';
                     }
-                    const filtersTextEl = filtersButton.querySelector('.toggle-text');
-                    const filtersIconEl = filtersButton.querySelector('.toggle-icon');
-                    if (filtersTextEl) filtersTextEl.textContent = 'Filters';
-                    if (filtersIconEl) filtersIconEl.textContent = '🔍';
                 }
                 
                 sidebar.classList.add('show');
                 if (mapContainer) mapContainer.classList.add('sidebar-open');
                 const textEl = toggleButton.querySelector('.toggle-text');
-                const iconEl = toggleButton.querySelector('.toggle-icon');
                 if (textEl) textEl.textContent = 'Hide';
-                if (iconEl) iconEl.textContent = '❌';
                 toggleButton.classList.add('active');
                 toggleButton.setAttribute('aria-pressed', 'true');
             } else {
                 sidebar.classList.remove('show');
                 if (mapContainer) mapContainer.classList.remove('sidebar-open');
                 const textEl = toggleButton.querySelector('.toggle-text');
-                const iconEl = toggleButton.querySelector('.toggle-icon');
                 if (textEl) textEl.textContent = 'Data';
-                if (iconEl) iconEl.textContent = '📊';
                 toggleButton.classList.remove('active');
                 toggleButton.setAttribute('aria-pressed', 'false');
             }
@@ -374,9 +410,7 @@ class EarthquakeApp {
                         sidebar.classList.remove('show');
                         if (mapContainer) mapContainer.classList.remove('sidebar-open');
                         const dataTextEl = toggleButton.querySelector('.toggle-text');
-                        const dataIconEl = toggleButton.querySelector('.toggle-icon');
                         if (dataTextEl) dataTextEl.textContent = 'Data';
-                        if (dataIconEl) dataIconEl.textContent = '📊';
                         toggleButton.classList.remove('active');
                         toggleButton.setAttribute('aria-pressed', 'false');
                     }
@@ -387,25 +421,21 @@ class EarthquakeApp {
                             filtersButton.classList.remove('active');
                             filtersButton.setAttribute('aria-pressed', 'false');
                         }
-                        const filtersTextEl = filtersButton.querySelector('.toggle-text');
-                        const filtersIconEl = filtersButton.querySelector('.toggle-icon');
-                        if (filtersTextEl) filtersTextEl.textContent = 'Filters';
-                        if (filtersIconEl) filtersIconEl.textContent = '🔍';
+                        if (filtersButton) {
+                            const filtersTextEl = filtersButton.querySelector('.toggle-text');
+                            if (filtersTextEl) filtersTextEl.textContent = 'Filters';
+                        }
                     }
                     
                     legend.classList.add('show');
                     const textEl = legendButton.querySelector('.toggle-text');
-                    const iconEl = legendButton.querySelector('.toggle-icon');
                     if (textEl) textEl.textContent = 'Hide';
-                    if (iconEl) iconEl.textContent = '❌';
                     legendButton.classList.add('active');
                     legendButton.setAttribute('aria-pressed', 'true');
                 } else {
                     legend.classList.remove('show');
                     const textEl = legendButton.querySelector('.toggle-text');
-                    const iconEl = legendButton.querySelector('.toggle-icon');
                     if (textEl) textEl.textContent = 'Legend';
-                    if (iconEl) iconEl.textContent = '🗺️';
                     legendButton.classList.remove('active');
                     legendButton.setAttribute('aria-pressed', 'false');
                 }
@@ -420,9 +450,7 @@ class EarthquakeApp {
                         legendButton.classList.remove('active');
                         legendButton.setAttribute('aria-pressed', 'false');
                         const textEl = legendButton.querySelector('.toggle-text');
-                        const iconEl = legendButton.querySelector('.toggle-icon');
                         if (textEl) textEl.textContent = 'Legend';
-                        if (iconEl) iconEl.textContent = '🗺️';
                     }
                 }
             });
@@ -430,6 +458,91 @@ class EarthquakeApp {
         
         // Filters toggle functionality
         if (filtersButton && filtersList.length) {
+            // Helpers for mobile modal behavior
+            const ensureFiltersBackdrop = () => {
+                let b = document.getElementById('filters-backdrop');
+                if (!b) {
+                    b = document.createElement('div');
+                    b.id = 'filters-backdrop';
+                    document.body.appendChild(b);
+                }
+                return b;
+            };
+            const getFocusable = () => filtersPane ? filtersPane.querySelectorAll('a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])') : [];
+            let lastFocusMobile = null;
+            let keydownHandler = null;
+            const attachFocusTrap = () => {
+                const focusables = Array.from(getFocusable() || []);
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+
+                keydownHandler = (ev) => {
+                    if (ev.key === 'Escape') {
+                        // Close filters modal on Escape
+                        closeMobileFilters();
+                        return;
+                    }
+
+                    if (ev.key === 'Tab' && focusables.length) {
+                        if (ev.shiftKey && document.activeElement === first) {
+                            ev.preventDefault();
+                            last && last.focus();
+                        } else if (!ev.shiftKey && document.activeElement === last) {
+                            ev.preventDefault();
+                            first && first.focus();
+                        }
+                    }
+                };
+                document.addEventListener('keydown', keydownHandler);
+            };
+
+            const detachFocusTrap = () => {
+                if (keydownHandler) {
+                    document.removeEventListener('keydown', keydownHandler);
+                    keydownHandler = null;
+                }
+            };
+
+            const closeMobileFilters = () => {
+                // Always perform close actions regardless of current state
+                filtersVisible = false;
+                filtersList.forEach(f => f.classList.remove('show'));
+                const b = document.getElementById('filters-backdrop');
+                if (b) b.classList.remove('show');
+                if (filtersPane) filtersPane.setAttribute('aria-modal', 'false');
+                detachFocusTrap();
+                if (filtersButton) {
+                    filtersButton.classList.remove('active');
+                    filtersButton.setAttribute('aria-pressed', 'false');
+                    const filtersTextEl = filtersButton.querySelector('.toggle-text');
+                    if (filtersTextEl) filtersTextEl.textContent = 'Filters';
+                }
+                try { (lastFocusMobile || filtersButton)?.focus(); } catch (_) {}
+                if (typeof logFiltersPaneState === 'function') logFiltersPaneState('after-close');
+            };
+
+            // Bind backdrop click for mobile close (outside click)
+            const mobileBackdrop = ensureFiltersBackdrop();
+            if (mobileBackdrop && !mobileBackdrop.dataset.mobileBound) {
+                mobileBackdrop.addEventListener('click', () => {
+                    if (window.innerWidth <= 768 && filtersVisible) {
+                        closeMobileFilters();
+                    }
+                });
+                mobileBackdrop.dataset.mobileBound = '1';
+            }
+
+            // Also close when tapping anywhere outside the filters pane on mobile (e.g., map, header)
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768 && filtersVisible) {
+                    const clickedInsidePane = filtersPane && filtersPane.contains(e.target);
+                    const clickedToggle = filtersButton && filtersButton.contains(e.target);
+                    if (!clickedInsidePane && !clickedToggle) {
+                        closeMobileFilters();
+                    }
+                }
+            }, true);
+
             filtersButton.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -445,9 +558,7 @@ class EarthquakeApp {
                         sidebar.classList.remove('show');
                         if (mapContainer) mapContainer.classList.remove('sidebar-open');
                         const dataTextEl = toggleButton.querySelector('.toggle-text');
-                        const dataIconEl = toggleButton.querySelector('.toggle-icon');
                         if (dataTextEl) dataTextEl.textContent = 'Data';
-                        if (dataIconEl) dataIconEl.textContent = '📊';
                         toggleButton.classList.remove('active');
                         toggleButton.setAttribute('aria-pressed', 'false');
                     }
@@ -455,9 +566,7 @@ class EarthquakeApp {
                         legendVisible = false;
                         legend.classList.remove('show');
                         const legendTextEl = legendButton.querySelector('.toggle-text');
-                        const legendIconEl = legendButton.querySelector('.toggle-icon');
                         if (legendTextEl) legendTextEl.textContent = 'Legend';
-                        if (legendIconEl) legendIconEl.textContent = '🗺️';
                         if (legendButton) {
                             legendButton.classList.remove('active');
                             legendButton.setAttribute('aria-pressed', 'false');
@@ -465,35 +574,22 @@ class EarthquakeApp {
                     }
                     
                     filtersList.forEach(f => f.classList.add('show'));
-                    const iconEl = filtersButton.querySelector('.toggle-icon');
-                    if (iconEl) iconEl.textContent = '❌'; // X for close
+                    // Backdrop + modal a11y for mobile
+                    const b = ensureFiltersBackdrop();
+                    b.classList.add('show');
+                    if (filtersPane) filtersPane.setAttribute('aria-modal', 'true');
+                    lastFocusMobile = document.activeElement;
+                    setTimeout(() => { try { filtersPane && filtersPane.focus(); } catch (_) {} }, 0);
+                    attachFocusTrap();
                     filtersButton.classList.add('active');
                     filtersButton.setAttribute('aria-pressed', 'true');
                     logFiltersPaneState('after-open');
                 } else {
-                    filtersList.forEach(f => f.classList.remove('show'));
-                    const iconEl = filtersButton.querySelector('.toggle-icon');
-                    if (iconEl) iconEl.textContent = '🔍'; // Magnifying glass
-                    filtersButton.classList.remove('active');
-                    filtersButton.setAttribute('aria-pressed', 'false');
-                    logFiltersPaneState('after-close');
+                    closeMobileFilters();
                 }
             });
-            
-            // Close filters when clicking outside on mobile
-            document.addEventListener('click', (e) => {
-                if (window.innerWidth <= 480 && filtersVisible) {
-                    const clickInsideFilters = filtersList.some(f => f.contains(e.target));
-                    if (!clickInsideFilters && !filtersButton.contains(e.target)) {
-                        filtersVisible = false;
-                        filtersList.forEach(f => f.classList.remove('show'));
-                        filtersButton.classList.remove('active');
-                        filtersButton.setAttribute('aria-pressed', 'false');
-                        const iconEl = filtersButton.querySelector('.toggle-icon');
-                        if (iconEl) iconEl.textContent = '🔍'; // Magnifying glass
-                    }
-                }
-            });
+
+            // No dedicated close button on mobile; closing is via toggling the Filters button or Escape.
         }
         
         // Close sidebar when clicking outside on mobile
@@ -503,8 +599,8 @@ class EarthquakeApp {
                     sidebarVisible = false;
                     sidebar.classList.remove('show');
                     mapContainer.classList.remove('sidebar-open');
-                    toggleButton.querySelector('.toggle-text').textContent = 'Data';
-                    toggleButton.querySelector('.toggle-icon').textContent = '📊';
+                    const t = toggleButton.querySelector('.toggle-text');
+                    if (t) t.textContent = 'Data';
                     toggleButton.classList.remove('active');
                     toggleButton.setAttribute('aria-pressed', 'false');
                 }
@@ -518,28 +614,27 @@ class EarthquakeApp {
                 sidebar.classList.remove('show');
                 mapContainer.classList.remove('sidebar-open');
                 sidebarVisible = false;
-                toggleButton.querySelector('.toggle-text').textContent = 'Data';
-                toggleButton.querySelector('.toggle-icon').textContent = '📊';
+                const t = toggleButton.querySelector('.toggle-text');
+                if (t) t.textContent = 'Data';
                 toggleButton.classList.remove('active');
                 toggleButton.setAttribute('aria-pressed', 'false');
                 if (legend) legend.classList.remove('show');
                 legendVisible = false;
                 if (legendButton) {
                     const lt = legendButton.querySelector('.toggle-text');
-                    const li = legendButton.querySelector('.toggle-icon');
                     if (lt) lt.textContent = 'Legend';
-                    if (li) li.textContent = '🗺️';
                     legendButton.classList.remove('active');
                     legendButton.setAttribute('aria-pressed', 'false');
                 }
                 filtersList.forEach(f => f.classList.remove('show'));
                 filtersVisible = false;
                 if (filtersButton) {
-                    const fi = filtersButton.querySelector('.toggle-icon');
-                    if (fi) fi.textContent = '🔍';
                     filtersButton.classList.remove('active');
                     filtersButton.setAttribute('aria-pressed', 'false');
                 }
+                const b = document.getElementById('filters-backdrop');
+                if (b) b.classList.remove('show');
+                if (filtersPane) filtersPane.setAttribute('aria-modal', 'false');
             }
         });
     }

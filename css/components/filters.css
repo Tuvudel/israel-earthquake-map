@@ -39,7 +39,7 @@
     position: absolute;
     top: 6px;
     right: 5px; /* align with page edge/padding */
-    z-index: 2;
+    z-index: 1201; /* above #filters-backdrop (1000) and #filters-pane (1100) so toggles stay clickable */
 }
 .header-actions .basemap-toggle-row {
     display: flex;
@@ -131,7 +131,7 @@ sl-tab[slot="nav"]:not(:first-of-type)::part(base) {
 
 /* Unified Filters Pane (top-sheet overlay within header) */
 #filters-pane.filters-container {
-    display: none; /* hidden by default; opened via .show */
+    /* hidden by default; opened via .show */
     position: absolute;
     top: 100%;
     left: 0;
@@ -143,9 +143,102 @@ sl-tab[slot="nav"]:not(:first-of-type)::part(base) {
     z-index: 1100; /* above legend/sidebar so panes can coexist without being obscured */
     max-height: 60vh;
     overflow-y: auto;
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    /* animation state */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    pointer-events: none; /* prevent interaction when hidden */
+    transition: opacity 180ms ease, transform 180ms ease, visibility 0s linear 180ms;
 }
 #filters-pane.filters-container.show {
-    display: flex;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition: opacity 180ms ease, transform 180ms ease;
+}
+
+/* Modern header control buttons (from mockup) */
+.control-btn {
+    background: var(--surface-0);
+    border: 1px solid var(--border-1);
+    border-radius: 12px;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-2);
+    min-height: 40px;
+    box-shadow: var(--shadow-1);
+    position: relative;
+}
+.control-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring-color), var(--shadow-2); }
+.control-btn:hover {
+    background: var(--surface-1);
+    border-color: var(--border-2);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-2);
+}
+.control-btn.active {
+    background: var(--brand-600);
+    border-color: var(--brand-600);
+    color: var(--text-on-accent);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+.control-btn svg { width: 20px; height: 20px; fill: currentColor; display: inline-block; }
+.control-btn .btn-text { font-weight: 600; }
+
+/* Dark theme: improve visibility with subtle glow */
+:root[data-theme='dark'] .control-btn {
+    /* Keep dark surfaces but add a soft blue glow for visibility */
+    box-shadow: 0 2px 12px rgba(0,0,0,0.45), 0 0 8px rgba(96,165,250,0.18);
+    border-color: var(--border-2);
+    color: var(--text-1);
+}
+:root[data-theme='dark'] .control-btn:hover {
+    border-color: var(--brand-600);
+    box-shadow: 0 2px 14px rgba(0,0,0,0.5), 0 0 10px rgba(96,165,250,0.25);
+}
+:root[data-theme='dark'] .control-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--ring-color), 0 2px 14px rgba(0,0,0,0.5), 0 0 10px rgba(96,165,250,0.25);
+}
+:root[data-theme='dark'] .control-btn.active {
+    background: var(--brand-600);
+    border-color: var(--brand-600);
+    color: var(--text-on-accent);
+    box-shadow: 0 0 0 2px rgba(96,165,250,0.25), 0 6px 18px rgba(0,0,0,0.55);
+}
+
+@media (max-width: 640px) {
+    .control-btn { padding: 10px 12px; min-width: 44px; justify-content: center; }
+    .control-btn .btn-text { display: none; }
+    .control-btn::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: -35px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(17,24,39,0.9);
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+        z-index: 1200;
+    }
+    .control-btn:hover::after { opacity: 1; }
 }
 
 .filter-group {
@@ -239,3 +332,25 @@ sl-tab[slot="nav"]:not(:first-of-type)::part(base) {
 #year-range-slider .noUi-handle:focus { outline: none; }
 #year-range-slider .noUi-tooltip { display: none; }
 .year-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+
+/* Backdrop for filters (injected via JS) */
+#filters-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.25);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 180ms ease, visibility 0s linear 180ms;
+    z-index: 1000; /* under the pane (1100) but over map */
+}
+#filters-backdrop.show {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 180ms ease;
+}
+
+/* Responsive rules */
+@media (max-width: 768px) {
+    /* On very small screens give more height */
+    #filters-pane.filters-container { max-height: 75vh; }
+}
