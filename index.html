@@ -24,7 +24,16 @@
         // Apply saved/system theme ASAP to minimize flash
         (function () {
             try {
-                var pref = localStorage.getItem('theme') || 'system';
+                // Prefer PersistService namespaced key if present, else fallback
+                var pref = (function(){
+                    try {
+                        var ns = localStorage.getItem('iem:prefs.theme');
+                        if (ns) return ns;
+                    } catch (e) {}
+                    try {
+                        return localStorage.getItem('theme');
+                    } catch (e2) { return null; }
+                })() || 'system';
                 var isDark = (pref === 'dark') || (pref !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
                 var root = document.documentElement;
                 if (isDark) {
@@ -405,9 +414,16 @@
     <!-- JavaScript modules: utils -> ui -> layers -> controllers -> ui (filters/statistics/table) -> main -->
     <script src="js/utils/constants.js"></script>
     <script src="js/utils/styleResolver.js"></script>
+    <script src="js/core/eventBus.js"></script>
     
+    <script src="js/services/persistService.js"></script>
     <script src="js/ui/theme.js"></script>
     <script src="js/ui/popup.js"></script>
+    <script src="js/services/dataService.js"></script>
+    <script src="js/services/filterService.js"></script>
+    <script src="js/ui/toggles.js"></script>
+    <script src="js/ui/header.js"></script>
+    <script src="js/ui/responsive.js"></script>
     
     <script src="js/layers/earthquakeLayer.js"></script>
     <script src="js/layers/platesLayer.js"></script>

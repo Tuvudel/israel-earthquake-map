@@ -12,14 +12,23 @@ class MapController {
         const pref = (window.Theme && window.Theme.getPreference) ? window.Theme.getPreference() : 'system';
         const initialIsDark = (window.Theme && window.Theme.isDarkFromPreference) ? window.Theme.isDarkFromPreference(pref) : false;
         this.currentStyleName = initialIsDark ? 'dark_matter' : 'positron';
+        // If user has an explicit (non-system) preference, prefer saved basemap from PersistService
+        try {
+            if (pref !== 'system' && window.Persist && window.Persist.getItem && window.Persist.keys) {
+                const saved = window.Persist.getItem(window.Persist.keys.basemap, null);
+                if (saved === 'dark' || saved === 'light') {
+                    this.currentStyleName = saved === 'dark' ? 'dark_matter' : 'positron';
+                }
+            }
+        } catch (_) {}
         this.eventHandlersBound = false;
-        
+
         // Apply initial theme site-wide via Theme module
         try { if (window.Theme && window.Theme.applyTheme) window.Theme.applyTheme(initialIsDark); } catch (_) {}
 
         this.initializeMap();
     }
-    
+
     // Determine the initial style to load based on environment and availability of a MapTiler key
     async getInitialStyle() {
         return await (window.StyleResolver && window.StyleResolver.resolveInitialStyle
@@ -68,7 +77,7 @@ class MapController {
 
         // Detach interactions before style switch to avoid dangling handlers
         if (this._detachInteractions) {
-            try { this._detachInteractions.detach(); } catch(_) {}
+            try { this._detachInteractions.detach(); } catch (_) {}
             this._detachInteractions = null;
             this.eventHandlersBound = false;
         }
@@ -114,18 +123,25 @@ class MapController {
             // Apply site theme immediately for responsive UI
             this.applyThemeForStyle(isDark);
             // Persist explicit user preference (overrides system)
-            try { if (window.Theme && window.Theme.setPreference) window.Theme.setPreference(isDark ? 'dark' : 'light'); } catch (_) {}
+            try {
+                if (window.Theme && window.Theme.setPreference) window.Theme.setPreference(isDark ? 'dark' : 'light');
+                if (window.Persist && window.Persist.setItem && window.Persist.keys) {
+                    window.Persist.setItem(window.Persist.keys.basemap, isDark ? 'dark' : 'light');
+                }
+            } catch (_) {}
             if (target !== this.currentStyleName) {
                 this.setBasemap(target);
             }
         });
 
         // Listen to OS theme changes when in system mode
-        this._unsubSystemPref = (window.Theme && window.Theme.listenToSystemChanges ? window.Theme.listenToSystemChanges : () => () => {} )((isDarkNow) => {
+        this._unsubSystemPref = (window.Theme && window.Theme.listenToSystemChanges ? window.Theme.listenToSystemChanges : () => () => {})((isDarkNow) => {
             // Apply and sync
             this.applyThemeForStyle(isDarkNow);
             const target = isDarkNow ? 'dark_matter' : 'positron';
-            if (target !== this.currentStyleName) {
+            // Only follow system when preference is 'system'
+            const prefNow = (window.Theme && window.Theme.getPreference) ? window.Theme.getPreference() : 'system';
+            if (prefNow === 'system' && target !== this.currentStyleName) {
                 this.setBasemap(target);
             } else {
                 this.syncBasemapToggleUI();
