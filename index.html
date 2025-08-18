@@ -378,14 +378,26 @@
         </div>
     </div>
 
-    <!-- Optional: user secrets/config (not committed) -->
     <script src="js/config.js"></script>
+    <script src="js/utils/logger.js"></script>
     
-    <!-- JavaScript modules: load controllers first, then app bootstrap -->
-    <script src="js/map.js"></script>
-    <script src="js/filters.js"></script>
-    <script src="js/statistics.js"></script>
-    <script src="js/table.js"></script>
+    <!-- JavaScript modules: utils -> ui -> layers -> controllers -> ui (filters/statistics/table) -> main -->
+    <script src="js/utils/constants.js"></script>
+    <script src="js/utils/styleResolver.js"></script>
+    
+    <script src="js/ui/theme.js"></script>
+    <script src="js/ui/popup.js"></script>
+    
+    <script src="js/layers/earthquakeLayer.js"></script>
+    <script src="js/layers/platesLayer.js"></script>
+    
+    <script src="js/controllers/interactions.js"></script>
+    <script src="js/controllers/map.js"></script>
+    
+    <script src="js/ui/filters.js"></script>
+    <script src="js/ui/statistics.js"></script>
+    <script src="js/ui/table.js"></script>
+    
     <script src="js/main.js"></script>
 </body>
 </html>

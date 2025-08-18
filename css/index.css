@@ -12,7 +12,7 @@
 @import url('./components/table.css');
 @import url('./components/toggles.css');
 @import url('./components/loading.css');
+@import url('./components/popup.css');
 
 /* Responsive (kept last) */
 @import url('./responsive.css');
-

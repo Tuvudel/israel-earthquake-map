@@ -9,8 +9,8 @@ class EarthquakeApp {
         this.sortColumn = 'magnitude';
         this.sortDirection = 'desc';
         
-        // Magnitude classification
-        this.magnitudeClasses = {
+        // Magnitude classification (prefer centralized constants; fallback preserved)
+        this.magnitudeClasses = (window.Constants && window.Constants.MAGNITUDE_CLASSES) ? window.Constants.MAGNITUDE_CLASSES : {
             minor: { min: 2.5, max: 3.9, color: '#57a337' },
             light: { min: 4.0, max: 4.9, color: '#d5bb21' },
             moderate: { min: 5.0, max: 5.9, color: '#f89217' },
@@ -50,7 +50,7 @@ class EarthquakeApp {
                 }
             });
         } catch (err) {
-            console.warn('Failed to initialize Credits toggle:', err);
+            if (window.Logger && window.Logger.warn) window.Logger.warn('Failed to initialize Credits toggle:', err);
         }
     }
 
@@ -96,7 +96,7 @@ class EarthquakeApp {
             this.showLoading(false);
             
         } catch (error) {
-            console.error('Error initializing app:', error);
+            if (window.Logger && window.Logger.error) window.Logger.error('Error initializing app:', error);
             this.showLoading(false);
         }
     }
@@ -114,10 +114,10 @@ class EarthquakeApp {
         let legendVisible = false;
         let filtersVisible = false;
         
-        console.log('Mobile toggle init:', { toggleButton, legendButton, filtersButton, sidebar, legend, filtersList, mapContainer });
+        if (window.Logger && window.Logger.debug) window.Logger.debug('Mobile toggle init:', { toggleButton, legendButton, filtersButton, sidebar, legend, filtersList, mapContainer });
         
         if (!toggleButton || !sidebar) {
-            console.warn('Mobile toggle elements not found');
+            if (window.Logger && window.Logger.warn) window.Logger.warn('Mobile toggle elements not found');
             return;
         }
 
@@ -159,7 +159,7 @@ class EarthquakeApp {
             e.stopPropagation();
             
             sidebarVisible = !sidebarVisible;
-            console.log('Toggle clicked, sidebar visible:', sidebarVisible);
+            if (window.Logger && window.Logger.debug) window.Logger.debug('Toggle clicked, sidebar visible:', sidebarVisible);
             
             if (sidebarVisible) {
                 // Close other overlays first
@@ -223,7 +223,7 @@ class EarthquakeApp {
                 e.stopPropagation();
                 
                 legendVisible = !legendVisible;
-                console.log('Legend toggle clicked, legend visible:', legendVisible);
+                if (window.Logger && window.Logger.debug) window.Logger.debug('Legend toggle clicked, legend visible:', legendVisible);
                 
                 if (legendVisible) {
                     // Close other overlays first
@@ -293,7 +293,7 @@ class EarthquakeApp {
                 e.stopPropagation();
                 
                 filtersVisible = !filtersVisible;
-                console.log('Filters toggle clicked, filters visible:', filtersVisible);
+                if (window.Logger && window.Logger.debug) window.Logger.debug('Filters toggle clicked, filters visible:', filtersVisible);
                 
                 if (filtersVisible) {
                     // Close other overlays first
@@ -400,7 +400,7 @@ class EarthquakeApp {
     }
     
     forceMapRefresh() {
-        console.log('Forcing map refresh for mobile...');
+        if (window.Logger && window.Logger.debug) window.Logger.debug('Forcing map refresh for mobile...');
         
         if (this.map && this.map.map) {
             // Force map container to have proper dimensions
@@ -416,33 +416,33 @@ class EarthquakeApp {
                 // Additional resize after a short delay
                 setTimeout(() => {
                     this.map.map.resize();
-                    console.log('Map refreshed successfully');
+                    if (window.Logger && window.Logger.info) window.Logger.info('Map refreshed successfully');
                 }, 200);
             }
         } else {
-            console.warn('Map not available for refresh');
+            if (window.Logger && window.Logger.warn) window.Logger.warn('Map not available for refresh');
         }
     }
     
     async loadEarthquakeData() {
         try {
             const url = 'data/all_EQ_cleaned.geojson';
-            console.log('[EQ] Fetching GeoJSON:', url);
+            if (window.Logger && window.Logger.info) window.Logger.info('[EQ] Fetching GeoJSON:', url);
             const response = await fetch(url, { cache: 'no-cache' });
             const contentLength = response.headers.get('content-length');
-            console.log('[EQ] Response status:', response.status, response.statusText, 'Content-Length:', contentLength);
+            if (window.Logger && window.Logger.debug) window.Logger.debug('[EQ] Response status:', response.status, response.statusText, 'Content-Length:', contentLength);
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status} ${response.statusText} while fetching ${url}`);
             }
 
             // Read as text first to surface parse issues clearly
             const text = await response.text();
-            console.log('[EQ] Received bytes:', text.length);
+            if (window.Logger && window.Logger.debug) window.Logger.debug('[EQ] Received bytes:', text.length);
             let data;
             try {
                 data = JSON.parse(text);
             } catch (parseErr) {
-                console.error('[EQ] JSON parse error. First 300 chars:', text.slice(0, 300));
+                if (window.Logger && window.Logger.error) window.Logger.error('[EQ] JSON parse error. First 300 chars:', text.slice(0, 300));
                 throw parseErr;
             }
             this.earthquakeData = data.features;
@@ -452,10 +452,10 @@ class EarthquakeApp {
             this.setupYearRange();
             this.updateLastUpdated();
             
-            console.log(`Loaded ${this.earthquakeData.length} earthquakes`);
+            if (window.Logger && window.Logger.info) window.Logger.info(`Loaded ${this.earthquakeData.length} earthquakes`);
             
         } catch (error) {
-            console.error('Error loading earthquake data:', error && (error.stack || error.message || error));
+            if (window.Logger && window.Logger.error) window.Logger.error('Error loading earthquake data:', error && (error.stack || error.message || error));
             throw error;
         }
     }
@@ -600,7 +600,7 @@ class EarthquakeApp {
         this.updateTable();
         this.updateCascadingFilters();
         
-        console.log(`Filtered to ${this.filteredData.length} earthquakes`);
+        if (window.Logger && window.Logger.info) window.Logger.info(`Filtered to ${this.filteredData.length} earthquakes`);
     }
 
     // Update dependent filter options and year slider limits based on current selection
@@ -743,4 +743,14 @@ class EarthquakeApp {
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.earthquakeApp = new EarthquakeApp();
+});
+
+// Clean up on page unload to avoid leaks
+window.addEventListener('beforeunload', () => {
+    try {
+        const app = window.earthquakeApp;
+        if (app && app.map && typeof app.map.destroy === 'function') {
+            app.map.destroy();
+        }
+    } catch (_) {}
 });

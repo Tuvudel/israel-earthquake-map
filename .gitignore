@@ -60,6 +60,6 @@ __pycache__/
 
 # Local secrets
 js/config.local.js
-js/config.js
 scripts/__pycache__/enrich_eq_locations.cpython-313.pyc
 scripts/__pycache__/area_aggregation.cpython-313.pyc
+docs/examples/
