@@ -31,6 +31,13 @@
     --ring-color: rgba(17,24,39,0.16);
     --seg-divider: rgba(17,24,39,0.35); /* stronger divider for segmented controls */
 
+    /* Magnitude colors (defaults; overridden at runtime from JS Constants) */
+    --mag-minor: #6aa84f;
+    --mag-light: #d5bf5a;
+    --mag-moderate: #f2a144;
+    --mag-strong: #d6553f;
+    --mag-major: #9e2f3a;
+
     /* Radii */
     --radius-1: 6px;
     --radius-2: 8px;

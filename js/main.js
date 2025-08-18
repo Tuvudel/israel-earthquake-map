@@ -11,12 +11,15 @@ class EarthquakeApp {
         
         // Magnitude classification (prefer centralized constants; fallback preserved)
         this.magnitudeClasses = (window.Constants && window.Constants.MAGNITUDE_CLASSES) ? window.Constants.MAGNITUDE_CLASSES : {
-            minor: { min: 2.5, max: 3.9, color: '#57a337' },
-            light: { min: 4.0, max: 4.9, color: '#d5bb21' },
-            moderate: { min: 5.0, max: 5.9, color: '#f89217' },
-            strong: { min: 6.0, max: 6.9, color: '#e03426' },
-            major: { min: 7.0, max: Infinity, color: '#b60a1c' }
+            minor: { min: 2.5, max: 3.9, color: '#6aa84f' },
+            light: { min: 4.0, max: 4.9, color: '#d5bf5a' },
+            moderate: { min: 5.0, max: 5.9, color: '#f2a144' },
+            strong: { min: 6.0, max: 6.9, color: '#d6553f' },
+            major: { min: 7.0, max: Infinity, color: '#9e2f3a' }
         };
+        
+        // Apply CSS variables for magnitude colors based on constants (single source of truth)
+        this.applyMagnitudeCssVars();
         
         this.init();
     }
@@ -513,6 +516,22 @@ class EarthquakeApp {
             }
         }
         return 'minor'; // Default fallback
+    }
+    
+    // Inject CSS custom properties for magnitude colors so UI and legend match the map
+    applyMagnitudeCssVars() {
+        try {
+            const mag = (window.Constants && window.Constants.MAGNITUDE_CLASSES) ? window.Constants.MAGNITUDE_CLASSES : this.magnitudeClasses;
+            const root = document.documentElement;
+            if (!root || !mag) return;
+            root.style.setProperty('--mag-minor', mag.minor.color);
+            root.style.setProperty('--mag-light', mag.light.color);
+            root.style.setProperty('--mag-moderate', mag.moderate.color);
+            root.style.setProperty('--mag-strong', mag.strong.color);
+            root.style.setProperty('--mag-major', mag.major.color);
+        } catch (err) {
+            if (window.Logger && window.Logger.warn) window.Logger.warn('Failed to apply magnitude CSS vars:', err);
+        }
     }
     
     setupYearRange() {
