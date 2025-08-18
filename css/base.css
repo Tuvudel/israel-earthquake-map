@@ -15,7 +15,7 @@
     --text-on-accent: #ffffff;
 
     /* Accent (used for active chips, sliders, etc.) */
-    --accent-600: #111827;
+    --accent-600: var(--brand-600);
 
     /* Surfaces */
     --surface-0: #ffffff;

@@ -94,6 +94,8 @@ class EarthquakeApp {
                 this.earthquakeData = features;
                 // Year range and last-updated derived from DataService
                 this.setupYearRange();
+                // Magnitude range derived from dataset
+                this.setupMagnitudeRange();
                 this.updateLastUpdated();
                 if (window.Logger && window.Logger.info) window.Logger.info(`Loaded ${this.earthquakeData.length} earthquakes (via DataService)`);
             } else {
@@ -119,6 +121,15 @@ class EarthquakeApp {
         // Update the dual-range slider through the filter controller
         if (this.filters && this.filters.setYearRange && Number.isFinite(minYear) && Number.isFinite(maxYear)) {
             this.filters.setYearRange(minYear, maxYear);
+        }
+    }
+
+    setupMagnitudeRange() {
+        // Magnitude slider has static limits [2.0, 7.0+] regardless of data
+        const minMag = 2.0;
+        const maxMag = 7.0; // Treated as 7.0+ in UI and filtering
+        if (this.filters && this.filters.setMagnitudeRange) {
+            this.filters.setMagnitudeRange(minMag, maxMag);
         }
     }
     
@@ -172,14 +183,14 @@ class EarthquakeApp {
     }
     
     applyFilters() {
-        const selectedMagnitudes = this.getSelectedMagnitudes();
+        const magnitudeRange = this.getMagnitudeRange();
         const selectedCountry = this.filters.getSelectedCountry ? this.filters.getSelectedCountry() : 'all';
         const selectedArea = this.filters.getSelectedArea ? this.filters.getSelectedArea() : 'all';
         const dateFilter = this.filters.getDateFilter ? this.filters.getDateFilter() : { mode: 'range', yearRange: this.getYearRange() };
 
         if (window.FilterService && typeof window.FilterService.filterData === 'function') {
             this.filteredData = window.FilterService.filterData(this.earthquakeData, {
-                magnitudes: selectedMagnitudes,
+                magnitudeRange,
                 country: selectedCountry,
                 area: selectedArea,
                 dateFilter,
@@ -205,7 +216,7 @@ class EarthquakeApp {
 
         const allData = this.earthquakeData || [];
         const params = {
-            magnitudes: this.getSelectedMagnitudes(),
+            magnitudeRange: this.getMagnitudeRange(),
             country: this.filters.getSelectedCountry ? this.filters.getSelectedCountry() : 'all',
             area: this.filters.getSelectedArea ? this.filters.getSelectedArea() : 'all',
             dateFilter: this.filters.getDateFilter ? this.filters.getDateFilter() : { mode: 'range', yearRange: this.getYearRange() },
@@ -222,16 +233,18 @@ class EarthquakeApp {
             const areas = window.FilterService.computeAreaOptions(allData, params) || [];
             if (this.filters.setAreaOptions) this.filters.setAreaOptions(areas, true);
 
+            // Magnitude slider has static limits [2.0, 7.0+]; do not update dynamically
+    
             const availableMagnitudes = window.FilterService.computeAvailableMagnitudes(allData, params) || new Set();
             if (this.filters.updateMagnitudeAvailability) this.filters.updateMagnitudeAvailability(availableMagnitudes);
         }
     }
     
-    getSelectedMagnitudes() {
-        if (this.filters && this.filters.getSelectedMagnitudes) {
-            return this.filters.getSelectedMagnitudes();
+    getMagnitudeRange() {
+        if (this.filters && this.filters.getMagnitudeRange) {
+            return this.filters.getMagnitudeRange();
         }
-        return ['minor', 'light', 'moderate', 'strong', 'major'];
+        return { min: 2.0, max: 7.0 };
     }
     
     getYearRange() {

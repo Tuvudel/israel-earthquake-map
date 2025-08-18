@@ -1,8 +1,16 @@
 // FilterService: pure functions for filtering and cascading computations
 (function (global) {
-  const byMagnitudes = (data, magnitudes) => {
-    if (!Array.isArray(magnitudes) || !magnitudes.length) return data;
-    return data.filter(f => magnitudes.includes((f.properties || {}).magnitudeClass));
+  // Filter by numeric magnitude range { min, max }
+  const byMagnitudeRange = (data, magnitudeRange) => {
+    if (!magnitudeRange || typeof magnitudeRange.min !== 'number' || typeof magnitudeRange.max !== 'number') return data;
+    const min = magnitudeRange.min;
+    // Treat 7.0 (top of slider) as 7.0+ by expanding to Infinity
+    const EPS = 1e-6;
+    const max = (magnitudeRange.max >= 7.0 - EPS) ? Infinity : magnitudeRange.max;
+    return data.filter(f => {
+      const m = (f.properties || {}).magnitude;
+      return Number.isFinite(m) && m >= min && m <= max;
+    });
   };
   const byCountry = (data, country) => {
     if (!country || country === 'all') return data;
@@ -41,9 +49,9 @@
 
   const FilterService = {
     filterData(features, params) {
-      const { magnitudes, country, area, dateFilter, yearRange } = params;
+      const { magnitudeRange, country, area, dateFilter, yearRange } = params;
       let out = features || [];
-      out = byMagnitudes(out, magnitudes);
+      out = byMagnitudeRange(out, magnitudeRange);
       out = byTime(out, dateFilter, yearRange);
       out = byCountry(out, country);
       out = byArea(out, area);
@@ -52,9 +60,9 @@
 
     // Year slider limits: apply country, area, magnitudes but NOT time filter
     computeYearLimits(features, params) {
-      const { magnitudes, country, area } = params;
+      const { magnitudeRange, country, area } = params;
       let data = features || [];
-      data = byMagnitudes(data, magnitudes);
+      data = byMagnitudeRange(data, magnitudeRange);
       data = byCountry(data, country);
       data = byArea(data, area);
       const years = data.map(f => (f.properties || {}).year).filter(v => Number.isFinite(v));
@@ -64,9 +72,9 @@
 
     // Country options: apply area, time, magnitudes (NOT country)
     computeCountryOptions(features, params) {
-      const { magnitudes, area, dateFilter, yearRange } = params;
+      const { magnitudeRange, area, dateFilter, yearRange } = params;
       let data = features || [];
-      data = byMagnitudes(data, magnitudes);
+      data = byMagnitudeRange(data, magnitudeRange);
       data = byTime(data, dateFilter, yearRange);
       data = byArea(data, area);
       return uniqueSorted(data.map(f => ((f.properties || {}).country || '').trim()));
@@ -74,15 +82,15 @@
 
     // Area options: apply country, time, magnitudes (NOT area)
     computeAreaOptions(features, params) {
-      const { magnitudes, country, dateFilter, yearRange } = params;
+      const { magnitudeRange, country, dateFilter, yearRange } = params;
       let data = features || [];
-      data = byMagnitudes(data, magnitudes);
+      data = byMagnitudeRange(data, magnitudeRange);
       data = byTime(data, dateFilter, yearRange);
       data = byCountry(data, country);
       return uniqueSorted(data.map(f => ((f.properties || {}).area || '').trim()));
     },
 
-    // Magnitude availability: apply country, area, time (NOT magnitudes)
+    // Magnitude availability (legacy): apply country, area, time (NOT magnitudes)
     computeAvailableMagnitudes(features, params) {
       const { country, area, dateFilter, yearRange } = params;
       let data = features || [];
@@ -90,6 +98,18 @@
       data = byArea(data, area);
       data = byTime(data, dateFilter, yearRange);
       return new Set(data.map(f => (f.properties || {}).magnitudeClass));
+    },
+
+    // Magnitude limits for slider: apply country, area, time (NOT magnitudeRange)
+    computeMagnitudeLimits(features, params) {
+      const { country, area, dateFilter, yearRange } = params;
+      let data = features || [];
+      data = byCountry(data, country);
+      data = byArea(data, area);
+      data = byTime(data, dateFilter, yearRange);
+      const mags = data.map(f => (f.properties || {}).magnitude).filter(v => Number.isFinite(v));
+      if (!mags.length) return null;
+      return { min: Math.min(...mags), max: Math.max(...mags) };
     }
   };
 

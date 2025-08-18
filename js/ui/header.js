@@ -76,6 +76,14 @@
       setTimeout(() => this.resizeMap && this.resizeMap(), delay);
     }
 
+    // Notify other controllers (e.g., FilterController) when filters pane visibility changes
+    notifyFiltersPaneToggle(open) {
+      try {
+        const ev = new CustomEvent('filters-pane-toggled', { detail: { open: !!open } });
+        document.dispatchEvent(ev);
+      } catch (_) {}
+    }
+
     // Desktop wiring
     setupDesktop() {
       const { filtersBtn, legendBtn, dataBtn, filtersPane, legend, sidebar, mapContainer } = this.els;
@@ -91,9 +99,11 @@
             filtersPane.setAttribute('aria-modal', 'false');
             try { filtersPane.focus(); } catch (_) {}
             this.resizeSoon();
+            this.notifyFiltersPaneToggle(true);
           },
           onClose: () => {
             this.resizeSoon();
+            this.notifyFiltersPaneToggle(false);
           }
         });
       }
@@ -228,10 +238,12 @@
             filtersPane.setAttribute('aria-modal', 'true');
             try { filtersPane.focus(); } catch (_) {}
             this.resizeSoon();
+            this.notifyFiltersPaneToggle(true);
           },
           onClose: () => {
             filtersPane.setAttribute('aria-modal', 'false');
             this.resizeSoon();
+            this.notifyFiltersPaneToggle(false);
           },
           textOn: 'Hide',
           textOff: 'Filters'

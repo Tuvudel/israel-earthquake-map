@@ -4,14 +4,17 @@ class FilterController {
         this.onFilterChange = onFilterChange;
         this.debounceTimer = null;
         this.yearRangeSlider = null;
+        this.magnitudeRangeSlider = null;
         // Date filter state
         this.dateMode = 'relative'; // 'relative' | 'range'
         this.selectedRelative = '30days';
         this.setupEventListeners();
         this.setupCustomMultiselect();
+        this.setupMagnitudeRangeSlider();
         this.setupYearRangeSlider();
         this.setupSingleSelects();
         this.setupDateFilterControls();
+        this.setupResizeObserver();
     }
 
     // Inline style enforcement to ensure small noUiSlider handles
@@ -38,8 +41,26 @@ class FilterController {
         });
     }
 
+    // Remove existing pips DOM to avoid duplication before re-applying via updateOptions
+    clearPips(sliderEl) {
+        if (!sliderEl) return;
+        const pips = sliderEl.querySelectorAll('.noUi-pips');
+        pips.forEach(node => node.remove());
+    }
+
+    // Ensure pips exist after an update; if missing, force-add via slider.pips
+    ensurePips(slider, sliderEl, pipsConfig) {
+        if (!slider || !sliderEl) return;
+        const has = sliderEl.querySelector('.noUi-pips');
+        if (!has && typeof slider.pips === 'function') {
+            try { slider.pips(pipsConfig); } catch (_) {}
+        }
+    }
+
     setupCustomMultiselect() {
+        // Guard for legacy magnitude multiselect (now replaced by slider)
         const multiselect = document.getElementById('magnitude-multiselect');
+        if (!multiselect) return;
         const trigger = multiselect.querySelector('.multiselect-trigger');
         const dropdown = multiselect.querySelector('.multiselect-dropdown');
         const checkboxes = multiselect.querySelectorAll('input[type="checkbox"]');
@@ -87,7 +108,18 @@ class FilterController {
     }
 
     setupEventListeners() {
-        // Event listeners are now handled by the dual-range slider setup
+        // Refresh sliders when the filters pane is toggled open so they recalc width
+        document.addEventListener('filters-pane-toggled', (e) => {
+            try {
+                const open = e && e.detail && !!e.detail.open;
+                if (open) {
+                    // One refresh after transition likely completes
+                    this.refreshSlidersSoon(350);
+                    // And a second safety refresh to catch late layout
+                    setTimeout(() => this.refreshSliders(), 700);
+                }
+            } catch (_) {}
+        });
     }
 
     setupSingleSelects() {
@@ -124,6 +156,103 @@ class FilterController {
         });
     }
 
+    // Helper: build ticks for pips every N units within [min,max]
+    buildTicks(min, max, step) {
+        if (!Number.isFinite(min) || !Number.isFinite(max) || min > max || !step) return [];
+        const EPS = 1e-6;
+        const ticks = [];
+        let start = Math.ceil(min / step) * step;
+        // If the first grid-aligned tick is outside the range, fall back to endpoints
+        if (start > max + EPS) {
+            // Ensure at least endpoints are shown
+            ticks.push(Number(min.toFixed(6)));
+            if (Math.abs(max - min) > EPS) ticks.push(Number(max.toFixed(6)));
+            return ticks;
+        }
+        for (let v = start; v <= max + EPS; v += step) {
+            const fixed = Number((Math.round(v / step) * step).toFixed(6));
+            if (fixed + EPS >= min && fixed - EPS <= max) ticks.push(fixed);
+        }
+        // Also include endpoints if they are not near an existing tick
+        const hasNear = (val) => ticks.some(t => Math.abs(t - val) < step * 0.25 + EPS);
+        if (!hasNear(min)) ticks.unshift(Number(min.toFixed(6)));
+        if (!hasNear(max)) ticks.push(Number(max.toFixed(6)));
+        return ticks;
+    }
+
+    // Defer slider refresh to allow layout/transition to settle
+    refreshSlidersSoon(delay = 250) {
+        clearTimeout(this._sliderRefreshTimer);
+        this._sliderRefreshTimer = setTimeout(() => this.refreshSliders(), delay);
+    }
+
+    // Force noUiSlider to recalc widths by updating options with current range/pips
+    refreshSliders() {
+        try { this._refreshOne(this.yearRangeSlider, 'year'); } catch (_) {}
+        try { this._refreshOne(this.magnitudeRangeSlider, 'mag'); } catch (_) {}
+    }
+
+    _refreshOne(slider, type) {
+        if (!slider) return;
+        const range = slider.options && slider.options.range ? slider.options.range : null;
+        if (!range || !Number.isFinite(range.min) || !Number.isFinite(range.max)) return;
+        const EPS = 1e-6;
+        const pips = (type === 'year')
+            ? {
+                mode: 'values',
+                // Minor every 10 years; majors at 50-year marks
+                values: this.buildTicks(range.min, range.max, 10),
+                density: 2,
+                // Label all ticks if window is narrow; otherwise label 50-year majors
+                filter: (value) => {
+                    const width = range.max - range.min;
+                    if (Math.abs(value - range.min) < EPS || Math.abs(value - range.max) < EPS) return 1; // endpoints always major
+                    if (width < 50 - EPS) return 1;
+                    return (Math.abs((value % 50)) < EPS || Math.abs(((value + 50) % 50)) < EPS) ? 1 : 2;
+                },
+                format: { to: v => String(Math.round(v)), from: v => Number(v) }
+              }
+            : {
+                mode: 'values',
+                // Minor every 0.5; majors at integer values
+                values: this.buildTicks(range.min, range.max, 0.5),
+                density: 2,
+                filter: (value) => {
+                    const width = range.max - range.min;
+                    if (Math.abs(value - range.min) < EPS || Math.abs(value - range.max) < EPS) return 1; // endpoints always major
+                    if (width < 1 - EPS) return 1; // label all when window is too small for an integer tick
+                    return (Math.abs(value - Math.round(value)) < EPS) ? 1 : 2;
+                },
+                format: { to: v => Number(v).toFixed(0), from: v => Number(v) }
+              };
+        // Update options without firing set events; preserves current values
+        const elId = (type === 'year') ? 'year-range-slider' : 'magnitude-range-slider';
+        const el = document.getElementById(elId);
+        this.clearPips(el);
+        slider.updateOptions({ range: { min: range.min, max: range.max }, pips }, false);
+        this.ensurePips(slider, el, pips);
+        // Re-apply handle inline reset to respect CSS styling
+        this.applySmallSliderHandleStyles(el);
+    }
+
+    // Observe size changes on filters pane and slider containers to keep sliders full width
+    setupResizeObserver() {
+        try {
+            this._onWindowResize = () => this.refreshSlidersSoon(120);
+            window.addEventListener('resize', this._onWindowResize);
+
+            if (!('ResizeObserver' in window)) return;
+            const ro = new ResizeObserver(() => this.refreshSlidersSoon(120));
+            const pane = document.getElementById('filters-pane');
+            const yearC = document.getElementById('year-range-container');
+            const magC = document.getElementById('magnitude-range-container');
+            if (pane) ro.observe(pane);
+            if (yearC) ro.observe(yearC);
+            if (magC) ro.observe(magC);
+            this._resizeObserver = ro;
+        } catch (_) { /* no-op */ }
+    }
+
     setupYearRangeSlider() {
         const sliderElement = document.getElementById('year-range-slider');
         if (!sliderElement || !window.noUiSlider) {
@@ -132,14 +261,30 @@ class FilterController {
         }
 
         // Initialize with default values - will be updated when data loads
+        const INIT_MIN_YEAR = 1900;
+        const INIT_MAX_YEAR = 2025;
         this.yearRangeSlider = noUiSlider.create(sliderElement, {
-            start: [1900, 2025],
+            start: [INIT_MIN_YEAR, INIT_MAX_YEAR],
             connect: true,
             range: {
-                'min': 1900,
-                'max': 2025
+                'min': INIT_MIN_YEAR,
+                'max': INIT_MAX_YEAR
             },
             step: 1,
+            tooltips: [{ to: v => Math.round(v), from: v => Number(v) }, { to: v => Math.round(v), from: v => Number(v) }],
+            pips: {
+                mode: 'values',
+                values: this.buildTicks(INIT_MIN_YEAR, INIT_MAX_YEAR, 10),
+                density: 2,
+                filter: (value) => {
+                    const EPS = 1e-6;
+                    if (Math.abs(value - INIT_MIN_YEAR) < EPS || Math.abs(value - INIT_MAX_YEAR) < EPS) return 1; // endpoints always major
+                    const width = INIT_MAX_YEAR - INIT_MIN_YEAR;
+                    if (width < 50 - EPS) return 1;
+                    return (Math.abs((value % 50)) < EPS || Math.abs(((value + 50) % 50)) < EPS) ? 1 : 2;
+                },
+                format: { to: v => String(Math.round(v)), from: v => Number(v) }
+            },
             format: {
                 to: function (value) {
                     return Math.round(value);
@@ -148,6 +293,19 @@ class FilterController {
                     return Number(value);
                 }
             }
+        });
+
+        // Ensure pips render even if created while hidden
+        this.ensurePips(this.yearRangeSlider, sliderElement, {
+            mode: 'values',
+            values: this.buildTicks(INIT_MIN_YEAR, INIT_MAX_YEAR, 10),
+            density: 2,
+            filter: (value) => {
+                const EPS = 1e-6;
+                if (Math.abs(value - INIT_MIN_YEAR) < EPS || Math.abs(value - INIT_MAX_YEAR) < EPS) return 1; // endpoints always major
+                return (Math.abs((value % 50)) < EPS || Math.abs(((value + 50) % 50)) < EPS) ? 1 : 2;
+            },
+            format: { to: v => String(Math.round(v)), from: v => Number(v) }
         });
 
         // Force tiny handles regardless of external CSS specificity
@@ -161,6 +319,68 @@ class FilterController {
         });
 
         this.yearRangeSlider.on('change', () => {
+            this.applyFiltersDebounced();
+        });
+    }
+
+    setupMagnitudeRangeSlider() {
+        const el = document.getElementById('magnitude-range-slider');
+        if (!el || !window.noUiSlider) return;
+
+        // Defaults; will be updated from DataService via EarthquakeApp
+        const INIT_MIN_MAG = 2.0;
+        const INIT_MAX_MAG = 7.0;
+        this.magnitudeRangeSlider = noUiSlider.create(el, {
+            start: [INIT_MIN_MAG, INIT_MAX_MAG],
+            connect: true,
+            range: { min: INIT_MIN_MAG, max: INIT_MAX_MAG },
+            step: 0.5,
+            tooltips: [
+                { to: v => Number(v).toFixed(1), from: v => Number(v) },
+                { to: v => (Number(v) >= INIT_MAX_MAG ? `${INIT_MAX_MAG.toFixed(1)}+` : Number(v).toFixed(1)), from: v => Number(v) }
+            ],
+            pips: {
+                mode: 'values',
+                values: this.buildTicks(INIT_MIN_MAG, INIT_MAX_MAG, 0.5),
+                density: 2,
+                filter: (value) => {
+                    const EPS = 1e-6;
+                    if (Math.abs(value - INIT_MIN_MAG) < EPS || Math.abs(value - INIT_MAX_MAG) < EPS) return 1; // endpoints always major
+                    return (Math.abs(value - Math.round(value)) < EPS) ? 1 : 2;
+                },
+                format: { to: v => Number(v).toFixed(0), from: v => Number(v) }
+            },
+            format: {
+                to: function (value) { return Number(value).toFixed(1); },
+                from: function (value) { return Number(value); }
+            }
+        });
+
+        // Ensure pips render even if created while hidden
+        this.ensurePips(this.magnitudeRangeSlider, el, {
+            mode: 'values',
+            values: this.buildTicks(INIT_MIN_MAG, INIT_MAX_MAG, 0.5),
+            density: 2,
+            filter: (value) => {
+                const EPS = 1e-6;
+                if (Math.abs(value - INIT_MIN_MAG) < EPS || Math.abs(value - INIT_MAX_MAG) < EPS) return 1; // endpoints always major
+                return (Math.abs(value - Math.round(value)) < 1e-6) ? 1 : 2;
+            },
+            format: { to: v => Number(v).toFixed(0), from: v => Number(v) }
+        });
+
+        // Ensure consistent small handles styling like the year slider
+        this.applySmallSliderHandleStyles(el);
+
+        this.magnitudeRangeSlider.on('update', (values) => {
+            const [min, max] = values.map(parseFloat);
+            const minLabel = document.getElementById('mag-min-label');
+            const maxLabel = document.getElementById('mag-max-label');
+            if (minLabel) minLabel.textContent = min.toFixed(1);
+            if (maxLabel) maxLabel.textContent = (max >= 7.0 ? '7.0+' : max.toFixed(1));
+        });
+
+        this.magnitudeRangeSlider.on('change', () => {
             this.applyFiltersDebounced();
         });
     }
@@ -186,6 +406,8 @@ class FilterController {
             // Show/hide containers
             if (relOptions) relOptions.classList.toggle('hidden', mode !== 'relative');
             if (rangeContainer) rangeContainer.classList.toggle('hidden', mode !== 'range');
+            // If we just showed the range slider, refresh widths after a short delay
+            if (mode === 'range') this.refreshSlidersSoon();
             // Update summary visibility
             this.updateDateSummary();
             this.applyFiltersDebounced();
@@ -300,6 +522,17 @@ class FilterController {
         return { min: 2020, max: 2025 };
     }
 
+    getMagnitudeRange() {
+        if (this.magnitudeRangeSlider) {
+            const values = this.magnitudeRangeSlider.get();
+            return {
+                min: parseFloat(values[0]),
+                max: parseFloat(values[1])
+            };
+        }
+        return { min: 2.5, max: 8.0 };
+    }
+
     getDateFilter() {
         if (this.dateMode === 'relative') {
             return { mode: 'relative', value: this.selectedRelative };
@@ -320,17 +553,79 @@ class FilterController {
     setYearRange(minYear, maxYear) {
         if (this.yearRangeSlider) {
             // Update the slider range and values
+            const el = document.getElementById('year-range-slider');
+            this.clearPips(el);
             this.yearRangeSlider.updateOptions({
-                range: {
-                    'min': minYear,
-                    'max': maxYear
+                range: { 'min': minYear, 'max': maxYear },
+                pips: {
+                    mode: 'values',
+                    values: this.buildTicks(minYear, maxYear, 10),
+                    density: 2,
+                    filter: (value) => {
+                        const EPS = 1e-6;
+                        if (Math.abs(value - minYear) < EPS || Math.abs(value - maxYear) < EPS) return 1; // endpoints always major
+                        return (Math.abs((value % 50)) < 1e-6 || Math.abs(((value + 50) % 50)) < 1e-6) ? 1 : 2;
+                    },
+                    format: { to: v => String(Math.round(v)), from: v => Number(v) }
                 }
+            }, true);
+            this.ensurePips(this.yearRangeSlider, el, {
+                mode: 'values',
+                values: this.buildTicks(minYear, maxYear, 10),
+                density: 2,
+                filter: (value) => {
+                    const EPS = 1e-6;
+                    if (Math.abs(value - minYear) < EPS || Math.abs(value - maxYear) < EPS) return 1; // endpoints always major
+                    return (Math.abs((value % 50)) < 1e-6 || Math.abs(((value + 50) % 50)) < 1e-6) ? 1 : 2;
+                },
+                format: { to: v => String(Math.round(v)), from: v => Number(v) }
             });
             this.yearRangeSlider.set([minYear, maxYear]);
         }
         
         // Update labels
         this.updateYearLabels(minYear, maxYear);
+    }
+
+    setMagnitudeRange(minMag, maxMag) {
+        if (this.magnitudeRangeSlider) {
+            const el = document.getElementById('magnitude-range-slider');
+            this.clearPips(el);
+            this.magnitudeRangeSlider.updateOptions({
+                range: { min: minMag, max: maxMag },
+                pips: {
+                    mode: 'values',
+                    values: this.buildTicks(minMag, maxMag, 0.5),
+                    density: 2,
+                    filter: (value) => {
+                        const EPS = 1e-6;
+                        if (Math.abs(value - minMag) < EPS || Math.abs(value - maxMag) < EPS) return 1; // endpoints always major
+                        return (Math.abs(value - Math.round(value)) < 1e-6) ? 1 : 2;
+                    },
+                    format: { to: v => Number(v).toFixed(0), from: v => Number(v) }
+                },
+                tooltips: [
+                    { to: v => Number(v).toFixed(1), from: v => Number(v) },
+                    { to: v => (Number(v) >= maxMag ? `${maxMag.toFixed(1)}+` : Number(v).toFixed(1)), from: v => Number(v) }
+                ]
+            }, true);
+            this.ensurePips(this.magnitudeRangeSlider, el, {
+                mode: 'values',
+                values: this.buildTicks(minMag, maxMag, 0.5),
+                density: 2,
+                filter: (value) => {
+                    const EPS = 1e-6;
+                    if (Math.abs(value - minMag) < EPS || Math.abs(value - maxMag) < EPS) return 1; // endpoints always major
+                    return (Math.abs(value - Math.round(value)) < 1e-6) ? 1 : 2;
+                },
+                format: { to: v => Number(v).toFixed(0), from: v => Number(v) }
+            });
+            this.magnitudeRangeSlider.set([minMag, maxMag]);
+        }
+        const minLabel = document.getElementById('mag-min-label');
+        const maxLabel = document.getElementById('mag-max-label');
+        if (minLabel) minLabel.textContent = Number(minMag).toFixed(1);
+        if (maxLabel) maxLabel.textContent = (Number(maxMag) >= 7.0 ? '7.0+' : Number(maxMag).toFixed(1));
     }
 
     setCountryOptions(countries, preserveValue = true) {
@@ -414,11 +709,88 @@ class FilterController {
 
         if (limitsChanged) {
             // Update limits without firing events, then reset handles to new extremes
+            const el = document.getElementById('year-range-slider');
+            this.clearPips(el);
             this.yearRangeSlider.updateOptions({
-                range: { min: minYear, max: maxYear }
+                range: { min: minYear, max: maxYear },
+                pips: {
+                    mode: 'values',
+                    values: this.buildTicks(minYear, maxYear, 10),
+                    density: 2,
+                    filter: (value) => {
+                        const EPS = 1e-6;
+                        if (Math.abs(value - minYear) < EPS || Math.abs(value - maxYear) < EPS) return 1; // endpoints always major
+                        return (Math.abs((value % 50)) < 1e-6 || Math.abs(((value + 50) % 50)) < 1e-6) ? 1 : 2;
+                    },
+                    format: { to: v => String(Math.round(v)), from: v => Number(v) }
+                }
             }, false);
+            this.ensurePips(this.yearRangeSlider, el, {
+                mode: 'values',
+                values: this.buildTicks(minYear, maxYear, 10),
+                density: 2,
+                filter: (value) => {
+                    const EPS = 1e-6;
+                    if (Math.abs(value - minYear) < EPS || Math.abs(value - maxYear) < EPS) return 1; // endpoints always major
+                    return (Math.abs((value % 50)) < 1e-6 || Math.abs(((value + 50) % 50)) < 1e-6) ? 1 : 2;
+                },
+                format: { to: v => String(Math.round(v)), from: v => Number(v) }
+            });
             this.yearRangeSlider.set([minYear, maxYear]);
             this.updateYearLabels(minYear, maxYear);
+        }
+    }
+
+    // Update only magnitude slider limits while preserving current handle positions where possible
+    updateMagnitudeRangeLimits(minMag, maxMag) {
+        if (!this.magnitudeRangeSlider) return;
+        const prevRange = this.magnitudeRangeSlider.options.range || {};
+        const limitsChanged = prevRange.min !== minMag || prevRange.max !== maxMag;
+
+        if (limitsChanged) {
+            // Update limits without firing events, then clamp current values into new limits
+            const el = document.getElementById('magnitude-range-slider');
+            this.clearPips(el);
+            this.magnitudeRangeSlider.updateOptions({
+                range: { min: minMag, max: maxMag },
+                pips: {
+                    mode: 'values',
+                    values: this.buildTicks(minMag, maxMag, 0.5),
+                    density: 2,
+                    filter: (value) => {
+                        const EPS = 1e-6;
+                        if (Math.abs(value - minMag) < EPS || Math.abs(value - maxMag) < EPS) return 1; // endpoints always major
+                        return (Math.abs(value - Math.round(value)) < 1e-6) ? 1 : 2;
+                    },
+                    format: { to: v => Number(v).toFixed(0), from: v => Number(v) }
+                }
+            }, false);
+            this.ensurePips(this.magnitudeRangeSlider, el, {
+                mode: 'values',
+                values: this.buildTicks(minMag, maxMag, 0.5),
+                density: 2,
+                filter: (value) => {
+                    const EPS = 1e-6;
+                    if (Math.abs(value - minMag) < EPS || Math.abs(value - maxMag) < EPS) return 1; // endpoints always major
+                    return (Math.abs(value - Math.round(value)) < 1e-6) ? 1 : 2;
+                },
+                format: { to: v => Number(v).toFixed(0), from: v => Number(v) }
+            });
+
+            let current = this.magnitudeRangeSlider.get();
+            if (!Array.isArray(current)) current = [current, current];
+            let curMin = parseFloat(current[0]);
+            let curMax = parseFloat(current[1]);
+            if (!Number.isFinite(curMin)) curMin = minMag;
+            if (!Number.isFinite(curMax)) curMax = maxMag;
+            const newMin = Math.max(minMag, Math.min(curMin, maxMag));
+            const newMax = Math.max(newMin, Math.min(curMax, maxMag));
+            this.magnitudeRangeSlider.set([newMin, newMax]);
+
+            const minLabel = document.getElementById('mag-min-label');
+            const maxLabel = document.getElementById('mag-max-label');
+            if (minLabel) minLabel.textContent = Number(newMin).toFixed(1);
+            if (maxLabel) maxLabel.textContent = Number(newMax).toFixed(1);
         }
     }
 }

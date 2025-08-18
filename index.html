@@ -87,51 +87,15 @@
                     </div>
                     <!-- Unified Filters Pane (top-sheet): Magnitude / Country / Area + Date -->
                     <div id="filters-pane" class="filters-container" tabindex="-1" role="dialog" aria-label="Filters" aria-modal="false">
-                        <!-- Magnitude Filter -->
+                        <!-- Magnitude Range (dual-range slider) -->
                         <div class="filter-group">
-                            <label class="filter-label">Magnitude Classes:</label>
-                            <div class="custom-multiselect" id="magnitude-multiselect">
-                                <div class="multiselect-trigger">
-                                    <span class="multiselect-text">All Selected</span>
-                                    <span class="multiselect-arrow">&darr;</span>
+                            <label class="filter-label">Magnitude Range:</label>
+                            <div class="year-slider-container" id="magnitude-range-container">
+                                <div class="year-labels">
+                                    <span id="mag-min-label">2.5</span>
+                                    <span id="mag-max-label">8.0</span>
                                 </div>
-                                <div class="multiselect-dropdown">
-                                    <div class="multiselect-option" data-value="minor">
-                                        <input type="checkbox" id="minor-cb" checked>
-                                        <label for="minor-cb">
-                                            <span class="magnitude-indicator minor"></span>
-                                            Minor (2.5-3.9)
-                                        </label>
-                                    </div>
-                                    <div class="multiselect-option" data-value="light">
-                                        <input type="checkbox" id="light-cb" checked>
-                                        <label for="light-cb">
-                                            <span class="magnitude-indicator light"></span>
-                                            Light (4.0-4.9)
-                                        </label>
-                                    </div>
-                                    <div class="multiselect-option" data-value="moderate">
-                                        <input type="checkbox" id="moderate-cb" checked>
-                                        <label for="moderate-cb">
-                                            <span class="magnitude-indicator moderate"></span>
-                                            Moderate (5.0-5.9)
-                                        </label>
-                                    </div>
-                                    <div class="multiselect-option" data-value="strong">
-                                        <input type="checkbox" id="strong-cb" checked>
-                                        <label for="strong-cb">
-                                            <span class="magnitude-indicator strong"></span>
-                                            Strong (6.0-6.9)
-                                        </label>
-                                    </div>
-                                    <div class="multiselect-option" data-value="major">
-                                        <input type="checkbox" id="major-cb" checked>
-                                        <label for="major-cb">
-                                            <span class="magnitude-indicator major"></span>
-                                            Major (7.0+)
-                                        </label>
-                                    </div>
-                                </div>
+                                <div id="magnitude-range-slider"></div>
                             </div>
                         </div>
 
