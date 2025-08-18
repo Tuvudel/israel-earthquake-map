@@ -23,11 +23,11 @@ An interactive web application for visualizing earthquake data across the Easter
 
 ## Magnitude Classification
 
-- <svg width="12" height="12" viewBox="0 0 12 12" style="vertical-align: -2px;"><circle cx="6" cy="6" r="6" fill="#6aa84f"/></svg> **Minor** (2.5-3.9): Usually not felt
-- <svg width="12" height="12" viewBox="0 0 12 12" style="vertical-align: -2px;"><circle cx="6" cy="6" r="6" fill="#d5bf5a"/></svg> **Light** (4.0-4.9): Often felt, rarely causes damage
-- <svg width="12" height="12" viewBox="0 0 12 12" style="vertical-align: -2px;"><circle cx="6" cy="6" r="6" fill="#f2a144"/></svg> **Moderate** (5.0-5.9): Slight damage to buildings
-- <svg width="12" height="12" viewBox="0 0 12 12" style="vertical-align: -2px;"><circle cx="6" cy="6" r="6" fill="#d6553f"/></svg> **Strong** (6.0-6.9): Can cause damage in populated areas
-- <svg width="12" height="12" viewBox="0 0 12 12" style="vertical-align: -2px;"><circle cx="6" cy="6" r="6" fill="#9e2f3a"/></svg> **Major** (7.0+): Serious damage over large areas
+- <img alt="minor swatch" src="assets/icons/mag-minor.svg" width="12" height="12"> **Minor** (2.5-3.9): Usually not felt
+- <img alt="light swatch" src="assets/icons/mag-light.svg" width="12" height="12"> **Light** (4.0-4.9): Often felt, rarely causes damage
+- <img alt="moderate swatch" src="assets/icons/mag-moderate.svg" width="12" height="12"> **Moderate** (5.0-5.9): Slight damage to buildings
+- <img alt="strong swatch" src="assets/icons/mag-strong.svg" width="12" height="12"> **Strong** (6.0-6.9): Can cause damage in populated areas
+- <img alt="major swatch" src="assets/icons/mag-major.svg" width="12" height="12"> **Major** (7.0+): Serious damage over large areas
 
 ## Technology Stack
 
