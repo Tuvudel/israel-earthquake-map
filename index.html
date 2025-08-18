@@ -76,8 +76,8 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Main Filters moved back to header: Magnitude / Country / Area -->
-                    <div id="pre-tab-filters" class="filters-container">
+                    <!-- Unified Filters Pane (top-sheet): Magnitude / Country / Area + Date -->
+                    <div id="filters-pane" class="filters-container">
                         <!-- Magnitude Filter -->
                         <div class="filter-group">
                             <label class="filter-label">Magnitude Classes:</label>
@@ -153,9 +153,62 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Date Filter (Relative | Range) -->
+                        <div class="filter-group year-group">
+                            <div class="date-filter-card">
+                                <!-- Mode Toggle + Summary -->
+                                <div class="date-mode-row">
+                                    <div class="date-mode-toggle" id="date-mode-toggle">
+                                        <button type="button" class="toggle-btn active" data-mode="relative" id="date-mode-relative">
+                                            <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                                <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Recent</span>
+                                        </button>
+                                        <button type="button" class="toggle-btn" data-mode="range" id="date-mode-range">
+                                            <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <rect x="3" y="5" width="18" height="16" rx="2" ry="2" stroke="currentColor" stroke-width="2" fill="none"/>
+                                                <path d="M3 10h18" stroke="currentColor" stroke-width="2"/>
+                                                <path d="M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                            </svg>
+                                            <span>Historical</span>
+                                        </button>
+                                    </div>
+                                    <div class="date-summary hidden" id="date-summary"></div>
+                                </div>
+
+                                <!-- Relative options -->
+                                <div class="relative-options" id="relative-options">
+                                    <button type="button" class="option-btn" data-value="1day">24h</button>
+                                    <button type="button" class="option-btn" data-value="7days">7d</button>
+                                    <button type="button" class="option-btn active" data-value="30days" id="relative-30d">30d</button>
+                                    <button type="button" class="option-btn" data-value="1year">1y</button>
+                                </div>
+
+                                <!-- Year Range (shown when mode = range) -->
+                                <div class="year-slider-container hidden" id="year-range-container">
+                                    <div class="year-labels">
+                                        <span id="year-min-label">2020</span>
+                                        <span id="year-max-label">2025</span>
+                                    </div>
+                                    <div id="year-range-slider"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- Header actions (top-right) -->
                     <div id="header-actions" class="header-actions">
+                        <sl-tooltip content="Legend">
+                            <sl-button id="header-legend-toggle" class="header-btn" size="small" circle aria-label="Toggle legend">🗺️</sl-button>
+                        </sl-tooltip>
+                        <sl-tooltip content="Filters">
+                            <sl-button id="header-filters-toggle" class="header-btn" size="small" circle aria-controls="filters-pane" aria-expanded="false" aria-label="Toggle filters">🔍</sl-button>
+                        </sl-tooltip>
+                        <sl-tooltip content="Data">
+                            <sl-button id="header-data-toggle" class="header-btn" size="small" circle aria-controls="sidebar" aria-expanded="true" aria-label="Toggle data panel">📊</sl-button>
+                        </sl-tooltip>
                         <div class="basemap-toggle-row" title="Toggle basemap (Light/Dark)">
                             <sl-switch id="basemap-toggle" size="medium" aria-label="Toggle dark basemap (Dark Matter)"></sl-switch>
                         </div>
@@ -244,58 +297,11 @@
                 </div>
             </div>
 
-            <!-- Right sidebar with tabs and date filter -->
+            <!-- Right sidebar with tabs -->
             <aside id="sidebar">
                 <sl-tab-group placement="top">
                     <sl-tab slot="nav" panel="events" active>Events</sl-tab>
                     <sl-tab slot="nav" panel="analytics">Analytics</sl-tab>
-
-                    <!-- Date Filter placed between tab selection and tab content -->
-                    <div id="date-filter-below-tabs" class="filters-container">
-                        <!-- Date Filter (Relative | Range) -->
-                        <div class="filter-group year-group">
-                            <div class="date-filter-card">
-                                <!-- Mode Toggle + Summary -->
-                                <div class="date-mode-row">
-                                    <div class="date-mode-toggle" id="date-mode-toggle">
-                                        <button type="button" class="toggle-btn active" data-mode="relative" id="date-mode-relative">
-                                            <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
-                                                <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>
-                                            <span>Recent</span>
-                                        </button>
-                                        <button type="button" class="toggle-btn" data-mode="range" id="date-mode-range">
-                                            <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                                <rect x="3" y="5" width="18" height="16" rx="2" ry="2" stroke="currentColor" stroke-width="2" fill="none"/>
-                                                <path d="M3 10h18" stroke="currentColor" stroke-width="2"/>
-                                                <path d="M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                            </svg>
-                                            <span>Historical</span>
-                                        </button>
-                                    </div>
-                                    <div class="date-summary hidden" id="date-summary"></div>
-                                </div>
-
-                                <!-- Relative options -->
-                                <div class="relative-options" id="relative-options">
-                                    <button type="button" class="option-btn" data-value="1day">24h</button>
-                                    <button type="button" class="option-btn" data-value="7days">7d</button>
-                                    <button type="button" class="option-btn active" data-value="30days" id="relative-30d">30d</button>
-                                    <button type="button" class="option-btn" data-value="1year">1y</button>
-                                </div>
-
-                                <!-- Year Range (shown when mode = range) -->
-                                <div class="year-slider-container hidden" id="year-range-container">
-                                    <div class="year-labels">
-                                        <span id="year-min-label">2020</span>
-                                        <span id="year-max-label">2025</span>
-                                    </div>
-                                    <div id="year-range-slider"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Events Tab Panel -->
                     <sl-tab-panel name="events">

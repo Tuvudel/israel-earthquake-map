@@ -5,11 +5,15 @@
     left: 20px;
     background: var(--surface-0);
     padding: 15px;
+    border: 1px solid var(--border-1);
     border-radius: var(--radius-2);
     box-shadow: var(--shadow-2);
     min-width: 200px;
     z-index: 1000;
+    display: none; /* hidden by default; shown via .show */
 }
+
+#map-legend.show { display: block; }
 
 #map-legend h3 { margin-bottom: 15px; font-size: 1.1rem; color: var(--text-2); }
 .legend-section { margin-bottom: 15px; }

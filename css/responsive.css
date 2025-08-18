@@ -8,10 +8,11 @@
     .filter-group { flex: 0 0 auto; }
 }
 
-/* Hide toggles on desktop */
+/* Hide mobile toggles on desktop */
 @media (min-width: 769px) {
     .mobile-sidebar-toggle,
-    .mobile-legend-toggle {
+    .mobile-legend-toggle,
+    .mobile-filters-toggle {
         display: none !important;
     }
 }
@@ -23,6 +24,10 @@
     /* Legend visibility rules merged from the short 768px block */
     #map-legend { display: none; }
     #map-legend.show { display: block; position: fixed; bottom: 10px; left: 10px; right: 10px; z-index: 999; max-height: 50vh; overflow-y: auto; }
+    /* Hide desktop header toggle buttons on mobile */
+    #header-legend-toggle,
+    #header-filters-toggle,
+    #header-data-toggle { display: none !important; }
     .container { padding: 0 15px; }
     .select-filter { min-width: 160px; font-size: 0.9rem; }
     .year-group { margin-left: 0; }
@@ -39,6 +44,23 @@
     .mobile-legend-toggle,
     .mobile-filters-toggle { display: flex !important; }
     .mobile-sidebar-toggle { position: fixed; bottom: 10px; right: 10px; top: auto; padding: 8px 12px; font-size: 0.75rem; min-height: 40px; border-radius: 20px; z-index: 1002; }
+    /* Ensure Filters pane shows as a bottom sheet on all mobile widths (<=768px) */
+    #filters-pane.filters-container { display: none !important; }
+    #filters-pane.filters-container.show {
+        display: flex !important;
+        position: absolute !important;
+        top: 100% !important;
+        bottom: auto !important;
+        left: 0 !important;
+        right: 0 !important;
+        background: var(--surface-0) !important;
+        border-top: 1px solid var(--border-1) !important;
+        padding: 15px !important;
+        max-height: 60vh !important;
+        overflow-y: auto !important;
+        z-index: 1100 !important;
+        box-shadow: var(--shadow-2) !important;
+    }
     .mobile-legend-toggle { position: fixed; bottom: 10px; right: 90px; top: auto; padding: 8px 12px; font-size: 0.75rem; min-height: 40px; border-radius: 20px; z-index: 1002; }
     .mobile-filters-toggle { position: fixed; bottom: 10px; right: 170px; top: auto; padding: 8px 12px; font-size: 0.75rem; min-height: 40px; border-radius: 20px; z-index: 1002; }
     .stat-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -81,33 +103,32 @@
     .multiselect-option label { font-size: 0.85rem; }
     .date-input { padding: 12px; font-size: 0.9rem; min-height: 44px; }
     .apply-filters-btn { padding: 12px 20px; font-size: 0.9rem; min-height: 44px; width: 100%; }
-    #pre-tab-filters.filters-container { display: none !important; }
-    #pre-tab-filters.filters-container.show { display: block !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; background: var(--surface-0) !important; border-top: 1px solid var(--border-1) !important; padding: 15px !important; max-height: 60vh !important; overflow-y: auto !important; transform: translateY(0) !important; transition: transform 0.3s ease !important; z-index: 1000 !important; box-shadow: var(--shadow-2) !important; visibility: visible !important; opacity: 1 !important; }
-    /* Keep the Date filter visible inside the sidebar when it is open */
-    #sidebar.show #date-filter-below-tabs.filters-container {
+    /* Unified Filters Pane as bottom sheet on mobile */
+    #filters-pane.filters-container { display: none !important; }
+    #filters-pane.filters-container.show {
         display: flex !important;
-        position: static !important;
-        background: transparent !important;
-        border-top: 0 !important;
-        padding: 0 !important;
-        max-height: none !important;
-        overflow: visible !important;
-        box-shadow: none !important;
-        justify-content: center !important;
-        align-items: center !important;
+        position: absolute !important;
+        top: 100% !important;
+        bottom: auto !important;
+        left: 0 !important;
+        right: 0 !important;
+        background: var(--surface-0) !important;
+        border-top: 1px solid var(--border-1) !important;
+        padding: 15px !important;
+        max-height: 60vh !important;
+        overflow-y: auto !important;
+        z-index: 1100 !important;
+        box-shadow: var(--shadow-2) !important;
     }
-    #sidebar.show #date-filter-below-tabs .filter-group { width: auto !important; margin: 0 auto !important; }
-    #sidebar.show #date-filter-below-tabs .date-filter-card { margin-left: auto !important; margin-right: auto !important; }
-    #sidebar.show #date-filter-below-tabs { width: 100% !important; margin-top: 10px !important; }
 
     /* Push header content down so it sits below mobile overlay buttons */
     #filters-panel { padding: 8px 0 !important; }
     /* Mobile header layout: title/credits left, actions right; hide header filters */
     .header-layout { flex-direction: row !important; align-items: center !important; gap: 8px !important; flex-wrap: nowrap !important; }
-    #pre-tab-filters.filters-container { display: none !important; }
+    #filters-pane.filters-container { display: none !important; }
     /* Allow the mobile Filters toggle to reveal the header filters panel */
-    #pre-tab-filters.filters-container.show { display: block !important; }
-    #pre-tab-filters { overflow: hidden !important; }
+    #filters-pane.filters-container.show { display: flex !important; }
+    #filters-pane { overflow-y: auto !important; }
     .title-section { order: 1 !important; padding: 0px 0px 0 0px !important; text-align: left !important; flex: 1 1 auto !important; min-width: 0 !important; }
     .header-actions { position: absolute !important; top: 0px !important; right: 0px !important; margin: 0 !important; order: 2 !important; flex: 0 0 auto !important; z-index: 1001 !important; }
     /* Make mobile basemap toggle a bit smaller */
@@ -253,7 +274,7 @@
 }
 
 /* Additional responsive blocks retained */
-@media (max-width: 1200px) {
+@media (min-width: 769px) and (max-width: 1200px) {
     #sidebar { width: 300px; }
     .stat-grid { grid-template-columns: 1fr; gap: 10px; }
 }

@@ -23,6 +23,120 @@ class EarthquakeApp {
         
         this.init();
     }
+
+    // Desktop header toggles (also work on larger tablets)
+    initializeHeaderButtons() {
+        try {
+            const filtersBtn = document.getElementById('header-filters-toggle');
+            const legendBtn = document.getElementById('header-legend-toggle');
+            const dataBtn = document.getElementById('header-data-toggle');
+            const filtersPane = document.getElementById('filters-pane');
+            const legend = document.getElementById('map-legend');
+            const sidebar = document.getElementById('sidebar');
+            const mapContainer = document.getElementById('map-container');
+
+            if (!filtersBtn && !legendBtn && !dataBtn) return;
+
+            const isDesktop = () => window.innerWidth > 768;
+
+            const setAria = (btn, expanded) => {
+                if (!btn) return;
+                btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+                btn.setAttribute('aria-pressed', expanded ? 'true' : 'false');
+            };
+
+            const closeFilters = () => {
+                if (filtersPane) filtersPane.classList.remove('show');
+                setAria(filtersBtn, false);
+            };
+            const openFilters = () => {
+                if (filtersPane) filtersPane.classList.add('show');
+                setAria(filtersBtn, true);
+            };
+            const closeLegend = () => {
+                if (legend) legend.classList.remove('show');
+                setAria(legendBtn, false);
+            };
+            const openLegend = () => {
+                if (legend) legend.classList.add('show');
+                setAria(legendBtn, true);
+            };
+            const collapseSidebar = () => {
+                if (sidebar) sidebar.classList.add('collapsed');
+                setAria(dataBtn, false);
+                if (mapContainer) mapContainer.classList.remove('sidebar-open');
+            };
+            const expandSidebar = () => {
+                if (sidebar) sidebar.classList.remove('collapsed');
+                setAria(dataBtn, true);
+                if (mapContainer) mapContainer.classList.add('sidebar-open');
+            };
+
+            // Defaults for desktop: Data open, others closed
+            const applyDesktopDefaults = () => {
+                if (!isDesktop()) return;
+                closeFilters();
+                closeLegend();
+                expandSidebar();
+            };
+
+            // Wire events
+            if (filtersBtn) {
+                filtersBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (!isDesktop()) return; // Mobile handled separately
+
+                    const willOpen = !(filtersPane && filtersPane.classList.contains('show'));
+                    if (willOpen) openFilters(); else closeFilters();
+
+                    // Resize map after layout change
+                    setTimeout(() => { if (this.map && this.map.map) this.map.map.resize(); }, 200);
+                });
+            }
+
+            if (legendBtn) {
+                legendBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (!isDesktop()) return;
+
+                    const willOpen = !(legend && legend.classList.contains('show'));
+                    if (willOpen) openLegend(); else closeLegend();
+                    setTimeout(() => { if (this.map && this.map.map) this.map.map.resize(); }, 200);
+                });
+            }
+
+            if (dataBtn) {
+                dataBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (!isDesktop()) return;
+
+                    const isCollapsed = sidebar && sidebar.classList.contains('collapsed');
+                    if (isCollapsed) expandSidebar(); else collapseSidebar();
+
+                    setTimeout(() => { if (this.map && this.map.map) this.map.map.resize(); }, 200);
+                });
+            }
+
+            // Apply correct defaults on load and when resizing across breakpoint
+            applyDesktopDefaults();
+            window.addEventListener('resize', () => {
+                if (isDesktop()) {
+                    applyDesktopDefaults();
+                } else {
+                    // On mobile, ensure desktop-only classes are reset
+                    if (sidebar) sidebar.classList.remove('collapsed');
+                    setAria(dataBtn, false);
+                    closeFilters();
+                    closeLegend();
+                }
+            });
+        } catch (err) {
+            if (window.Logger && window.Logger.warn) window.Logger.warn('Failed to initialize header buttons:', err);
+        }
+    }
     
     // Setup clickable/togglable Credits popup for desktop and mobile
     initializeCreditsPopup() {
@@ -74,6 +188,7 @@ class EarthquakeApp {
             this.populateRegionFilters(false);
             this.initializeTable();
             this.initializeMobileToggle();
+            this.initializeHeaderButtons();
             this.initializeCreditsPopup();
             
             // Mobile-specific: Force map refresh after all components are loaded
@@ -110,8 +225,8 @@ class EarthquakeApp {
         const filtersButton = document.getElementById('mobile-filters-toggle');
         const sidebar = document.getElementById('sidebar');
         const legend = document.getElementById('map-legend');
-        const preTabFilters = document.getElementById('pre-tab-filters');
-        const filtersList = [preTabFilters].filter(Boolean); // Only toggle main filters on mobile; Date filter stays in sidebar
+        const filtersPane = document.getElementById('filters-pane');
+        const filtersList = [filtersPane].filter(Boolean); // Unified filters pane (top-sheet)
         const mapContainer = document.getElementById('map-container');
         let sidebarVisible = false;
         let legendVisible = false;
@@ -135,7 +250,7 @@ class EarthquakeApp {
             if (legendButton) legendButton.setAttribute('aria-pressed', 'false');
             if (legendButton && legend) legendButton.setAttribute('aria-controls', 'map-legend');
             if (filtersButton) filtersButton.setAttribute('aria-pressed', 'false');
-            if (filtersButton && preTabFilters) filtersButton.setAttribute('aria-controls', 'pre-tab-filters');
+            if (filtersButton && filtersPane) filtersButton.setAttribute('aria-controls', 'filters-pane');
             
             const textEl = toggleButton.querySelector('.toggle-text');
             const iconEl = toggleButton.querySelector('.toggle-icon');
@@ -156,6 +271,30 @@ class EarthquakeApp {
                 if (filtersIconEl) filtersIconEl.textContent = '🔍';
             }
         }
+        
+        // Debug helper: logs computed styles and rect for filters pane
+        const logFiltersPaneState = (label) => {
+            try {
+                if (!filtersPane || !window.getComputedStyle) return;
+                const cs = window.getComputedStyle(filtersPane);
+                const rect = filtersPane.getBoundingClientRect();
+                if (window.Logger && window.Logger.debug) {
+                    window.Logger.debug('[FiltersPane]', label, {
+                        classList: filtersPane.className,
+                        display: cs.display,
+                        position: cs.position,
+                        zIndex: cs.zIndex,
+                        visibility: cs.visibility,
+                        opacity: cs.opacity,
+                        bottom: cs.bottom,
+                        top: cs.top,
+                        left: cs.left,
+                        right: cs.right,
+                        rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height }
+                    });
+                }
+            } catch (_) { /* no-op */ }
+        };
         
         toggleButton.addEventListener('click', (e) => {
             e.preventDefault();
@@ -297,6 +436,7 @@ class EarthquakeApp {
                 
                 filtersVisible = !filtersVisible;
                 if (window.Logger && window.Logger.debug) window.Logger.debug('Filters toggle clicked, filters visible:', filtersVisible);
+                logFiltersPaneState('before-toggle');
                 
                 if (filtersVisible) {
                     // Close other overlays first
@@ -329,12 +469,14 @@ class EarthquakeApp {
                     if (iconEl) iconEl.textContent = '❌'; // X for close
                     filtersButton.classList.add('active');
                     filtersButton.setAttribute('aria-pressed', 'true');
+                    logFiltersPaneState('after-open');
                 } else {
                     filtersList.forEach(f => f.classList.remove('show'));
                     const iconEl = filtersButton.querySelector('.toggle-icon');
                     if (iconEl) iconEl.textContent = '🔍'; // Magnifying glass
                     filtersButton.classList.remove('active');
                     filtersButton.setAttribute('aria-pressed', 'false');
+                    logFiltersPaneState('after-close');
                 }
             });
             

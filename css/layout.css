@@ -54,30 +54,24 @@
     width: 100%;
 }
 
-/* Center the date filter row below the tabs */
-#date-filter-below-tabs {
-    display: grid;
-    place-items: center;
-    width: 100%;
-    padding: 12px 16px 8px;
-    margin-top: 12px;
-    margin-bottom: 8px;
-}
-#date-filter-below-tabs .date-filter-card {
-    max-width: 420px;
-    margin-left: auto;
-    margin-right: auto;
-}
-/* Make the wrapper group shrink to content and center */
-#date-filter-below-tabs .year-group {
-    width: auto;
-    margin-left: auto;
-    margin-right: auto;
-}
+/* Removed legacy #date-filter-below-tabs block */
 
 /* Reduce default Shoelace panel padding to pull table closer to date filter */
 #sidebar sl-tab-panel::part(base) {
     padding: 8px 16px 16px;
     background: var(--surface-0);
     color: var(--text-1);
+}
+
+/* Desktop sidebar collapsed state (toggled by header Data button) */
+@media (min-width: 769px) {
+    #sidebar {
+        transition: width 0.25s ease, border-color 0.25s ease;
+    }
+    #sidebar.collapsed {
+        width: 0 !important;
+        min-width: 0 !important;
+        border-left-color: transparent !important;
+        overflow: hidden !important;
+    }
 }

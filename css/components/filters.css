@@ -129,6 +129,25 @@ sl-tab[slot="nav"]:not(:first-of-type)::part(base) {
     flex-wrap: wrap;
 }
 
+/* Unified Filters Pane (top-sheet overlay within header) */
+#filters-pane.filters-container {
+    display: none; /* hidden by default; opened via .show */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--surface-0);
+    border-top: 1px solid var(--border-1);
+    box-shadow: var(--shadow-2);
+    padding: 12px 16px;
+    z-index: 1100; /* above legend/sidebar so panes can coexist without being obscured */
+    max-height: 60vh;
+    overflow-y: auto;
+}
+#filters-pane.filters-container.show {
+    display: flex;
+}
+
 .filter-group {
     display: flex;
     flex-direction: column;
@@ -141,11 +160,7 @@ sl-tab[slot="nav"]:not(:first-of-type)::part(base) {
     min-width: 260px;
 }
 
-/* When the date filter is placed between tabs and content, center it */
-#date-filter-below-tabs .year-group {
-    margin-left: auto;
-    margin-right: auto;
-}
+/* Removed legacy #date-filter-below-tabs placement rules */
 
 .filter-label {
     font-weight: 600;

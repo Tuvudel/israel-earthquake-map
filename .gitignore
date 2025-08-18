@@ -62,4 +62,3 @@ __pycache__/
 js/config.local.js
 scripts/__pycache__/enrich_eq_locations.cpython-313.pyc
 scripts/__pycache__/area_aggregation.cpython-313.pyc
-docs/examples/
