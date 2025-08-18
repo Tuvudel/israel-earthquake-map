@@ -16,14 +16,13 @@
     }
 }
 
-/* Hide legend on mobile by default */
-@media (max-width: 768px) {
-    #map-legend { display: none; }
-    #map-legend.show { display: block; position: fixed; bottom: 10px; left: 10px; right: 10px; z-index: 999; max-height: 50vh; overflow-y: auto; }
-}
+/* Hide legend on mobile by default (merged into main 768px block below) */
 
 /* Tablet styles (768px and below) */
 @media (max-width: 768px) {
+    /* Legend visibility rules merged from the short 768px block */
+    #map-legend { display: none; }
+    #map-legend.show { display: block; position: fixed; bottom: 10px; left: 10px; right: 10px; z-index: 999; max-height: 50vh; overflow-y: auto; }
     .container { padding: 0 15px; }
     .select-filter { min-width: 160px; font-size: 0.9rem; }
     .year-group { margin-left: 0; }
@@ -45,6 +44,7 @@
     .stat-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
     #map-legend { bottom: 10px; left: 10px; right: 10px; min-width: auto; padding: 12px; }
     .legend-section { margin-bottom: 10px; }
+    .legend-items { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; }
     #earthquake-table { font-size: 0.8rem; }
     #earthquake-table th, #earthquake-table td { padding: 8px 6px; }
 }
@@ -58,7 +58,6 @@
     .filter-group { width: 100%; }
     .select-filter { width: 100%; min-width: 0; font-size: 1rem; padding: 10px 12px; }
     .year-group { width: 100%; }
-    #header { padding: 8px 0; position: relative; }
     .title-section { padding: 0 8px !important; text-align: left; }
     #filters-panel h1 { font-size: 1.1rem; margin-bottom: 6px; }
     .last-updated { font-size: 0.7rem; gap: 6px; }
@@ -70,6 +69,7 @@
     .filter-group:last-child { flex: 1; display: flex; flex-direction: column; min-width: 0; }
     .filter-group:last-child .filter-label { margin-bottom: 4px; font-size: 0.75rem; text-align: left; }
     .year-range-container { width: 100%; }
+    .year-slider-container { width: 150px; }
     .filter-label { font-size: 0.85rem; margin-bottom: 6px; }
     .custom-multiselect { width: 100%; }
     .filter-group:first-child .custom-multiselect { width: 100px; }
@@ -81,8 +81,8 @@
     .multiselect-option label { font-size: 0.85rem; }
     .date-input { padding: 12px; font-size: 0.9rem; min-height: 44px; }
     .apply-filters-btn { padding: 12px 20px; font-size: 0.9rem; min-height: 44px; width: 100%; }
-    .filters-container { display: none !important; }
-    .filters-container.show { display: block !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; background: var(--surface-0) !important; border-top: 1px solid var(--border-1) !important; padding: 15px !important; max-height: 60vh !important; overflow-y: auto !important; transform: translateY(0) !important; transition: transform 0.3s ease !important; z-index: 1000 !important; box-shadow: var(--shadow-2) !important; visibility: visible !important; opacity: 1 !important; }
+    #pre-tab-filters.filters-container { display: none !important; }
+    #pre-tab-filters.filters-container.show { display: block !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; background: var(--surface-0) !important; border-top: 1px solid var(--border-1) !important; padding: 15px !important; max-height: 60vh !important; overflow-y: auto !important; transform: translateY(0) !important; transition: transform 0.3s ease !important; z-index: 1000 !important; box-shadow: var(--shadow-2) !important; visibility: visible !important; opacity: 1 !important; }
     /* Keep the Date filter visible inside the sidebar when it is open */
     #sidebar.show #date-filter-below-tabs.filters-container {
         display: flex !important;
@@ -180,20 +180,14 @@
         /* Light theme border tinted by brand */
         border: 1px solid rgba(37, 99, 235, 0.35) !important; /* #2563eb */
         /* inner ring + brand glow + drop shadow */
-        box-shadow:
-            0 0 0 2px rgba(255, 255, 255, 0.75) !important,
-            0 0 0 10px rgba(37, 99, 235, 0.12) !important,
-            0 6px 16px rgba(0,0,0,0.25) !important;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.75), 0 0 0 10px rgba(37, 99, 235, 0.12), 0 6px 16px rgba(0,0,0,0.25) !important;
         -webkit-tap-highlight-color: transparent;
     }
     /* Dark theme: slightly stronger outer glow for contrast */
     :root[data-theme='dark'] .mobile-legend-toggle,
     :root[data-theme='dark'] .mobile-filters-toggle,
     :root[data-theme='dark'] .mobile-sidebar-toggle {
-        box-shadow:
-            0 0 0 2px rgba(11, 16, 32, 0.85) !important, /* surface-0 dark */
-            0 0 0 12px rgba(96, 165, 250, 0.30) !important, /* #60a5fa */
-            0 8px 22px rgba(0,0,0,0.45) !important;
+        box-shadow: 0 0 0 2px rgba(11, 16, 32, 0.85), 0 0 0 12px rgba(96, 165, 250, 0.30), 0 8px 22px rgba(0,0,0,0.45) !important; /* surface-0 dark; #60a5fa */
         border-color: rgba(96, 165, 250, 0.45) !important;
     }
     .mobile-legend-toggle:hover,
@@ -202,13 +196,9 @@
     .mobile-filters-toggle:focus-visible,
     .mobile-sidebar-toggle:hover,
     .mobile-sidebar-toggle:focus-visible {
-        box-shadow:
-            0 0 0 2px rgba(255, 255, 255, 0.9) !important,
-            0 0 0 14px rgba(37, 99, 235, 0.20) !important,
-            0 10px 28px rgba(0,0,0,0.30) !important;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 0 14px rgba(37, 99, 235, 0.20), 0 10px 28px rgba(0,0,0,0.30) !important;
         outline: none !important;
     }
-    #header { position: relative; }
     #map-container.sidebar-open { height: 50vh; }
     .stat-grid { grid-template-columns: 1fr; gap: 8px; }
     .stat-item { padding: 12px; }
@@ -267,18 +257,4 @@
     #sidebar { width: 300px; }
     .stat-grid { grid-template-columns: 1fr; gap: 10px; }
 }
-@media (max-width: 768px) {
-    #main-content { flex-direction: column; height: auto; }
-    #map-container { height: 60vh; }
-    #sidebar { width: 100%; max-height: 40vh; }
-    .filters-container { flex-direction: column; gap: 20px; }
-    .magnitude-checkboxes { justify-content: center; }
-    #map-legend { bottom: 10px; left: 10px; right: 10px; width: auto; }
-    .legend-items { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; }
-}
-@media (max-width: 480px) {
-    .container { padding: 0 10px; }
-    #filters-panel h1 { font-size: 1.5rem; }
-    .magnitude-checkboxes { flex-direction: column; align-items: center; }
-    .year-slider-container { width: 150px; }
-}
+/* Removed duplicate 768px block; merged .legend-items rule into first 768px section */
