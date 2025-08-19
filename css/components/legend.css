@@ -3,17 +3,25 @@
     position: absolute;
     bottom: 20px;
     left: 20px;
-    background: var(--surface-0);
-    padding: 15px;
-    border: 1px solid var(--border-1);
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    padding: 18px;
+    border: 1px solid var(--glass-border);
     border-radius: var(--radius-2);
-    box-shadow: var(--shadow-2);
-    min-width: 200px;
+    box-shadow: var(--shadow-3);
+    min-width: 220px;
     z-index: 1000;
-    display: none; /* hidden by default; shown via .show */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity var(--transition-med) var(--easing), visibility var(--transition-med) var(--easing), transform var(--transition-med) var(--easing);
 }
 
-#map-legend.show { display: block; }
+#map-legend.show { 
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
 
 #map-legend h3 { margin-bottom: 15px; font-size: 1.1rem; color: var(--text-2); }
 .legend-section { margin-bottom: 15px; }

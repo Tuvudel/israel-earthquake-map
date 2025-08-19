@@ -14,7 +14,7 @@
     cursor: pointer;
     font-size: 0.85rem;
     font-weight: 600;
-    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition: transform var(--transition-fast) var(--easing), background var(--transition-fast) var(--easing), box-shadow var(--transition-fast) var(--easing), border-color var(--transition-fast) var(--easing);
     min-height: 40px;
     display: none;
     align-items: center;

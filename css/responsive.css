@@ -72,14 +72,24 @@
         bottom: auto !important;
         left: 0 !important;
         right: 0 !important;
-        background: var(--surface-0) !important;
-        border-top: 1px solid var(--border-1) !important;
-        padding: 15px !important;
-        max-height: 60vh !important;
-        overflow-y: auto !important;
-        z-index: 1100 !important;
+        /* Make pane bright and not affected by the dimming backdrop */
+        background: rgba(255,255,255,0.95) !important;
+        backdrop-filter: none !important;
+        border-top: 1px solid var(--glass-border) !important;
+        padding: 12px 12px 6px !important; /* tighter bottom spacing */
+        /* Avoid internal vertical scrolling; content should fit */
+        max-height: none !important;       /* fit to content */
+        overflow-y: visible !important;
+        overflow-x: hidden !important; /* prevent horizontal scroll on mobile */
+        z-index: 2000 !important;
         box-shadow: var(--shadow-2) !important;
+        pointer-events: auto !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
     }
+    /* Dark theme: opaque dark panel while open */
+    :root[data-theme='dark'] #filters-pane.filters-container.show { background: rgba(15,23,42,0.95) !important; }
     .mobile-legend-toggle { position: fixed; bottom: 10px; right: 90px; top: auto; padding: 8px 12px; font-size: 0.75rem; min-height: 40px; border-radius: 20px; z-index: 1002; }
     .mobile-filters-toggle { position: fixed; bottom: 10px; right: 170px; top: auto; padding: 8px 12px; font-size: 0.75rem; min-height: 40px; border-radius: 20px; z-index: 1002; }
     .stat-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -88,6 +98,26 @@
     .legend-items { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; }
     #earthquake-table { font-size: 0.8rem; }
     #earthquake-table th, #earthquake-table td { padding: 8px 6px; }
+    
+    /* Center credits popup on mobile */
+    .credits-popup { 
+        position: fixed !important; 
+        top: 50% !important; 
+        left: 50% !important; 
+        transform: translate(-50%, -50%) !important; 
+        width: 90vw !important; 
+        max-width: 320px !important; 
+        z-index: 2100 !important; 
+    }
+    .credits-container:hover .credits-popup,
+    .credits-container.open .credits-popup { 
+        position: fixed !important;
+        top: 50% !important; 
+        left: 50% !important; 
+        transform: translate(-50%, 30%) !important; 
+        opacity: 1 !important; 
+        visibility: visible !important; 
+    }
 }
 
 /* Mobile styles (480px and below) */
@@ -105,12 +135,12 @@
     .filters-container { gap: 8px; }
     .filter-group { margin-bottom: 0; }
     /* Keep header stacked: title first, then last-updated/credits below */
-    .header-layout { flex-direction: column !important; align-items: flex-start !important; gap: 2px !important; }
+    .header-layout { flex-direction: column !important; align-items: flex-start !important; gap: 3px !important; }
     #filters-pane.filters-container { display: none !important; }
     #filters-pane.filters-container.show { display: flex !important; }
     #filters-pane { overflow-y: auto !important; }
     .title-section { order: 1 !important; padding: 0px 0px 0 0px !important; text-align: left !important; width: 100% !important; }
-    .header-actions { position: absolute !important; top: 6px !important; right: 0px !important; margin: 0 !important; order: 3 !important; z-index: 1001 !important; }
+    .header-actions { position: absolute !important; top: 14px !important; right: 0px !important; margin: 0 !important; order: 3 !important; z-index: 1001 !important; }
     /* Make mobile basemap toggle a bit smaller */
     .header-actions sl-switch#basemap-toggle::part(base) { --width: 54px; }
     /* Make mobile light/dark handles identical size */
@@ -137,7 +167,7 @@
     header { padding: 6px 0 !important; min-height: 56px !important; }
     .title-section h1 { font-size: 1.1rem !important; margin: 0 !important; line-height: 1.2 !important; }
     .last-updated { font-size: 0.6rem !important; margin-top: 1px !important; }
-    .credits-trigger { font-size: 0.6rem !important; }
+    .credits-trigger { font-size: 0.55rem !important; padding: 3px; }
     #main-content { flex-direction: column !important; height: calc(100vh - 0px) !important; min-height: 0 !important; }
     #sidebar { display: none !important; }
     #sidebar.show { display: block !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; max-height: 70vh !important; z-index: 1000 !important; background: var(--surface-0) !important; border-top: 1px solid var(--border-1) !important; box-shadow: var(--shadow-2) !important; }
@@ -149,24 +179,24 @@
     /* Place mobile action buttons at the top-right, to the left of the basemap toggle */
     .mobile-sidebar-toggle, .mobile-legend-toggle, .mobile-filters-toggle {
         position: absolute !important;
-        top: 8px !important;
+        top: 5px !important;
         left: auto !important;
         right: auto !important;
         bottom: auto !important;
-        width: 28px !important;
-        height: 28px !important;
+        width: 35px !important;
+        height: 45px !important;
         min-height: 28px !important;
         padding: 0 !important;
         border-radius: 14px !important;
         justify-content: center !important;
         align-items: center !important;
         gap: 0 !important;
-        z-index: 1001 !important;
+        z-index: 6001 !important; /* above header and pane */
     }
     /* Order from left to right (moving toward the right edge): Legend, Filters, Data, Basemap */
     /* Leave ~60px at the far right for the basemap toggle; push buttons further left */
-    .mobile-legend-toggle { right: 150px !important; }
-    .mobile-filters-toggle { right: 115px !important; }
+    .mobile-legend-toggle { right: 162px !important; }
+    .mobile-filters-toggle { right: 121px !important; }
     .mobile-sidebar-toggle { right: 80px !important; }
     .mobile-legend-toggle .toggle-text,
     .mobile-filters-toggle .toggle-text,
@@ -178,17 +208,17 @@
     .mobile-legend-toggle svg,
     .mobile-filters-toggle svg,
     .mobile-sidebar-toggle svg { width: 18px; height: 18px; display: block; fill: currentColor; }
-    /* Increase button visibility with a soft halo/glow */
+    /* Square buttons with rounded corners like desktop */
     .mobile-legend-toggle,
     .mobile-filters-toggle,
     .mobile-sidebar-toggle {
         background-color: var(--surface-0) !important;
-        /* Neutral border without brand tint */
         border: 1px solid var(--border-1) !important;
-        /* Remove wide blue halo; keep a subtle drop shadow */
-        box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important;
+        border-radius: var(--radius-2) !important;
+        box-shadow: var(--shadow-1) !important;
         -webkit-tap-highlight-color: transparent;
         outline: none;
+        transition: all var(--transition-fast) var(--easing) !important;
     }
     /* When active, ensure accent background + on-accent text override the base styles above */
     .mobile-legend-toggle.active,
@@ -215,8 +245,8 @@
     .mobile-filters-toggle:focus-visible,
     .mobile-sidebar-toggle:hover,
     .mobile-sidebar-toggle:focus-visible {
-        /* Slight emphasis on interaction without adding a thick halo */
-        box-shadow: 0 2px 12px rgba(0,0,0,0.30), 0 0 8px rgba(96,165,250,0.25) !important;
+        box-shadow: var(--shadow-2) !important;
+        transform: translateY(-1px) !important;
         outline: none !important;
     }
     #map-container.sidebar-open { height: 50vh; }
@@ -241,7 +271,7 @@
     .pagination-controls { flex-wrap: wrap; gap: 5px; justify-content: center; }
     .page-number { min-width: 36px; height: 36px; font-size: 0.8rem; }
     .pagination-info { width: 100%; text-align: center; margin-bottom: 10px; font-size: 0.75rem; }
-    .credits-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90vw; max-width: 300px; z-index: 2000; }
+
     .loading-overlay { backdrop-filter: blur(2px); }
     .loading-spinner { width: 40px; height: 40px; }
     #magnitude-range-container {margin: 0px 0 0px 0;}

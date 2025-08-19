@@ -97,11 +97,13 @@
           enableOutsideClick: true,
           onOpen: () => {
             filtersPane.setAttribute('aria-modal', 'false');
+            try { document.body.classList.add('filters-pane-open'); } catch (_) {}
             try { filtersPane.focus(); } catch (_) {}
             this.resizeSoon();
             this.notifyFiltersPaneToggle(true);
           },
           onClose: () => {
+            try { document.body.classList.remove('filters-pane-open'); } catch (_) {}
             this.resizeSoon();
             this.notifyFiltersPaneToggle(false);
           }
@@ -236,12 +238,14 @@
           onOpen: () => {
             closeOthers(this.mobile.filters);
             filtersPane.setAttribute('aria-modal', 'true');
+            try { document.body.classList.add('filters-pane-open'); } catch (_) {}
             try { filtersPane.focus(); } catch (_) {}
             this.resizeSoon();
             this.notifyFiltersPaneToggle(true);
           },
           onClose: () => {
             filtersPane.setAttribute('aria-modal', 'false');
+            try { document.body.classList.remove('filters-pane-open'); } catch (_) {}
             this.resizeSoon();
             this.notifyFiltersPaneToggle(false);
           },

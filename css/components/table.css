@@ -80,6 +80,8 @@
 .detail-felt { justify-self: end; text-align: right; white-space: nowrap; }
 .detail-label { color: var(--text-3); font-size: 0.7rem; text-transform: uppercase; letter-spacing: .04em; }
 .detail-value { color: var(--text-1); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.detial-distance {align-items: center;}
+.detail-distance .detail-label, .detail-distance .detail-value { padding-left: 40px; }
 
 .felt-none { color: var(--text-3); }
 

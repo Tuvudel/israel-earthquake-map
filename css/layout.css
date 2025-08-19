@@ -22,6 +22,10 @@ body { overflow: hidden; }
     height: 100%;
 }
 
+/* Ensure the map itself is never blurred by any global visual effects */
+#map canvas { filter: none !important; image-rendering: auto; }
+.maplibregl-canvas { filter: none !important; image-rendering: auto; }
+
 /* Sidebar base layout */
 #sidebar {
     width: 420px;

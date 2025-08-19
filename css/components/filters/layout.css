@@ -1,7 +1,7 @@
 .filter-group { display: flex; flex-direction: column; gap: 10px; }
 
 /* Year group alignment on wide screens */
-.year-group { margin-left: 50px; min-width: 1330px; flex: 0 1 520px; }
+.year-group { margin-left: 50px; min-width: 1100px; flex: 0 1 520px; }
 /* Prevent inner contents from overflowing the card area and ensure pips are visible */
 .year-group .date-filter-card { overflow: visible; }
 .year-group { overflow: visible; }
