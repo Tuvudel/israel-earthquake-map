@@ -31,14 +31,33 @@
     .container { padding: 0 15px; }
     .select-filter { min-width: 160px; font-size: 0.9rem; }
     .year-group { margin-left: 0; }
-    .header-layout { flex-direction: column; gap: 20px; align-items: stretch; }
-    .title-section { text-align: left; }
-    #filters-panel h1 { font-size: 1.4rem; margin-bottom: 10px; }
-    .last-updated { justify-content: flex-start; flex-wrap: wrap; gap: 10px; }
+    .header-layout { 
+        flex-direction: column !important; 
+        gap: 5px; 
+        align-items: flex-start !important; 
+    }
+    .title-section { 
+        text-align: left; 
+        width: 100%; 
+        order: 1; 
+        margin-bottom: 0;
+    }
+    /* Mobile: place last-updated + credits under the title, bottom-left */
+    .last-updated { 
+        width: 100%; 
+        justify-content: flex-start !important; 
+        flex-wrap: wrap; 
+        gap: 10px; 
+        margin-left: 0 !important; 
+        margin-top: 0 !important;
+        order: 2; 
+    }
+    #filters-panel h1 { font-size: 1.4rem; margin-bottom: 5px; }
     .filters-container { flex-direction: column; gap: 15px; }
     .filter-group { width: 100%; }
-    #main-content { flex-direction: column; height: auto; min-height: calc(100vh - 200px); }
-    #map-container { height: 60vh; min-height: 400px; }
+    /* Make mobile layout fill the viewport without bottom gaps */
+    #main-content { flex-direction: column; height: calc(100vh - 0px); min-height: 0; }
+    #map-container { flex: 1; height: auto; min-height: 0; }
     #sidebar { width: 100%; border-left: none; border-top: 1px solid var(--border-1); max-height: 40vh; }
     .mobile-sidebar-toggle,
     .mobile-legend-toggle,
@@ -80,68 +99,30 @@
     .filter-group { width: 100%; }
     .select-filter { width: 100%; min-width: 0; font-size: 1rem; padding: 10px 12px; }
     .year-group { width: 100%; }
-    .title-section { padding: 0 8px !important; text-align: left; }
+    .title-section { padding: 0 0px !important; text-align: left; }
     #filters-panel h1 { font-size: 1.1rem; margin-bottom: 6px; }
-    .last-updated { font-size: 0.7rem; gap: 6px; }
+    .last-updated { font-size: 0.7rem; gap: 6px;  }
     .filters-container { gap: 8px; }
     .filter-group { margin-bottom: 0; }
-    .filters-container { display: flex; flex-direction: row; align-items: center; gap: 8px; justify-content: space-between; }
-    .filter-group:first-child { flex: 0 0 auto; width: 90px; }
-    .filter-group:first-child .filter-label { font-size: 0.75rem; margin-bottom: 4px; }
-    .filter-group:last-child { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-    .filter-group:last-child .filter-label { margin-bottom: 4px; font-size: 0.75rem; text-align: left; }
-    .year-range-container { width: 100%; }
-    .year-slider-container { width: 150px; }
-    .filter-label { font-size: 0.85rem; margin-bottom: 6px; }
-    .custom-multiselect { width: 100%; }
-    .filter-group:first-child .custom-multiselect { width: 100px; }
-    .multiselect-trigger { padding: 10px 12px; font-size: 0.8rem; min-height: 40px; }
-    .filter-group:first-child .multiselect-trigger { padding: 6px 8px; font-size: 0.7rem; }
-    .filter-group:first-child .multiselect-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .multiselect-dropdown { max-height: 200px; }
-    .multiselect-option { padding: 12px 15px; min-height: 44px; }
-    .multiselect-option label { font-size: 0.85rem; }
-    .date-input { padding: 12px; font-size: 0.9rem; min-height: 44px; }
-    .apply-filters-btn { padding: 12px 20px; font-size: 0.9rem; min-height: 44px; width: 100%; }
-    /* Unified Filters Pane as bottom sheet on mobile */
+    /* Keep header stacked: title first, then last-updated/credits below */
+    .header-layout { flex-direction: column !important; align-items: flex-start !important; gap: 2px !important; }
     #filters-pane.filters-container { display: none !important; }
-    #filters-pane.filters-container.show {
-        display: flex !important;
-        position: absolute !important;
-        top: 100% !important;
-        bottom: auto !important;
-        left: 0 !important;
-        right: 0 !important;
-        background: var(--surface-0) !important;
-        border-top: 1px solid var(--border-1) !important;
-        padding: 15px !important;
-        max-height: 60vh !important;
-        overflow-y: auto !important;
-        z-index: 1100 !important;
-        box-shadow: var(--shadow-2) !important;
-    }
-
-    /* Push header content down so it sits below mobile overlay buttons */
-    #filters-panel { padding: 8px 0 !important; }
-    /* Mobile header layout: title/credits left, actions right; hide header filters */
-    .header-layout { flex-direction: row !important; align-items: center !important; gap: 8px !important; flex-wrap: nowrap !important; }
-    #filters-pane.filters-container { display: none !important; }
-    /* Allow the mobile Filters toggle to reveal the header filters panel */
     #filters-pane.filters-container.show { display: flex !important; }
     #filters-pane { overflow-y: auto !important; }
-    .title-section { order: 1 !important; padding: 0px 0px 0 0px !important; text-align: left !important; flex: 1 1 auto !important; min-width: 0 !important; }
-    .header-actions { position: absolute !important; top: 0px !important; right: 0px !important; margin: 0 !important; order: 2 !important; flex: 0 0 auto !important; z-index: 1001 !important; }
+    .title-section { order: 1 !important; padding: 0px 0px 0 0px !important; text-align: left !important; width: 100% !important; }
+    .header-actions { position: absolute !important; top: 6px !important; right: 0px !important; margin: 0 !important; order: 3 !important; z-index: 1001 !important; }
     /* Make mobile basemap toggle a bit smaller */
     .header-actions sl-switch#basemap-toggle::part(base) { --width: 54px; }
-    sl-switch#basemap-toggle::part(control) { height: 22px; }
-    sl-switch#basemap-toggle::part(thumb) { width: 22px; height: 22px; }
+    /* Make mobile light/dark handles identical size */
+    sl-switch#basemap-toggle::part(control) { height: 26px; }
+    sl-switch#basemap-toggle::part(thumb) { width: 26px; height: 26px; background-position: 50% 50% !important; }
     /* Re-anchor light-mode rays/glow for smaller thumb center on mobile */
     sl-switch#basemap-toggle::part(control) {
         background-image:
             /* top gloss */
             linear-gradient(180deg, rgba(255,255,255,0.30), rgba(255,255,255,0)),
-            /* thin rays, anchored near mobile thumb center */
-            conic-gradient(from 0deg at 16px 50%,
+            /* thin rays, anchored near the thumb center */
+            conic-gradient(from 0deg at 18px 50%,
                 transparent 0 12deg, rgba(255,255,255,0.18) 12deg 12.8deg, transparent 12.8deg 24deg,
                 rgba(255,255,255,0.16) 24deg 24.8deg, transparent 24.8deg 36deg,
                 rgba(255,255,255,0.14) 36deg 36.8deg, transparent 36.8deg 180deg,
@@ -149,19 +130,19 @@
                 rgba(255,255,255,0.12) 344deg 344.8deg, transparent 344.8deg 360deg
             ),
             /* soft radial glow behind the sun */
-            radial-gradient(circle at 16px 50%, rgba(253,230,138,0.55) 0%, rgba(253,230,138,0.0) 65%),
+            radial-gradient(circle at 18px 50%, rgba(253,230,138,0.55) 0%, rgba(253,230,138,0.0) 65%),
             /* warm base */
-            linear-gradient(45deg, #f59e0b, #fbbf24);
+            linear-gradient(60deg, #f59e0b, #fbbf24);
     }
     header { padding: 6px 0 !important; min-height: 56px !important; }
     .title-section h1 { font-size: 1.1rem !important; margin: 0 !important; line-height: 1.2 !important; }
     .last-updated { font-size: 0.6rem !important; margin-top: 1px !important; }
     .credits-trigger { font-size: 0.6rem !important; }
-    #main-content { flex-direction: column !important; height: calc(100vh - 72px) !important; min-height: calc(100vh - 72px) !important; }
+    #main-content { flex-direction: column !important; height: calc(100vh - 0px) !important; min-height: 0 !important; }
     #sidebar { display: none !important; }
     #sidebar.show { display: block !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important; max-height: 70vh !important; z-index: 1000 !important; background: var(--surface-0) !important; border-top: 1px solid var(--border-1) !important; box-shadow: var(--shadow-2) !important; }
-    #map-container { flex: 1; width: 100%; height: 100%; min-height: calc(100vh - 55px); position: relative; display: block; }
-    #map { width: 100% !important; height: 100% !important; min-height: 350px; display: block !important; }
+    #map-container { flex: 1; width: 100%; height: 100%; min-height: 0; position: relative; display: block; }
+    #map { width: 100% !important; height: 100% !important; min-height: 320px; display: block !important; }
     #sidebar { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; max-height: 70vh; background: var(--surface-0); border-top: 2px solid var(--border-1); border-left: none; z-index: 1000; transform: translateY(100%); transition: transform 0.3s ease; overflow-y: auto; }
     #sidebar.show { transform: translateY(0); }
     .mobile-sidebar-toggle, .mobile-legend-toggle, .mobile-filters-toggle { display: inline-flex !important; }
@@ -263,6 +244,7 @@
     .credits-popup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90vw; max-width: 300px; z-index: 2000; }
     .loading-overlay { backdrop-filter: blur(2px); }
     .loading-spinner { width: 40px; height: 40px; }
+    #magnitude-range-container {margin: 0px 0 0px 0;}
 }
 
 /* Very small mobile devices (320px and below) */

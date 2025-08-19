@@ -1,0 +1,38 @@
+.filter-group { display: flex; flex-direction: column; gap: 10px; }
+
+/* Year group alignment on wide screens */
+.year-group { margin-left: 50px; min-width: 1330px; flex: 0 1 520px; }
+/* Prevent inner contents from overflowing the card area and ensure pips are visible */
+.year-group .date-filter-card { overflow: visible; }
+.year-group { overflow: visible; }
+
+/* Layout tweaks: cap Magnitude group growth so other filters sit closer */
+#filters-pane.filters-container > .filter-group:first-of-type { flex: 0 0 600px; min-width: 360px; }
+#filters-pane.filters-container > .filter-group:nth-of-type(2),
+#filters-pane.filters-container > .filter-group:nth-of-type(3) { flex: 0 0 0px; margin-left: 20px; }
+
+/* Responsive rules */
+@media (max-width: 768px) {
+	/* On very small screens give more height */
+	#filters-pane.filters-container { max-height: 75vh; }
+
+	/* Override year-group width constraints on mobile */
+	.year-group { margin-left: 0 !important; min-width: 100% !important; max-width: 100% !important; width: 100% !important; }
+
+	/* Fix slider container width on mobile */
+	.year-slider-container,
+	.magnitude-slider-container,
+	#magnitude-range-container { width: 100% !important; max-width: 100% !important; padding: 0 4px 16px 4px !important; box-sizing: border-box; }
+
+	/* Ensure sliders take full width */
+	#year-range-slider,
+	#magnitude-range-slider { width: 100% !important; max-width: 100% !important; box-sizing: border-box; }
+
+	/* Make all filter groups full width on mobile */
+	#filters-pane.filters-container > .filter-group:first-of-type,
+	#filters-pane.filters-container > .filter-group { flex: 1 1 100% !important; min-width: 100% !important; max-width: 100% !important; width: 100% !important; }
+	#filters-pane.filters-container > .filter-group:nth-of-type(2),
+	#filters-pane.filters-container > .filter-group:nth-of-type(3) { flex: 0 0 0px; margin-left: 0px; }
+}
+
+

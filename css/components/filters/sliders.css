@@ -1,0 +1,73 @@
+/* Year dual-range slider (Material UI style) */
+.year-slider-container { position: relative; width: 100%; padding: 0 8px 4px 8px; box-sizing: border-box; }
+#year-range-slider { margin: 5px 0 0 0; --thumb-size: 15px; --track-height: 4px; --ring-color: var(--ring-color); display: block; width: 100%; max-width: 100%; box-sizing: border-box; }
+#year-range-slider.noUi-horizontal { height: var(--track-height); }
+#year-range-slider.noUi-target,
+#year-range-slider .noUi-base { background: var(--track-bg); border-radius: 9999px; border: none; box-shadow: none; overflow: visible; }
+#year-range-slider .noUi-connect { background: var(--accent-600); border-radius: 9999px; }
+#year-range-slider.noUi-horizontal .noUi-handle { width: var(--thumb-size) !important; height: var(--thumb-size) !important; border-radius: 50% !important; background: var(--thumb-bg) !important; border: 2px solid var(--accent-600) !important; box-shadow: 0 2px 6px rgba(0,0,0,0.25); cursor: pointer; top: calc((var(--track-height) - var(--thumb-size)) / 2) !important; right: calc(var(--thumb-size) / -2) !important; transform: none !important; }
+#year-range-slider .noUi-handle:before, #year-range-slider .noUi-handle:after { display: none; }
+#year-range-slider .noUi-handle .noUi-touch-area { position: absolute !important; width: calc(max(28px, var(--thumb-size) + 10px)) !important; height: calc(max(28px, var(--thumb-size) + 10px)) !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; }
+#year-range-slider .noUi-handle { cursor: grab; transition: transform 0.1s ease, box-shadow 0.1s ease; }
+#year-range-slider .noUi-active .noUi-handle { cursor: grabbing; transform: scale(1.02); box-shadow: 0 0 0 14px var(--ring-color), 0 2px 6px rgba(0,0,0,0.25); }
+#year-range-slider .noUi-handle:hover { box-shadow: 0 0 0 8px var(--ring-color), 0 2px 6px rgba(0,0,0,0.25); }
+#year-range-slider .noUi-base, #year-range-slider .noUi-connects, #year-range-slider .noUi-connect { cursor: pointer; }
+#year-range-slider .noUi-handle:focus-visible { outline: none; box-shadow: 0 0 0 8px var(--ring-color) !important; }
+/* Tooltips: hidden by default; show on drag/hover/focus (MUI-like floating labels) */
+#year-range-slider .noUi-tooltip { display: none; position: absolute; bottom: 100%; transform: translateY(-8px); background: var(--surface-0); color: var(--text-2); border: 1px solid var(--border-2); padding: 2px 6px; border-radius: 6px; font-size: 12px; box-shadow: var(--shadow-2); white-space: nowrap; }
+#year-range-slider .noUi-handle.noUi-active .noUi-tooltip,
+#year-range-slider .noUi-handle:hover .noUi-tooltip,
+#year-range-slider .noUi-handle:focus .noUi-tooltip { display: block; }
+/* Hide static labels; keep only floating tooltips */
+.year-slider-container .year-labels { display: none; }
+
+/* Magnitude dual-range slider (Material UI style) */
+.magnitude-slider-container,
+#magnitude-range-container { position: relative; width: 100%; max-width: 100%; margin: 25px 0 0px 0; box-sizing: border-box; }
+#magnitude-range-slider { margin: 1px 0; --thumb-size: 18px; --track-height: 4px; --ring-color: var(--ring-color); display: block; width: 100%; max-width: 100%; box-sizing: border-box; }
+#magnitude-range-slider.noUi-horizontal { height: var(--track-height); }
+#magnitude-range-slider.noUi-target,
+#magnitude-range-slider .noUi-base { background: var(--track-bg); border-radius: 9999px; border: none; box-shadow: none; overflow: visible; }
+#magnitude-range-slider .noUi-connect { background: var(--accent-600); border-radius: 9999px; }
+#magnitude-range-slider.noUi-horizontal .noUi-handle { width: var(--thumb-size) !important; height: var(--thumb-size) !important; border-radius: 50% !important; background: var(--thumb-bg) !important; border: 2px solid var(--accent-600) !important; box-shadow: 0 2px 6px rgba(0,0,0,0.25); cursor: pointer; top: calc((var(--track-height) - var(--thumb-size)) / 2) !important; right: calc(var(--thumb-size) / -2) !important; transform: none !important; }
+#magnitude-range-slider .noUi-handle:before, #magnitude-range-slider .noUi-handle:after { display: none; }
+#magnitude-range-slider .noUi-handle .noUi-touch-area { position: absolute !important; width: calc(max(28px, var(--thumb-size) + 10px)) !important; height: calc(max(28px, var(--thumb-size) + 10px)) !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; }
+#magnitude-range-slider .noUi-handle { cursor: grab; transition: transform 0.1s ease, box-shadow 0.1s ease; }
+#magnitude-range-slider .noUi-active .noUi-handle { cursor: grabbing; transform: scale(1.02); box-shadow: 0 0 0 14px var(--ring-color), 0 2px 6px rgba(0,0,0,0.25); }
+#magnitude-range-slider .noUi-handle:hover { box-shadow: 0 0 0 8px var(--ring-color), 0 2px 6px rgba(0,0,0,0.25); }
+#magnitude-range-slider .noUi-base, #magnitude-range-slider .noUi-connects, #magnitude-range-slider .noUi-connect { cursor: pointer; }
+#magnitude-range-slider .noUi-handle:focus-visible { outline: none; box-shadow: 0 0 0 8px var(--ring-color) !important; }
+/* Tooltips: hidden by default; show on drag/hover/focus */
+#magnitude-range-slider .noUi-tooltip { display: none; position: absolute; bottom: 100%; transform: translateY(-8px); background: var(--surface-0); color: var(--text-2); border: 1px solid var(--border-2); padding: 2px 6px; border-radius: 6px; font-size: 12px; box-shadow: var(--shadow-2); white-space: nowrap; }
+#magnitude-range-slider .noUi-handle.noUi-active .noUi-tooltip,
+#magnitude-range-slider .noUi-handle:hover .noUi-tooltip,
+#magnitude-range-slider .noUi-handle:focus .noUi-tooltip { display: block; }
+
+/* Show and style pips (marks) similar to MUI marks */
+#year-range-slider .noUi-pips,
+#magnitude-range-slider .noUi-pips { display: block !important; margin-top: 8px; color: var(--text-muted); opacity: 1; visibility: visible; left: 0; right: 0; width: calc(100% + 16px); transform: translateX(-8px); box-sizing: border-box; overflow: visible; }
+#year-range-slider .noUi-marker,
+#magnitude-range-slider .noUi-marker { background: var(--text-muted); }
+#year-range-slider .noUi-marker-large,
+#magnitude-range-slider .noUi-marker-large { height: 8px; }
+#year-range-slider .noUi-marker-normal,
+#magnitude-range-slider .noUi-marker-normal { height: 5px; }
+#year-range-slider .noUi-marker-sub,
+#magnitude-range-slider .noUi-marker-sub { height: 4px; opacity: 0.8; }
+/* Hide all pip labels by default, then show only majors */
+#year-range-slider .noUi-value,
+#magnitude-range-slider .noUi-value { display: none; }
+#year-range-slider .noUi-value-large,
+#magnitude-range-slider .noUi-value-large { display: block; color: var(--text-2); font-size: 11px; }
+
+/* Prevent pips and handles from being clipped near container edges */
+.year-slider-container { overflow: visible; }
+.year-slider-container::before,
+.year-slider-container::after { content: ""; position: absolute; top: 0; bottom: 0; width: 8px; }
+.year-slider-container::before { left: 0; }
+.year-slider-container::after { right: 0; }
+
+/* Ensure year range container allows pip overflow */
+#year-range-container { overflow: visible; }
+
+

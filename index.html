@@ -67,20 +67,20 @@
                 <div class="header-layout">
                     <div class="title-section">
                         <h1>Israel Earthquakes</h1>
-                        <div class="last-updated">
-                            <span id="last-updated">Last updated: Loading...</span>
-                            <div class="credits-container">
-                                <span class="credits-trigger">Credits</span>
-                                <div class="credits-popup">
-                                    <div>Earthquake Data: <a href="https://eq.gsi.gov.il/heb/earthquake/lastEarthquakes.php" target="_blank">Israel Geophysical Institute</a></div>
-                                    <div>Fault Lines: <a href="https://github.com/cossatot/gem-global-active-faults" target="_blank">GEM Global Active Faults</a> (CC BY 4.0)</div>
-                                    <div>Tectonic Plates: <a href="https://data.humdata.org/dataset/tectonic-plate" target="_blank">HDX Tectonic Plates</a> (converted via <a href="https://mygeodata.cloud/converter/shp-to-geojson" target="_blank">MyGeodata</a>)</div>
-                                    <div>Basemap: 
-                                        <a href="https://www.maptiler.com/" target="_blank" rel="noopener noreferrer" class="maptiler-logo-link" aria-label="MapTiler">
-                                            <img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo" class="maptiler-logo">
-                                        </a>
-                                        &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>
-                                    </div>
+                    </div>
+                    <div class="last-updated">
+                        <span id="last-updated">Last updated: <sl-relative-time id="last-updated-time" numeric="auto">Loading...</sl-relative-time></span>
+                        <div class="credits-container">
+                            <span class="credits-trigger">Credits</span>
+                            <div class="credits-popup">
+                                <div>Earthquake Data: <a href="https://eq.gsi.gov.il/heb/earthquake/lastEarthquakes.php" target="_blank">Israel Geophysical Institute</a></div>
+                                <div>Fault Lines: <a href="https://github.com/cossatot/gem-global-active-faults" target="_blank">GEM Global Active Faults</a> (CC BY 4.0)</div>
+                                <div>Tectonic Plates: <a href="https://data.humdata.org/dataset/tectonic-plate" target="_blank">HDX Tectonic Plates</a> (converted via <a href="https://mygeodata.cloud/converter/shp-to-geojson" target="_blank">MyGeodata</a>)</div>
+                                <div>Basemap: 
+                                    <a href="https://www.maptiler.com/" target="_blank" rel="noopener noreferrer" class="maptiler-logo-link" aria-label="MapTiler">
+                                        <img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo" class="maptiler-logo">
+                                    </a>
+                                    &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                     <div id="filters-pane" class="filters-container" tabindex="-1" role="dialog" aria-label="Filters" aria-modal="false">
                         <!-- Magnitude Range (dual-range slider) -->
                         <div class="filter-group">
-                            <label class="filter-label">Magnitude Range:</label>
+                            <label class="filter-label">Magnitude:</label>
                             <div class="year-slider-container" id="magnitude-range-container">
                                 <div class="year-labels">
                                     <span id="mag-min-label">2.5</span>
@@ -395,7 +395,14 @@
     <script src="js/controllers/interactions.js"></script>
     <script src="js/controllers/map.js"></script>
     
-    <script src="js/ui/filters.js"></script>
+    <script src="js/ui/filters/utils/debounce.js"></script>
+    <script src="js/ui/filters/utils/pips.js"></script>
+    <script src="js/ui/filters/components/Slider.js"></script>
+    <script src="js/ui/filters/components/MagnitudeSlider.js"></script>
+    <script src="js/ui/filters/components/YearSlider.js"></script>
+    <script src="js/ui/filters/components/DateMode.js"></script>
+    <script src="js/ui/filters/components/SingleSelect.js"></script>
+    <script src="js/ui/filters/index.js"></script>
     <script src="js/ui/statistics.js"></script>
     <script src="js/ui/table.js"></script>
     

@@ -135,26 +135,44 @@ class EarthquakeApp {
     
     updateLastUpdated() {
         const timeEl = document.getElementById('last-updated-time');
-        const fallbackEl = document.getElementById('last-updated');
-        if (!timeEl && !fallbackEl) return;
-        let dateStr = null;
-        if (window.Data && typeof window.Data.getLatestDateString === 'function') {
-            dateStr = window.Data.getLatestDateString();
-        }
-        if (!dateStr && this.earthquakeData && this.earthquakeData.length > 0) {
-            const latestEarthquake = this.earthquakeData.reduce((latest, current) => {
-                return current.properties.dateObject > latest.properties.dateObject ? current : latest;
-            });
-            if (latestEarthquake) {
-                dateStr = latestEarthquake.properties['date-time'] || latestEarthquake.properties.date;
+        if (!timeEl) return;
+
+        try {
+            // Prefer the processed latest feature with a ready Date object
+            let latestFeature = null;
+            if (window.Data && typeof window.Data.getLatest === 'function') {
+                latestFeature = window.Data.getLatest();
             }
-        }
-        if (dateStr) {
-            if (timeEl) {
-                timeEl.textContent = dateStr;
-            } else if (fallbackEl) {
-                fallbackEl.textContent = `Last updated: ${dateStr}`;
+            if (!latestFeature && Array.isArray(this.earthquakeData) && this.earthquakeData.length > 0) {
+                latestFeature = this.earthquakeData.reduce((latest, current) => {
+                    return (current.properties?.dateObject > (latest?.properties?.dateObject || 0)) ? current : latest;
+                }, null);
             }
+
+            const latestDate = latestFeature?.properties?.dateObject;
+            if (latestDate instanceof Date && !isNaN(latestDate.getTime())) {
+                timeEl.setAttribute('date', latestDate.toISOString());
+                return;
+            }
+
+            // Fallback: use the string helper and attempt a safe parse
+            let dateStr = null;
+            if (window.Data && typeof window.Data.getLatestDateString === 'function') {
+                dateStr = window.Data.getLatestDateString();
+            }
+            if (dateStr) {
+                const parsed = new Date(dateStr);
+                if (!isNaN(parsed.getTime())) {
+                    timeEl.setAttribute('date', parsed.toISOString());
+                    return;
+                }
+            }
+
+            // If all else fails
+            timeEl.textContent = 'unknown';
+        } catch (error) {
+            console.warn('Error setting date for relative time:', error);
+            timeEl.textContent = 'unknown';
         }
     }
     
@@ -169,11 +187,9 @@ class EarthquakeApp {
     }
     
     initializeFilters() {
-        if (window.FilterController) {
-            this.filters = new FilterController(() => {
-                this.applyFilters();
-            });
-        }
+        this.filters = new FilterController(() => {
+            this.applyFilters();
+        });
     }
     
     initializeTable() {
@@ -184,75 +200,52 @@ class EarthquakeApp {
     
     applyFilters() {
         const magnitudeRange = this.getMagnitudeRange();
-        const selectedCountry = this.filters.getSelectedCountry ? this.filters.getSelectedCountry() : 'all';
-        const selectedArea = this.filters.getSelectedArea ? this.filters.getSelectedArea() : 'all';
-        const dateFilter = this.filters.getDateFilter ? this.filters.getDateFilter() : { mode: 'range', yearRange: this.getYearRange() };
+        const selectedCountry = this.filters.getSelectedCountry();
+        const selectedArea = this.filters.getSelectedArea();
+        const dateFilter = this.filters.getDateFilter();
 
-        if (window.FilterService && typeof window.FilterService.filterData === 'function') {
-            this.filteredData = window.FilterService.filterData(this.earthquakeData, {
-                magnitudeRange,
-                country: selectedCountry,
-                area: selectedArea,
-                dateFilter,
-                yearRange: this.getYearRange()
-            });
-        } else {
-            // Minimal fallback: no filtering if service missing
-            this.filteredData = this.earthquakeData || [];
-        }
+        this.filteredData = window.FilterService.filterData(this.earthquakeData, {
+            magnitudeRange,
+            country: selectedCountry,
+            area: selectedArea,
+            dateFilter,
+            yearRange: this.getYearRange()
+        });
 
-        // Update components
         this.updateMap();
         this.updateStatistics();
         this.updateTable();
         this.updateCascadingFilters();
-        
         if (window.Logger && window.Logger.info) window.Logger.info(`Filtered to ${this.filteredData.length} earthquakes`);
     }
 
     // Update dependent filter options and year slider limits based on current selection
     updateCascadingFilters() {
-        if (!this.filters) return;
-
-        const allData = this.earthquakeData || [];
+        const allData = this.earthquakeData;
         const params = {
             magnitudeRange: this.getMagnitudeRange(),
-            country: this.filters.getSelectedCountry ? this.filters.getSelectedCountry() : 'all',
-            area: this.filters.getSelectedArea ? this.filters.getSelectedArea() : 'all',
-            dateFilter: this.filters.getDateFilter ? this.filters.getDateFilter() : { mode: 'range', yearRange: this.getYearRange() },
+            country: this.filters.getSelectedCountry(),
+            area: this.filters.getSelectedArea(),
+            dateFilter: this.filters.getDateFilter(),
             yearRange: this.getYearRange()
         };
 
-        if (window.FilterService) {
-            const yearLimits = window.FilterService.computeYearLimits(allData, params);
-            if (yearLimits && this.filters.updateYearRangeLimits) this.filters.updateYearRangeLimits(yearLimits.min, yearLimits.max);
+        const yearLimits = window.FilterService.computeYearLimits(allData, params);
+        if (yearLimits) this.filters.updateYearRangeLimits(yearLimits.min, yearLimits.max);
 
-            const countries = window.FilterService.computeCountryOptions(allData, params) || [];
-            if (this.filters.setCountryOptions) this.filters.setCountryOptions(countries, true);
+        const countries = window.FilterService.computeCountryOptions(allData, params);
+        this.filters.setCountryOptions(countries, true);
 
-            const areas = window.FilterService.computeAreaOptions(allData, params) || [];
-            if (this.filters.setAreaOptions) this.filters.setAreaOptions(areas, true);
+        const areas = window.FilterService.computeAreaOptions(allData, params);
+        this.filters.setAreaOptions(areas, true);
 
-            // Magnitude slider has static limits [2.0, 7.0+]; do not update dynamically
-    
-            const availableMagnitudes = window.FilterService.computeAvailableMagnitudes(allData, params) || new Set();
-            if (this.filters.updateMagnitudeAvailability) this.filters.updateMagnitudeAvailability(availableMagnitudes);
-        }
+        const availableMagnitudes = window.FilterService.computeAvailableMagnitudes(allData, params);
+        this.filters.updateMagnitudeAvailability(availableMagnitudes);
     }
     
-    getMagnitudeRange() {
-        if (this.filters && this.filters.getMagnitudeRange) {
-            return this.filters.getMagnitudeRange();
-        }
-        return { min: 2.0, max: 7.0 };
-    }
+    getMagnitudeRange() { return this.filters.getMagnitudeRange(); }
     
-    getYearRange() {
-        if (this.filters && this.filters.getYearRange) {
-            return this.filters.getYearRange();
-        }
-        return { min: 1900, max: 2025 };
-    }
+    getYearRange() { return this.filters.getYearRange(); }
     
     updateMap() {
         if (this.map) {

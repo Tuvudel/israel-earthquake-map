@@ -1,12 +1,20 @@
 /* Layout (extracted from css/styles.css) */
+/* Make the app use the full viewport height without causing vertical scroll.
+   Header has intrinsic height; main fills the rest. */
+html, body, #app { height: 100%; }
+body { overflow: hidden; }
+#app { display: flex; flex-direction: column; min-height: 0; }
+
 #main-content {
     display: flex;
-    height: calc(100vh - 140px);
+    flex: 1 1 auto;
+    min-height: 0; /* allow inner flex children to size without extra overflow */
 }
 
 #map-container {
     flex: 1;
     position: relative;
+    min-height: 0; /* avoid reserved space/gaps at bottom */
 }
 
 #map {
@@ -22,6 +30,7 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    max-height: 100%;
 }
 
 /* Shoelace tabs: make tabs fill available width and theme the nav */
