@@ -62,6 +62,44 @@
 .pagination-info { color: var(--text-muted); }
 .pagination-controls { display: flex; align-items: center; gap: 10px; }
 .pagination-controls sl-button.pagination-btn { margin: 0 4px; }
+
+/* Dark theme: match our bluish dark mode theme for pagination buttons */
+:root[data-theme='dark'] .pagination-controls sl-button.pagination-btn {
+	--sl-button-color: var(--text-1);
+	--sl-button-background-color: var(--surface-0);
+	--sl-button-border-color: var(--border-2);
+	--sl-button-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 15px rgba(96, 165, 250, 0.25), 0 0 5px rgba(255, 255, 255, 0.1);
+	--sl-button-hover-color: var(--text-1);
+	--sl-button-hover-background-color: var(--surface-1);
+	--sl-button-hover-border-color: var(--accent-600);
+	--sl-button-hover-shadow: 0 2px 14px rgba(0,0,0,0.5), 0 0 20px rgba(96,165,250,0.35), 0 0 8px rgba(255, 255, 255, 0.15);
+	--sl-button-focus-shadow: 0 6px 20px rgba(0,0,0,0.25), 0 0 15px rgba(96, 165, 250, 0.3), var(--shadow-2);
+	--sl-button-active-color: var(--text-on-accent);
+	--sl-button-active-background-color: var(--accent-600);
+	--sl-button-active-border-color: var(--accent-600);
+	--sl-button-active-shadow: 0 8px 28px rgba(0,0,0,0.28), 0 0 25px rgba(96, 165, 250, 0.4), 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Ensure dark mode pagination buttons are clearly visible */
+:root[data-theme='dark'] .pagination-controls sl-button.pagination-btn::part(base) {
+	background-color: var(--surface-0) !important;
+	color: var(--text-1) !important;
+	border-color: var(--border-2) !important;
+}
+
+/* Dark mode hover state overrides for pagination buttons */
+:root[data-theme='dark'] .pagination-controls sl-button.pagination-btn:hover::part(base) {
+	background-color: var(--surface-1) !important;
+	color: var(--text-1) !important;
+	border-color: var(--accent-600) !important;
+}
+
+/* Dark mode active state overrides for pagination buttons */
+:root[data-theme='dark'] .pagination-controls sl-button.pagination-btn:not([disabled])::part(base) {
+	background-color: var(--accent-600) !important;
+	color: var(--text-on-accent) !important;
+	border-color: var(--accent-600) !important;
+}
 #page-numbers { display: flex; gap: 5px; }
 .page-number { padding: 6px 10px; border: 1px solid var(--border-1); background: var(--surface-0); color: var(--text-1); cursor: pointer; border-radius: 6px; font-size: 0.8rem; min-width: 32px; text-align: center; transition: all 0.2s; box-shadow: var(--shadow-1); }
 .page-number:hover { background: var(--surface-1); }

@@ -181,24 +181,24 @@
                     </div>
                     <!-- Header actions (top-right) -->
                     <div id="header-actions" class="header-actions">
-                        <button id="header-filters-toggle" class="control-btn" aria-controls="filters-pane" aria-expanded="false" aria-label="Toggle filters" data-tooltip="Filters">
-                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <sl-button id="header-filters-toggle" variant="default" size="medium" aria-controls="filters-pane" aria-expanded="false" aria-label="Toggle filters">
+                            <svg slot="prefix" viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M3 4h18v2H3V4zm2 6h14v2H5v-2zm4 6h6v2H9v-2z"/>
                             </svg>
-                            <span class="btn-text">Filters</span>
-                        </button>
-                        <button id="header-legend-toggle" class="control-btn" aria-label="Toggle legend" data-tooltip="Legend">
-                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                            Filters
+                        </sl-button>
+                        <sl-button id="header-legend-toggle" variant="default" size="medium" aria-label="Toggle legend">
+                            <svg slot="prefix" viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                             </svg>
-                            <span class="btn-text">Legend</span>
-                        </button>
-                        <button id="header-data-toggle" class="control-btn" aria-controls="sidebar" aria-expanded="true" aria-label="Toggle data panel" data-tooltip="Data">
-                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                            Legend
+                        </sl-button>
+                        <sl-button id="header-data-toggle" variant="default" size="medium" aria-controls="sidebar" aria-expanded="true" aria-label="Toggle data panel">
+                            <svg slot="prefix" viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M3 3h18v18H3V3zm16 16V5H5v14h14zm-8-2h2v-4h-2v4zm0-6h2V9h-2v2z"/>
                             </svg>
-                            <span class="btn-text">Data</span>
-                        </button>
+                            Data
+                        </sl-button>
                         <div class="basemap-toggle-row" title="Switch light/dark mode">
                             <sl-switch id="basemap-toggle" size="medium" aria-label="Switch light/dark mode"></sl-switch>
                         </div>

@@ -77,33 +77,15 @@
 
 /* ===== FILTER HEADER MOBILE STYLES (640px and below) ===== */
 @media (max-width: 640px) {
-    .control-btn { 
-        padding: 10px 12px; 
+    .header-actions sl-button { 
+        --sl-button-padding-medium: 10px 12px; 
         min-width: 44px; 
+    }
+    .header-actions sl-button::part(base) {
         justify-content: center; 
     }
-    .control-btn .btn-text { 
+    .header-actions sl-button::part(label) {
         display: none; 
-    }
-    .control-btn::after {
-        content: attr(data-tooltip);
-        position: absolute;
-        bottom: -35px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(17,24,39,0.9);
-        color: var(--pure-white);
-        padding: 4px 8px;
-        border-radius: 6px;
-        font-size: 12px;
-        white-space: nowrap;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.2s ease;
-        z-index: 1200;
-    }
-    .control-btn:hover::after { 
-        opacity: 1; 
     }
 }
 
