@@ -122,8 +122,13 @@
     --sl-color-primary-100: rgba(96, 165, 250, 0.15); /* light brand color for highlights */
 }
 
+/* Global font family - ensure Manrope is used everywhere */
+* {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background-color: var(--surface-1);
     color: var(--text-1);
     line-height: 1.6;

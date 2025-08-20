@@ -282,6 +282,8 @@ class EarthquakeApp {
     }
     
 
+    
+
 }
 
 // Initialize app when DOM is loaded

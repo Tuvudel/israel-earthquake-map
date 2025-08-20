@@ -16,6 +16,31 @@ class TableController {
         this.setupEventListeners();
     }
     
+    setupTabChangeListener() {
+        // Listen for Shoelace tab changes
+        const tabGroup = document.querySelector('sl-tab-group');
+        if (tabGroup) {
+            tabGroup.addEventListener('sl-tab-show', (event) => {
+                // If switching to events tab, ensure table is updated
+                if (event.detail.name === 'events' && this.app.filteredData) {
+                    setTimeout(() => {
+                        this.updateTable(this.app.filteredData, this.currentPage, this.sortColumn, this.sortDirection);
+                    }, 50);
+                }
+            });
+            
+            // Also listen for when the component is fully ready
+            tabGroup.addEventListener('sl-initial-focus', () => {
+                // Ensure table is updated when tabs are fully initialized
+                if (this.app.filteredData) {
+                    setTimeout(() => {
+                        this.updateTable(this.app.filteredData, this.currentPage, this.sortColumn, this.sortDirection);
+                    }, 100);
+                }
+            });
+        }
+    }
+    
     setupEventListeners() {
         // Sort header click listeners
         const sortableHeaders = document.querySelectorAll('.sortable');

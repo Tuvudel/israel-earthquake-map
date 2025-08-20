@@ -1,6 +1,6 @@
 /* Popup styles extracted from js/map.js */
 .earthquake-popup {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-size: 0.9rem;
     line-height: 1.4;
 }

@@ -248,13 +248,6 @@ Comprehensive UI/UX redesign to modernize the earthquake map interface with cons
 3. **Fallback Plans**: Keep original components as backup during development
 4. **User Feedback**: Test with actual users if possible
 
-## Timeline Estimate
-- **Total Duration**: 7-12 hours
-- **Phase 1**: 1-2 hours
-- **Phase 2**: 2-3 hours  
-- **Phase 3**: 1-2 hours
-- **Phase 4**: 2-3 hours
-- **Phase 5**: 1-2 hours
 
 ## Dependencies
 - Shoelace 2.20.1 (already loaded)
