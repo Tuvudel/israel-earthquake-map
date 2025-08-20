@@ -14,7 +14,7 @@
       + `<p><strong>Date:</strong> ${dateStr}</p>`
       + `<p><strong>Depth:</strong> ${depthText} km</p>`
       + `<p><strong>Location:</strong> ${locText}</p>`
-      + (props['felt?'] ? '<p><span class="felt-indicator">Felt</span></p>' : '')
+      + (props['felt?'] ? '<p><sl-badge variant="danger" pill size="small">Felt</sl-badge></p>' : '')
       + `</div>`
     );
   }

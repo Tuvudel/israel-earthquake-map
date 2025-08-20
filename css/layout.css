@@ -28,7 +28,7 @@ body { overflow: hidden; }
 
 /* Sidebar base layout */
 #sidebar {
-    width: 420px;
+    width: 450px;
     background: var(--surface-0);
     border-left: 1px solid var(--border-1);
     display: flex;

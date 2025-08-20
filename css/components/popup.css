@@ -16,14 +16,7 @@
     color: var(--text-2);
 }
 
-.felt-indicator {
-    background: var(--accent-600);
-    color: var(--text-on-accent);
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 0.8rem;
-    font-weight: bold;
-}
+
 
 .maplibregl-popup-content {
     padding: 15px;

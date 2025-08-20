@@ -43,7 +43,7 @@ class TableController {
     
     setupEventListeners() {
         // Sort header click listeners
-        const sortableHeaders = document.querySelectorAll('.sortable');
+        const sortableHeaders = document.querySelectorAll('sl-button.sortable');
         sortableHeaders.forEach(header => {
             header.addEventListener('click', () => {
                 const column = header.getAttribute('data-column');
@@ -86,9 +86,9 @@ class TableController {
             // Toggle direction if same column
             this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
         } else {
-            // New column, default to descending for magnitude, ascending for others
+            // New column, always start with descending (newest/highest first)
             this.sortColumn = column;
-            this.sortDirection = column === 'magnitude' ? 'desc' : 'asc';
+            this.sortDirection = 'desc';
         }
         
         // Reset to first page when sorting changes
@@ -102,26 +102,28 @@ class TableController {
     }
     
     updateSortIndicators() {
-        // Remove all active indicators
+        // Remove all active indicators and button states
         const indicators = document.querySelectorAll('.sort-indicator');
         indicators.forEach(indicator => {
             indicator.classList.remove('active', 'asc', 'desc');
         });
         
-        // Add active indicator to current sort column
-        const activeHeader = document.querySelector(`[data-column="${this.sortColumn}"] .sort-indicator`);
-        if (activeHeader) {
-            activeHeader.classList.add('active', this.sortDirection);
-        }
-
-        // Update aria-sort on headers for accessibility
-        const headerCells = document.querySelectorAll('th.sortable');
-        headerCells.forEach(th => {
-            th.setAttribute('aria-sort', 'none');
+        const sortButtons = document.querySelectorAll('sl-button.sortable');
+        sortButtons.forEach(button => {
+            button.classList.remove('active');
+            button.setAttribute('aria-sort', 'none');
         });
-        const activeTh = document.querySelector(`th.sortable[data-column="${this.sortColumn}"]`);
-        if (activeTh) {
-            activeTh.setAttribute('aria-sort', this.sortDirection === 'asc' ? 'ascending' : 'descending');
+        
+        // Add active indicator and button state to current sort column
+        const activeButton = document.querySelector(`sl-button.sortable[data-column="${this.sortColumn}"]`);
+        if (activeButton) {
+            activeButton.classList.add('active');
+            activeButton.setAttribute('aria-sort', this.sortDirection === 'asc' ? 'ascending' : 'descending');
+            
+            const activeIndicator = activeButton.querySelector('.sort-indicator');
+            if (activeIndicator) {
+                activeIndicator.classList.add('active', this.sortDirection);
+            }
         }
     }
     

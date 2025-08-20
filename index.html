@@ -302,26 +302,42 @@
                     <!-- Events Tab Panel -->
                     <sl-tab-panel name="events">
                         <div id="data-table-panel">
+                            <!-- Table Sort Controls -->
+                            <div class="table-sort-controls">
+                                <sl-button class="sortable" data-column="datetime" variant="default" size="small" aria-sort="none">
+                                    Date/Time
+                                    <svg slot="suffix" class="sort-indicator" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M7 10l5 5 5-5z"/>
+                                    </svg>
+                                </sl-button>
+                                <sl-button class="sortable" data-column="magnitude" variant="default" size="small" aria-sort="descending">
+                                    Magnitude
+                                    <svg slot="suffix" class="sort-indicator active desc" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M7 10l5 5 5-5z"/>
+                                    </svg>
+                                </sl-button>
+                                <sl-button class="sortable" data-column="depth" variant="default" size="small" aria-sort="none">
+                                    Depth
+                                    <svg slot="suffix" class="sort-indicator" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M7 10l5 5 5-5z"/>
+                                    </svg>
+                                </sl-button>
+                                <sl-button class="sortable" data-column="felt" variant="default" size="small" aria-sort="none">
+                                    Felt?
+                                    <svg slot="suffix" class="sort-indicator" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M7 10l5 5 5-5z"/>
+                                    </svg>
+                                </sl-button>
+                            </div>
+                            
                             <div class="table-container">
                                 <table id="earthquake-table">
                                     <thead>
                                         <tr>
-                                            <th class="sortable" data-column="datetime" scope="col" tabindex="0" aria-sort="none">
-                                                Date/Time (UTC)
-                                                <span class="sort-indicator"></span>
-                                            </th>
-                                            <th class="sortable" data-column="magnitude" scope="col" tabindex="0" aria-sort="descending">
-                                                Magnitude
-                                                <span class="sort-indicator active desc"></span>
-                                            </th>
-                                            <th class="sortable" data-column="depth" scope="col" tabindex="0" aria-sort="none">
-                                                Depth (km)
-                                                <span class="sort-indicator"></span>
-                                            </th>
-                                            <th class="sortable" data-column="felt" scope="col" tabindex="0" aria-sort="none">
-                                                Felt?
-                                                <span class="sort-indicator"></span>
-                                            </th>
+                                            <th scope="col">Date/Time (UTC)</th>
+                                            <th scope="col">Magnitude</th>
+                                            <th scope="col">Depth (km)</th>
+                                            <th scope="col">Felt?</th>
                                         </tr>
                                     </thead>
                                     <tbody id="earthquake-table-body">
