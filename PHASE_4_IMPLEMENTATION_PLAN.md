@@ -300,7 +300,6 @@ class MapAnimationController extends AnimationController {
 **Files to modify**: `css/responsive/sidebar.css`, `js/ui/mobileAnimations.js`
 
 **Implementation**:
-1. **Mobile-Specific Optimizations**: Reduce animation complexity on mobile
 2. **Touch Gesture Improvements**: Enhance swipe-to-close functionality
 3. **Memory Management**: Optimize memory usage for mobile devices
 4. **Battery Optimization**: Reduce CPU usage during animations

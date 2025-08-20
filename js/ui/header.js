@@ -6,6 +6,16 @@
   class HeaderController {
     constructor(opts = {}) {
       this.resizeMap = opts.resizeMap || (() => {});
+      this.resizeController = new MapResizeController(this.resizeMap);
+      
+      // Direct access to MapAnimationController for advanced coordination
+      this.mapAnimations = global.MapAnimations || null;
+      
+      // Performance monitoring
+      this.performanceMetrics = {
+        sidebarAnimations: { total: 0, count: 0, average: 0 },
+        mapResizeOperations: { total: 0, count: 0, average: 0 }
+      };
 
       // elements
       this.els = {};
@@ -72,24 +82,84 @@
       } catch (_) {}
     }
 
+    /**
+     * Queue map resize with delay for smooth coordination
+     */
     resizeSoon(delay = 200) {
-      setTimeout(() => this.resizeMap && this.resizeMap(), delay);
+      const startTime = performance.now();
+      
+      try {
+        this.resizeController.queueResize(delay);
+        
+        // Record performance metrics
+        const duration = performance.now() - startTime;
+        this.recordPerformance('mapResizeOperations', duration);
+        
+      } catch (error) {
+        console.warn('Map resize coordination failed:', error);
+        // Fallback to immediate resize
+        this.forceMapResize();
+      }
     }
 
     /**
      * Optimized map resize to prevent flicker during animations
      */
     resizeMapOptimized() {
-      if (!this.resizeMap) return;
+      const startTime = performance.now();
       
-      // Use requestAnimationFrame for smooth resize
-      requestAnimationFrame(() => {
-        try {
-          this.resizeMap();
-        } catch (error) {
-          console.warn('Map resize failed:', error);
-        }
-      });
+      try {
+        this.resizeController.queueResize(0);
+        
+        // Record performance metrics
+        const duration = performance.now() - startTime;
+        this.recordPerformance('mapResizeOperations', duration);
+        
+      } catch (error) {
+        console.warn('Optimized map resize failed:', error);
+        // Fallback to immediate resize
+        this.forceMapResize();
+      }
+    }
+
+    /**
+     * Force immediate map resize (for critical cases)
+     */
+    forceMapResize() {
+      if (this.mapAnimations) {
+        this.mapAnimations.forceMapResize(this.resizeMap);
+      } else {
+        // Fallback to direct resize
+        requestAnimationFrame(() => {
+          try {
+            this.resizeMap();
+          } catch (error) {
+            console.warn('Force map resize failed:', error);
+          }
+        });
+      }
+    }
+
+    /**
+     * Record performance metrics for monitoring
+     */
+    recordPerformance(operation, duration) {
+      if (this.performanceMetrics[operation]) {
+        const metrics = this.performanceMetrics[operation];
+        metrics.total += duration;
+        metrics.count += 1;
+        metrics.average = metrics.total / metrics.count;
+      }
+    }
+
+    /**
+     * Get performance metrics for monitoring
+     */
+    getPerformanceMetrics() {
+      return {
+        header: { ...this.performanceMetrics },
+        mapAnimations: this.mapAnimations ? this.mapAnimations.getPerformanceMetrics() : null
+      };
     }
 
     // Notify other controllers (e.g., FilterController) when filters pane visibility changes
@@ -115,12 +185,10 @@
             filtersPane.setAttribute('aria-modal', 'false');
             try { document.body.classList.add('filters-pane-open'); } catch (_) {}
             try { filtersPane.focus(); } catch (_) {}
-            this.resizeSoon();
             this.notifyFiltersPaneToggle(true);
           },
           onClose: () => {
             try { document.body.classList.remove('filters-pane-open'); } catch (_) {}
-            this.resizeSoon();
             this.notifyFiltersPaneToggle(false);
           }
         });
@@ -133,74 +201,78 @@
           panel: legend,
           ariaControls: 'map-legend',
           enableOutsideClick: false,
-          onOpen: () => { this.persistDesktop('legendOpen', true); this.resizeSoon(); },
-          onClose: () => { this.persistDesktop('legendOpen', false); this.resizeSoon(); }
+          onOpen: () => { this.persistDesktop('legendOpen', true); },
+          onClose: () => { this.persistDesktop('legendOpen', false); }
         });
       }
 
       // Data (desktop): manage collapsed state + persistence with enhanced animations
       if (dataBtn && sidebar) {
         const openData = async () => {
-          // Set button state immediately for responsive feel
-          dataBtn.classList.add('active');
-          dataBtn.setAttribute('aria-pressed', 'true');
+          const startTime = performance.now();
           
-          // Set sidebar state immediately for instant visual feedback
-          sidebar.classList.remove('collapsed');
-          mapContainer && mapContainer.classList.add('sidebar-open');
-          
-          // Use animation system for smooth transitions
-          if (global.Animations) {
-            global.Animations.queueAnimation(async () => {
-              // Animate sidebar open with same timing as mobile
-              await global.Animations.animateCSS(sidebar, {
-                width: '450px',
-                transform: 'translateX(0)',
-                opacity: '1'
-              }, 'mobile');
-              
-              // Optimized map resize after animation
-              setTimeout(() => {
-                this.resizeMapOptimized();
-              }, 50);
-            }, 'desktop-data-open');
-          } else {
-            // Fallback to original behavior
+          try {
+            // Set button state immediately for responsive feel
+            dataBtn.classList.add('active');
+            dataBtn.setAttribute('aria-pressed', 'true');
+            
+            // Set sidebar state to trigger CSS animation
             sidebar.classList.remove('collapsed');
-            mapContainer && mapContainer.classList.add('sidebar-open');
-            this.resizeSoon();
+            mapContainer && mapContainer.classList.remove('sidebar-open');
+            
+            // Wait for CSS transition to complete (300ms), then resize map
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            // Coordinate map resize with sidebar animation using MapAnimationController
+            if (this.mapAnimations) {
+              await this.mapAnimations.queueMapResize(this.resizeMap, 'desktop-sidebar-open');
+            } else {
+              // Fallback to optimized resize
+              this.resizeMapOptimized();
+            }
+            
+            // Record performance metrics
+            const duration = performance.now() - startTime;
+            this.recordPerformance('sidebarAnimations', duration);
+            
+          } catch (error) {
+            console.warn('Desktop sidebar open animation failed:', error);
+            // Fallback to immediate resize
+            this.forceMapResize();
           }
         };
         
         const closeData = async () => {
-          // Set button state immediately for responsive feel
-          dataBtn.classList.remove('active');
-          dataBtn.setAttribute('aria-pressed', 'false');
+          const startTime = performance.now();
           
-          // Set sidebar state immediately for instant visual feedback
-          sidebar.classList.add('collapsed');
-          mapContainer && mapContainer.classList.remove('sidebar-open');
-          
-          // Use animation system for smooth transitions
-          if (global.Animations) {
-            global.Animations.queueAnimation(async () => {
-              // Animate sidebar close with same timing as mobile
-              await global.Animations.animateCSS(sidebar, {
-                width: '0px',
-                transform: 'translateX(100%)',
-                opacity: '0'
-              }, 'mobile');
-              
-              // Optimized map resize after animation
-              setTimeout(() => {
-                this.resizeMapOptimized();
-              }, 50);
-            }, 'desktop-data-close');
-          } else {
-            // Fallback to original behavior
+          try {
+            // Set button state immediately for responsive feel
+            dataBtn.classList.remove('active');
+            dataBtn.setAttribute('aria-pressed', 'false');
+            
+            // Set sidebar state to trigger CSS animation
             sidebar.classList.add('collapsed');
             mapContainer && mapContainer.classList.remove('sidebar-open');
-            this.resizeSoon();
+            
+            // Wait for CSS transition to complete (300ms), then resize map
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            // Coordinate map resize with sidebar animation using MapAnimationController
+            if (this.mapAnimations) {
+              await this.mapAnimations.queueMapResize(this.resizeMap, 'desktop-sidebar-close');
+            } else {
+              // Fallback to optimized resize
+              this.resizeMapOptimized();
+            }
+            
+            // Record performance metrics
+            const duration = performance.now() - startTime;
+            this.recordPerformance('sidebarAnimations', duration);
+            
+          } catch (error) {
+            console.warn('Desktop sidebar close animation failed:', error);
+            // Fallback to immediate resize
+            this.forceMapResize();
           }
         };
         
@@ -336,45 +408,85 @@
       if (mobile.dataBtn && sidebar) {
         const dataCtrl = {
           isOpen: false, // Always start closed on mobile
-          open: () => {
-            console.log('Opening mobile data pane');
-            closeOthers(dataCtrl);
+          open: async () => {
+            const startTime = performance.now();
             
-            // Set state immediately for responsive feel
-            dataCtrl.isOpen = true;
-            mobile.dataBtn.classList.add('active');
-            mobile.dataBtn.setAttribute('aria-pressed', 'true');
-            mapContainer && mapContainer.classList.add('sidebar-open');
-            
-            // Add show class to trigger CSS animation
-            sidebar.classList.add('show');
-            console.log('Added show class to sidebar, classes:', sidebar.className);
-            
-            // Initialize mobile animations after sidebar is shown
-            setTimeout(() => {
-              if (global.MobileAnimations) {
-                global.MobileAnimations.init(sidebar);
+            try {
+              console.log('Opening mobile data pane');
+              closeOthers(dataCtrl);
+              
+              // Set state immediately for responsive feel
+              dataCtrl.isOpen = true;
+              mobile.dataBtn.classList.add('active');
+              mobile.dataBtn.setAttribute('aria-pressed', 'true');
+              mapContainer && mapContainer.classList.add('sidebar-open');
+              
+              // Add show class to trigger CSS animation
+              sidebar.classList.add('show');
+              console.log('Added show class to sidebar, classes:', sidebar.className);
+              
+              // Initialize mobile animations after sidebar is shown
+              setTimeout(() => {
+                if (global.MobileAnimations) {
+                  global.MobileAnimations.init(sidebar);
+                }
+              }, 100);
+              
+              // Coordinate map resize with mobile sidebar animation
+              if (this.mapAnimations) {
+                await this.mapAnimations.queueMapResize(this.resizeMap, 'mobile-sidebar-open');
+              } else {
+                // Fallback to delayed resize
+                this.resizeSoon(100);
               }
-            }, 100);
-            
-            this.resizeSoon(100);
-          },
-          close: () => {
-            // Set state immediately for responsive feel
-            dataCtrl.isOpen = false;
-            mobile.dataBtn.classList.remove('active');
-            mobile.dataBtn.setAttribute('aria-pressed', 'false');
-            mapContainer && mapContainer.classList.remove('sidebar-open');
-            
-            // Clean up mobile animations
-            if (global.MobileAnimations) {
-              global.MobileAnimations.destroy();
+              
+              // Record performance metrics
+              const duration = performance.now() - startTime;
+              this.recordPerformance('sidebarAnimations', duration);
+              
+            } catch (error) {
+              console.warn('Mobile sidebar open animation failed:', error);
+              // Fallback to immediate resize
+              this.forceMapResize();
             }
+          },
+          close: async () => {
+            const startTime = performance.now();
             
-            // Remove show class to trigger CSS animation
-            sidebar.classList.remove('show');
-            this.resizeSoon(100);
-            try { mobile.dataBtn && mobile.dataBtn.focus(); } catch (_) {}
+            try {
+              // Set state immediately for responsive feel
+              dataCtrl.isOpen = false;
+              mobile.dataBtn.classList.remove('active');
+              mobile.dataBtn.setAttribute('aria-pressed', 'false');
+              mapContainer && mapContainer.classList.remove('sidebar-open');
+              
+              // Clean up mobile animations
+              if (global.MobileAnimations) {
+                global.MobileAnimations.destroy();
+              }
+              
+              // Remove show class to trigger CSS animation
+              sidebar.classList.remove('show');
+              
+              // Coordinate map resize with mobile sidebar animation
+              if (this.mapAnimations) {
+                await this.mapAnimations.queueMapResize(this.resizeMap, 'mobile-sidebar-close');
+              } else {
+                // Fallback to delayed resize
+                this.resizeSoon(100);
+              }
+              
+              // Record performance metrics
+              const duration = performance.now() - startTime;
+              this.recordPerformance('sidebarAnimations', duration);
+              
+              try { mobile.dataBtn && mobile.dataBtn.focus(); } catch (_) {}
+              
+            } catch (error) {
+              console.warn('Mobile sidebar close animation failed:', error);
+              // Fallback to immediate resize
+              this.forceMapResize();
+            }
           },
           toggle: () => {
             console.log('Toggle called, isOpen:', dataCtrl.isOpen);
@@ -451,6 +563,106 @@
       this.setupCreditsPopup();
       this.resetForMode();
       window.addEventListener('resize', this.handleResize);
+    }
+  }
+
+  /**
+   * Map Resize Controller - Integrated with MapAnimationController for optimal coordination
+   */
+  class MapResizeController {
+    constructor(resizeFunction) {
+      this.resizeFunction = resizeFunction;
+      this.mapAnimations = global.MapAnimations || null;
+      this.pendingResize = null;
+      this.isProcessing = false;
+    }
+
+    /**
+     * Queue a map resize with proper animation coordination
+     */
+    queueResize(delay = 0) {
+      if (!this.resizeFunction) return;
+
+      // Clear any pending resize
+      if (this.pendingResize) {
+        clearTimeout(this.pendingResize);
+        this.pendingResize = null;
+      }
+
+      // Use MapAnimationController if available for optimal coordination
+      if (this.mapAnimations) {
+        this.queueWithAnimationController(delay);
+      } else {
+        // Fallback to simple delayed execution
+        this.queueSimpleResize(delay);
+      }
+    }
+
+    /**
+     * Queue resize using MapAnimationController for optimal coordination
+     */
+    async queueWithAnimationController(delay = 0) {
+      if (this.isProcessing) return;
+      this.isProcessing = true;
+
+      try {
+        // Apply delay if specified
+        if (delay > 0) {
+          await new Promise(resolve => {
+            this.pendingResize = setTimeout(resolve, delay);
+          });
+          this.pendingResize = null;
+        }
+
+        // Use MapAnimationController for coordinated resize
+        await this.mapAnimations.queueMapResize(this.resizeFunction, 'sidebar-resize');
+        
+      } catch (error) {
+        console.warn('MapAnimationController resize failed, falling back to simple resize:', error);
+        // Fallback to simple resize
+        this.forceResize();
+      } finally {
+        this.isProcessing = false;
+      }
+    }
+
+    /**
+     * Fallback simple resize queue (when MapAnimationController is not available)
+     */
+    queueSimpleResize(delay = 0) {
+      if (delay > 0) {
+        this.pendingResize = setTimeout(() => {
+          this.forceResize();
+          this.pendingResize = null;
+        }, delay);
+      } else {
+        this.forceResize();
+      }
+    }
+
+    /**
+     * Force immediate resize (for critical cases)
+     */
+    forceResize() {
+      if (this.resizeFunction) {
+        requestAnimationFrame(() => {
+          try {
+            this.resizeFunction();
+          } catch (error) {
+            console.warn('Force map resize failed:', error);
+          }
+        });
+      }
+    }
+
+    /**
+     * Get performance metrics from MapAnimationController
+     */
+    getPerformanceMetrics() {
+      if (this.mapAnimations) {
+        return this.mapAnimations.getPerformanceMetrics();
+      }
+      return null;
     }
   }
 

@@ -15,6 +15,12 @@ body { overflow: hidden; }
     flex: 1;
     position: relative;
     min-height: 0; /* avoid reserved space/gaps at bottom */
+    /* Smooth transitions to match sidebar */
+    transition: flex-basis 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    /* Performance optimizations */
+    will-change: flex-basis;
+    transform: translateZ(0);
+    contain: layout style paint;
 }
 
 #map {
@@ -226,24 +232,36 @@ body { overflow: hidden; }
 /* Desktop sidebar collapsed state (toggled by header Data button) */
 @media (min-width: 769px) {
     #sidebar {
-        transition: width var(--animation-duration-bounce) var(--animation-easing), 
-                    border-color var(--animation-duration-bounce) var(--animation-easing),
-                    transform var(--animation-duration-bounce) var(--animation-easing),
-                    opacity var(--animation-duration-bounce) var(--animation-easing);
+        /* Dynamic width that can collapse */
+        width: 450px;
+        /* Smooth transitions for better UX */
+        transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                    opacity 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                    border-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+                    width 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        /* Performance optimizations */
+        will-change: transform, opacity, width;
+        transform: translateZ(0);
+        contain: layout style paint;
     }
     #sidebar.collapsed {
+        /* Collapse width to 0 to allow map to expand */
         width: 0 !important;
         min-width: 0 !important;
-        border-left-color: transparent !important;
-        overflow: hidden !important;
-        /* Enhanced collapse animation with transform and opacity */
         transform: translateX(100%);
         opacity: 0;
+        border-left-color: transparent !important;
+        overflow: hidden !important;
+        /* Stay in normal document flow to prevent layout shifts */
+        position: relative !important;
+        z-index: 1000 !important;
     }
     
-    /* Map container smooth resize to prevent flicker */
+    /* No transitions - instant changes for zero flicker */
     #map-container {
-        transition: margin-right var(--animation-duration-bounce) var(--animation-easing);
+        /* Performance optimizations */
+        will-change: flex-basis;
+        transform: translateZ(0);
     }
     
     /* Enhanced button state transitions - immediate response */

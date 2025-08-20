@@ -22,6 +22,8 @@ class MapController {
             }
         } catch (_) {}
         this.eventHandlersBound = false;
+        this.isTransitioning = false;
+        this.resizeObserver = null;
 
         // Apply initial theme site-wide via Theme module
         try { if (window.Theme && window.Theme.applyTheme) window.Theme.applyTheme(initialIsDark); } catch (_) {}
@@ -227,18 +229,14 @@ class MapController {
 
         // Wire up basemap toggle (if present)
         this.setupBasemapToggle();
+        
+        // No automatic resize detection needed - manual resize calls only
         // Ensure theme is applied on initial load (redundant with constructor safety)
         this.applyThemeForStyle(this.currentStyleName === 'dark_matter');
         
         // Wait for map to load before adding earthquake data
         this.map.on('load', () => {
             this.setupEarthquakeLayer();
-
-            // Mobile-specific: Force resize after load
-            setTimeout(() => {
-                this.map.resize();
-                if (window.Logger && window.Logger.debug) window.Logger.debug('Map resized after load');
-            }, 120);
             
             // Call app callback when map is ready
             if (this.app.mapReadyCallback) {
@@ -246,10 +244,10 @@ class MapController {
             }
         });
         
-        // Add window resize listener (debounced) for orientation changes
+        // Add window resize listener for orientation changes (no manual resize needed)
         this._onResize = () => {
-            clearTimeout(this._resizeTimer);
-            this._resizeTimer = setTimeout(() => { if (this.map) this.map.resize(); }, 150);
+            // MapLibre automatically handles window resize events
+            // No manual resize call needed
         };
         window.addEventListener('resize', this._onResize);
         
@@ -431,6 +429,81 @@ class MapController {
             duration: 1000
         });
     }
+
+    /**
+     * Optimized map resize with canvas preservation during transitions
+     */
+    resizeMap() {
+        if (!this.map) return;
+        
+        // Optimized resize with minimal canvas preservation
+        this.optimizedResize(() => {
+            try {
+                this.map.resize();
+            } catch (error) {
+                console.warn('Map resize failed:', error);
+            }
+        });
+    }
+
+    /**
+     * Optimized map resize with minimal canvas preservation
+     */
+    optimizedResize(resizeCallback) {
+        if (!this.map) {
+            resizeCallback();
+            return;
+        }
+
+        // Mark as transitioning to prevent other operations
+        this.isTransitioning = true;
+
+        // Get the canvas element
+        const canvas = this.map.getCanvas();
+        if (!canvas) {
+            resizeCallback();
+            this.isTransitioning = false;
+            return;
+        }
+
+        // Minimal canvas preservation for better performance
+        const originalPointerEvents = canvas.style.pointerEvents;
+        canvas.style.pointerEvents = 'none';
+
+        try {
+            // Use double requestAnimationFrame for optimal timing
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    // Perform resize
+                    resizeCallback();
+                    
+                    // Restore canvas immediately after resize
+                    canvas.style.pointerEvents = originalPointerEvents;
+                    this.isTransitioning = false;
+                });
+            });
+        } catch (error) {
+            // Restore canvas on error
+            canvas.style.pointerEvents = originalPointerEvents;
+            this.isTransitioning = false;
+            throw error;
+        }
+    }
+
+    /**
+     * Setup automatic resize detection using ResizeObserver
+     * This eliminates the need for manual map resize calls
+     */
+    setupAutoResize() {
+        // Removed - using manual resize calls for instant changes
+    }
+
+    /**
+     * Check if map is currently transitioning
+     */
+    isMapTransitioning() {
+        return this.isTransitioning;
+    }
 }
 
 // Make MapController available globally
@@ -455,6 +528,10 @@ MapController.prototype.destroy = function() {
     try {
         if (this.popup) { this.popup.remove(); this.popup = null; }
     } catch(_) {}
+    try {
+        if (this.resizeObserver) { this.resizeObserver.disconnect(); }
+    } catch(_) {}
+    this.resizeObserver = null;
     try {
         if (this.map) { this.map.remove(); this.map = null; }
     } catch(_) {}
