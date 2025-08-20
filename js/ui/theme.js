@@ -26,10 +26,18 @@
     const mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
     return !!(mq && mq.matches);
   }
-  function applyTheme(isDark){
+  
+  // Enhanced theme application with smooth transitions
+  function applyTheme(isDark, options = {}) {
     try {
       const root = document.documentElement;
       const body = document.body;
+      
+      // Prevent transitions during initial load to avoid flicker
+      if (options.preventTransitions) {
+        root.style.setProperty('--theme-transition-disabled', 'true');
+      }
+      
       if (isDark) {
         root.setAttribute('data-theme', 'dark');
         if (body) body.classList.add('sl-theme-dark');
@@ -37,8 +45,56 @@
         root.removeAttribute('data-theme');
         if (body) body.classList.remove('sl-theme-dark');
       }
+      
+      // Re-enable transitions after a short delay
+      if (options.preventTransitions) {
+        setTimeout(() => {
+          root.style.removeProperty('--theme-transition-disabled');
+        }, 50);
+      }
+      
+      // Emit theme change event for coordination
+      if (options.emitEvent !== false) {
+        window.dispatchEvent(new CustomEvent('themeChanged', { 
+          detail: { isDark, preference: getPreference() } 
+        }));
+      }
     } catch(_) {}
   }
+  
+  // Synchronous theme initialization to prevent race conditions
+  function initializeThemeSynchronously() {
+    const savedTheme = getPreference();
+    const isDark = isDarkFromPreference(savedTheme);
+    
+    // Apply theme immediately with transitions disabled to prevent flicker
+    applyTheme(isDark, { preventTransitions: true, emitEvent: false });
+    
+    return { isDark, preference: savedTheme };
+  }
+  
+  // Enhanced theme application with coordination
+  function applyThemeWithCoordination(isDark, options = {}) {
+    // Apply UI theme
+    applyTheme(isDark, options);
+    
+    // Coordinate with map if available
+    if (window.MapController && window.MapController.instance) {
+      const targetStyle = isDark ? 'dark_matter' : 'positron';
+      if (window.MapController.instance.currentStyleName !== targetStyle) {
+        // Use animation system if available for smooth coordination
+        if (window.AnimationController) {
+          window.AnimationController.queueAnimation(async () => {
+            await window.MapController.instance.setBasemap(targetStyle);
+          }, 'theme-coordination');
+        } else {
+          // Fallback to immediate change
+          window.MapController.instance.setBasemap(targetStyle);
+        }
+      }
+    }
+  }
+  
   function listenToSystemChanges(callback){
     const mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
     if (!mq) return () => {};
@@ -67,6 +123,20 @@
   }
 
   // Expose and apply immediately so variables are ready before main app init
-  window.Theme = { getPreference, setPreference, isDarkFromPreference, applyTheme, listenToSystemChanges, applyMagnitudeCssVars };
-  try { applyMagnitudeCssVars(); } catch(_) {}
+  window.Theme = { 
+    getPreference, 
+    setPreference, 
+    isDarkFromPreference, 
+    applyTheme, 
+    applyThemeWithCoordination,
+    initializeThemeSynchronously,
+    listenToSystemChanges, 
+    applyMagnitudeCssVars 
+  };
+  
+  // Initialize theme synchronously to prevent race conditions
+  try { 
+    applyMagnitudeCssVars(); 
+    initializeThemeSynchronously();
+  } catch(_) {}
 })();

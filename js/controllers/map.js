@@ -112,23 +112,44 @@ class MapController {
     setupBasemapToggle() {
         const el = document.getElementById('basemap-toggle');
         if (!el) return;
-        // Initialize UI to current style
-        el.checked = this.currentStyleName === 'dark_matter';
-        // Initialize site theme to match current style
-        this.applyThemeForStyle(el.checked);
+        
+        // Get the current theme state from the Theme system to prevent race conditions
+        const currentTheme = window.Theme ? window.Theme.getPreference() : 'system';
+        const isDark = window.Theme ? window.Theme.isDarkFromPreference(currentTheme) : false;
+        
+        // Initialize UI to match current theme state (not current map style)
+        el.checked = isDark;
+        
+        // Ensure map style matches theme preference
+        const targetStyle = isDark ? 'dark_matter' : 'positron';
+        if (this.currentStyleName !== targetStyle) {
+            this.setBasemap(targetStyle);
+        }
+        
         // Shoelace emits "sl-change"; read el.checked
         el.addEventListener('sl-change', () => {
             const isDark = !!el.checked;
             const target = isDark ? 'dark_matter' : 'positron';
-            // Apply site theme immediately for responsive UI
-            this.applyThemeForStyle(isDark);
+            
+            // Use coordinated theme application for smooth transitions
+            if (window.Theme && window.Theme.applyThemeWithCoordination) {
+                window.Theme.applyThemeWithCoordination(isDark);
+            } else {
+                // Fallback to direct theme application
+                this.applyThemeForStyle(isDark);
+            }
+            
             // Persist explicit user preference (overrides system)
             try {
-                if (window.Theme && window.Theme.setPreference) window.Theme.setPreference(isDark ? 'dark' : 'light');
+                if (window.Theme && window.Theme.setPreference) {
+                    window.Theme.setPreference(isDark ? 'dark' : 'light');
+                }
                 if (window.Persist && window.Persist.setItem && window.Persist.keys) {
                     window.Persist.setItem(window.Persist.keys.basemap, isDark ? 'dark' : 'light');
                 }
             } catch (_) {}
+            
+            // Only change map if style is different
             if (target !== this.currentStyleName) {
                 this.setBasemap(target);
             }
@@ -136,8 +157,14 @@ class MapController {
 
         // Listen to OS theme changes when in system mode
         this._unsubSystemPref = (window.Theme && window.Theme.listenToSystemChanges ? window.Theme.listenToSystemChanges : () => () => {})((isDarkNow) => {
-            // Apply and sync
-            this.applyThemeForStyle(isDarkNow);
+            // Use coordinated theme application for smooth transitions
+            if (window.Theme && window.Theme.applyThemeWithCoordination) {
+                window.Theme.applyThemeWithCoordination(isDarkNow);
+            } else {
+                // Fallback to direct theme application
+                this.applyThemeForStyle(isDarkNow);
+            }
+            
             const target = isDarkNow ? 'dark_matter' : 'positron';
             // Only follow system when preference is 'system'
             const prefNow = (window.Theme && window.Theme.getPreference) ? window.Theme.getPreference() : 'system';
@@ -146,6 +173,12 @@ class MapController {
             } else {
                 this.syncBasemapToggleUI();
             }
+        });
+        
+        // Listen to theme change events for coordination
+        window.addEventListener('themeChanged', (event) => {
+            const { isDark } = event.detail;
+            this.syncBasemapToggleUI();
         });
     }
 

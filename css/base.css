@@ -72,6 +72,36 @@
     --shadow-1: 0 1px 3px rgba(0,0,0,0.08);
     --shadow-2: 0 4px 12px rgba(0,0,0,0.12);
     --shadow-3: 0 8px 25px rgba(0,0,0,0.15);
+    
+    /* Theme transition control */
+    --theme-transition-disabled: false;
+}
+
+/* Smooth theme transitions - disabled during initial load to prevent flicker */
+:root:not([style*="--theme-transition-disabled: true"]) {
+    transition: 
+        --brand-600 var(--animation-duration-normal) var(--animation-easing),
+        --text-1 var(--animation-duration-normal) var(--animation-easing),
+        --text-2 var(--animation-duration-normal) var(--animation-easing),
+        --text-muted var(--animation-duration-normal) var(--animation-easing),
+        --text-3 var(--animation-duration-normal) var(--animation-easing),
+        --surface-0 var(--animation-duration-normal) var(--animation-easing),
+        --surface-1 var(--animation-duration-normal) var(--animation-easing),
+        --glass-bg var(--animation-duration-normal) var(--animation-easing),
+        --glass-border var(--animation-duration-normal) var(--animation-easing),
+        --border-1 var(--animation-duration-normal) var(--animation-easing),
+        --border-2 var(--animation-duration-normal) var(--animation-easing),
+        --legend-line var(--animation-duration-normal) var(--animation-easing),
+        --track-bg var(--animation-duration-normal) var(--animation-easing),
+        --thumb-bg var(--animation-duration-normal) var(--animation-easing),
+        --ring-color var(--animation-duration-normal) var(--animation-easing),
+        --seg-divider var(--animation-duration-normal) var(--animation-easing),
+        --shadow-1 var(--animation-duration-normal) var(--animation-easing),
+        --shadow-2 var(--animation-duration-normal) var(--animation-easing),
+        --shadow-3 var(--animation-duration-normal) var(--animation-easing),
+        --moon-bg var(--animation-duration-normal) var(--animation-easing),
+        --light-sky var(--animation-duration-normal) var(--animation-easing),
+        --sl-color-primary-100 var(--animation-duration-normal) var(--animation-easing);
 }
 
 /* Dark theme */
@@ -135,6 +165,11 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    
+    /* Smooth transitions for body theme changes */
+    transition: 
+        background-color var(--animation-duration-normal) var(--animation-easing),
+        color var(--animation-duration-normal) var(--animation-easing);
 }
 
 .container {

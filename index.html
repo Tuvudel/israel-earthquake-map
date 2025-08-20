@@ -26,44 +26,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/animations.css">
-    <script>
-        // Apply saved/system theme ASAP to minimize flash
-        (function () {
-            try {
-                // Prefer PersistService namespaced key if present, else fallback
-                var pref = (function(){
-                    try {
-                        var ns = localStorage.getItem('iem:prefs.theme');
-                        if (ns) return ns;
-                    } catch (e) {}
-                    try {
-                        return localStorage.getItem('theme');
-                    } catch (e2) { return null; }
-                })() || 'system';
-                var isDark = (pref === 'dark') || (pref !== 'light' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-                var root = document.documentElement;
-                if (isDark) {
-                    root.setAttribute('data-theme', 'dark');
-                } else {
-                    root.removeAttribute('data-theme');
-                }
-                var applyBodyClass = function () {
-                    var b = document.body;
-                    if (!b) return;
-                    if (isDark) {
-                        b.classList.add('sl-theme-dark');
-                    } else {
-                        b.classList.remove('sl-theme-dark');
-                    }
-                };
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', applyBodyClass);
-                } else {
-                    applyBodyClass();
-                }
-            } catch (e) { /* no-op */ }
-        })();
-    </script>
+    <!-- Theme initialization handled by js/ui/theme.js -->
 </head>
 <body>
     <div id="app">
