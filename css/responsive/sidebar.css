@@ -36,9 +36,13 @@
         border-left: none !important;
         box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15) !important;
         overflow-y: auto !important;
-        transition: transform var(--animation-duration-bounce) var(--animation-easing) !important;
+        transition: transform var(--animation-duration-bounce) var(--animation-easing),
+                    height var(--animation-duration-normal) var(--animation-easing) !important;
         /* Ensure smooth animations by keeping element in DOM */
         visibility: visible !important;
+        /* Performance optimizations for touch gestures */
+        will-change: transform, height;
+        touch-action: pan-y;
     }
     #sidebar.show { 
         transform: translateY(0) !important; 

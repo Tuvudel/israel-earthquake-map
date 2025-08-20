@@ -349,6 +349,14 @@
             // Add show class to trigger CSS animation
             sidebar.classList.add('show');
             console.log('Added show class to sidebar, classes:', sidebar.className);
+            
+            // Initialize mobile animations after sidebar is shown
+            setTimeout(() => {
+              if (global.MobileAnimations) {
+                global.MobileAnimations.init(sidebar);
+              }
+            }, 100);
+            
             this.resizeSoon(100);
           },
           close: () => {
@@ -357,6 +365,11 @@
             mobile.dataBtn.classList.remove('active');
             mobile.dataBtn.setAttribute('aria-pressed', 'false');
             mapContainer && mapContainer.classList.remove('sidebar-open');
+            
+            // Clean up mobile animations
+            if (global.MobileAnimations) {
+              global.MobileAnimations.destroy();
+            }
             
             // Remove show class to trigger CSS animation
             sidebar.classList.remove('show');

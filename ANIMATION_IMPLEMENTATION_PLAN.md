@@ -64,7 +64,6 @@ Comprehensive animation system implementation to add smooth, modern animations f
 - Add touch gesture support (swipe-to-close)
 
 ### Phase 3: Tab Switching Animations
-**Files**: `js/ui/tabAnimations.js`, `css/layout.css`
 
 #### 3.1 Content Transition System
 - Override Shoelace's default tab switching behavior
