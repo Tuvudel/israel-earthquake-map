@@ -107,32 +107,20 @@
                             </div>
                         </div>
 
-                        <!-- Country Filter (custom single-select styled like multiselect) -->
+                        <!-- Country Filter (Shoelace multiselect) -->
                         <div class="filter-group">
                             <label class="filter-label">Country:</label>
-                            <div class="custom-multiselect" id="country-multiselect">
-                                <div class="multiselect-trigger">
-                                    <span class="multiselect-text">All Countries</span>
-                                    <span class="multiselect-arrow">&darr;</span>
-                                </div>
-                                <div class="multiselect-dropdown">
-                                    <!-- Options populated by JS as radio inputs -->
-                                </div>
-                            </div>
+                            <sl-select id="country-multiselect" multiple placeholder="All Countries" clearable>
+                                <!-- Options populated by JS -->
+                            </sl-select>
                         </div>
 
-                        <!-- Area Filter (custom single-select styled like multiselect) -->
+                        <!-- Area Filter (Shoelace multiselect) -->
                         <div class="filter-group">
                             <label class="filter-label">Area:</label>
-                            <div class="custom-multiselect" id="area-multiselect">
-                                <div class="multiselect-trigger">
-                                    <span class="multiselect-text">All Areas</span>
-                                    <span class="multiselect-arrow">&darr;</span>
-                                </div>
-                                <div class="multiselect-dropdown">
-                                    <!-- Options populated by JS as radio inputs -->
-                                </div>
-                            </div>
+                            <sl-select id="area-multiselect" multiple placeholder="All Areas" clearable>
+                                <!-- Options populated by JS -->
+                            </sl-select>
                         </div>
 
                         <!-- Date Filter (Relative | Range) -->
@@ -425,7 +413,7 @@
     <script src="js/ui/filters/components/MagnitudeSlider.js"></script>
     <script src="js/ui/filters/components/YearSlider.js"></script>
     <script src="js/ui/filters/components/DateMode.js"></script>
-    <script src="js/ui/filters/components/SingleSelect.js"></script>
+
     <script src="js/ui/filters/index.js"></script>
     <script src="js/ui/statistics.js"></script>
     <script src="js/ui/table.js"></script>

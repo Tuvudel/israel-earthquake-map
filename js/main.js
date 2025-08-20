@@ -234,10 +234,10 @@ class EarthquakeApp {
         if (yearLimits) this.filters.updateYearRangeLimits(yearLimits.min, yearLimits.max);
 
         const countries = window.FilterService.computeCountryOptions(allData, params);
-        this.filters.setCountryOptions(countries, true);
+        this.filters.setCountryOptions(countries, false);
 
         const areas = window.FilterService.computeAreaOptions(allData, params);
-        this.filters.setAreaOptions(areas, true);
+        this.filters.setAreaOptions(areas, false);
 
         const availableMagnitudes = window.FilterService.computeAvailableMagnitudes(allData, params);
         this.filters.updateMagnitudeAvailability(availableMagnitudes);

@@ -1,17 +1,258 @@
 .filter-label { font-weight: 600; color: var(--text-2); font-size: 0.9rem; }
 
-/* Custom Single-select Dropdown */
-.custom-multiselect { position: relative; width: 220px; font-family: inherit; }
-.multiselect-trigger { display: flex; justify-content: space-between; align-items: center; background: var(--surface-0); border: 1px solid var(--border-1); border-radius: var(--radius-2); padding: 12px 14px; cursor: pointer; font-family: inherit; min-height: 44px; transition: all var(--transition-fast) var(--easing); }
-.multiselect-trigger:hover { border-color: var(--brand-600); box-shadow: var(--shadow-1); }
-.multiselect-arrow { font-size: 0.7rem; color: var(--text-muted); transition: transform var(--transition-fast) var(--easing); }
-.custom-multiselect.open .multiselect-arrow { transform: rotate(180deg); }
-.multiselect-dropdown { position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: var(--surface-0); border: 1px solid var(--border-1); border-radius: var(--radius-2); box-shadow: var(--shadow-3); max-height: 260px; overflow: auto; font-family: inherit; display: none; z-index: 1200; backdrop-filter: blur(8px); }
-.custom-multiselect.open .multiselect-dropdown { display: block; }
-.multiselect-option { padding: 8px 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-.multiselect-option:hover { background: var(--surface-1); }
-.multiselect-option input[type="checkbox"] { margin: 0; }
-.multiselect-option label { display: flex; align-items: center; gap: 8px; cursor: pointer; margin: 0; flex: 1; }
+/* Shoelace Select Styling for Filter Controls */
+.filter-group sl-select {
+    width: 220px;
+    --sl-input-font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    --sl-input-font-size-medium: 0.9rem;
+    --sl-input-border-radius-medium: var(--radius-2);
+    --sl-input-border-color: var(--border-1);
+    --sl-input-border-color-hover: var(--brand-600);
+    --sl-input-background-color: var(--surface-0);
+    --sl-input-color: var(--text-1);
+    --sl-input-shadow: var(--shadow-1);
+    --sl-input-shadow-hover: var(--shadow-2);
+    --sl-input-shadow-focus: 0 0 0 3px var(--ring-color), var(--shadow-2);
+    
+    /* Additional font-related custom properties */
+    --sl-font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    --sl-font-size-medium: 0.9rem;
+}
+
+/* Dark mode styling for Shoelace select */
+:root[data-theme='dark'] .filter-group sl-select {
+    --sl-input-border-color: var(--border-2);
+    --sl-input-border-color-hover: var(--accent-600);
+    --sl-input-background-color: var(--surface-0);
+    --sl-input-color: var(--text-1);
+    --sl-input-placeholder-color: var(--text-1);
+    --sl-input-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 15px rgba(96, 165, 250, 0.25), 0 0 5px rgba(255, 255, 255, 0.1);
+    --sl-input-shadow-hover: 0 2px 14px rgba(0,0,0,0.5), 0 0 20px rgba(96,165,250,0.35), 0 0 8px rgba(255, 255, 255, 0.15);
+    --sl-input-shadow-focus: 0 6px 20px rgba(0,0,0,0.25), 0 0 15px rgba(96, 165, 250, 0.3), var(--shadow-2);
+    
+    /* Override Shoelace's default dark theme colors with our bluish theme */
+    --sl-color-primary-600: var(--accent-600);
+    --sl-color-primary-500: var(--accent-500);
+    --sl-color-primary-400: var(--accent-400);
+    --sl-color-neutral-0: var(--surface-0);
+    --sl-color-neutral-50: var(--surface-1);
+    --sl-color-neutral-100: var(--surface-2);
+    --sl-color-neutral-200: var(--border-1);
+    --sl-color-neutral-300: var(--border-2);
+    --sl-color-neutral-400: var(--text-3);
+    --sl-color-neutral-500: var(--text-2);
+    --sl-color-neutral-600: var(--text-1);
+    --sl-color-neutral-700: var(--text-1);
+    --sl-color-neutral-800: var(--text-1);
+    --sl-color-neutral-900: var(--text-1);
+    --sl-color-neutral-950: var(--surface-0);
+    
+    /* Additional font-related custom properties for dark mode */
+    --sl-font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    --sl-font-size-medium: 0.9rem;
+}
+
+/* Ensure dropdown options are properly styled */
+.filter-group sl-select::part(listbox) {
+    background: var(--surface-0);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-2);
+    box-shadow: var(--shadow-3);
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.filter-group sl-select::part(option) {
+    color: var(--text-1);
+    padding: 8px 12px;
+    cursor: pointer;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.filter-group sl-select::part(option):hover {
+    background: var(--surface-1);
+}
+
+.filter-group sl-select::part(option[selected]) {
+    background: var(--accent-600);
+    color: var(--text-on-accent);
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+/* Dark mode dropdown styling */
+:root[data-theme='dark'] .filter-group sl-select::part(listbox) {
+    background: var(--surface-0);
+    border: 1px solid var(--border-2);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6), 0 0 15px rgba(96, 165, 250, 0.25);
+}
+
+:root[data-theme='dark'] .filter-group sl-select::part(option) {
+    color: var(--text-1);
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+:root[data-theme='dark'] .filter-group sl-select::part(option):hover {
+    background: var(--surface-1);
+}
+
+:root[data-theme='dark'] .filter-group sl-select::part(option[selected]) {
+    background: var(--accent-600);
+    color: var(--text-on-accent);
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+/* Tag styling for multi-select */
+.filter-group sl-select::part(tag) {
+    background: var(--surface-2);
+    color: var(--text-1);
+    border-radius: var(--radius-1);
+    padding: 2px 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    margin: 2px;
+}
+
+.filter-group sl-select::part(tag__remove-button) {
+    color: var(--text-2);
+    opacity: 0.8;
+}
+
+.filter-group sl-select::part(tag__remove-button):hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+}
+
+/* Clear button styling */
+.filter-group sl-select::part(clear-button) {
+    color: var(--text-2);
+    opacity: 0.7;
+}
+
+.filter-group sl-select::part(clear-button):hover {
+    color: var(--text-1);
+    opacity: 1;
+}
+
+/* Dark mode tag styling */
+:root[data-theme='dark'] .filter-group sl-select::part(tag) {
+    background: var(--surface-2);
+    color: var(--text-1);
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+:root[data-theme='dark'] .filter-group sl-select::part(tag__remove-button) {
+    color: var(--text-2);
+}
+
+:root[data-theme='dark'] .filter-group sl-select::part(tag__remove-button):hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+:root[data-theme='dark'] .filter-group sl-select::part(clear-button) {
+    color: var(--text-2);
+}
+
+:root[data-theme='dark'] .filter-group sl-select::part(clear-button):hover {
+    color: var(--text-1);
+}
+
+/* Additional font overrides with higher specificity */
+.filter-group sl-select::part(option) *,
+.filter-group sl-select::part(option) {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+:root[data-theme='dark'] .filter-group sl-select::part(option) *,
+:root[data-theme='dark'] .filter-group sl-select::part(option) {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+/* Even more specific overrides for Shoelace internal elements */
+.filter-group sl-select::part(listbox) sl-option,
+.filter-group sl-select::part(listbox) sl-option *,
+.filter-group sl-select::part(listbox) sl-option::part(base) {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+:root[data-theme='dark'] .filter-group sl-select::part(listbox) sl-option,
+:root[data-theme='dark'] .filter-group sl-select::part(listbox) sl-option *,
+:root[data-theme='dark'] .filter-group sl-select::part(listbox) sl-option::part(base) {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+/* Global font override for all Shoelace select elements */
+sl-select::part(option),
+sl-select::part(option) *,
+sl-select::part(option)::part(base) {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+:root[data-theme='dark'] sl-select::part(option),
+:root[data-theme='dark'] sl-select::part(option) *,
+:root[data-theme='dark'] sl-select::part(option)::part(base) {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+/* Force font override for all text elements in dropdown */
+sl-select::part(listbox) *,
+sl-select::part(listbox) * * {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+:root[data-theme='dark'] sl-select::part(listbox) *,
+:root[data-theme='dark'] sl-select::part(listbox) * * {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+/* Ultimate font override for all Shoelace elements */
+sl-select,
+sl-select *,
+sl-select * *,
+sl-select * * * {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+:root[data-theme='dark'] sl-select,
+:root[data-theme='dark'] sl-select *,
+:root[data-theme='dark'] sl-select * *,
+:root[data-theme='dark'] sl-select * * * {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+/* Nuclear option - override everything in the entire document for Shoelace */
+sl-select,
+sl-select *,
+sl-select * *,
+sl-select * * *,
+sl-select * * * *,
+sl-select * * * * * {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+:root[data-theme='dark'] sl-select,
+:root[data-theme='dark'] sl-select *,
+:root[data-theme='dark'] sl-select * *,
+:root[data-theme='dark'] sl-select * * *,
+:root[data-theme='dark'] sl-select * * * *,
+:root[data-theme='dark'] sl-select * * * * * {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+}
+
+/* Filter group spacing and layout */
+.filter-group {
+    margin-bottom: 16px;
+}
+
+.filter-group:last-child {
+    margin-bottom: 0;
+}
 
 /* Date filter (Relative | Range) */
 .date-mode-toggle { display: flex; gap: 6px; background: var(--surface-0); border: 1px solid var(--border-1); border-radius: var(--radius-2); padding: 2px; margin-bottom: 8px; flex: 1 1 auto; min-width: 0; }

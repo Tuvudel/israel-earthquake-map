@@ -2,6 +2,13 @@
 
 /* ===== TABLET STYLES (768px and below) ===== */
 @media (max-width: 768px) {
+	/* Shoelace Select Responsive Styling */
+	.filter-group sl-select {
+		width: 100% !important;
+		--sl-input-font-size-medium: 0.85rem;
+		--sl-input-padding-medium: 10px 12px;
+		--sl-input-height-medium: 40px;
+	}
     /* ===== FILTERS PANEL ===== */
     .filters-container { 
         flex-direction: column; 
@@ -107,6 +114,13 @@
 
 /* ===== SMALL MOBILE STYLES (480px and below) ===== */
 @media (max-width: 480px) {
+	/* Shoelace Select Small Mobile Styling */
+	.filter-group sl-select {
+		width: 100% !important;
+		--sl-input-font-size-medium: 0.9rem;
+		--sl-input-padding-medium: 8px 10px;
+		--sl-input-height-medium: 36px;
+	}
     /* ===== FILTERS ===== */
     .filters-container { 
         gap: 8px; 
@@ -121,6 +135,7 @@
         font-size: 1rem; 
         padding: 10px 12px; 
     }
+    
     .year-group { 
         width: 100%; 
     }

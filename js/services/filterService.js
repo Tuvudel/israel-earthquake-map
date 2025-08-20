@@ -14,10 +14,20 @@
   };
   const byCountry = (data, country) => {
     if (!country || country === 'all') return data;
+    // Handle both single values (backward compatibility) and arrays (new multiselect)
+    if (Array.isArray(country)) {
+      if (country.includes('all')) return data;
+      return data.filter(f => country.includes(((f.properties || {}).country || '').trim()));
+    }
     return data.filter(f => ((f.properties || {}).country || '').trim() === country);
   };
   const byArea = (data, area) => {
     if (!area || area === 'all') return data;
+    // Handle both single values (backward compatibility) and arrays (new multiselect)
+    if (Array.isArray(area)) {
+      if (area.includes('all')) return data;
+      return data.filter(f => area.includes(((f.properties || {}).area || '').trim()));
+    }
     return data.filter(f => ((f.properties || {}).area || '').trim() === area);
   };
   const byTime = (data, dateFilter, yearRange) => {

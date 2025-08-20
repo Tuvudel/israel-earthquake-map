@@ -70,7 +70,7 @@ body.filters-pane-open #filters-panel {
 	display: flex;
 	align-items: center;
 	position: absolute;
-	top: 6px;
+	top: 8px;
 	right: 5px; /* align with page edge/padding */
 	z-index: 5000; /* above backdrops and pane */
 	gap: 10px;
