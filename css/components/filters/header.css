@@ -1,0 +1,251 @@
+/* Header styles (extracted from pane.css) */
+
+/* Header panel */
+#filters-panel {
+	position: sticky;
+	top: 0;
+	z-index: 3000; /* ensure header & pane are above global backdrops */
+	background: var(--glass-bg);
+	backdrop-filter: blur(var(--glass-blur));
+	border-bottom: 1px solid var(--glass-border);
+	padding: 8px 0;
+	margin-bottom: 0;
+	box-shadow: var(--shadow-1);
+}
+
+/* When filters pane is open, keep header solid and non-blurred so the pane stays bright */
+#filters-panel:has(#filters-pane.filters-container.show),
+body.filters-pane-open #filters-panel {
+	background: var(--surface-0);
+	backdrop-filter: none;
+}
+:root[data-theme='dark'] #filters-panel:has(#filters-pane.filters-container.show),
+:root[data-theme='dark'] body.filters-pane-open #filters-panel {
+	background: var(--surface-0);
+}
+
+/* Make header use full page width so title/credits can align to true page left */
+#filters-panel .container {
+	max-width: none;
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: 16px; /* add breathing room from screen edge */
+	padding-right: 16px;
+}
+
+#filters-panel .header-layout {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	position: static; /* allow header actions to anchor to #filters-panel (full-width) */
+	width: 100%;
+}
+
+.title-section {
+	flex: 0 0 auto;
+	text-align: left;
+	margin-left: 0;
+	padding-left: 0;
+}
+
+#filters-panel h1 {
+	font-size: 1.6rem;
+	margin: 0 0 8px 0;
+	color: var(--text-1);
+	font-weight: 600;
+	letter-spacing: -0.02em;
+}
+
+.last-updated {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	font-size: 0.8rem;
+	color: var(--text-muted);
+}
+
+/* Header actions (top-right placement) */
+.header-actions {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	position: absolute;
+	top: 6px;
+	right: 5px; /* align with page edge/padding */
+	z-index: 5000; /* above backdrops and pane */
+}
+.header-actions .control-btn {
+	right: 10px;
+	top: 1px;
+	margin: 0px 5px 0px 0px;
+}	
+.header-actions .basemap-toggle-row {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	color: var(--text-2);
+}
+.header-actions .basemap-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 0; /* remove extra inline spacing */
+}
+.header-actions .basemap-icon svg {
+	display: block; /* avoid baseline alignment gaps */
+	width: 18px;
+	height: 18px;
+}
+.header-actions sl-switch#basemap-toggle {
+	vertical-align: middle; /* nudge inline alignment */
+}
+
+/* Strong divider between Events / Analytics tabs (Shoelace) */
+sl-tab[slot="nav"]::part(base) {
+	padding-inline: 10px;
+}
+sl-tab[slot="nav"]:not(:first-of-type)::part(base) {
+	border-left: 4px solid var(--seg-divider);
+	margin-left: 10px;
+}
+
+/* Modern header control buttons (from mockup) */
+.control-btn {
+	background: var(--surface-0);
+	border: 1px solid var(--border-1);
+	border-radius: var(--radius-2);
+	padding: 10px 16px;
+	cursor: pointer;
+	transition: all var(--transition-med) var(--easing);
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--text-2);
+	min-height: 44px;
+	box-shadow: var(--shadow-1);
+	position: relative;
+}
+.control-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring-color), var(--shadow-2); }
+.control-btn:hover {
+	background: var(--surface-1);
+	border-color: var(--border-2);
+	transform: translateY(-1px);
+	box-shadow: var(--shadow-2);
+}
+.control-btn.active {
+	background: var(--accent-600);
+	border-color: var(--accent-600);
+	color: var(--text-on-accent);
+	transform: translateY(-1px);
+	box-shadow: var(--shadow-3);
+}
+.control-btn svg { width: 20px; height: 20px; fill: currentColor; display: inline-block; }
+.control-btn .btn-text { font-weight: 600; }
+
+/* Dark theme: mirror mobile button look */
+:root[data-theme='dark'] .control-btn {
+	box-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 10px rgba(96, 165, 250, 0.18);
+	border-color: var(--border-2);
+	color: var(--text-1);
+}
+:root[data-theme='dark'] .control-btn:hover {
+	border-color: var(--accent-600);
+	box-shadow: 0 2px 14px rgba(0,0,0,0.5), 0 0 10px rgba(96,165,250,0.25);
+}
+:root[data-theme='dark'] .control-btn:focus-visible {
+	outline: none;
+	box-shadow: 0 6px 20px rgba(0,0,0,0.25), var(--shadow-2);
+}
+:root[data-theme='dark'] .control-btn.active {
+	background: var(--accent-600);
+	border-color: var(--accent-600);
+	color: var(--text-on-accent);
+	box-shadow: 0 8px 28px rgba(0,0,0,0.28);
+}
+
+
+
+/* Credits section */
+.credits-container { position: relative; }
+.credits-trigger {
+	color: var(--text-2);
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 0.75rem;
+	background: var(--surface-0);
+	border: 1px solid var(--border-1);
+	border-radius: 20px;
+	padding: 4px 10px;
+	font: inherit;
+	font-weight: 500;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	transition: all var(--transition-fast) var(--easing);
+	box-shadow: var(--shadow-1);
+}
+.credits-trigger:hover {
+	background: var(--surface-1);
+	border-color: var(--border-2);
+	transform: translateY(-1px);
+	box-shadow: var(--shadow-2);
+}
+.credits-popup {
+	position: absolute;
+	top: calc(100% + 8px);
+	left: 0;
+	background: var(--glass-bg);
+	backdrop-filter: blur(var(--glass-blur));
+	border: 1px solid var(--glass-border);
+	border-radius: var(--radius-2);
+	padding: 16px;
+	box-shadow: var(--shadow-3);
+	z-index: 1000;
+	min-width: 280px;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(-4px);
+	transition: opacity var(--transition-fast) var(--easing), visibility var(--transition-fast) var(--easing), transform var(--transition-fast) var(--easing);
+	font-size: 0.8rem;
+	line-height: 1.5;
+}
+.credits-popup div { margin-bottom: 5px; }
+.credits-popup div:last-child { margin-bottom: 0; }
+.credits-popup a { color: var(--brand-600); text-decoration: none; }
+.credits-popup a:hover { text-decoration: underline; }
+.credits-popup .maptiler-logo-link { display: inline-flex; align-items: center; gap: 6px; margin-right: 6px; }
+.credits-popup .maptiler-logo { height: 16px; width: auto; vertical-align: middle; }
+.credits-container:hover .credits-popup,
+.credits-container.open .credits-popup { 
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Styling for me-section */
+.me-section { 
+    display: inline-flex; 
+    gap: 8px; 
+    align-items: center; 
+}
+.me-link { 
+    display: inline-flex; 
+    align-items: center; 
+    opacity: 0.8;
+    transition: opacity var(--transition-fast) var(--easing);
+}
+.me-link:hover { 
+    opacity: 1;
+}
+.me-icon { 
+    width: 16px; 
+    height: 16px; 
+    display: block; 
+}
+
+/* Dark mode: add white glow to GitHub/LinkedIn icons for better visibility */
+:root[data-theme='dark'] .me-icon {
+	filter: drop-shadow(0 0 2px rgba(255,255,255,0.8)) drop-shadow(0 0 4px rgba(255,255,255,0.4));
+}

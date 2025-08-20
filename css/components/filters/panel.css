@@ -1,0 +1,75 @@
+/* Filters pane overlay styles (extracted from pane.css) */
+
+.filters-container {
+	display: flex;
+	gap: 30px;
+	align-items: flex-start;
+	flex-wrap: wrap;
+}
+
+/* Unified Filters Pane (top-sheet overlay within header) */
+#filters-pane.filters-container {
+	/* hidden by default; opened via .show */
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	background: var(--glass-bg);
+	backdrop-filter: blur(var(--glass-blur));
+	border-top: 1px solid var(--glass-border);
+	box-shadow: var(--shadow-2);
+	padding: 16px 20px;
+	z-index: 4000; /* above any backdrop */
+	max-height: 60vh;
+	overflow-y: auto;
+	display: flex;
+	gap: 30px;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	/* animation state */
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(-8px);
+	pointer-events: none; /* prevent interaction when hidden */
+	transition: opacity var(--transition-med) var(--easing), transform var(--transition-med) var(--easing), visibility 0s linear var(--transition-med);
+}
+#filters-pane.filters-container.show {
+	opacity: 1 !important;
+	visibility: visible !important;
+	transform: translateY(0) !important;
+	pointer-events: auto !important;
+	/* When open, make the pane itself more opaque and avoid sampling the dark backdrop */
+	background: rgba(255,255,255,0.95) !important;
+	backdrop-filter: none !important;
+	isolation: isolate; /* prevent ancestor blur/dim from affecting pane */
+	filter: none !important; /* guard against inherited filter effects */
+	transition: opacity var(--transition-med) var(--easing), transform var(--transition-med) var(--easing);
+}
+
+/* Dark theme: stronger opaque panel while open for readability */
+:root[data-theme='dark'] #filters-pane.filters-container.show {
+	background: var(--surface-0) !important;
+}
+
+/* Desktop: allow dropdowns to overflow the pane and tighten spacing */
+@media (min-width: 1024px) {
+	#filters-pane.filters-container { overflow: visible; gap: 18px; }
+}
+
+/* Backdrop for filters (injected via JS) */
+#filters-backdrop {
+	position: fixed;
+	inset: 0;
+	background: rgba(0,0,0,0.25);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 180ms ease, visibility 0s linear 180ms;
+	z-index: 1000; /* must stay well under the pane (2000) */
+	pointer-events: none; /* never block interaction with pane */
+}
+#filters-backdrop.show {
+	opacity: 1;
+	visibility: visible;
+	transition: opacity 180ms ease;
+	pointer-events: none; /* ensure backdrop never captures clicks */
+}

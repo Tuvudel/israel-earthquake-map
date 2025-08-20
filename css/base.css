@@ -50,6 +50,20 @@
     --mag-strong: #d6553f;
     --mag-major: #9e2f3a;
 
+    /* Additional text colors */
+    --text-3: #6b7280; /* tertiary text, same as text-muted for better contrast */
+    
+    /* Shoelace component colors */
+    --sl-color-primary-100: rgba(59, 130, 246, 0.1); /* light brand color for highlights */
+    
+    /* Theme-specific colors */
+    --sun-primary: #f59e0b; /* amber-500 */
+    --sun-secondary: #fbbf24; /* amber-400 */
+    --moon-bg: #f1f5f9; /* slate-100 */
+    --light-sky: #e2e8f0; /* slate-200 */
+    --pure-white: #ffffff;
+    --pure-black: #000000;
+
     /* Radii */
     --radius-1: 8px;
     --radius-2: 12px;
@@ -92,6 +106,20 @@
     --shadow-1: 0 1px 3px rgba(0,0,0,0.4);
     --shadow-2: 0 4px 12px rgba(0,0,0,0.5);
     --shadow-3: 0 8px 25px rgba(0,0,0,0.6);
+    
+    /* Theme-specific colors (dark theme) */
+    --sun-primary: #f59e0b; /* amber-500 - same in dark */
+    --sun-secondary: #fbbf24; /* amber-400 - same in dark */
+    --moon-bg: #1e293b; /* slate-800 - darker for dark theme */
+    --light-sky: #334155; /* slate-700 - darker for dark theme */
+    --pure-white: #ffffff;
+    --pure-black: #000000;
+    
+    /* Additional text colors (dark theme) */
+    --text-3: #cbd5e1; /* tertiary text, lighter than text-muted but with better contrast */
+    
+    /* Shoelace component colors (dark theme) */
+    --sl-color-primary-100: rgba(96, 165, 250, 0.15); /* light brand color for highlights */
 }
 
 body {

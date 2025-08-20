@@ -71,10 +71,6 @@
 #year-range-container { overflow: visible; }
 
 
-/* Mobile: prevent horizontal overflow from pips expanding beyond the container */
-@media (max-width: 768px) {
-	#year-range-slider .noUi-pips,
-	#magnitude-range-slider .noUi-pips { width: 100% !important; transform: none !important; }
-}
+
 
 

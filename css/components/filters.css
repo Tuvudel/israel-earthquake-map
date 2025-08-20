@@ -1,5 +1,1 @@
-@import url('./filters/pane.css');
-@import url('./filters/layout.css');
-@import url('./filters/controls.css');
-@import url('./filters/sliders.css');
-@import url('./filters/date.css');
+@import url('./filters/index.css');

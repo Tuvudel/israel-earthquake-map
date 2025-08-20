@@ -1,3 +1,15 @@
+/* Sidebar styles - combines table and statistics components */
+
+/* ===== STATISTICS PANEL ===== */
+/* Statistics panel (extracted from css/styles.css) */
+#statistics-panel { padding: 16px; border-bottom: 1px solid var(--border-1); color: var(--text-1); }
+#statistics-panel h2 { font-size: 1.3rem; margin-bottom: 16px; color: var(--text-2); }
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat-item { text-align: center; padding: 14px; background: var(--surface-1); border: 1px solid var(--border-1); border-radius: var(--radius-1); }
+.stat-value { font-size: 1.5rem; font-weight: bold; color: var(--brand-600); margin-bottom: 5px; }
+.stat-label { font-size: 0.8rem; color: var(--text-muted); line-height: 1.2; }
+
+/* ===== DATA TABLE ===== */
 /* Data table (extracted from css/styles.css) */
 .table-container { flex: 1; overflow-y: auto; overflow-x: hidden; border: 0; border-radius: 0; }
 /* prevent horizontal scroll within the sidebar for the table */
@@ -31,11 +43,10 @@
 .mag-cell { text-align: center; }
 .mag-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 28px; padding: 0 8px; border-radius: 9999px; color: var(--text-on-accent); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.02em; box-shadow: 0 0 0 1px rgba(0,0,0,0.04) inset; }
 .mag-badge.minor { background-color: var(--mag-minor); }
-.mag-badge.light { background-color: var(--mag-light); color: #2c3e50; }
-.mag-badge.moderate { background-color: var(--mag-moderate); color: #2c3e50; }
+.mag-badge.light { background-color: var(--mag-light); color: var(--text-1); }
+.mag-badge.moderate { background-color: var(--mag-moderate); color: var(--text-1); }
 .mag-badge.strong { background-color: var(--mag-strong); }
 .mag-badge.major { background-color: var(--mag-major); }
-@media (max-width: 480px) { .mag-badge { min-width: 24px; height: 24px; font-size: 0.8rem; padding: 0 6px; } }
 
 /* Sorting */
 .sortable { cursor: pointer; user-select: none; position: relative; }
@@ -84,14 +95,3 @@
 .detail-distance .detail-label, .detail-distance .detail-value { padding-left: 40px; }
 
 .felt-none { color: var(--text-3); }
-
-@media (max-width: 520px) {
-  /* Keep header in a row: magnitude/location left, time right */
-  .event-header { align-items: center; justify-content: space-between; flex-direction: row; }
-  .event-time { min-width: auto; text-align: right; align-items: flex-end; }
-  /* Keep all three detail items on one line with tighter spacing */
-  .event-details { grid-template-columns: minmax(60px, auto) 1fr auto; column-gap: 6px; }
-  .event-card { padding: 10px 12px; }
-  .event-magnitude .mag-badge { min-width: 30px; height: 30px; font-size: 0.85rem; padding: 0 8px; }
-  #earthquake-table th { padding: 10px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-}

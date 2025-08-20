@@ -1,0 +1,207 @@
+/* ===== TOGGLES RESPONSIVE STYLES ===== */
+
+/* ===== DESKTOP STYLES (769px+) ===== */
+@media (min-width: 769px) {
+    /* Hide mobile toggles on desktop */
+    .mobile-sidebar-toggle,
+    .mobile-legend-toggle,
+    .mobile-filters-toggle {
+        display: none !important;
+    }
+}
+
+/* ===== TABLET STYLES (768px and below) ===== */
+@media (max-width: 768px) {
+    /* ===== MOBILE TOGGLES ===== */
+    .mobile-sidebar-toggle,
+    .mobile-legend-toggle,
+    .mobile-filters-toggle { 
+        display: flex !important; 
+    }
+    .mobile-sidebar-toggle { 
+        position: fixed; 
+        bottom: 10px; 
+        right: 10px; 
+        top: auto; 
+        padding: 8px 12px; 
+        font-size: 0.75rem; 
+        min-height: 40px; 
+        border-radius: 20px; 
+        z-index: 1002; 
+    }
+    .mobile-legend-toggle { 
+        position: fixed; 
+        bottom: 10px; 
+        right: 90px; 
+        top: auto; 
+        padding: 8px 12px; 
+        font-size: 0.75rem; 
+        min-height: 40px; 
+        border-radius: 20px; 
+        z-index: 1002; 
+    }
+    .mobile-filters-toggle { 
+        position: fixed; 
+        bottom: 10px; 
+        right: 170px; 
+        top: auto; 
+        padding: 8px 12px; 
+        font-size: 0.75rem; 
+        min-height: 40px; 
+        border-radius: 20px; 
+        z-index: 1002; 
+    }
+    
+    /* ===== DESKTOP TOGGLES HIDDEN ===== */
+    #header-legend-toggle,
+    #header-filters-toggle,
+    #header-data-toggle { 
+        display: none !important; 
+    }
+}
+
+/* ===== SMALL MOBILE STYLES (480px and below) ===== */
+@media (max-width: 480px) {
+    /* ===== BASEMAP TOGGLE ===== */
+    .header-actions sl-switch#basemap-toggle::part(base) { 
+        --width: 54px; 
+    }
+    sl-switch#basemap-toggle::part(control) { 
+        height: 26px; 
+    }
+    sl-switch#basemap-toggle::part(thumb) { 
+        width: 26px; 
+        height: 26px; 
+        background-position: 50% 50% !important; 
+    }
+    sl-switch#basemap-toggle::part(control) {
+        background-image:
+            linear-gradient(180deg, rgba(255,255,255,0.30), rgba(255,255,255,0)),
+            conic-gradient(from 0deg at 18px 50%,
+                transparent 0 12deg, rgba(255,255,255,0.18) 12deg 12.8deg, transparent 12.8deg 24deg,
+                rgba(255,255,255,0.16) 24deg 24.8deg, transparent 24.8deg 36deg,
+                rgba(255,255,255,0.14) 36deg 36.8deg, transparent 36.8deg 180deg,
+                transparent 180deg 332deg, rgba(255,255,255,0.12) 332deg 332.8deg, transparent 332.8deg 344deg,
+                rgba(255,255,255,0.12) 344deg 344.8deg, transparent 344.8deg 360deg
+            ),
+            radial-gradient(circle at 18px 50%, rgba(253,230,138,0.55) 0%, rgba(253,230,138,0.0) 65%),
+            linear-gradient(60deg, var(--sun-primary), var(--sun-secondary));
+    }
+    
+    /* ===== MOBILE TOGGLES ===== */
+    .mobile-sidebar-toggle, 
+    .mobile-legend-toggle, 
+    .mobile-filters-toggle { 
+        display: inline-flex !important; 
+        position: absolute !important;
+        top: 5px !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        width: 35px !important;
+        height: 45px !important;
+        min-height: 28px !important;
+        padding: 0 !important;
+        border-radius: 14px !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 0 !important;
+        z-index: 6001 !important;
+        background-color: var(--surface-0) !important;
+        border: 1px solid var(--border-1) !important;
+        border-radius: var(--radius-2) !important;
+        box-shadow: var(--shadow-1) !important;
+        -webkit-tap-highlight-color: transparent;
+        outline: none;
+        transition: all var(--transition-fast) var(--easing) !important;
+    }
+    .mobile-legend-toggle { 
+        right: 162px !important; 
+    }
+    .mobile-filters-toggle { 
+        right: 121px !important; 
+    }
+    .mobile-sidebar-toggle { 
+        right: 80px !important; 
+    }
+    .mobile-legend-toggle .toggle-text,
+    .mobile-filters-toggle .toggle-text,
+    .mobile-sidebar-toggle .toggle-text { 
+        display: none !important; 
+    }
+    .mobile-legend-toggle .toggle-icon,
+    .mobile-filters-toggle .toggle-icon,
+    .mobile-sidebar-toggle .toggle-icon { 
+        font-size: 0.9rem !important; 
+    }
+    .mobile-legend-toggle svg,
+    .mobile-filters-toggle svg,
+    .mobile-sidebar-toggle svg { 
+        width: 18px; 
+        height: 18px; 
+        display: block; 
+        fill: currentColor; 
+    }
+    .mobile-legend-toggle.active,
+    .mobile-filters-toggle.active,
+    .mobile-sidebar-toggle.active {
+        background-color: var(--accent-600) !important;
+        border-color: var(--accent-600) !important;
+        color: var(--text-on-accent) !important;
+    }
+    .mobile-legend-toggle.active .toggle-text,
+    .mobile-filters-toggle.active .toggle-text,
+    .mobile-sidebar-toggle.active .toggle-text { 
+        color: var(--text-on-accent) !important; 
+    }
+    :root[data-theme='dark'] .mobile-legend-toggle,
+    :root[data-theme='dark'] .mobile-filters-toggle,
+    :root[data-theme='dark'] .mobile-sidebar-toggle {
+        box-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 10px rgba(96, 165, 250, 0.18) !important;
+        border-color: var(--border-2) !important;
+    }
+    .mobile-legend-toggle:hover,
+    .mobile-legend-toggle:focus-visible,
+    .mobile-filters-toggle:hover,
+    .mobile-filters-toggle:focus-visible,
+    .mobile-sidebar-toggle:hover,
+    .mobile-sidebar-toggle:focus-visible {
+        box-shadow: var(--shadow-2) !important;
+        transform: translateY(-1px) !important;
+        outline: none !important;
+    }
+}
+
+/* ===== VERY SMALL MOBILE (320px and below) ===== */
+@media (max-width: 320px) {
+    .mobile-sidebar-toggle { 
+        bottom: 15px; 
+        right: 15px; 
+        padding: 10px 14px; 
+    }
+    .toggle-icon { 
+        font-size: 1rem; 
+    }
+    .toggle-text { 
+        font-size: 0.75rem; 
+    }
+}
+
+/* ===== ULTRA-SMALL LAYOUT (360px and below) ===== */
+@media (max-width: 360px) {
+    .mobile-legend-toggle { 
+        top: 8px !important; 
+        right: 130px !important; 
+        left: auto !important; 
+    }
+    .mobile-filters-toggle { 
+        top: 8px !important; 
+        right: 94px !important; 
+        left: auto !important; 
+    }
+    .mobile-sidebar-toggle { 
+        top: 40px !important; 
+        right: 130px !important; 
+        left: auto !important; 
+    }
+}

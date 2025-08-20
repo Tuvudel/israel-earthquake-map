@@ -1,0 +1,59 @@
+/* ===== LEGEND RESPONSIVE STYLES ===== */
+
+/* ===== TABLET STYLES (768px and below) ===== */
+@media (max-width: 768px) {
+    /* ===== LEGEND ===== */
+    #map-legend { 
+        display: none; 
+    }
+    #map-legend.show { 
+        display: block; 
+        position: fixed; 
+        bottom: 10px; 
+        left: 10px; 
+        right: 10px; 
+        z-index: 999; 
+        max-height: 50vh; 
+        overflow-y: auto; 
+        min-width: auto; 
+        padding: 12px; 
+    }
+    .legend-section { 
+        margin-bottom: 10px; 
+    }
+    .legend-items { 
+        display: grid; 
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 5px; 
+    }
+}
+
+/* ===== SMALL MOBILE STYLES (480px and below) ===== */
+@media (max-width: 480px) {
+    /* ===== LEGEND ===== */
+    #map-legend { 
+        position: fixed; 
+        bottom: 10px; 
+        left: 10px; 
+        right: 10px; 
+        padding: 10px; 
+        max-height: 30vh; 
+        overflow-y: auto; 
+    }
+    #map-legend h3 { 
+        font-size: 1rem; 
+        margin-bottom: 10px; 
+    }
+    .legend-section h4 { 
+        font-size: 0.85rem; 
+        margin-bottom: 6px; 
+    }
+    .legend-item { 
+        font-size: 0.75rem; 
+        gap: 6px; 
+    }
+    .legend-circle { 
+        width: 10px; 
+        height: 10px; 
+    }
+}

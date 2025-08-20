@@ -33,12 +33,7 @@
 .date-filter-card .collapsible { min-height: 60px; }
 .date-filter-card .collapsible.is-hidden { min-height: 0; }
 
-/* On mobile, reduce min-height to prevent excessive spacing */
-@media (max-width: 768px) {
-    .date-filter-card .collapsible { min-height: 0 !important; }
-    .date-mode-toggle { margin-bottom: 4px !important; }
-    .relative-options { margin-top: 0px !important; margin-bottom: 0px !important; }
-}
+
 /* Match spacing below toggle for both modes */
 .date-filter-card #year-range-container { margin-top: 0px; }
 /* Optional: when range mode active, ensure toggle spans full width above slider */

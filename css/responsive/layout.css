@@ -1,0 +1,78 @@
+/* ===== LAYOUT RESPONSIVE STYLES ===== */
+
+/* ===== DESKTOP STYLES (min-width queries) ===== */
+
+/* Large Desktop (1024px+) */
+@media (min-width: 1024px) {
+    .filters-container { 
+        flex-wrap: nowrap; 
+        align-items: flex-end; 
+    }
+    .filter-group { 
+        flex: 0 0 auto; 
+    }
+}
+
+/* Medium Desktop (769px - 1200px) */
+@media (min-width: 769px) and (max-width: 1200px) {
+    #sidebar { 
+        width: 300px; 
+    }
+    .stat-grid { 
+        grid-template-columns: 1fr; 
+        gap: 10px; 
+    }
+}
+
+/* ===== TABLET STYLES (768px and below) ===== */
+@media (max-width: 768px) {
+    /* ===== LAYOUT OVERRIDES ===== */
+    #main-content { 
+        flex-direction: column; 
+        height: calc(100vh - 0px); 
+        min-height: 0; 
+    }
+    #map-container { 
+        flex: 1; 
+        height: auto; 
+        min-height: 0; 
+    }
+    #sidebar { 
+        width: 100%; 
+        border-left: none; 
+        border-top: 1px solid var(--border-1); 
+        max-height: 40vh; 
+    }
+    
+    .container { 
+        padding: 0 15px; 
+    }
+}
+
+/* ===== SMALL MOBILE STYLES (480px and below) ===== */
+@media (max-width: 480px) {
+    /* ===== LAYOUT ===== */
+    .container { 
+        padding: 0 10px; 
+    }
+    #filters-panel > .container { 
+        padding-left: 10px !important; 
+        padding-right: 10px !important; 
+    }
+    #main-content { 
+        flex-direction: column !important; 
+        height: calc(100vh - 0px) !important; 
+        min-height: 0 !important; 
+    }
+}
+
+/* ===== VERY SMALL MOBILE (320px and below) ===== */
+@media (max-width: 320px) {
+    #map-container { 
+        height: 45vh; 
+        min-height: 250px; 
+    }
+    #sidebar { 
+        max-height: 60vh; 
+    }
+}

@@ -1,0 +1,36 @@
+/* ===== MOBILE-SPECIFIC OVERRIDES & UTILITIES ===== */
+
+/* ===== TABLET STYLES (768px and below) ===== */
+@media (max-width: 768px) {
+    /* ===== CREDITS POPUP ===== */
+    .credits-popup { 
+        position: fixed !important; 
+        top: 50% !important; 
+        left: 50% !important; 
+        transform: translate(-50%, -50%) !important; 
+        width: 90vw !important; 
+        max-width: 320px !important; 
+        z-index: 2100 !important; 
+    }
+    .credits-container:hover .credits-popup,
+    .credits-container.open .credits-popup { 
+        position: fixed !important;
+        top: 50% !important; 
+        left: 50% !important; 
+        transform: translate(-50%, 30%) !important; 
+        opacity: 1 !important; 
+        visibility: visible !important; 
+    }
+}
+
+/* ===== SMALL MOBILE STYLES (480px and below) ===== */
+@media (max-width: 480px) {
+    /* ===== LOADING ===== */
+    .loading-overlay { 
+        backdrop-filter: blur(2px); 
+    }
+    .loading-spinner { 
+        width: 40px; 
+        height: 40px; 
+    }
+}

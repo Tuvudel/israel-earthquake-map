@@ -1,7 +1,0 @@
-/* Statistics panel (extracted from css/styles.css) */
-#statistics-panel { padding: 16px; border-bottom: 1px solid var(--border-1); color: var(--text-1); }
-#statistics-panel h2 { font-size: 1.3rem; margin-bottom: 16px; color: var(--text-2); }
-.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.stat-item { text-align: center; padding: 14px; background: var(--surface-1); border: 1px solid var(--border-1); border-radius: var(--radius-1); }
-.stat-value { font-size: 1.5rem; font-weight: bold; color: var(--brand-600); margin-bottom: 5px; }
-.stat-label { font-size: 0.8rem; color: var(--text-muted); line-height: 1.2; }

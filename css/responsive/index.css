@@ -1,0 +1,12 @@
+/* ===== RESPONSIVE CSS - ISRAEL EARTHQUAKE MAP ===== */
+/* Main entry point for all responsive styles */
+
+/* Import component-specific responsive styles */
+@import url('./layout.css');
+@import url('./header.css');
+@import url('./filters.css');
+@import url('./sidebar.css');
+@import url('./legend.css');
+@import url('./toggles.css');
+@import url('./map.css');
+@import url('./mobile.css');
