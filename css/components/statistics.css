@@ -1,0 +1,129 @@
+/* ===== STATISTICS PANEL ===== */
+
+#statistics-panel {
+    padding: 20px;
+    background: var(--surface-0);
+    color: var(--text-1);
+    /* Enhanced statistics panel animations */
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#statistics-panel.loading {
+    opacity: 0.6;
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    background: var(--surface-1);
+    border: 1px solid var(--border-1);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    /* Enhanced stat item animations */
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--brand-600);
+    margin-bottom: 4px;
+    /* Enhanced stat value animations */
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-2);
+    font-weight: 500;
+    /* Enhanced stat label animations */
+    transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark mode adjustments */
+:root[data-theme='dark'] .stat-item {
+    background: var(--surface-1);
+    border-color: var(--border-1);
+}
+
+:root[data-theme='dark'] .stat-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Loading state animations */
+.stat-item.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.stat-value.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Enhanced focus states for accessibility */
+.stat-item:focus-within {
+    outline: 2px solid var(--brand-500);
+    outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .stat-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    
+    .stat-item {
+        padding: 12px;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .stat-item {
+        padding: 10px;
+    }
+    
+    .stat-value {
+        font-size: 1.3rem;
+    }
+    
+    .stat-label {
+        font-size: 0.75rem;
+    }
+}

@@ -25,6 +25,7 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/animations.css">
     <script>
         // Apply saved/system theme ASAP to minimize flash
         (function () {
@@ -74,7 +75,13 @@
                         <h1>Israel Earthquakes</h1>
                     </div>
                     <div class="last-updated">
-                        <span id="last-updated">Last updated: <sl-relative-time id="last-updated-time" numeric="auto">Loading...</sl-relative-time></span>
+                        <span id="last-updated">
+                            <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Updated: <sl-relative-time id="last-updated-time" numeric="auto">Loading...</sl-relative-time>
+                        </span>
                         <div class="credits-container">
                             <span class="credits-trigger">Credits</span>
                             <div class="credits-popup">
@@ -286,7 +293,7 @@
 
             <!-- Right sidebar with tabs -->
             <aside id="sidebar">
-                <sl-tab-group placement="top">
+                <sl-tab-group placement="top" no-scroll-controls>
                     <sl-tab slot="nav" panel="events" active>Events</sl-tab>
                     <sl-tab slot="nav" panel="analytics">Analytics</sl-tab>
 
@@ -354,7 +361,6 @@
                     <!-- Analytics Tab Panel -->
                     <sl-tab-panel name="analytics">
                         <div id="statistics-panel">
-                            <h2>Earthquake Statistics</h2>
                             <div class="stat-grid">
                                 <div class="stat-item">
                                     <div class="stat-value" id="total-earthquakes">-</div>
@@ -401,6 +407,8 @@
     <script src="js/services/dataService.js"></script>
     <script src="js/services/filterService.js"></script>
     <script src="js/ui/toggles.js"></script>
+    <script src="js/ui/animations.js"></script>
+    <script src="js/ui/animationTest.js"></script>
     <script src="js/ui/header.js"></script>
     <script src="js/ui/responsive.js"></script>
     

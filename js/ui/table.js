@@ -6,12 +6,15 @@ class TableController {
         this.itemsPerPage = 10;
         this.sortColumn = 'magnitude';
         this.sortDirection = 'desc';
+        this.isLoading = false;
         
         this.tableBody = document.getElementById('earthquake-table-body');
         this.paginationInfo = document.getElementById('pagination-info-text');
         this.pageNumbers = document.getElementById('page-numbers');
         this.prevButton = document.getElementById('prev-page');
         this.nextButton = document.getElementById('next-page');
+        this.dataTablePanel = document.getElementById('data-table-panel');
+        this.paginationControls = document.querySelector('.pagination-controls');
         
         this.setupEventListeners();
     }
@@ -21,7 +24,7 @@ class TableController {
         const tabGroup = document.querySelector('sl-tab-group');
         if (tabGroup) {
             tabGroup.addEventListener('sl-tab-show', (event) => {
-                // If switching to events tab, ensure table is updated
+                // If switching to events tab, ensure table is updated with smooth animation
                 if (event.detail.name === 'events' && this.app.filteredData) {
                     setTimeout(() => {
                         this.updateTable(this.app.filteredData, this.currentPage, this.sortColumn, this.sortDirection);
@@ -63,7 +66,7 @@ class TableController {
         // Pagination button listeners
         if (this.prevButton) {
             this.prevButton.addEventListener('click', () => {
-                if (this.currentPage > 1) {
+                if (this.currentPage > 1 && !this.isLoading) {
                     this.currentPage--;
                     this.updateTable(this.app.filteredData, this.currentPage, this.sortColumn, this.sortDirection);
                 }
@@ -73,7 +76,7 @@ class TableController {
         if (this.nextButton) {
             this.nextButton.addEventListener('click', () => {
                 const totalPages = this.calculateTotalPages(this.app.filteredData);
-                if (this.currentPage < totalPages) {
+                if (this.currentPage < totalPages && !this.isLoading) {
                     this.currentPage++;
                     this.updateTable(this.app.filteredData, this.currentPage, this.sortColumn, this.sortDirection);
                 }
@@ -81,7 +84,31 @@ class TableController {
         }
     }
     
+    // Show loading state
+    showLoading() {
+        this.isLoading = true;
+        if (this.dataTablePanel) {
+            this.dataTablePanel.classList.add('loading');
+        }
+        if (this.paginationControls) {
+            this.paginationControls.classList.add('loading');
+        }
+    }
+    
+    // Hide loading state
+    hideLoading() {
+        this.isLoading = false;
+        if (this.dataTablePanel) {
+            this.dataTablePanel.classList.remove('loading');
+        }
+        if (this.paginationControls) {
+            this.paginationControls.classList.remove('loading');
+        }
+    }
+    
     handleSort(column) {
+        if (this.isLoading) return; // Prevent multiple simultaneous operations
+        
         if (this.sortColumn === column) {
             // Toggle direction if same column
             this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
@@ -97,7 +124,7 @@ class TableController {
         // Update sort indicators
         this.updateSortIndicators();
         
-        // Update table
+        // Update table with loading animation
         this.updateTable(this.app.filteredData, this.currentPage, this.sortColumn, this.sortDirection);
     }
     
@@ -133,29 +160,40 @@ class TableController {
             return;
         }
         
-        // Update instance variables
-        this.currentPage = page;
-        this.sortColumn = sortColumn;
-        this.sortDirection = sortDirection;
+        // Show loading state
+        this.showLoading();
         
-        // Sort data
-        const sortedData = this.sortData(earthquakeData, sortColumn, sortDirection);
-        
-        // Calculate pagination
-        const totalItems = sortedData.length;
-        const totalPages = this.calculateTotalPages(sortedData);
-        const startIndex = (page - 1) * this.itemsPerPage;
-        const endIndex = Math.min(startIndex + this.itemsPerPage, totalItems);
-        const pageData = sortedData.slice(startIndex, endIndex);
-        
-        // Update table content
-        this.displayTableData(pageData);
-        
-        // Update pagination
-        this.updatePagination(page, totalPages, totalItems, startIndex + 1, endIndex);
-        
-        // Update sort indicators
-        this.updateSortIndicators();
+        // Use requestAnimationFrame for smooth transitions
+        requestAnimationFrame(() => {
+            // Update instance variables
+            this.currentPage = page;
+            this.sortColumn = sortColumn;
+            this.sortDirection = sortDirection;
+            
+            // Sort data
+            const sortedData = this.sortData(earthquakeData, sortColumn, sortDirection);
+            
+            // Calculate pagination
+            const totalItems = sortedData.length;
+            const totalPages = this.calculateTotalPages(sortedData);
+            const startIndex = (page - 1) * this.itemsPerPage;
+            const endIndex = Math.min(startIndex + this.itemsPerPage, totalItems);
+            const pageData = sortedData.slice(startIndex, endIndex);
+            
+            // Update table content with smooth transition
+            this.displayTableData(pageData);
+            
+            // Update pagination
+            this.updatePagination(page, totalPages, totalItems, startIndex + 1, endIndex);
+            
+            // Update sort indicators
+            this.updateSortIndicators();
+            
+            // Hide loading state after a short delay for smooth UX
+            setTimeout(() => {
+                this.hideLoading();
+            }, 150);
+        });
     }
     
     sortData(data, column, direction) {
@@ -292,6 +330,7 @@ class TableController {
             `;
         }).join('');
         
+        // Update table body with smooth transition
         this.tableBody.innerHTML = rows;
         
         // Add click listeners to rows
@@ -326,10 +365,13 @@ class TableController {
         // Remove previous highlights
         this.clearHighlight();
         
-        // Add highlight to selected row
+        // Add highlight to selected row with smooth animation
         const targetRow = this.tableBody.querySelector(`[data-epiid="${epiid}"]`);
         if (targetRow) {
-            targetRow.classList.add('highlighted');
+            // Use requestAnimationFrame for smooth highlight animation
+            requestAnimationFrame(() => {
+                targetRow.classList.add('highlighted');
+            });
             
             // Remove highlight after 3 seconds
             setTimeout(() => {

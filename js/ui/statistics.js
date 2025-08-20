@@ -7,6 +7,8 @@ class StatisticsController {
             avgDepth: document.getElementById('avg-depth'),
             landWaterPercent: document.getElementById('land-water-percent')
         };
+        this.statisticsPanel = document.getElementById('statistics-panel');
+        this.isLoading = false;
     }
     
     updateStatistics(filteredData, yearRange) {
@@ -15,8 +17,35 @@ class StatisticsController {
             return;
         }
         
-        const stats = this.calculateStatistics(filteredData, yearRange);
-        this.displayStatistics(stats);
+        // Show loading state
+        this.showLoading();
+        
+        // Use requestAnimationFrame for smooth transitions
+        requestAnimationFrame(() => {
+            const stats = this.calculateStatistics(filteredData, yearRange);
+            this.displayStatistics(stats);
+            
+            // Hide loading state after a short delay for smooth UX
+            setTimeout(() => {
+                this.hideLoading();
+            }, 150);
+        });
+    }
+    
+    // Show loading state
+    showLoading() {
+        this.isLoading = true;
+        if (this.statisticsPanel) {
+            this.statisticsPanel.classList.add('loading');
+        }
+    }
+    
+    // Hide loading state
+    hideLoading() {
+        this.isLoading = false;
+        if (this.statisticsPanel) {
+            this.statisticsPanel.classList.remove('loading');
+        }
     }
     
     calculateStatistics(earthquakeData, yearRange) {
@@ -76,36 +105,69 @@ class StatisticsController {
     }
     
     displayStatistics(stats) {
-        // Update total earthquakes
+        // Update total earthquakes with smooth animation
         if (this.statisticsElements.totalEarthquakes) {
-            this.statisticsElements.totalEarthquakes.textContent = 
-                this.formatNumber(stats.totalEarthquakes);
+            this.animateValueChange(
+                this.statisticsElements.totalEarthquakes,
+                this.formatNumber(stats.totalEarthquakes)
+            );
         }
         
-        // Update average magnitude
+        // Update average magnitude with smooth animation
         if (this.statisticsElements.avgMagnitude) {
-            this.statisticsElements.avgMagnitude.textContent = 
-                stats.avgMagnitude.toFixed(2);
+            this.animateValueChange(
+                this.statisticsElements.avgMagnitude,
+                stats.avgMagnitude.toFixed(2)
+            );
         }
         
-        // Update average depth
+        // Update average depth with smooth animation
         if (this.statisticsElements.avgDepth) {
-            this.statisticsElements.avgDepth.textContent = 
-                stats.avgDepth.toFixed(1);
+            this.animateValueChange(
+                this.statisticsElements.avgDepth,
+                stats.avgDepth.toFixed(1)
+            );
         }
         
-        // Update land/water percentage
+        // Update land/water percentage with smooth animation
         if (this.statisticsElements.landWaterPercent) {
-            this.statisticsElements.landWaterPercent.textContent = 
-                `${Math.round(stats.landPct)}% / ${Math.round(stats.waterPct)}%`;
+            this.animateValueChange(
+                this.statisticsElements.landWaterPercent,
+                `${Math.round(stats.landPct)}% / ${Math.round(stats.waterPct)}%`
+            );
         }
     }
     
+    // Animate value changes for smooth transitions
+    animateValueChange(element, newValue) {
+        if (!element) return;
+        
+        // Add a subtle scale animation
+        element.style.transform = 'scale(1.05)';
+        element.style.transition = 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
+        
+        // Update the value
+        element.textContent = newValue;
+        
+        // Reset scale after animation
+        setTimeout(() => {
+            element.style.transform = 'scale(1)';
+        }, 200);
+    }
+    
     displayEmptyStatistics() {
-        if (this.statisticsElements.totalEarthquakes) this.statisticsElements.totalEarthquakes.textContent = '0';
-        if (this.statisticsElements.avgMagnitude) this.statisticsElements.avgMagnitude.textContent = '-';
-        if (this.statisticsElements.avgDepth) this.statisticsElements.avgDepth.textContent = '-';
-        if (this.statisticsElements.landWaterPercent) this.statisticsElements.landWaterPercent.textContent = '0% / 0%';
+        if (this.statisticsElements.totalEarthquakes) {
+            this.animateValueChange(this.statisticsElements.totalEarthquakes, '0');
+        }
+        if (this.statisticsElements.avgMagnitude) {
+            this.animateValueChange(this.statisticsElements.avgMagnitude, '-');
+        }
+        if (this.statisticsElements.avgDepth) {
+            this.animateValueChange(this.statisticsElements.avgDepth, '-');
+        }
+        if (this.statisticsElements.landWaterPercent) {
+            this.animateValueChange(this.statisticsElements.landWaterPercent, '0% / 0%');
+        }
     }
     
     formatNumber(num) {

@@ -35,6 +35,16 @@ body { overflow: hidden; }
     flex-direction: column;
     overflow-y: auto;
     max-height: 100%;
+    /* Always reserve space for scrollbar to prevent layout shift */
+    scrollbar-gutter: stable;
+    /* Enhanced animation for desktop using animation system - same timing as mobile */
+    transition: width var(--animation-duration-bounce) var(--animation-easing), 
+                border-color var(--animation-duration-bounce) var(--animation-easing),
+                transform var(--animation-duration-bounce) var(--animation-easing),
+                opacity var(--animation-duration-bounce) var(--animation-easing);
+    /* Force hardware acceleration for smooth animations */
+    will-change: width, transform, opacity;
+    transform: translateZ(0);
 }
 
 /* Shoelace tabs: make tabs fill available width and theme the nav */
@@ -44,6 +54,10 @@ body { overflow: hidden; }
 }
 #sidebar sl-tab-group::part(active-tab-indicator) {
     background: var(--brand-600);
+    height: 2px;
+    border-radius: 1px;
+    /* Smooth indicator animation */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 #sidebar sl-tab-group::part(body) {
     background: var(--surface-0);
@@ -54,9 +68,15 @@ body { overflow: hidden; }
     justify-content: center;
     text-align: center;
     font-family: var(--font-family-primary);
+    padding: 12px 16px;
+    font-weight: 600;
+    transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 #sidebar sl-tab[active]::part(base) {
     color: var(--brand-600);
+}
+#sidebar sl-tab:hover::part(base) {
+    color: var(--text-1);
 }
 #sidebar sl-tab {
     flex: 1 1 0;
@@ -66,26 +86,161 @@ body { overflow: hidden; }
     display: grid;
     grid-template-columns: 1fr 1fr;
     width: 100%;
+    gap: 0;
+    position: relative;
+}
+
+/* Add centered divider between tabs */
+#sidebar sl-tab-group::part(tabs)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    height: 70%;
+    background: var(--border-2);
+    z-index: 1;
+    border-radius: 1px;
+}
+
+/* Enhanced visibility for dark mode */
+:root[data-theme='dark'] #sidebar sl-tab-group::part(tabs)::after {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 0 6px rgba(255, 255, 255, 0.4),
+        0 0 12px rgba(255, 255, 255, 0.2),
+        0 0 2px rgba(255, 255, 255, 0.6);
 }
 
 /* Removed legacy #date-filter-below-tabs block */
 
-/* Reduce default Shoelace panel padding to pull table closer to date filter */
+/* Enhanced tab panel animations - Override Shoelace defaults */
 #sidebar sl-tab-panel::part(base) {
     padding: 8px 16px 16px;
     background: var(--surface-0);
     color: var(--text-1);
+    /* Override Shoelace's display: none behavior */
+    display: block !important;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: auto;
+}
+
+/* Hide inactive panels with smooth animation */
+#sidebar sl-tab-panel:not([active])::part(base) {
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    /* Keep display: block but make it invisible */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+}
+
+/* Active panel should be visible and positioned normally */
+#sidebar sl-tab-panel[active]::part(base) {
+    position: relative;
+    z-index: 1;
 }
 
 /* Desktop sidebar collapsed state (toggled by header Data button) */
 @media (min-width: 769px) {
     #sidebar {
-        transition: width 0.25s ease, border-color 0.25s ease;
+        transition: width var(--animation-duration-bounce) var(--animation-easing), 
+                    border-color var(--animation-duration-bounce) var(--animation-easing),
+                    transform var(--animation-duration-bounce) var(--animation-easing),
+                    opacity var(--animation-duration-bounce) var(--animation-easing);
     }
     #sidebar.collapsed {
         width: 0 !important;
         min-width: 0 !important;
         border-left-color: transparent !important;
         overflow: hidden !important;
+        /* Enhanced collapse animation with transform and opacity */
+        transform: translateX(100%);
+        opacity: 0;
     }
+    
+    /* Map container smooth resize to prevent flicker */
+    #map-container {
+        transition: margin-right var(--animation-duration-bounce) var(--animation-easing);
+    }
+    
+    /* Enhanced button state transitions - immediate response */
+    #header-data-toggle {
+        transition: background-color var(--animation-duration-fast) var(--animation-easing),
+                    border-color var(--animation-duration-fast) var(--animation-easing),
+                    color var(--animation-duration-fast) var(--animation-easing),
+                    box-shadow var(--animation-duration-fast) var(--animation-easing);
+    }
+    
+    #header-data-toggle.active {
+        box-shadow: var(--shadow-elevation-1);
+    }
+}
+
+/* Enhanced table animations */
+#data-table-panel {
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#data-table-panel.loading {
+    opacity: 0.6;
+}
+
+/* Table row animations */
+.earthquake-row {
+    transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.earthquake-row:hover {
+    transform: translateY(-1px);
+}
+
+.earthquake-row.highlighted {
+    background-color: var(--brand-50);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Dark mode adjustments for highlighted rows */
+:root[data-theme='dark'] .earthquake-row.highlighted {
+    background-color: rgba(59, 130, 246, 0.1);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+/* Statistics panel animations */
+#statistics-panel {
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-item {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-item:hover {
+    transform: translateY(-2px);
+}
+
+/* Pagination animations */
+.pagination-controls {
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pagination-controls.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Smooth transitions for all interactive elements */
+sl-button, sl-badge, .mag-badge {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }

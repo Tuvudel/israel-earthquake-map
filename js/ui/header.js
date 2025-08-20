@@ -76,6 +76,22 @@
       setTimeout(() => this.resizeMap && this.resizeMap(), delay);
     }
 
+    /**
+     * Optimized map resize to prevent flicker during animations
+     */
+    resizeMapOptimized() {
+      if (!this.resizeMap) return;
+      
+      // Use requestAnimationFrame for smooth resize
+      requestAnimationFrame(() => {
+        try {
+          this.resizeMap();
+        } catch (error) {
+          console.warn('Map resize failed:', error);
+        }
+      });
+    }
+
     // Notify other controllers (e.g., FilterController) when filters pane visibility changes
     notifyFiltersPaneToggle(open) {
       try {
@@ -122,24 +138,72 @@
         });
       }
 
-      // Data (desktop): manage collapsed state + persistence
+      // Data (desktop): manage collapsed state + persistence with enhanced animations
       if (dataBtn && sidebar) {
-        const openData = () => {
-          sidebar.classList.remove('collapsed');
-          mapContainer && mapContainer.classList.add('sidebar-open');
+        const openData = async () => {
+          // Set button state immediately for responsive feel
           dataBtn.classList.add('active');
           dataBtn.setAttribute('aria-pressed', 'true');
-          this.persistDesktop('dataOpen', true);
-          this.resizeSoon();
+          
+          // Set sidebar state immediately for instant visual feedback
+          sidebar.classList.remove('collapsed');
+          mapContainer && mapContainer.classList.add('sidebar-open');
+          
+          // Use animation system for smooth transitions
+          if (global.Animations) {
+            global.Animations.queueAnimation(async () => {
+              // Animate sidebar open with same timing as mobile
+              await global.Animations.animateCSS(sidebar, {
+                width: '450px',
+                transform: 'translateX(0)',
+                opacity: '1'
+              }, 'mobile');
+              
+              // Optimized map resize after animation
+              setTimeout(() => {
+                this.resizeMapOptimized();
+              }, 50);
+            }, 'desktop-data-open');
+          } else {
+            // Fallback to original behavior
+            sidebar.classList.remove('collapsed');
+            mapContainer && mapContainer.classList.add('sidebar-open');
+            this.resizeSoon();
+          }
         };
-        const closeData = () => {
-          sidebar.classList.add('collapsed');
-          mapContainer && mapContainer.classList.remove('sidebar-open');
+        
+        const closeData = async () => {
+          // Set button state immediately for responsive feel
           dataBtn.classList.remove('active');
           dataBtn.setAttribute('aria-pressed', 'false');
-          this.persistDesktop('dataOpen', false);
-          this.resizeSoon();
+          
+          // Set sidebar state immediately for instant visual feedback
+          sidebar.classList.add('collapsed');
+          mapContainer && mapContainer.classList.remove('sidebar-open');
+          
+          // Use animation system for smooth transitions
+          if (global.Animations) {
+            global.Animations.queueAnimation(async () => {
+              // Animate sidebar close with same timing as mobile
+              await global.Animations.animateCSS(sidebar, {
+                width: '0px',
+                transform: 'translateX(100%)',
+                opacity: '0'
+              }, 'mobile');
+              
+              // Optimized map resize after animation
+              setTimeout(() => {
+                this.resizeMapOptimized();
+              }, 50);
+            }, 'desktop-data-close');
+          } else {
+            // Fallback to original behavior
+            sidebar.classList.add('collapsed');
+            mapContainer && mapContainer.classList.remove('sidebar-open');
+            this.resizeSoon();
+          }
         };
+        
         this.desktop.data = {
           isOpen: () => !sidebar.classList.contains('collapsed'),
           open: openData,
@@ -200,9 +264,9 @@
       const { legend, legendBtn } = this.els;
       const persisted = this.readPersistedDesktop();
 
-      // data
+      // data - always open by default on desktop (no persistence)
       if (this.desktop.data) {
-        if (persisted.dataOpen) this.desktop.data.open(); else this.desktop.data.close();
+        this.desktop.data.open();
       }
 
       // legend
@@ -254,7 +318,7 @@
         });
       }
 
-      // Legend (mobile): exclusive, no outside-click requirement
+      // Legend (mobile): exclusive, no outside-click requirement, no persistence
       if (mobile.legendBtn && legend) {
         this.mobile.legend = new global.ToggleController({
           button: mobile.legendBtn,
@@ -268,29 +332,41 @@
         });
       }
 
-      // Data (mobile): manage #sidebar .show, outside-click closes
+      // Data (mobile): manage #sidebar .show, outside-click closes with enhanced animations
       if (mobile.dataBtn && sidebar) {
         const dataCtrl = {
-          isOpen: false,
+          isOpen: false, // Always start closed on mobile
           open: () => {
+            console.log('Opening mobile data pane');
             closeOthers(dataCtrl);
-            sidebar.classList.add('show');
-            mapContainer && mapContainer.classList.add('sidebar-open');
+            
+            // Set state immediately for responsive feel
+            dataCtrl.isOpen = true;
             mobile.dataBtn.classList.add('active');
             mobile.dataBtn.setAttribute('aria-pressed', 'true');
-            this.resizeSoon(300);
-            dataCtrl.isOpen = true;
+            mapContainer && mapContainer.classList.add('sidebar-open');
+            
+            // Add show class to trigger CSS animation
+            sidebar.classList.add('show');
+            console.log('Added show class to sidebar, classes:', sidebar.className);
+            this.resizeSoon(100);
           },
           close: () => {
-            sidebar.classList.remove('show');
-            mapContainer && mapContainer.classList.remove('sidebar-open');
+            // Set state immediately for responsive feel
+            dataCtrl.isOpen = false;
             mobile.dataBtn.classList.remove('active');
             mobile.dataBtn.setAttribute('aria-pressed', 'false');
-            this.resizeSoon(300);
-            dataCtrl.isOpen = false;
+            mapContainer && mapContainer.classList.remove('sidebar-open');
+            
+            // Remove show class to trigger CSS animation
+            sidebar.classList.remove('show');
+            this.resizeSoon(100);
             try { mobile.dataBtn && mobile.dataBtn.focus(); } catch (_) {}
           },
-          toggle: () => (dataCtrl.isOpen ? dataCtrl.close() : dataCtrl.open())
+          toggle: () => {
+            console.log('Toggle called, isOpen:', dataCtrl.isOpen);
+            return (dataCtrl.isOpen ? dataCtrl.close() : dataCtrl.open());
+          }
         };
         this.mobile.data = dataCtrl;
 
@@ -298,6 +374,7 @@
           e.preventDefault();
           e.stopPropagation();
           if (this.isDesktop()) return;
+          console.log('Mobile data button clicked, isDesktop:', this.isDesktop());
           dataCtrl.toggle();
         });
 
@@ -330,8 +407,12 @@
         // Apply desktop persistence each time we enter desktop
         this.applyDesktopPersistence();
       } else {
-        // Clear desktop-only classes
+        // Clear desktop-only classes and ensure mobile starts closed
         sidebar && sidebar.classList.remove('collapsed');
+        sidebar && sidebar.classList.remove('show');
+        mapContainer && mapContainer.classList.remove('sidebar-open');
+        // Ensure mobile legend starts hidden
+        legend && legend.classList.remove('show');
       }
       this.resizeSoon();
     }

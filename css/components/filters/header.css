@@ -64,6 +64,11 @@ body.filters-pane-open #filters-panel {
 	color: var(--text-muted);
 }
 
+.last-updated .icon {
+	display: inline-block;
+	vertical-align: middle;
+}
+
 /* Header actions (top-right placement) */
 .header-actions {
 	margin-left: auto;
@@ -100,11 +105,11 @@ body.filters-pane-open #filters-panel {
 	vertical-align: middle; /* nudge inline alignment */
 }
 
-/* Strong divider between Events / Analytics tabs (Shoelace) */
-sl-tab[slot="nav"]::part(base) {
+/* Strong divider between Events / Analytics tabs (Shoelace) - Only for header tabs */
+.header-actions sl-tab[slot="nav"]::part(base) {
 	padding-inline: 10px;
 }
-sl-tab[slot="nav"]:not(:first-of-type)::part(base) {
+.header-actions sl-tab[slot="nav"]:not(:first-of-type)::part(base) {
 	border-left: 4px solid var(--seg-divider);
 	margin-left: 10px;
 }
@@ -148,6 +153,31 @@ sl-tab[slot="nav"]:not(:first-of-type)::part(base) {
 	display: inline-block;
 }
 
+/* Ensure consistent focus states */
+.header-actions sl-button:focus::part(base) {
+	outline: none !important;
+	box-shadow: 0 0 0 3px var(--ring-color), var(--shadow-2) !important;
+}
+
+/* Remove focus ring completely when button is active */
+.header-actions sl-button.active:focus::part(base) {
+	outline: none !important;
+	box-shadow: var(--shadow-3) !important;
+}
+
+/* Remove focus ring when button is active */
+.header-actions sl-button.active::part(base) {
+	outline: none !important;
+	box-shadow: var(--shadow-3) !important;
+}
+
+/* Global override to prevent any focus ring on active buttons */
+.header-actions sl-button.active:focus::part(base),
+.header-actions sl-button.active:focus-visible::part(base) {
+	outline: none !important;
+	box-shadow: var(--shadow-3) !important;
+}
+
 /* Active state for Shoelace buttons */
 .header-actions sl-button.active {
 	--sl-button-color: var(--text-on-accent);
@@ -155,6 +185,16 @@ sl-tab[slot="nav"]:not(:first-of-type)::part(base) {
 	--sl-button-border-color: var(--accent-600);
 	--sl-button-shadow: var(--shadow-3);
 	--sl-button-transform: translateY(-1px);
+}
+
+/* Ensure active state is applied to the button base */
+.header-actions sl-button.active::part(base) {
+	background-color: var(--accent-600) !important;
+	color: var(--text-on-accent) !important;
+	border-color: var(--accent-600) !important;
+	box-shadow: var(--shadow-3) !important;
+	transform: translateY(-1px) !important;
+	outline: none !important;
 }
 
 /* Dark theme: mirror mobile button look */
@@ -193,6 +233,73 @@ sl-tab[slot="nav"]:not(:first-of-type)::part(base) {
 	background-color: var(--accent-600) !important;
 	color: var(--text-on-accent) !important;
 	border-color: var(--accent-600) !important;
+}
+
+/* Light mode specific fixes for data button */
+:root:not([data-theme='dark']) .header-actions sl-button.active::part(base) {
+	background-color: var(--accent-600) !important;
+	color: var(--text-on-accent) !important;
+	border-color: var(--accent-600) !important;
+	outline: none !important;
+	box-shadow: var(--shadow-3) !important;
+	/* Force remove any potential rectangle/border artifacts */
+	border: 1px solid var(--accent-600) !important;
+	border-radius: var(--radius-2) !important;
+}
+
+/* Ensure active data button never shows focus ring - completely override any focus styles */
+:root:not([data-theme='dark']) .header-actions sl-button.active:focus::part(base),
+:root:not([data-theme='dark']) .header-actions sl-button.active:focus-visible::part(base) {
+	background-color: var(--accent-600) !important;
+	color: var(--text-on-accent) !important;
+	border-color: var(--accent-600) !important;
+	outline: none !important;
+	box-shadow: var(--shadow-3) !important;
+	/* Force remove any potential rectangle/border artifacts */
+	border: 1px solid var(--accent-600) !important;
+	border-radius: var(--radius-2) !important;
+}
+
+/* Additional comprehensive fix for data button rectangle issue */
+:root:not([data-theme='dark']) #header-data-toggle.active::part(base) {
+	background-color: var(--accent-600) !important;
+	color: var(--text-on-accent) !important;
+	border: 1px solid var(--accent-600) !important;
+	border-radius: var(--radius-2) !important;
+	outline: none !important;
+	box-shadow: var(--shadow-3) !important;
+	/* Remove any potential focus ring or rectangle */
+	box-shadow: var(--shadow-3) !important;
+}
+
+/* Global override to prevent any rectangle/border artifacts on active data button */
+:root:not([data-theme='dark']) #header-data-toggle.active::part(base),
+:root:not([data-theme='dark']) #header-data-toggle.active:focus::part(base),
+:root:not([data-theme='dark']) #header-data-toggle.active:focus-visible::part(base) {
+	/* Force clean appearance */
+	background-color: var(--accent-600) !important;
+	color: var(--text-on-accent) !important;
+	border: 1px solid var(--accent-600) !important;
+	border-radius: var(--radius-2) !important;
+	outline: none !important;
+	box-shadow: var(--shadow-3) !important;
+	/* Remove any potential artifacts */
+	box-shadow: var(--shadow-3) !important;
+}
+
+/* Fix for rectangle/border on Shoelace component wrapper */
+:root:not([data-theme='dark']) #header-data-toggle.active {
+	outline: none !important;
+	border: none !important;
+	box-shadow: none !important;
+}
+
+/* Additional wrapper fixes for focus states */
+:root:not([data-theme='dark']) #header-data-toggle.active:focus,
+:root:not([data-theme='dark']) #header-data-toggle.active:focus-visible {
+	outline: none !important;
+	border: none !important;
+	box-shadow: none !important;
 }
 
 
