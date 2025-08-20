@@ -13,7 +13,7 @@
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: var(--font-family-primary);
     transition: all var(--transition-med) var(--easing);
     min-height: 44px;
     display: none;

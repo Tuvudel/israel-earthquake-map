@@ -1,0 +1,108 @@
+/* Shoelace Component Mixins - Centralized styling patterns */
+
+/* Shoelace Button Mixins */
+.sl-button-base {
+  font-family: var(--font-family-primary);
+  font-size: var(--sl-button-font-size-medium);
+  font-weight: var(--font-weight-semibold);
+  padding: var(--sl-button-padding-medium);
+  height: var(--sl-button-height-medium);
+  border-radius: var(--sl-button-border-radius-medium);
+  transition: var(--sl-button-transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: 1px solid var(--sl-button-border-color);
+  background-color: var(--sl-button-background-color);
+  color: var(--sl-button-color);
+  box-shadow: var(--sl-button-shadow);
+}
+
+.sl-button-base:hover {
+  color: var(--sl-button-hover-color);
+  background-color: var(--sl-button-hover-background-color);
+  border-color: var(--sl-button-hover-border-color);
+  box-shadow: var(--sl-button-hover-shadow);
+  transform: var(--sl-button-hover-transform);
+}
+
+.sl-button-base:focus-visible {
+  outline: none;
+  box-shadow: var(--sl-button-focus-shadow);
+}
+
+.sl-button-base.active {
+  color: var(--sl-button-active-color);
+  background-color: var(--sl-button-active-background-color);
+  border-color: var(--sl-button-active-border-color);
+  box-shadow: var(--sl-button-active-shadow);
+  transform: var(--sl-button-active-transform);
+}
+
+/* Shoelace Select Mixins */
+.sl-select-base {
+  font-family: var(--sl-input-font-family);
+  font-size: var(--sl-input-font-size-medium);
+  border-radius: var(--sl-input-border-radius-medium);
+  border: 1px solid var(--sl-input-border-color);
+  background-color: var(--sl-input-background-color);
+  color: var(--sl-input-color);
+  box-shadow: var(--sl-input-shadow);
+  transition: var(--sl-button-transition);
+}
+
+.sl-select-base:hover {
+  border-color: var(--sl-input-border-color-hover);
+  box-shadow: var(--sl-input-shadow-hover);
+}
+
+.sl-select-base:focus {
+  box-shadow: var(--sl-input-shadow-focus);
+}
+
+/* Shoelace Switch Mixins */
+.sl-switch-base {
+  --width: var(--sl-switch-width);
+  --height: var(--sl-switch-height);
+}
+
+.sl-switch-thumb {
+  width: var(--sl-switch-thumb-size);
+  height: var(--sl-switch-thumb-size);
+}
+
+/* Utility classes for Shoelace components */
+.sl-button {
+  font-family: var(--font-family-primary);
+  font-size: var(--sl-button-font-size-medium);
+  font-weight: var(--font-weight-semibold);
+  padding: var(--sl-button-padding-medium);
+  height: var(--sl-button-height-medium);
+  border-radius: var(--sl-button-border-radius-medium);
+  transition: var(--sl-button-transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: 1px solid var(--sl-button-border-color);
+  background-color: var(--sl-button-background-color);
+  color: var(--sl-button-color);
+  box-shadow: var(--sl-button-shadow);
+}
+
+.sl-select {
+  font-family: var(--sl-input-font-family);
+  font-size: var(--sl-input-font-size-medium);
+  border-radius: var(--sl-input-border-radius-medium);
+  border: 1px solid var(--sl-input-border-color);
+  background-color: var(--sl-input-background-color);
+  color: var(--sl-input-color);
+  box-shadow: var(--sl-input-shadow);
+  transition: var(--sl-button-transition);
+}
+
+.sl-switch {
+  --width: var(--sl-switch-width);
+  --height: var(--sl-switch-height);
+}

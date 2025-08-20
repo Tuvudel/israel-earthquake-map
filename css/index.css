@@ -1,12 +1,18 @@
 /* Aggregated modular CSS for Israel Earthquake Map
    This file replaces css/styles.css. It imports modular styles split by concern. */
 
+/* Design System Tokens (load first) */
+@import url('./tokens/typography.css');
+@import url('./tokens/breakpoints.css');
+@import url('./tokens/components.css');
+
+/* Base Styles */
 @import url('./base.css');
 @import url('./utilities.css');
 @import url('./layout.css');
 
 /* Components */
-@import url('./components/filters.css');
+@import url('./components/filters/index.css');
 @import url('./components/legend.css');
 @import url('./components/sidebar.css');
 @import url('./components/toggles.css');

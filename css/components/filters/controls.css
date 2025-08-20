@@ -3,7 +3,7 @@
 /* Shoelace Select Styling for Filter Controls */
 .filter-group sl-select {
     width: 280px; /* ADJUSTABLE: Increased from 220px to 280px to accommodate more values */
-    --sl-input-font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    --sl-input-font-family: var(--font-family-primary);
     --sl-input-font-size-medium: 0.9rem;
     --sl-input-border-radius-medium: var(--radius-2);
     --sl-input-border-color: var(--border-1);
@@ -15,7 +15,7 @@
     --sl-input-shadow-focus: 0 0 0 3px var(--ring-color), var(--shadow-2);
     
     /* Additional font-related custom properties */
-    --sl-font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    --sl-font-family: var(--font-family-primary);
     --sl-font-size-medium: 0.9rem;
 }
 
@@ -48,7 +48,7 @@
     --sl-color-neutral-950: var(--surface-0);
     
     /* Additional font-related custom properties for dark mode */
-    --sl-font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    --sl-font-family: var(--font-family-primary);
     --sl-font-size-medium: 0.9rem;
 }
 
@@ -66,7 +66,7 @@
     color: var(--text-1);
     padding: 8px 12px;
     cursor: pointer;
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+    font-family: var(--font-family-primary);
     font-size: 0.9rem;
     font-weight: 400;
 }
@@ -78,7 +78,7 @@
 .filter-group sl-select::part(option[selected]) {
     background: var(--accent-600);
     color: var(--text-on-accent);
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+    font-family: var(--font-family-primary);
 }
 
 /* Dark mode dropdown styling */
@@ -90,7 +90,7 @@
 
 :root[data-theme='dark'] .filter-group sl-select::part(option) {
     color: var(--text-1);
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+    font-family: var(--font-family-primary);
     font-size: 0.9rem;
     font-weight: 400;
 }
@@ -102,7 +102,7 @@
 :root[data-theme='dark'] .filter-group sl-select::part(option[selected]) {
     background: var(--accent-600);
     color: var(--text-on-accent);
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
+    font-family: var(--font-family-primary);
 }
 
 /* Tag styling for multi-select */
@@ -113,7 +113,7 @@
     padding: 2px 6px;
     font-size: 0.8rem;
     font-weight: 600;
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: var(--font-family-primary);
     margin: 2px;
 }
 
@@ -143,7 +143,7 @@
 :root[data-theme='dark'] .filter-group sl-select::part(tag) {
     background: var(--surface-2);
     color: var(--text-1);
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: var(--font-family-primary);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -163,87 +163,7 @@
     color: var(--text-1);
 }
 
-/* Additional font overrides with higher specificity */
-.filter-group sl-select::part(option) *,
-.filter-group sl-select::part(option) {
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
-}
-
-:root[data-theme='dark'] .filter-group sl-select::part(option) *,
-:root[data-theme='dark'] .filter-group sl-select::part(option) {
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
-}
-
-/* Even more specific overrides for Shoelace internal elements */
-.filter-group sl-select::part(listbox) sl-option,
-.filter-group sl-select::part(listbox) sl-option *,
-.filter-group sl-select::part(listbox) sl-option::part(base) {
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
-}
-
-:root[data-theme='dark'] .filter-group sl-select::part(listbox) sl-option,
-:root[data-theme='dark'] .filter-group sl-select::part(listbox) sl-option *,
-:root[data-theme='dark'] .filter-group sl-select::part(listbox) sl-option::part(base) {
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
-}
-
-/* Global font override for all Shoelace select elements */
-sl-select::part(option),
-sl-select::part(option) *,
-sl-select::part(option)::part(base) {
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
-}
-
-:root[data-theme='dark'] sl-select::part(option),
-:root[data-theme='dark'] sl-select::part(option) *,
-:root[data-theme='dark'] sl-select::part(option)::part(base) {
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
-}
-
-/* Force font override for all text elements in dropdown */
-sl-select::part(listbox) *,
-sl-select::part(listbox) * * {
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
-}
-
-:root[data-theme='dark'] sl-select::part(listbox) *,
-:root[data-theme='dark'] sl-select::part(listbox) * * {
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
-}
-
-/* Ultimate font override for all Shoelace elements */
-sl-select,
-sl-select *,
-sl-select * *,
-sl-select * * * {
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
-}
-
-:root[data-theme='dark'] sl-select,
-:root[data-theme='dark'] sl-select *,
-:root[data-theme='dark'] sl-select * *,
-:root[data-theme='dark'] sl-select * * * {
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
-}
-
-/* Nuclear option - override everything in the entire document for Shoelace */
-sl-select,
-sl-select *,
-sl-select * *,
-sl-select * * *,
-sl-select * * * *,
-sl-select * * * * * {
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
-}
-
-:root[data-theme='dark'] sl-select,
-:root[data-theme='dark'] sl-select *,
-:root[data-theme='dark'] sl-select * *,
-:root[data-theme='dark'] sl-select * * *,
-:root[data-theme='dark'] sl-select * * * *,
-:root[data-theme='dark'] sl-select * * * * * {
-    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif !important;
-}
+/* Shoelace font family is now handled globally via CSS variables */
 
 /* Filter group spacing and layout */
 .filter-group {
