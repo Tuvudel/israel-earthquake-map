@@ -39,7 +39,7 @@
   --sl-button-active-transform: translateY(-1px);
   
   /* Shoelace Button Transition */
-  --sl-button-transition: all var(--transition-med) var(--easing);
+      --sl-button-transition: all var(--animation-duration-normal) var(--animation-easing);
   
   /* Shoelace Select Tokens */
   --sl-input-font-family: var(--font-family-primary);

@@ -1,0 +1,409 @@
+/* ===== PERFORMANCE OPTIMIZATION UTILITIES ===== */
+/* Modern CSS performance techniques and best practices */
+
+/* ===== CONTENT VISIBILITY ===== */
+/* Optimize rendering performance for off-screen content */
+
+.content-visibility-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+}
+
+.content-visibility-hidden {
+    content-visibility: hidden;
+}
+
+.content-visibility-visible {
+    content-visibility: visible;
+}
+
+/* ===== CONTAINMENT ===== */
+/* Use CSS containment to optimize layout, paint, and style calculations */
+
+.contain-layout {
+    contain: layout;
+}
+
+.contain-paint {
+    contain: paint;
+}
+
+.contain-size {
+    contain: size;
+}
+
+.contain-style {
+    contain: style;
+}
+
+.contain-strict {
+    contain: strict;
+}
+
+/* ===== WILL-CHANGE OPTIMIZATIONS ===== */
+/* Optimize animations and transitions */
+
+.will-change-transform {
+    will-change: transform;
+}
+
+.will-change-opacity {
+    will-change: opacity;
+}
+
+.will-change-scroll {
+    will-change: scroll-position;
+}
+
+.will-change-auto {
+    will-change: auto;
+}
+
+/* ===== HARDWARE ACCELERATION ===== */
+/* Force hardware acceleration for smooth animations */
+
+.gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+.gpu-accelerated-3d {
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* ===== LAYER CREATION ===== */
+/* Create new layers for better performance */
+
+.layer {
+    transform: translateZ(0);
+    isolation: isolate;
+}
+
+.layer-3d {
+    transform: translate3d(0, 0, 0);
+    isolation: isolate;
+}
+
+/* ===== PAINT OPTIMIZATIONS ===== */
+/* Optimize paint operations */
+
+.paint-optimized {
+    contain: paint;
+    will-change: transform;
+}
+
+.no-paint {
+    contain: paint;
+}
+
+/* ===== LAYOUT OPTIMIZATIONS ===== */
+/* Optimize layout calculations */
+
+.layout-optimized {
+    contain: layout;
+}
+
+.no-layout {
+    contain: layout;
+}
+
+/* ===== STYLE OPTIMIZATIONS ===== */
+/* Optimize style calculations */
+
+.style-optimized {
+    contain: style;
+}
+
+.no-style {
+    contain: style;
+}
+
+/* ===== SCROLL PERFORMANCE ===== */
+/* Optimize scrolling performance */
+
+.scroll-optimized {
+    contain: layout style paint;
+    will-change: scroll-position;
+}
+
+.smooth-scroll {
+    scroll-behavior: smooth;
+}
+
+/* ===== ANIMATION PERFORMANCE ===== */
+/* Optimize animations for better performance */
+
+.animation-optimized {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+}
+
+.animation-gpu {
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+}
+
+/* ===== IMAGE OPTIMIZATIONS ===== */
+/* Optimize image rendering */
+
+.image-optimized {
+    image-rendering: optimizeSpeed;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+.image-smooth {
+    image-rendering: auto;
+}
+
+/* ===== FONT OPTIMIZATIONS ===== */
+/* Optimize font rendering */
+
+.font-optimized {
+    font-display: swap;
+    font-synthesis: none;
+}
+
+.font-fallback {
+    font-display: fallback;
+}
+
+/* ===== MEDIA QUERY OPTIMIZATIONS ===== */
+/* Optimize media query performance */
+
+@media (prefers-reduced-motion: reduce) {
+    .performance-motion {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ===== MEMORY OPTIMIZATIONS ===== */
+/* Reduce memory usage */
+
+.memory-optimized {
+    contain: strict;
+    content-visibility: auto;
+}
+
+/* ===== RENDERING OPTIMIZATIONS ===== */
+/* Optimize rendering pipeline */
+
+.render-optimized {
+    contain: layout style paint;
+    will-change: auto;
+}
+
+/* ===== COMPOSITING OPTIMIZATIONS ===== */
+/* Optimize compositing layers */
+
+.composite-optimized {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    isolation: isolate;
+}
+
+/* ===== CRITICAL PATH OPTIMIZATIONS ===== */
+/* Optimize critical rendering path */
+
+.critical-optimized {
+    contain: layout style paint;
+    content-visibility: visible;
+}
+
+/* ===== LAZY LOADING UTILITIES ===== */
+/* Optimize lazy loading performance */
+
+.lazy-load {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 300px;
+}
+
+.lazy-load-image {
+    loading: lazy;
+    decoding: async;
+}
+
+/* ===== VIRTUAL SCROLLING UTILITIES ===== */
+/* Optimize virtual scrolling performance */
+
+.virtual-scroll {
+    contain: layout style paint;
+    content-visibility: auto;
+    contain-intrinsic-size: 0 100px;
+}
+
+/* ===== INERTIA SCROLLING ===== */
+/* Optimize inertia scrolling */
+
+.inertia-scroll {
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+}
+
+/* ===== TOUCH OPTIMIZATIONS ===== */
+/* Optimize touch interactions */
+
+.touch-optimized {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.touch-pan-x {
+    touch-action: pan-x;
+}
+
+.touch-pan-y {
+    touch-action: pan-y;
+}
+
+.touch-pinch-zoom {
+    touch-action: pinch-zoom;
+}
+
+/* ===== FOCUS OPTIMIZATIONS ===== */
+/* Optimize focus management */
+
+.focus-optimized {
+    outline: none;
+}
+
+.focus-optimized:focus-visible {
+    outline: 2px solid var(--brand-600);
+    outline-offset: 2px;
+}
+
+/* ===== PRINT OPTIMIZATIONS ===== */
+/* Optimize print performance */
+
+@media print {
+    .print-optimized {
+        contain: layout style paint;
+        content-visibility: visible;
+    }
+    
+    .no-print {
+        display: none !important;
+    }
+}
+
+/* ===== ACCESSIBILITY PERFORMANCE ===== */
+/* Optimize accessibility features */
+
+.accessibility-optimized {
+    contain: layout style paint;
+    will-change: auto;
+}
+
+/* ===== RESPONSIVE PERFORMANCE ===== */
+/* Optimize responsive design performance */
+
+.responsive-optimized {
+    contain: layout style paint;
+    content-visibility: auto;
+}
+
+/* ===== ANIMATION TIMELINE OPTIMIZATIONS ===== */
+/* Optimize scroll-driven animations */
+
+.scroll-timeline-optimized {
+    animation-timeline: scroll();
+    animation-range: entry 10% cover 20%;
+    contain: layout style paint;
+}
+
+.view-timeline-optimized {
+    animation-timeline: view();
+    animation-range: entry 25% cover 50%;
+    contain: layout style paint;
+}
+
+/* ===== INTERSECTION OBSERVER OPTIMIZATIONS ===== */
+/* Optimize intersection observer performance */
+
+.intersection-optimized {
+    contain: layout style paint;
+    content-visibility: auto;
+    contain-intrinsic-size: 0 200px;
+}
+
+/* ===== RESIZE OBSERVER OPTIMIZATIONS ===== */
+/* Optimize resize observer performance */
+
+.resize-optimized {
+    contain: layout style paint;
+    will-change: auto;
+}
+
+/* ===== MUTATION OBSERVER OPTIMIZATIONS ===== */
+/* Optimize mutation observer performance */
+
+.mutation-optimized {
+    contain: layout style paint;
+    content-visibility: auto;
+}
+
+/* ===== PERFORMANCE MONITORING ===== */
+/* Utilities for performance monitoring */
+
+.performance-debug {
+    outline: 1px solid red;
+}
+
+.performance-debug * {
+    outline: 1px solid blue;
+}
+
+/* ===== CRITICAL CSS UTILITIES ===== */
+/* Optimize critical CSS loading */
+
+.critical-css {
+    content-visibility: visible;
+    contain: layout style paint;
+}
+
+/* ===== NON-CRITICAL CSS UTILITIES ===== */
+/* Optimize non-critical CSS loading */
+
+.non-critical-css {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 100px;
+}
+
+/* ===== PERFORMANCE FALLBACKS ===== */
+/* Provide fallbacks for older browsers */
+
+@supports not (content-visibility: auto) {
+    .content-visibility-auto {
+        display: block;
+    }
+}
+
+@supports not (contain: layout) {
+    .contain-layout {
+        display: block;
+    }
+}
+
+/* ===== PERFORMANCE METRICS ===== */
+/* Utilities for measuring performance */
+
+.performance-metric {
+    contain: layout style paint;
+    will-change: auto;
+}
+
+/* ===== PERFORMANCE BUDGETS ===== */
+/* Utilities for maintaining performance budgets */
+
+.performance-budget {
+    contain: strict;
+    content-visibility: auto;
+    will-change: auto;
+}

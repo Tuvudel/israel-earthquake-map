@@ -113,7 +113,7 @@
         box-shadow: var(--shadow-1) !important;
         -webkit-tap-highlight-color: transparent;
         outline: none;
-        transition: all var(--transition-fast) var(--easing) !important;
+        transition: all var(--animation-duration-fast) var(--animation-easing) !important;
     }
     .mobile-legend-toggle { 
         right: 162px !important; 

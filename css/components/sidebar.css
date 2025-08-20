@@ -76,7 +76,7 @@
     --sl-button-background-color: var(--surface-0);
     --sl-button-border-color: var(--border-1);
     --sl-button-shadow: var(--shadow-1);
-    --sl-button-transition: all var(--transition-med) var(--easing);
+    --sl-button-transition: all var(--animation-duration-normal) var(--animation-easing);
     --sl-button-hover-color: var(--text-2);
     --sl-button-hover-background-color: var(--surface-1);
     --sl-button-hover-border-color: var(--border-2);
@@ -96,7 +96,7 @@
     width: 14px;
     height: 14px;
     fill: currentColor;
-    transition: all var(--transition-fast) var(--easing);
+    transition: all var(--animation-duration-fast) var(--animation-easing);
 }
 
 .sort-indicator.active { 

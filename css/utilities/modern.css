@@ -1,0 +1,370 @@
+/* ===== MODERN CSS UTILITIES ===== */
+/* Contemporary CSS features and best practices */
+
+/* ===== LOGICAL PROPERTIES ===== */
+/* Use logical properties for better internationalization and RTL support */
+
+.logical-padding {
+    padding-block: var(--spacing-4);
+    padding-inline: var(--spacing-6);
+}
+
+.logical-margin {
+    margin-block: var(--spacing-4);
+    margin-inline: var(--spacing-6);
+}
+
+.logical-border {
+    border-block: 1px solid var(--border-1);
+    border-inline: 1px solid var(--border-1);
+}
+
+/* ===== CONTAINER QUERIES ===== */
+/* Modern container query support for component-based responsive design */
+
+@container (min-width: 400px) {
+    .container-responsive {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-4);
+    }
+}
+
+@container (min-width: 600px) {
+    .container-responsive {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ===== MODERN SELECTORS ===== */
+/* Use modern CSS selectors for better specificity and maintainability */
+
+/* Focus-visible for better accessibility */
+.focus-visible:focus-visible {
+    outline: 2px solid var(--brand-600);
+    outline-offset: 2px;
+}
+
+/* Has selector for conditional styling */
+.has-children:has(> *) {
+    padding: var(--spacing-4);
+}
+
+/* Is selector for state-based styling */
+.is-active {
+    background-color: var(--accent-600);
+    color: var(--text-on-accent);
+}
+
+/* ===== MODERN LAYOUT UTILITIES ===== */
+
+/* CSS Grid utilities */
+.grid-auto-fit {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-4);
+}
+
+.grid-auto-fill {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--spacing-4);
+}
+
+/* Flexbox utilities */
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-4);
+}
+
+/* ===== MODERN SPACING SYSTEM ===== */
+/* Use CSS custom properties for consistent spacing */
+
+:root {
+    --spacing-1: 0.25rem;  /* 4px */
+    --spacing-2: 0.5rem;   /* 8px */
+    --spacing-3: 0.75rem;  /* 12px */
+    --spacing-4: 1rem;     /* 16px */
+    --spacing-5: 1.25rem;  /* 20px */
+    --spacing-6: 1.5rem;   /* 24px */
+    --spacing-8: 2rem;     /* 32px */
+    --spacing-10: 2.5rem;  /* 40px */
+    --spacing-12: 3rem;    /* 48px */
+    --spacing-16: 4rem;    /* 64px */
+    --spacing-20: 5rem;    /* 80px */
+    --spacing-24: 6rem;    /* 96px */
+}
+
+/* Spacing utilities */
+.p-1 { padding: var(--spacing-1); }
+.p-2 { padding: var(--spacing-2); }
+.p-3 { padding: var(--spacing-3); }
+.p-4 { padding: var(--spacing-4); }
+.p-5 { padding: var(--spacing-5); }
+.p-6 { padding: var(--spacing-6); }
+
+.m-1 { margin: var(--spacing-1); }
+.m-2 { margin: var(--spacing-2); }
+.m-3 { margin: var(--spacing-3); }
+.m-4 { margin: var(--spacing-4); }
+.m-5 { margin: var(--spacing-5); }
+.m-6 { margin: var(--spacing-6); }
+
+/* ===== MODERN TYPOGRAPHY ===== */
+/* Use modern typography features */
+
+.text-balance {
+    text-wrap: balance;
+}
+
+.text-pretty {
+    text-wrap: pretty;
+}
+
+.text-nowrap {
+    text-wrap: nowrap;
+}
+
+/* ===== MODERN COLOR UTILITIES ===== */
+/* Use modern color functions */
+
+.color-mix-light {
+    background-color: color-mix(in srgb, var(--brand-600) 20%, white);
+}
+
+.color-mix-dark {
+    background-color: color-mix(in srgb, var(--brand-600) 20%, black);
+}
+
+/* ===== MODERN ANIMATION UTILITIES ===== */
+/* Use modern animation features */
+
+.scroll-timeline {
+    animation-timeline: scroll();
+    animation-range: entry 10% cover 20%;
+}
+
+.view-timeline {
+    animation-timeline: view();
+    animation-range: entry 25% cover 50%;
+}
+
+/* ===== MODERN PERFORMANCE UTILITIES ===== */
+
+/* Content-visibility for performance */
+.content-visibility-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+}
+
+/* Contain for better performance */
+.contain-layout {
+    contain: layout;
+}
+
+.contain-paint {
+    contain: paint;
+}
+
+.contain-size {
+    contain: size;
+}
+
+.contain-strict {
+    contain: strict;
+}
+
+/* ===== MODERN ACCESSIBILITY ===== */
+
+/* Reduced motion utilities */
+@media (prefers-reduced-motion: reduce) {
+    .motion-safe {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .high-contrast {
+        border-width: 2px;
+        outline-width: 2px;
+    }
+}
+
+/* Dark mode utilities */
+@media (prefers-color-scheme: dark) {
+    .auto-dark {
+        background-color: var(--surface-1);
+        color: var(--text-1);
+    }
+}
+
+/* ===== MODERN RESPONSIVE UTILITIES ===== */
+
+/* Container queries for responsive design */
+@container (max-width: 400px) {
+    .mobile-first {
+        font-size: 0.875rem;
+        padding: var(--spacing-2);
+    }
+}
+
+@container (min-width: 768px) {
+    .desktop-enhanced {
+        font-size: 1.125rem;
+        padding: var(--spacing-6);
+    }
+}
+
+/* ===== MODERN INTERACTION UTILITIES ===== */
+
+/* Touch-friendly targets */
+.touch-target {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* Hover media query for devices that support hover */
+@media (hover: hover) {
+    .hover-only {
+        opacity: 0.7;
+        transition: opacity var(--animation-duration-fast) var(--animation-easing);
+    }
+    
+    .hover-only:hover {
+        opacity: 1;
+    }
+}
+
+/* Pointer media query for touch devices */
+@media (pointer: coarse) {
+    .touch-friendly {
+        padding: var(--spacing-4);
+        margin: var(--spacing-2);
+    }
+}
+
+/* ===== MODERN LAYOUT PATTERNS ===== */
+
+/* Stack layout pattern */
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+.stack-sm {
+    gap: var(--spacing-2);
+}
+
+.stack-lg {
+    gap: var(--spacing-6);
+}
+
+/* Cluster layout pattern */
+.cluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-4);
+    align-items: center;
+}
+
+/* Sidebar layout pattern */
+.sidebar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--spacing-6);
+}
+
+.sidebar-left {
+    grid-template-columns: auto 1fr;
+}
+
+/* ===== MODERN COMPONENT UTILITIES ===== */
+
+/* Glass morphism effect */
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+}
+
+/* Card component */
+.card {
+    background: var(--surface-0);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-2);
+    padding: var(--spacing-6);
+    box-shadow: var(--shadow-1);
+}
+
+/* Button component */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-3) var(--spacing-6);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-2);
+    background: var(--surface-0);
+    color: var(--text-1);
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--animation-duration-fast) var(--animation-easing);
+}
+
+.btn:hover {
+    background: var(--surface-1);
+    border-color: var(--border-2);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-2);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--brand-600);
+    outline-offset: 2px;
+}
+
+/* ===== MODERN DEBUGGING UTILITIES ===== */
+
+/* Debug outline for development */
+.debug * {
+    outline: 1px solid red;
+}
+
+.debug-grid {
+    background-image: linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* ===== MODERN PRINT UTILITIES ===== */
+
+@media print {
+    .print-hidden {
+        display: none !important;
+    }
+    
+    .print-break-before {
+        break-before: page;
+    }
+    
+    .print-break-after {
+        break-after: page;
+    }
+}

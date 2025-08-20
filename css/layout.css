@@ -42,9 +42,11 @@ body { overflow: hidden; }
                 border-color var(--animation-duration-bounce) var(--animation-easing),
                 transform var(--animation-duration-bounce) var(--animation-easing),
                 opacity var(--animation-duration-bounce) var(--animation-easing);
-    /* Force hardware acceleration for smooth animations */
+    /* Performance optimizations */
     will-change: width, transform, opacity;
     transform: translateZ(0);
+    contain: layout style paint;
+    content-visibility: visible;
 }
 
 /* Shoelace tabs: make tabs fill available width and theme the nav */
@@ -57,7 +59,7 @@ body { overflow: hidden; }
     height: 2px;
     border-radius: 1px;
     /* Smooth indicator animation */
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform var(--animation-duration-normal) var(--animation-easing);
 }
 #sidebar sl-tab-group::part(body) {
     background: var(--surface-0);
@@ -70,7 +72,7 @@ body { overflow: hidden; }
     font-family: var(--font-family-primary);
     padding: 12px 16px;
     font-weight: 600;
-    transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: color var(--animation-duration-fast) var(--animation-easing);
 }
 #sidebar sl-tab[active]::part(base) {
     color: var(--brand-600);
@@ -124,8 +126,8 @@ body { overflow: hidden; }
     display: block !important;
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity var(--animation-duration-normal) var(--animation-easing),
+                transform var(--animation-duration-normal) var(--animation-easing);
     pointer-events: auto;
 }
 
@@ -186,7 +188,7 @@ body { overflow: hidden; }
 
 /* Enhanced table animations */
 #data-table-panel {
-    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity var(--animation-duration-normal) var(--animation-easing);
 }
 
 #data-table-panel.loading {
@@ -195,9 +197,14 @@ body { overflow: hidden; }
 
 /* Table row animations */
 .earthquake-row {
-    transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color var(--animation-duration-fast) var(--animation-easing),
+                transform var(--animation-duration-fast) var(--animation-easing),
+                box-shadow var(--animation-duration-fast) var(--animation-easing);
+    /* Performance optimizations */
+    will-change: transform, background-color, box-shadow;
+    contain: layout style paint;
+    content-visibility: auto;
+    contain-intrinsic-size: 0 60px;
 }
 
 .earthquake-row:hover {
@@ -205,7 +212,7 @@ body { overflow: hidden; }
 }
 
 .earthquake-row.highlighted {
-    background-color: var(--brand-50);
+    background-color: var(--sl-color-primary-100);
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
     transform: translateY(-1px);
 }
@@ -218,21 +225,33 @@ body { overflow: hidden; }
 
 /* Statistics panel animations */
 #statistics-panel {
-    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity var(--animation-duration-normal) var(--animation-easing);
 }
 
 .stat-item {
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform var(--animation-duration-fast) var(--animation-easing),
+                background-color var(--animation-duration-fast) var(--animation-easing),
+                box-shadow var(--animation-duration-fast) var(--animation-easing);
+    /* Performance optimizations */
+    will-change: transform, background-color, box-shadow;
+    contain: layout style paint;
+    content-visibility: auto;
+    contain-intrinsic-size: 0 80px;
 }
 
 .stat-item:hover {
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode stat item hover */
+:root[data-theme='dark'] .stat-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Pagination animations */
 .pagination-controls {
-    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity var(--animation-duration-fast) var(--animation-easing);
 }
 
 .pagination-controls.loading {
@@ -242,5 +261,5 @@ body { overflow: hidden; }
 
 /* Smooth transitions for all interactive elements */
 sl-button, sl-badge, .mag-badge {
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all var(--animation-duration-fast) var(--animation-easing);
 }

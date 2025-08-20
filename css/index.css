@@ -6,9 +6,16 @@
 @import url('./tokens/breakpoints.css');
 @import url('./tokens/components.css');
 
+/* Animation System (load before base styles) */
+@import url('./animations.css');
+
 /* Base Styles */
 @import url('./base.css');
 @import url('./utilities.css');
+@import url('./utilities/animations.css');
+@import url('./utilities/modern.css');
+@import url('./utilities/performance.css');
+@import url('./utilities/accessibility.css');
 @import url('./layout.css');
 
 /* Components */

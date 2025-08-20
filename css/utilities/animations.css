@@ -1,0 +1,189 @@
+/* ===== ANIMATION UTILITY CLASSES ===== */
+/* Reusable animation classes to reduce code duplication across components */
+
+/* ===== HOVER EFFECTS ===== */
+
+/* Standard hover lift effect */
+.hover-lift {
+    transition: transform var(--animation-duration-fast) var(--animation-easing),
+                box-shadow var(--animation-duration-fast) var(--animation-easing);
+}
+
+.hover-lift:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-2);
+}
+
+/* Enhanced hover lift for cards and panels */
+.hover-lift-enhanced {
+    transition: transform var(--animation-duration-fast) var(--animation-easing),
+                box-shadow var(--animation-duration-fast) var(--animation-easing),
+                background-color var(--animation-duration-fast) var(--animation-easing);
+}
+
+.hover-lift-enhanced:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-3);
+}
+
+/* ===== INTERACTIVE ELEMENTS ===== */
+
+/* Standard interactive element transitions */
+.interactive {
+    transition: all var(--animation-duration-fast) var(--animation-easing);
+    cursor: pointer;
+}
+
+.interactive:hover {
+    transform: translateY(-1px);
+}
+
+/* Button-like interactive elements */
+.interactive-button {
+    transition: background-color var(--animation-duration-fast) var(--animation-easing),
+                border-color var(--animation-duration-fast) var(--animation-easing),
+                color var(--animation-duration-fast) var(--animation-easing),
+                box-shadow var(--animation-duration-fast) var(--animation-easing),
+                transform var(--animation-duration-fast) var(--animation-easing);
+    cursor: pointer;
+}
+
+.interactive-button:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-2);
+}
+
+.interactive-button:active {
+    transform: translateY(0);
+}
+
+/* ===== PANEL ANIMATIONS ===== */
+
+/* Panel opacity transitions */
+.panel-transition {
+    transition: opacity var(--animation-duration-normal) var(--animation-easing);
+}
+
+.panel-transition.loading {
+    opacity: 0.6;
+}
+
+/* Panel slide transitions */
+.panel-slide {
+    transition: opacity var(--animation-duration-normal) var(--animation-easing),
+                transform var(--animation-duration-normal) var(--animation-easing);
+}
+
+.panel-slide.hidden {
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+}
+
+/* ===== TABLE ROW ANIMATIONS ===== */
+
+/* Table row hover effects */
+.table-row-hover {
+    transition: background-color var(--animation-duration-fast) var(--animation-easing),
+                transform var(--animation-duration-fast) var(--animation-easing),
+                box-shadow var(--animation-duration-fast) var(--animation-easing);
+}
+
+.table-row-hover:hover {
+    transform: translateY(-1px);
+}
+
+.table-row-hover.highlighted {
+    background-color: var(--sl-color-primary-100);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Dark mode table row highlights */
+:root[data-theme='dark'] .table-row-hover.highlighted {
+    background-color: rgba(59, 130, 246, 0.1);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+}
+
+/* ===== STATISTICS ANIMATIONS ===== */
+
+/* Stat item hover effects */
+.stat-item-hover {
+    transition: transform var(--animation-duration-fast) var(--animation-easing),
+                background-color var(--animation-duration-fast) var(--animation-easing),
+                box-shadow var(--animation-duration-fast) var(--animation-easing);
+}
+
+.stat-item-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode stat item hover */
+:root[data-theme='dark'] .stat-item-hover:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== LOADING STATES ===== */
+
+/* Loading animation for elements */
+.loading-pulse {
+    animation: pulse var(--animation-duration-slow) var(--animation-easing) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+
+/* Hardware acceleration for animated elements */
+.gpu-accelerated {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+}
+
+/* Optimize animations for mobile */
+@media (max-width: 768px) {
+    .hover-lift:hover,
+    .hover-lift-enhanced:hover,
+    .interactive:hover,
+    .interactive-button:hover {
+        transform: translateY(-0.5px);
+    }
+    
+    .hover-lift-enhanced:hover {
+        transform: translateY(-1px);
+    }
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .hover-lift,
+    .hover-lift-enhanced,
+    .interactive,
+    .interactive-button,
+    .panel-transition,
+    .panel-slide,
+    .table-row-hover,
+    .stat-item-hover {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .hover-lift:hover,
+    .hover-lift-enhanced:hover,
+    .interactive:hover,
+    .interactive-button:hover,
+    .table-row-hover:hover,
+    .stat-item-hover:hover {
+        transform: none !important;
+    }
+}

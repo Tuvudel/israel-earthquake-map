@@ -30,10 +30,10 @@
     --border-1: #e5e7eb;
     --border-2: #d1d5db;
 
-    /* Motion */
-    --transition-fast: 180ms;
-    --transition-med: 240ms;
-    --easing: cubic-bezier(0.4, 0, 0.2, 1);
+    /* Motion - Using unified animation system from animations.css */
+    --transition-fast: var(--animation-duration-fast);
+    --transition-med: var(--animation-duration-normal);
+    --easing: var(--animation-easing);
 
     /* Components tokens */
     --legend-line: #000000;
