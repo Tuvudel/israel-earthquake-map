@@ -42,6 +42,24 @@ class TableController {
                 }
             });
         }
+        
+        // Listen for custom tab animation events from TabAnimationController
+        document.addEventListener('tab-animation-change', (event) => {
+            const { tabName, isAnimating } = event.detail;
+            
+            // If switching to events tab and animation is in progress, wait for animation to complete
+            if (tabName === 'events' && this.app.filteredData) {
+                if (isAnimating) {
+                    // Wait for animation to complete before updating table
+                    setTimeout(() => {
+                        this.updateTable(this.app.filteredData, this.currentPage, this.sortColumn, this.sortDirection);
+                    }, 350); // Slightly longer than animation duration
+                } else {
+                    // Immediate update if no animation
+                    this.updateTable(this.app.filteredData, this.currentPage, this.sortColumn, this.sortDirection);
+                }
+            }
+        });
     }
     
     setupEventListeners() {

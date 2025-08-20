@@ -292,6 +292,27 @@
     }
 
     /**
+     * Smoothly adapt sidebar height with animation
+     * @param {number} heightDiff - Height difference in pixels
+     * @param {number} duration - Animation duration in milliseconds
+     */
+    adaptHeightSmoothly(heightDiff, duration = 400) {
+      if (!this.sidebar) return;
+      
+      const currentHeight = parseInt(this.sidebar.style.height) || this.sidebar.scrollHeight;
+      const targetHeight = currentHeight + heightDiff;
+      
+      // Set transition for smooth height change
+      this.sidebar.style.transition = `height ${duration}ms var(--animation-easing-smooth)`;
+      this.sidebar.style.height = `${targetHeight}px`;
+      
+      // Remove transition after animation completes
+      setTimeout(() => {
+        this.sidebar.style.transition = '';
+      }, duration + 100);
+    }
+
+    /**
      * Cancel ongoing height animation
      */
     cancelHeightAnimation() {

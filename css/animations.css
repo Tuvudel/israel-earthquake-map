@@ -14,6 +14,9 @@
   --animation-easing-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --animation-easing-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   
+  /* ===== ANIMATION DURATIONS ===== */
+  --animation-duration-mobile: 400ms;
+  
   /* ===== ANIMATION DELAYS ===== */
   --animation-delay-fast: 50ms;
   --animation-delay-normal: 100ms;
@@ -329,6 +332,123 @@
   }
 }
 
+/* ===== TAB PANEL ANIMATIONS ===== */
+
+/* Cross-fade transition classes */
+.tab-panel-cross-fade {
+  transition: opacity var(--animation-duration-normal) var(--animation-easing),
+              transform var(--animation-duration-normal) var(--animation-easing);
+}
+
+.tab-panel-cross-fade-out {
+  opacity: var(--opacity-hidden);
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+.tab-panel-cross-fade-in {
+  opacity: var(--opacity-visible);
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Slide transition classes */
+.tab-panel-slide {
+  transition: transform var(--animation-duration-normal) var(--animation-easing);
+}
+
+.tab-panel-slide-left-out {
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+
+.tab-panel-slide-right-out {
+  transform: translateX(100%);
+  pointer-events: none;
+}
+
+.tab-panel-slide-left-in {
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.tab-panel-slide-right-in {
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+/* Mobile-specific tab animations */
+.tab-panel-mobile {
+  transition: opacity var(--animation-duration-slow) var(--animation-easing-smooth),
+              transform var(--animation-duration-slow) var(--animation-easing-smooth),
+              height var(--animation-duration-slow) var(--animation-easing-smooth);
+}
+
+.tab-panel-mobile-slide-out {
+  transform: translateX(-100%);
+  opacity: var(--opacity-hidden);
+  pointer-events: none;
+}
+
+.tab-panel-mobile-slide-in {
+  transform: translateX(0);
+  opacity: var(--opacity-visible);
+  pointer-events: auto;
+}
+
+/* Tab panel positioning utilities */
+.tab-panel-absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.tab-panel-relative {
+  position: relative;
+  z-index: 1;
+}
+
+.tab-panel-overlay {
+  z-index: 2;
+}
+
+/* Tab panel performance optimizations */
+.tab-panel-gpu {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  contain: layout style paint;
+}
+
+.tab-panel-content-visibility {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 400px;
+}
+
+/* Tab panel animation states */
+.tab-panel-transitioning {
+  pointer-events: none;
+}
+
+.tab-panel-ready {
+  pointer-events: auto;
+}
+
+/* Tab panel height adaptation */
+.tab-panel-height-transition {
+  transition: height var(--animation-duration-slow) var(--animation-easing-smooth);
+}
+
+/* Tab panel scroll preservation */
+.tab-panel-scroll-preserve {
+  scroll-behavior: auto;
+}
+
+.tab-panel-scroll-smooth {
+  scroll-behavior: smooth;
+}
+
 /* ===== UTILITY CLASSES ===== */
 
 /* Disable transitions temporarily */
@@ -398,4 +518,82 @@
   .focus-ring:focus {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
   }
+}
+
+/* ===== TAB ANIMATIONS ===== */
+
+/* Tab panel base animation class */
+.tab-panel-animated {
+  transition: opacity var(--animation-duration-normal) var(--animation-easing),
+              transform var(--animation-duration-normal) var(--animation-easing);
+}
+
+/* Cross-fade animations */
+.tab-fade-out {
+  opacity: 0 !important;
+  transform: translateY(10px) !important;
+  transition: opacity var(--animation-duration-normal) var(--animation-easing),
+              transform var(--animation-duration-normal) var(--animation-easing) !important;
+}
+
+.tab-fade-in {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  transition: opacity var(--animation-duration-normal) var(--animation-easing),
+              transform var(--animation-duration-normal) var(--animation-easing) !important;
+}
+
+/* Slide animations for mobile */
+.tab-slide-out {
+  transform: translateX(-100%) !important;
+  transition: transform var(--animation-duration-mobile) var(--animation-easing-smooth) !important;
+}
+
+.tab-slide-in {
+  transform: translateX(0) !important;
+  transition: transform var(--animation-duration-mobile) var(--animation-easing-smooth) !important;
+}
+
+/* Immediate switch for reduced motion */
+.tab-immediate {
+  transition: none !important;
+}
+
+/* Ensure proper z-index during animations */
+.tab-fade-out,
+.tab-slide-out {
+  z-index: 1 !important;
+}
+
+.tab-fade-in,
+.tab-slide-in {
+  z-index: 2 !important;
+}
+
+/* Tab entrance animation for smooth transitions */
+.tab-entrance {
+  animation: tabEntrance var(--animation-duration-normal) var(--animation-easing) ease-out;
+}
+
+@keyframes tabEntrance {
+  0% {
+    opacity: 0.8;
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* High specificity tab entrance animation class */
+.tab-entrance-animating {
+  opacity: 0.8 !important;
+  transform: translateY(8px) !important;
+  transition: opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), transform 300ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.tab-entrance-animating.animate-complete {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }

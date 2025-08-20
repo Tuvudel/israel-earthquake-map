@@ -58,8 +58,13 @@ body { overflow: hidden; }
     background: var(--brand-600);
     height: 2px;
     border-radius: 1px;
-    /* Smooth indicator animation */
-    transition: transform var(--animation-duration-normal) var(--animation-easing);
+    /* Enhanced indicator animation */
+    transition: transform var(--animation-duration-normal) var(--animation-easing),
+                background-color var(--animation-duration-fast) var(--animation-easing),
+                box-shadow var(--animation-duration-fast) var(--animation-easing);
+    /* Performance optimizations */
+    will-change: transform;
+    transform: translateZ(0);
 }
 #sidebar sl-tab-group::part(body) {
     background: var(--surface-0);
@@ -76,9 +81,31 @@ body { overflow: hidden; }
 }
 #sidebar sl-tab[active]::part(base) {
     color: var(--brand-600);
+    /* Enhanced active state */
+    font-weight: 700;
+    transform: translateY(0);
+    transition: color var(--animation-duration-fast) var(--animation-easing),
+                font-weight var(--animation-duration-fast) var(--animation-easing),
+                transform var(--animation-duration-fast) var(--animation-easing);
 }
+
 #sidebar sl-tab:hover::part(base) {
     color: var(--text-1);
+    transform: translateY(-1px);
+    transition: color var(--animation-duration-fast) var(--animation-easing),
+                transform var(--animation-duration-fast) var(--animation-easing);
+}
+
+#sidebar sl-tab:focus::part(base) {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--brand-300);
+    transition: box-shadow var(--animation-duration-fast) var(--animation-easing);
+}
+
+/* Tab press/active state */
+#sidebar sl-tab:active::part(base) {
+    transform: translateY(0);
+    transition: transform var(--animation-duration-fast) var(--animation-easing);
 }
 #sidebar sl-tab {
     flex: 1 1 0;
@@ -117,37 +144,83 @@ body { overflow: hidden; }
 
 /* Removed legacy #date-filter-below-tabs block */
 
-/* Enhanced tab panel animations - Override Shoelace defaults */
+/* Enhanced tab panel animations - Work with Shoelace defaults */
 #sidebar sl-tab-panel::part(base) {
     padding: 8px 16px 16px;
     background: var(--surface-0);
     color: var(--text-1);
-    /* Override Shoelace's display: none behavior */
-    display: block !important;
-    opacity: 1;
-    transform: translateY(0);
+    /* Let Shoelace handle display logic */
     transition: opacity var(--animation-duration-normal) var(--animation-easing),
                 transform var(--animation-duration-normal) var(--animation-easing);
     pointer-events: auto;
+    /* Performance optimizations */
+    will-change: opacity, transform;
+    contain: layout style paint;
+    content-visibility: visible;
+    /* Ensure proper positioning */
+    position: relative;
+    z-index: 1;
 }
 
-/* Hide inactive panels with smooth animation */
+/* Inactive panels - let Shoelace handle visibility */
 #sidebar sl-tab-panel:not([active])::part(base) {
     opacity: 0;
     transform: translateY(10px);
     pointer-events: none;
-    /* Keep display: block but make it invisible */
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: -1;
+    /* Don't use absolute positioning to avoid layout issues */
+    position: relative;
+    z-index: 0;
 }
 
 /* Active panel should be visible and positioned normally */
 #sidebar sl-tab-panel[active]::part(base) {
     position: relative;
     z-index: 1;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Tab panel animation states for slide transitions */
+#sidebar sl-tab-panel.tab-panel-slide-out::part(base) {
+    transform: translateX(-100%);
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+#sidebar sl-tab-panel.tab-panel-slide-in::part(base) {
+    transform: translateX(0);
+    pointer-events: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+}
+
+/* Mobile-specific tab panel optimizations */
+@media (max-width: 768px) {
+    #sidebar sl-tab-panel::part(base) {
+        /* Optimize for mobile performance */
+        will-change: transform, opacity;
+        /* Ensure smooth height transitions */
+        transition: opacity var(--animation-duration-mobile) var(--animation-easing-smooth),
+                    transform var(--animation-duration-mobile) var(--animation-easing-smooth),
+                    height var(--animation-duration-mobile) var(--animation-easing-smooth);
+    }
+    
+    /* Mobile slide transitions */
+    #sidebar sl-tab-panel.tab-panel-slide-out::part(base) {
+        transform: translateX(-100%);
+    }
+    
+    #sidebar sl-tab-panel.tab-panel-slide-in::part(base) {
+        transform: translateX(0);
+    }
 }
 
 /* Desktop sidebar collapsed state (toggled by header Data button) */
