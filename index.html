@@ -96,7 +96,7 @@
                     <!-- Unified Filters Pane (top-sheet): Magnitude / Country / Area + Date -->
                     <div id="filters-pane" class="filters-container" tabindex="-1" role="dialog" aria-label="Filters" aria-modal="false">
                         <!-- Magnitude Range (dual-range slider) -->
-                        <div class="filter-group">
+                        <div class="filter-group magnitude-group">
                             <label class="filter-label">Magnitude:</label>
                             <div class="year-slider-container" id="magnitude-range-container">
                                 <div class="year-labels">
@@ -107,20 +107,23 @@
                             </div>
                         </div>
 
-                        <!-- Country Filter (Shoelace multiselect) -->
-                        <div class="filter-group">
-                            <label class="filter-label">Country:</label>
-                            <sl-select id="country-multiselect" multiple placeholder="All Countries" clearable>
-                                <!-- Options populated by JS -->
-                            </sl-select>
-                        </div>
+                        <!-- Country and Area Filters Container (stacked vertically) -->
+                        <div class="filter-group location-filters-group">
+                            <!-- Country Filter (Shoelace multiselect) -->
+                            <div class="location-filter-item">
+                                <label class="filter-label">Country:</label>
+                                <sl-select id="country-multiselect" multiple placeholder="All Countries" clearable>
+                                    <!-- Options populated by JS -->
+                                </sl-select>
+                            </div>
 
-                        <!-- Area Filter (Shoelace multiselect) -->
-                        <div class="filter-group">
-                            <label class="filter-label">Area:</label>
-                            <sl-select id="area-multiselect" multiple placeholder="All Areas" clearable>
-                                <!-- Options populated by JS -->
-                            </sl-select>
+                            <!-- Area Filter (Shoelace multiselect) -->
+                            <div class="location-filter-item">
+                                <label class="filter-label">Area:</label>
+                                <sl-select id="area-multiselect" multiple placeholder="All Areas" clearable>
+                                    <!-- Options populated by JS -->
+                                </sl-select>
+                            </div>
                         </div>
 
                         <!-- Date Filter (Relative | Range) -->

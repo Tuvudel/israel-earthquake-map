@@ -232,6 +232,33 @@
     }
 }
 
+/* Very small devices - ensure buttons always fit */
+@media (max-width: 380px) {
+    .table-sort-controls {
+        flex-wrap: wrap;
+        gap: 2px;
+        padding: 0;
+        overflow: visible;
+        justify-content: center;
+        margin-bottom: 12px;
+    }
+    
+    .sortable {
+        font-size: 0.65rem;
+        --sl-button-font-size-small: 8px;
+        --sl-button-padding-small: 2px 1px;
+        --sl-button-height-small: 22px;
+        min-width: 0;
+        flex: 0 1 auto;
+    }
+    
+    .sort-indicator {
+        width: 10px;
+        height: 10px;
+        margin-left: 2px;
+    }
+}
+
 /* Pagination */
 #pagination { margin-top: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
 .pagination-info { color: var(--text-muted); }

@@ -2,7 +2,7 @@
 
 /* Shoelace Select Styling for Filter Controls */
 .filter-group sl-select {
-    width: 220px;
+    width: 280px; /* ADJUSTABLE: Increased from 220px to 280px to accommodate more values */
     --sl-input-font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     --sl-input-font-size-medium: 0.9rem;
     --sl-input-border-radius-medium: var(--radius-2);
@@ -256,7 +256,7 @@ sl-select * * * * * {
 
 /* Date filter (Relative | Range) */
 .date-mode-toggle { display: flex; gap: 6px; background: var(--surface-0); border: 1px solid var(--border-1); border-radius: var(--radius-2); padding: 2px; margin-bottom: 8px; flex: 1 1 auto; min-width: 0; }
-.toggle-btn { background: transparent; border: 1px solid transparent; color: var(--text-2); padding: 6px 10px; border-radius: var(--radius-1); cursor: pointer; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; flex: 1 1 0; justify-content: center; min-height: 32px; box-sizing: border-box; }
+.toggle-btn { background: transparent; border: 1px solid transparent; color: var(--text-2); padding: 4px 8px; border-radius: var(--radius-1); cursor: pointer; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; flex: 1 1 0; justify-content: center; min-height: 28px; box-sizing: border-box; } /* ADJUSTABLE: Reduced padding from 6px 10px to 4px 8px and min-height from 32px to 28px */
 .toggle-btn:hover { background: var(--surface-1); border-color: var(--border-1); }
 .toggle-btn.active { background: var(--accent-600); color: var(--text-on-accent); box-shadow: var(--shadow-1); border-color: var(--accent-600); }
 .toggle-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring-color); }
@@ -264,14 +264,14 @@ sl-select * * * * * {
 .date-mode-toggle .toggle-btn { position: relative; }
 .date-mode-toggle .toggle-btn + .toggle-btn::before { content: ""; position: absolute; left: -3px; top: 20%; bottom: 20%; width: 2px; background: var(--seg-divider); border-radius: 1px; opacity: 0.9; }
 .relative-options { margin-top: 0px !important; margin-bottom: 0px !important; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-.option-btn { background: var(--surface-0); border: 1px solid var(--border-1); color: var(--text-2); padding: 6px 10px !important; border-radius: var(--radius-1); cursor: pointer; font-size: 0.85rem !important; font-weight: 600; line-height: 1.2; min-height: 32px; }
+.option-btn { background: var(--surface-0); border: 1px solid var(--border-1); color: var(--text-2); padding: 4px 8px !important; border-radius: var(--radius-1); cursor: pointer; font-size: 0.85rem !important; font-weight: 600; line-height: 1.2; min-height: 28px; } /* ADJUSTABLE: Reduced padding from 6px 10px to 4px 8px and min-height from 32px to 28px */
 .option-btn.active { background: var(--accent-600); border-color: var(--accent-600); color: var(--text-on-accent); }
 
 /* Card container for date filter */
 .date-filter-card { background: transparent; border: none; border-radius: 0; padding: 0px; box-shadow: none;}
 .date-filter-card .date-mode-row { margin-bottom: 0px; }
 /* Maintain consistent vertical space to prevent jump when switching modes */
-.date-filter-card .collapsible { min-height: 60px; }
+.date-filter-card .collapsible { min-height: 0px; } /* ADJUSTABLE: Reduced from 60px to 40px */
 .date-filter-card .collapsible.is-hidden { min-height: 0; }
 
 
@@ -303,7 +303,7 @@ sl-select * * * * * {
     overflow: visible !important; 
     white-space: nowrap !important; 
     flex: 0 0 auto !important; 
-    min-height: 32px !important;
+    min-height: 28px !important; /* ADJUSTABLE: Reduced from 32px to 28px */
     gap: 0 !important;
     margin: 0 !important;
     padding: 0 !important;

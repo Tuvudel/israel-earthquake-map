@@ -1,6 +1,6 @@
 /* Year dual-range slider (Material UI style) */
-.year-slider-container { position: relative; width: 100%; padding: 0 8px 4px 8px; box-sizing: border-box; }
-#year-range-slider { margin: 5px 0 0 0; --thumb-size: 20px; --track-height: 4px; --ring-color: var(--ring-color); display: block; width: 100%; max-width: 100%; box-sizing: border-box; }
+.year-slider-container { position: relative; width: 100%; padding: 0 8px 2px 8px; box-sizing: border-box; } /* ADJUSTABLE: Reduced bottom padding from 4px to 2px */
+#year-range-slider { margin: 3px 0 0 0; --thumb-size: 20px; --track-height: 4px; --ring-color: var(--ring-color); display: block; width: 100%; max-width: 100%; box-sizing: border-box; } /* ADJUSTABLE: Reduced top margin from 5px to 3px */
 #year-range-slider.noUi-horizontal { height: var(--track-height); }
 #year-range-slider.noUi-target,
 #year-range-slider .noUi-base { background: var(--track-bg); border-radius: 9999px; border: none; box-shadow: none; overflow: visible; }
@@ -23,7 +23,7 @@
 
 /* Magnitude dual-range slider (Material UI style) */
 .magnitude-slider-container,
-#magnitude-range-container { position: relative; width: 100%; max-width: 100%; margin: 25px 0 0px 0; box-sizing: border-box; }
+#magnitude-range-container { position: relative; width: 100%; max-width: 100%; margin: 8px 0 0px 0; box-sizing: border-box; } /* ADJUSTABLE: Reduced from 25px to 8px */
 #magnitude-range-slider { margin: 1px 0; --thumb-size: 20px; --track-height: 4px; --ring-color: var(--ring-color); display: block; width: 100%; max-width: 100%; box-sizing: border-box; }
 #magnitude-range-slider.noUi-horizontal { height: var(--track-height); }
 #magnitude-range-slider.noUi-target,
@@ -45,7 +45,7 @@
 
 /* Show and style pips (marks) similar to MUI marks */
 #year-range-slider .noUi-pips,
-#magnitude-range-slider .noUi-pips { display: block !important; margin-top: 8px; color: var(--text-muted); opacity: 1; visibility: visible; left: 0; right: 0; width: calc(100% + 16px); transform: translateX(-8px); box-sizing: border-box; overflow: visible; }
+#magnitude-range-slider .noUi-pips { display: block !important; margin-top: 4px; color: var(--text-muted); opacity: 1; visibility: visible; left: 0; right: 0; width: calc(100% + 16px); transform: translateX(-8px); box-sizing: border-box; overflow: visible; } /* ADJUSTABLE: Reduced margin-top from 8px to 4px */
 #year-range-slider .noUi-marker,
 #magnitude-range-slider .noUi-marker { background: var(--text-muted); }
 #year-range-slider .noUi-marker-large,

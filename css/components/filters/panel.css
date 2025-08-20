@@ -20,8 +20,11 @@
 	box-shadow: var(--shadow-2);
 	padding: 16px 20px;
 	z-index: 4000; /* above any backdrop */
-	max-height: 60vh;
-	overflow-y: auto;
+	max-height: 60vh; /* ADJUSTABLE: Fixed max height to prevent expansion */
+	height: auto; /* ADJUSTABLE: Allow natural height with max-height constraint */
+	min-height: 100px; /* ADJUSTABLE: Minimum height to ensure visibility */
+	overflow-y: auto; /* ADJUSTABLE: Allow scrolling if content exceeds max-height */
+	overflow-x: hidden; /* ADJUSTABLE: Prevent horizontal overflow */
 	display: flex;
 	gap: 30px;
 	align-items: flex-start;
@@ -32,6 +35,8 @@
 	transform: translateY(-8px);
 	pointer-events: none; /* prevent interaction when hidden */
 	transition: opacity var(--transition-med) var(--easing), transform var(--transition-med) var(--easing), visibility 0s linear var(--transition-med);
+	/* ADJUSTABLE: Prevent dynamic expansion */
+	box-sizing: border-box;
 }
 #filters-pane.filters-container.show {
 	opacity: 1 !important;

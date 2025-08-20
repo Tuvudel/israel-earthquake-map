@@ -39,9 +39,9 @@
         background: rgba(255,255,255,0.95) !important;
         backdrop-filter: none !important;
         border-top: 1px solid var(--glass-border) !important;
-        padding: 12px 12px 6px !important;
-        max-height: none !important;
-        overflow-y: visible !important;
+        padding: 4px 14px !important; /* ADJUSTABLE: Reduced padding from 6px 12px 0px to 4px 12px 0px */
+        max-height: none !important; /* ADJUSTABLE: Remove max-height constraint */
+        overflow-y: visible !important; /* ADJUSTABLE: Remove scrolling */
         overflow-x: hidden !important;
         z-index: 2000 !important;
         box-shadow: var(--shadow-2) !important;
@@ -71,37 +71,54 @@
     #filters-pane.filters-container { 
         max-height: 75vh; 
     }
+    
+    /* Ensure all filter groups take full width on mobile */
+    .magnitude-group,
+    .location-filters-group,
     .year-group { 
         margin-left: 0 !important; 
         min-width: 100% !important; 
         max-width: 100% !important; 
         width: 100% !important; 
+        flex: 1 1 100% !important;
     }
+    
+    /* Location filter items on mobile - ensure proper stacking */
+    .location-filters-group {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important; /* ADJUSTABLE: Reduced gap on mobile */
+    }
+    
+    .location-filter-item {
+        margin-bottom: 0 !important;
+        width: 100% !important;
+        flex: 1 1 100% !important; /* ADJUSTABLE: Take full width on mobile */
+    }
+    
     .year-slider-container,
     .magnitude-slider-container,
     #magnitude-range-container { 
         width: 100% !important; 
         max-width: 100% !important; 
-        padding: 0 4px 16px 4px !important; 
+        padding: 0 4px 6px 4px !important; /* ADJUSTABLE: Removed bottom padding completely */
         box-sizing: border-box; 
+        margin-bottom: 0 !important; /* Remove bottom margin */
     }
-    #year-range-slider,
-    #magnitude-range-slider { 
-        width: 100% !important; 
-        max-width: 100% !important; 
-        box-sizing: border-box; 
+    
+    /* Remove extra bottom space from date filter components */
+    .date-filter-card {
+        padding-bottom: 0 !important;
     }
-    #filters-pane.filters-container > .filter-group:first-of-type,
-    #filters-pane.filters-container > .filter-group { 
-        flex: 1 1 100% !important; 
-        min-width: 100% !important; 
-        max-width: 100% !important; 
-        width: 100% !important; 
+    
+    .relative-options {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
     }
-    #filters-pane.filters-container > .filter-group:nth-of-type(2),
-    #filters-pane.filters-container > .filter-group:nth-of-type(3) { 
-        flex: 0 0 0px; 
-        margin-left: 0px; 
+    
+    .date-mode-row {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
     }
     
     /* Filter Sliders */
@@ -109,6 +126,17 @@
     #magnitude-range-slider .noUi-pips { 
         width: 100% !important; 
         transform: none !important; 
+    }
+
+    /* Remove extra bottom space on mobile */
+    .year-group .year-slider-container,
+    .year-group .magnitude-slider-container,
+    .year-group #magnitude-range-container { 
+        width: 100% !important; 
+        max-width: 100% !important; 
+        padding: 0 4px 0px 4px !important; /* ADJUSTABLE: Removed bottom padding completely */
+        box-sizing: border-box; 
+        margin-bottom: 0 !important; /* Remove bottom margin */
     }
 }
 
