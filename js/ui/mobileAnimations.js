@@ -20,6 +20,14 @@
       this.swipeVelocityThreshold = 0.5; // px/ms
       this.maxSwipeDistance = 200; // px
       
+      // Mobile animation presets
+      this.mobileAnimationPresets = {
+        fast: { duration: 200, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' },
+        normal: { duration: 300, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' },
+        slow: { duration: 400, easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)' },
+        bounce: { duration: 500, easing: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)' }
+      };
+      
       // Bind methods
       this.handleTouchStart = this.handleTouchStart.bind(this);
       this.handleTouchMove = this.handleTouchMove.bind(this);
@@ -329,17 +337,148 @@
     }
 
     /**
-     * Trigger haptic feedback if available
+     * Mobile animation utility functions
      */
-    triggerHapticFeedback() {
+    
+    /**
+     * Apply mobile animation to an element
+     * @param {HTMLElement} element - The element to animate
+     * @param {string} preset - Animation preset (fast, normal, slow, bounce)
+     * @param {Object} properties - CSS properties to animate
+     * @returns {Promise} Promise that resolves when animation completes
+     */
+    animateElement(element, preset = 'normal', properties = {}) {
+      if (!element) return Promise.resolve();
+      
+      const animation = this.mobileAnimationPresets[preset] || this.mobileAnimationPresets.normal;
+      
+      return new Promise((resolve) => {
+        // Apply transition
+        element.style.transition = `all ${animation.duration}ms ${animation.easing}`;
+        
+        // Apply properties
+        Object.keys(properties).forEach(property => {
+          element.style[property] = properties[property];
+        });
+        
+        // Resolve after animation completes
+        setTimeout(() => {
+          element.style.transition = '';
+          resolve();
+        }, animation.duration);
+      });
+    }
+    
+    /**
+     * Apply mobile slide animation
+     * @param {HTMLElement} element - The element to animate
+     * @param {string} direction - Slide direction (up, down, left, right)
+     * @param {boolean} show - Whether to show or hide the element
+     * @param {string} preset - Animation preset
+     * @returns {Promise} Promise that resolves when animation completes
+     */
+    slideElement(element, direction = 'up', show = true, preset = 'normal') {
+      if (!element) return Promise.resolve();
+      
+      const transforms = {
+        up: show ? 'translateY(0)' : 'translateY(-100%)',
+        down: show ? 'translateY(0)' : 'translateY(100%)',
+        left: show ? 'translateX(0)' : 'translateX(-100%)',
+        right: show ? 'translateX(0)' : 'translateX(100%)'
+      };
+      
+      const properties = {
+        transform: transforms[direction] || transforms.up,
+        opacity: show ? '1' : '0'
+      };
+      
+      return this.animateElement(element, preset, properties);
+    }
+    
+    /**
+     * Apply mobile fade animation
+     * @param {HTMLElement} element - The element to animate
+     * @param {boolean} show - Whether to show or hide the element
+     * @param {string} preset - Animation preset
+     * @returns {Promise} Promise that resolves when animation completes
+     */
+    fadeElement(element, show = true, preset = 'normal') {
+      if (!element) return Promise.resolve();
+      
+      const properties = {
+        opacity: show ? '1' : '0'
+      };
+      
+      return this.animateElement(element, preset, properties);
+    }
+    
+    /**
+     * Enhanced haptic feedback utility
+     * @param {string} type - Haptic type (light, medium, heavy, success, warning, error)
+     */
+    triggerHapticFeedback(type = 'light') {
       try {
         // Check if haptic feedback is available
         if (navigator.vibrate) {
-          navigator.vibrate(50); // Short vibration
+          const patterns = {
+            light: [10],
+            medium: [20],
+            heavy: [30],
+            success: [10, 50, 10],
+            warning: [20, 50, 20],
+            error: [30, 100, 30]
+          };
+          
+          const pattern = patterns[type] || patterns.light;
+          navigator.vibrate(pattern);
         }
       } catch (e) {
         // Ignore errors if vibration is not supported
+        console.debug('Haptic feedback not supported:', e);
       }
+    }
+    
+    /**
+     * Add mobile touch feedback to an element
+     * @param {HTMLElement} element - The element to add touch feedback to
+     * @param {string} hapticType - Haptic feedback type
+     */
+    addTouchFeedback(element, hapticType = 'light') {
+      if (!element) return;
+      
+      // Add mobile touch feedback class
+      element.classList.add('mobile-touch-feedback', 'mobile-haptic');
+      
+      // Add touch event listeners
+      const handleTouchStart = () => {
+        this.triggerHapticFeedback(hapticType);
+      };
+      
+      element.addEventListener('touchstart', handleTouchStart, { passive: true });
+      
+      // Store reference for cleanup
+      if (!element._mobileTouchHandlers) {
+        element._mobileTouchHandlers = [];
+      }
+      element._mobileTouchHandlers.push({ type: 'touchstart', handler: handleTouchStart });
+    }
+    
+    /**
+     * Remove mobile touch feedback from an element
+     * @param {HTMLElement} element - The element to remove touch feedback from
+     */
+    removeTouchFeedback(element) {
+      if (!element || !element._mobileTouchHandlers) return;
+      
+      // Remove classes
+      element.classList.remove('mobile-touch-feedback', 'mobile-haptic');
+      
+      // Remove event listeners
+      element._mobileTouchHandlers.forEach(({ type, handler }) => {
+        element.removeEventListener(type, handler);
+      });
+      
+      delete element._mobileTouchHandlers;
     }
 
     /**
@@ -365,6 +504,68 @@
   // Create global instance
   global.MobileAnimationController = MobileAnimationController;
   global.MobileAnimations = new MobileAnimationController();
+
+  // Global mobile animation utilities
+  global.MobileAnimationUtils = {
+    /**
+     * Apply mobile animation to an element
+     * @param {HTMLElement} element - The element to animate
+     * @param {string} preset - Animation preset (fast, normal, slow, bounce)
+     * @param {Object} properties - CSS properties to animate
+     * @returns {Promise} Promise that resolves when animation completes
+     */
+    animate: (element, preset = 'normal', properties = {}) => {
+      return global.MobileAnimations.animateElement(element, preset, properties);
+    },
+    
+    /**
+     * Apply mobile slide animation
+     * @param {HTMLElement} element - The element to animate
+     * @param {string} direction - Slide direction (up, down, left, right)
+     * @param {boolean} show - Whether to show or hide the element
+     * @param {string} preset - Animation preset
+     * @returns {Promise} Promise that resolves when animation completes
+     */
+    slide: (element, direction = 'up', show = true, preset = 'normal') => {
+      return global.MobileAnimations.slideElement(element, direction, show, preset);
+    },
+    
+    /**
+     * Apply mobile fade animation
+     * @param {HTMLElement} element - The element to animate
+     * @param {boolean} show - Whether to show or hide the element
+     * @param {string} preset - Animation preset
+     * @returns {Promise} Promise that resolves when animation completes
+     */
+    fade: (element, show = true, preset = 'normal') => {
+      return global.MobileAnimations.fadeElement(element, show, preset);
+    },
+    
+    /**
+     * Trigger haptic feedback
+     * @param {string} type - Haptic type (light, medium, heavy, success, warning, error)
+     */
+    haptic: (type = 'light') => {
+      return global.MobileAnimations.triggerHapticFeedback(type);
+    },
+    
+    /**
+     * Add mobile touch feedback to an element
+     * @param {HTMLElement} element - The element to add touch feedback to
+     * @param {string} hapticType - Haptic feedback type
+     */
+    addTouchFeedback: (element, hapticType = 'light') => {
+      return global.MobileAnimations.addTouchFeedback(element, hapticType);
+    },
+    
+    /**
+     * Remove mobile touch feedback from an element
+     * @param {HTMLElement} element - The element to remove touch feedback from
+     */
+    removeTouchFeedback: (element) => {
+      return global.MobileAnimations.removeTouchFeedback(element);
+    }
+  };
 
   // Auto-initialize when DOM is ready
   document.addEventListener('DOMContentLoaded', () => {

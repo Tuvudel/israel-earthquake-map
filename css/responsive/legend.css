@@ -3,11 +3,8 @@
 /* ===== TABLET STYLES (768px and below) ===== */
 @media (max-width: 768px) {
     /* ===== LEGEND ===== */
+    /* Temporarily disabled for testing - will re-enable with proper animations
     #map-legend { 
-        display: none; 
-    }
-    #map-legend.show { 
-        display: block; 
         position: fixed; 
         bottom: 10px; 
         left: 10px; 
@@ -17,7 +14,30 @@
         overflow-y: auto; 
         min-width: auto; 
         padding: 12px; 
+        
+        // Mobile animation properties
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(100%);
+        transition: opacity var(--animation-duration-normal) var(--animation-easing),
+                    visibility var(--animation-duration-normal) var(--animation-easing),
+                    transform var(--animation-duration-normal) var(--animation-easing);
+        
+        // Ensure proper stacking and backdrop
+        background: var(--glass-bg);
+        backdrop-filter: blur(var(--glass-blur));
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-2);
+        box-shadow: var(--shadow-3);
     }
+    
+    #map-legend.show { 
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    */
+    
     .legend-section { 
         margin-bottom: 10px; 
     }
@@ -31,6 +51,7 @@
 /* ===== SMALL MOBILE STYLES (480px and below) ===== */
 @media (max-width: 480px) {
     /* ===== LEGEND ===== */
+    /* Temporarily disabled for testing
     #map-legend { 
         position: fixed; 
         bottom: 10px; 
@@ -39,7 +60,14 @@
         padding: 10px; 
         max-height: 30vh; 
         overflow-y: auto; 
+        
+        // Enhanced mobile animation for smaller screens
+        transition: opacity var(--animation-duration-normal) var(--animation-easing),
+                    visibility var(--animation-duration-normal) var(--animation-easing),
+                    transform var(--animation-duration-slow) var(--animation-easing);
     }
+    */
+    
     #map-legend h3 { 
         font-size: 1rem; 
         margin-bottom: 10px; 
@@ -56,4 +84,47 @@
         width: 10px; 
         height: 10px; 
     }
+}
+
+/* ===== MOBILE LEGEND ANIMATION ENHANCEMENTS ===== */
+@media (max-width: 768px) {
+    /* Temporarily disabled for testing
+    // Add mobile touch feedback
+    #map-legend.mobile-touch-feedback {
+        transform: translateY(0) scale(0.98);
+        transition: transform var(--animation-duration-fast) var(--animation-easing);
+    }
+    
+    // Enhanced backdrop for mobile legend
+    #map-legend::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--glass-bg);
+        backdrop-filter: blur(var(--glass-blur));
+        border-radius: inherit;
+        z-index: -1;
+    }
+    
+    // Smooth scrollbar for mobile legend
+    #map-legend::-webkit-scrollbar {
+        width: 4px;
+    }
+    
+    #map-legend::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    
+    #map-legend::-webkit-scrollbar-thumb {
+        background: var(--border-2);
+        border-radius: 2px;
+    }
+    
+    #map-legend::-webkit-scrollbar-thumb:hover {
+        background: var(--border-3);
+    }
+    */
 }

@@ -163,11 +163,19 @@
     }
 
     // Notify other controllers (e.g., FilterController) when filters pane visibility changes
-    notifyFiltersPaneToggle(open) {
-      try {
-        const ev = new CustomEvent('filters-pane-toggled', { detail: { open: !!open } });
-        document.dispatchEvent(ev);
-      } catch (_) {}
+    notifyFiltersPaneToggle(isOpen) {
+      // Notify other components about filter pane state
+      if (global.EventBus) {
+        global.EventBus.emit('filtersPaneToggle', { isOpen });
+      }
+    }
+
+    setButtonText(button, isOn, textOn, textOff) {
+      if (!button) return;
+      const textElement = button.querySelector('.toggle-text') || button.querySelector('.btn-text');
+      if (textElement) {
+        textElement.textContent = isOn ? textOn : textOff;
+      }
     }
 
     // Desktop wiring
@@ -364,33 +372,89 @@
 
       // Filters (mobile): outside-click closes; backdrop; focus return only
       if (mobile.filtersBtn && filtersPane) {
-        this.mobile.filters = new global.ToggleController({
+        // Create custom filter controller that doesn't auto-add/remove show class
+        const filterCtrl = {
+          isOpen: false,
           button: mobile.filtersBtn,
           panel: filtersPane,
-          ariaControls: 'filters-pane',
-          useBackdrop: true,
-          enableOutsideClick: true,
-          shouldOutsideClose: () => !this.isDesktop(),
-          onOpen: () => {
-            closeOthers(this.mobile.filters);
+          
+          open: async () => {
+            if (filterCtrl.isOpen) return;
+            filterCtrl.isOpen = true;
+            
+            closeOthers(filterCtrl);
             filtersPane.setAttribute('aria-modal', 'true');
             try { document.body.classList.add('filters-pane-open'); } catch (_) {}
             try { filtersPane.focus(); } catch (_) {}
+            
+            // Set button state
+            mobile.filtersBtn.classList.add('active');
+            mobile.filtersBtn.setAttribute('aria-pressed', 'true');
+            this.setButtonText(mobile.filtersBtn, true, 'Hide', 'Filters');
+            
+            // Initialize filter animations for mobile
+            if (!this.isDesktop() && global.FilterAnimations) {
+              global.FilterAnimations.init(filtersPane);
+              await global.FilterAnimations.animateOpen();
+            } else {
+              // For desktop, add show class immediately
+              if (filtersPane) filtersPane.classList.add('show');
+            }
+            
             this.resizeSoon();
             this.notifyFiltersPaneToggle(true);
           },
-          onClose: () => {
+          
+          close: async () => {
+            if (!filterCtrl.isOpen) return;
+            filterCtrl.isOpen = false;
+            
             filtersPane.setAttribute('aria-modal', 'false');
             try { document.body.classList.remove('filters-pane-open'); } catch (_) {}
+            
+            // Set button state
+            mobile.filtersBtn.classList.remove('active');
+            mobile.filtersBtn.setAttribute('aria-pressed', 'false');
+            this.setButtonText(mobile.filtersBtn, false, 'Hide', 'Filters');
+            
+            // Animate filter pane closing for mobile
+            if (!this.isDesktop() && global.FilterAnimations) {
+              await global.FilterAnimations.animateClose();
+              global.FilterAnimations.destroy();
+            } else {
+              // For desktop, remove show class immediately
+              if (filtersPane) filtersPane.classList.remove('show');
+            }
+            
             this.resizeSoon();
             this.notifyFiltersPaneToggle(false);
           },
-          textOn: 'Hide',
-          textOff: 'Filters'
+          
+          toggle: () => {
+            return filterCtrl.isOpen ? filterCtrl.close() : filterCtrl.open();
+          }
+        };
+        
+        this.mobile.filters = filterCtrl;
+
+        // Add click handler
+        mobile.filtersBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (this.isDesktop()) return;
+          filterCtrl.toggle();
+        });
+
+        // Add outside click handler
+        document.addEventListener('click', (e) => {
+          if (!this.isDesktop() && filterCtrl.isOpen) {
+            const clickedInside = filtersPane.contains(e.target) || mobile.filtersBtn.contains(e.target);
+            if (!clickedInside) filterCtrl.close();
+          }
         });
       }
 
-      // Legend (mobile): exclusive, no outside-click requirement, no persistence
+      // Legend (mobile): exclusive, no outside-click requirement, no persistence, with enhanced animations
       if (mobile.legendBtn && legend) {
         this.mobile.legend = new global.ToggleController({
           button: mobile.legendBtn,
@@ -400,7 +464,13 @@
           onOpen: () => { closeOthers(this.mobile.legend); this.resizeSoon(); },
           onClose: () => this.resizeSoon(),
           textOn: 'Hide',
-          textOff: 'Legend'
+          textOff: 'Legend',
+          enableAnimations: false,
+          animationType: 'slide',
+          animationDirection: 'up',
+          animationPreset: 'normal',
+          enableHaptic: false,
+          hapticType: 'light'
         });
       }
 

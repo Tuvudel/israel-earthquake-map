@@ -17,6 +17,12 @@
         onOpen = null,
         onClose = null,
         focusReturn = true,
+        enableAnimations = false,
+        animationType = 'slide', // 'slide', 'fade', 'none'
+        animationDirection = 'up', // 'up', 'down', 'left', 'right'
+        animationPreset = 'normal', // 'fast', 'normal', 'slow', 'bounce'
+        enableHaptic = false,
+        hapticType = 'light'
       } = options || {};
 
       this.button = typeof button === 'string' ? document.getElementById(button) : button;
@@ -33,6 +39,15 @@
       this.onOpen = onOpen;
       this.onClose = onClose;
       this.focusReturn = focusReturn;
+      
+      // Animation properties
+      this.enableAnimations = enableAnimations;
+      this.animationType = animationType;
+      this.animationDirection = animationDirection;
+      this.animationPreset = animationPreset;
+      this.enableHaptic = enableHaptic;
+      this.hapticType = hapticType;
+      this.isAnimating = false;
 
       this.isOpen = false;
       this.lastFocus = null;
@@ -68,13 +83,114 @@
       t.textContent = on ? (this.textOn ?? t.textContent) : (this.textOff ?? t.textContent);
     }
 
-    open() {
-      if (this.isOpen) return;
+    /**
+     * Trigger haptic feedback if enabled
+     */
+    triggerHapticFeedback() {
+      if (!this.enableHaptic) return;
+      
+      try {
+        if (global.MobileAnimationUtils && global.MobileAnimationUtils.haptic) {
+          global.MobileAnimationUtils.haptic(this.hapticType);
+        } else if (navigator.vibrate) {
+          const patterns = {
+            light: [10],
+            medium: [20],
+            heavy: [30],
+            success: [10, 50, 10],
+            warning: [20, 50, 20],
+            error: [30, 100, 30]
+          };
+          
+          const pattern = patterns[this.hapticType] || patterns.light;
+          navigator.vibrate(pattern);
+        }
+      } catch (e) {
+        console.debug('Haptic feedback not supported:', e);
+      }
+    }
+
+    /**
+     * Animate panel show/hide
+     */
+    async animatePanel(show) {
+      if (!this.enableAnimations || !this.panel || this.isAnimating) {
+        return Promise.resolve();
+      }
+
+      this.isAnimating = true;
+
+      try {
+        // For mobile legend, we'll use CSS transitions instead of MobileAnimationUtils
+        // since the CSS already has the proper transitions defined
+        if (this.panel.id === 'map-legend') {
+          // Let CSS handle the animation
+          const duration = this.getAnimationDuration();
+          await new Promise(resolve => {
+            setTimeout(resolve, duration);
+          });
+        } else if (global.MobileAnimationUtils) {
+          // Use MobileAnimationUtils for other panels
+          if (this.animationType === 'slide') {
+            await global.MobileAnimationUtils.slide(
+              this.panel, 
+              this.animationDirection, 
+              show, 
+              this.animationPreset
+            );
+          } else if (this.animationType === 'fade') {
+            await global.MobileAnimationUtils.fade(
+              this.panel, 
+              show, 
+              this.animationPreset
+            );
+          }
+        } else {
+          // Fallback to CSS transitions
+          const duration = this.getAnimationDuration();
+          await new Promise(resolve => {
+            setTimeout(resolve, duration);
+          });
+        }
+      } catch (error) {
+        console.warn('Animation failed:', error);
+      } finally {
+        this.isAnimating = false;
+      }
+    }
+
+    /**
+     * Get animation duration based on preset
+     */
+    getAnimationDuration() {
+      const durations = {
+        fast: 200,
+        normal: 300,
+        slow: 400,
+        bounce: 500
+      };
+      return durations[this.animationPreset] || durations.normal;
+    }
+
+    async open() {
+      if (this.isOpen || this.isAnimating) return;
       this.isOpen = true;
       this.lastFocus = document.activeElement;
 
-      // panel show
-      if (this.panel && this.panelShowClass) this.panel.classList.add(this.panelShowClass);
+      // Trigger haptic feedback
+      this.triggerHapticFeedback();
+
+      // Immediately show the panel for basic functionality
+      if (this.panel && this.panelShowClass) {
+        this.panel.classList.add(this.panelShowClass);
+      }
+
+      // Animate panel show as enhancement (non-blocking)
+      if (this.enableAnimations) {
+        this.animatePanel(true).catch(error => {
+          console.warn('Animation failed, but panel is shown:', error);
+        });
+      }
 
       // aria + styles
       this.button.classList.add(this.activeClass);
@@ -96,12 +212,24 @@
       }
     }
 
-    close() {
-      if (!this.isOpen) return;
+    async close() {
+      if (!this.isOpen || this.isAnimating) return;
       this.isOpen = false;
 
-      // panel hide
-      if (this.panel && this.panelShowClass) this.panel.classList.remove(this.panelShowClass);
+      // Trigger haptic feedback
+      this.triggerHapticFeedback();
+
+      // Animate panel hide as enhancement (non-blocking)
+      if (this.enableAnimations) {
+        await this.animatePanel(false).catch(error => {
+          console.warn('Animation failed, but panel will be hidden:', error);
+        });
+      }
+
+      // Immediately hide the panel for basic functionality
+      if (this.panel && this.panelShowClass) {
+        this.panel.classList.remove(this.panelShowClass);
+      }
 
       // aria + styles
       this.button.classList.remove(this.activeClass);
@@ -130,8 +258,12 @@
       }
     }
 
-    toggle() {
-      if (this.isOpen) this.close(); else this.open();
+    async toggle() {
+      if (this.isOpen) {
+        await this.close();
+      } else {
+        await this.open();
+      }
     }
 
     handleOutsideClick(e) {

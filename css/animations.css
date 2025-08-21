@@ -14,6 +14,17 @@
   --animation-easing-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --animation-easing-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   
+  /* ===== MOBILE-SPECIFIC ANIMATION TIMING ===== */
+  --mobile-animation-duration-fast: 200ms;
+  --mobile-animation-duration-normal: 300ms;
+  --mobile-animation-duration-slow: 400ms;
+  --mobile-animation-duration-bounce: 500ms;
+  
+  /* ===== MOBILE-SPECIFIC ANIMATION EASING ===== */
+  --mobile-animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  --mobile-animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --mobile-animation-easing-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
   /* ===== ANIMATION DURATIONS ===== */
   --animation-duration-mobile: 400ms;
   
@@ -22,6 +33,11 @@
   --animation-delay-normal: 100ms;
   --animation-delay-slow: 150ms;
   
+  /* ===== MOBILE ANIMATION DELAYS ===== */
+  --mobile-animation-delay-fast: 75ms;
+  --mobile-animation-delay-normal: 125ms;
+  --mobile-animation-delay-slow: 175ms;
+  
   /* ===== TRANSFORM VALUES ===== */
   --transform-slide-up: translateY(-100%);
   --transform-slide-down: translateY(100%);
@@ -29,6 +45,12 @@
   --transform-slide-right: translateX(100%);
   --transform-scale-small: scale(0.95);
   --transform-scale-large: scale(1.05);
+  
+  /* ===== MOBILE TRANSFORM VALUES ===== */
+  --mobile-transform-slide-up: translateY(-100%);
+  --mobile-transform-slide-down: translateY(100%);
+  --mobile-transform-slide-left: translateX(-100%);
+  --mobile-transform-slide-right: translateX(100%);
   
   /* ===== OPACITY VALUES ===== */
   --opacity-hidden: 0;
@@ -82,6 +104,91 @@
 /* Bounce transitions for attention-grabbing elements */
 .animate-bounce {
   transition: all var(--animation-duration-bounce) var(--animation-easing-bounce);
+}
+
+/* ===== MOBILE ANIMATION PRESETS ===== */
+
+/* Mobile-specific animation classes */
+.mobile-animate-fast {
+  transition: all var(--mobile-animation-duration-fast) var(--mobile-animation-easing);
+}
+
+.mobile-animate-normal {
+  transition: all var(--mobile-animation-duration-normal) var(--mobile-animation-easing);
+}
+
+.mobile-animate-slow {
+  transition: all var(--mobile-animation-duration-slow) var(--mobile-animation-easing);
+}
+
+.mobile-animate-bounce {
+  transition: all var(--mobile-animation-duration-bounce) var(--mobile-animation-easing-bounce);
+}
+
+/* Mobile slide animations */
+.mobile-slide-up {
+  transform: translateY(0);
+  transition: transform var(--mobile-animation-duration-normal) var(--mobile-animation-easing);
+}
+
+.mobile-slide-up-hidden {
+  transform: var(--mobile-transform-slide-up);
+  transition: transform var(--mobile-animation-duration-normal) var(--mobile-animation-easing);
+}
+
+.mobile-slide-down {
+  transform: translateY(0);
+  transition: transform var(--mobile-animation-duration-normal) var(--mobile-animation-easing);
+}
+
+.mobile-slide-down-hidden {
+  transform: var(--mobile-transform-slide-down);
+  transition: transform var(--mobile-animation-duration-normal) var(--mobile-animation-easing);
+}
+
+/* Mobile fade animations */
+.mobile-fade-in {
+  opacity: var(--opacity-visible);
+  transition: opacity var(--mobile-animation-duration-normal) var(--mobile-animation-easing);
+}
+
+.mobile-fade-out {
+  opacity: var(--opacity-hidden);
+  transition: opacity var(--mobile-animation-duration-normal) var(--mobile-animation-easing);
+}
+
+/* Mobile panel animations */
+.mobile-panel-slide-up {
+  transform: translateY(0);
+  transition: transform var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth),
+              opacity var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth);
+}
+
+.mobile-panel-slide-up-hidden {
+  transform: var(--mobile-transform-slide-up);
+  opacity: var(--opacity-hidden);
+  transition: transform var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth),
+              opacity var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth);
+}
+
+/* Mobile touch gesture animations */
+.mobile-touch-feedback {
+  transition: transform var(--mobile-animation-duration-fast) var(--mobile-animation-easing);
+}
+
+.mobile-touch-feedback:active {
+  transform: scale(0.98);
+}
+
+/* Mobile haptic feedback utility */
+.mobile-haptic {
+  /* CSS-only haptic feedback simulation */
+  transition: all var(--mobile-animation-duration-fast) var(--mobile-animation-easing);
+}
+
+.mobile-haptic:active {
+  transform: scale(0.95);
+  filter: brightness(0.9);
 }
 
 /* ===== FADE ANIMATIONS ===== */

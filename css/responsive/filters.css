@@ -28,7 +28,18 @@
     /* ===== FILTERS PANE OVERLAY ===== */
     #filters-pane.filters-container { 
         display: none !important; 
+        /* Base state - hidden and translated up */
+        transform: translateY(-100%) !important;
+        opacity: 0 !important;
+        /* Enhanced mobile animations */
+        transition: transform var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth),
+                    opacity var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth),
+                    box-shadow var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth) !important;
+        /* Performance optimizations for mobile */
+        will-change: transform, opacity;
+        touch-action: pan-y;
     }
+    
     #filters-pane.filters-container.show {
         display: flex !important;
         position: absolute !important;
@@ -39,9 +50,9 @@
         background: rgba(255,255,255,0.95) !important;
         backdrop-filter: none !important;
         border-top: 1px solid var(--glass-border) !important;
-        padding: 4px 14px !important; /* ADJUSTABLE: Reduced padding from 6px 12px 0px to 4px 12px 0px */
-        max-height: none !important; /* ADJUSTABLE: Remove max-height constraint */
-        overflow-y: visible !important; /* ADJUSTABLE: Remove scrolling */
+        padding: 4px 14px !important;
+        max-height: 75vh !important; /* Fixed: Set proper max-height for scrolling */
+        overflow-y: auto !important; /* Fixed: Enable scrolling when needed */
         overflow-x: hidden !important;
         z-index: 2000 !important;
         box-shadow: var(--shadow-2) !important;
@@ -49,7 +60,24 @@
         opacity: 1 !important;
         visibility: visible !important;
         transform: translateY(0) !important;
+        /* Enhanced mobile animations */
+        transition: transform var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth),
+                    opacity var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth),
+                    box-shadow var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth) !important;
     }
+    
+    /* Mobile filter pane backdrop animation */
+    #filters-backdrop {
+        opacity: 0;
+        transition: opacity var(--mobile-animation-duration-normal) var(--mobile-animation-easing);
+        background: rgba(0, 0, 0, 0.3);
+    }
+    
+    #filters-backdrop.show {
+        opacity: 1;
+        transition: opacity var(--mobile-animation-duration-normal) var(--mobile-animation-easing);
+    }
+    
     :root[data-theme='dark'] #filters-pane.filters-container.show { 
         background: rgba(15,23,42,0.95) !important; 
     }
@@ -67,10 +95,10 @@
         margin-bottom: 0px !important; 
     }
     
-    /* Filter Layout */
-    #filters-pane.filters-container { 
+    /* Remove conflicting max-height rule */
+    /* #filters-pane.filters-container { 
         max-height: 75vh; 
-    }
+    } */
     
     /* Ensure all filter groups take full width on mobile */
     .magnitude-group,
