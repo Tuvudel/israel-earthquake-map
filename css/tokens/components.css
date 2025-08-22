@@ -1,7 +1,9 @@
-/* Component Tokens - Centralized Shoelace component styling */
+/* ===== COMPONENT TOKEN SYSTEM ===== */
+/* Centralized component-specific design tokens */
 
 :root {
-  /* Shoelace Button Base Tokens */
+  /* ===== SHOELACE BUTTON TOKENS ===== */
+  /* Button Sizing */
   --sl-button-font-size-small: 11px;
   --sl-button-font-size-medium: 14px;
   --sl-button-font-size-large: 16px;
@@ -18,15 +20,15 @@
   --sl-button-border-radius-medium: var(--radius-2);
   --sl-button-border-radius-large: var(--radius-2);
   
-  /* Shoelace Button Color Tokens */
-  --sl-button-color: var(--text-2);
+  /* Button Colors - Base Theme (Light) */
+  --sl-button-color: var(--text-1);
   --sl-button-background-color: var(--surface-0);
   --sl-button-border-color: var(--border-1);
   --sl-button-shadow: var(--shadow-1);
   
-  --sl-button-hover-color: var(--text-2);
+  --sl-button-hover-color: var(--text-1);
   --sl-button-hover-background-color: var(--surface-1);
-  --sl-button-hover-border-color: var(--border-2);
+  --sl-button-hover-border-color: var(--accent-600);
   --sl-button-hover-shadow: var(--shadow-2);
   --sl-button-hover-transform: translateY(-1px);
   
@@ -38,10 +40,10 @@
   --sl-button-active-shadow: var(--shadow-3);
   --sl-button-active-transform: translateY(-1px);
   
-  /* Shoelace Button Transition */
-      --sl-button-transition: all var(--animation-duration-normal) var(--animation-easing);
+  /* Button Transitions */
+  --sl-button-transition: all var(--animation-duration-normal) var(--animation-easing);
   
-  /* Shoelace Select Tokens */
+  /* ===== SHOELACE INPUT TOKENS ===== */
   --sl-input-font-family: var(--font-family-primary);
   --sl-input-font-size-medium: 0.9rem;
   --sl-input-border-radius-medium: var(--radius-2);
@@ -49,40 +51,134 @@
   --sl-input-border-color-hover: var(--brand-600);
   --sl-input-background-color: var(--surface-0);
   --sl-input-color: var(--text-1);
+  --sl-input-placeholder-color: var(--text-1);
   --sl-input-shadow: var(--shadow-1);
   --sl-input-shadow-hover: var(--shadow-2);
   --sl-input-shadow-focus: 0 0 0 3px var(--ring-color), var(--shadow-2);
   
-  /* Shoelace Switch Tokens */
+  /* Input Focus States */
+  --sl-input-focus-color: var(--text-1);
+  --sl-input-focus-background-color: var(--surface-0);
+  --sl-input-focus-border-color: var(--accent-600);
+  
+  /* ===== SHOELACE SELECT TOKENS ===== */
+  --sl-select-width: 280px;
+  --sl-select-listbox-background: var(--surface-0);
+  --sl-select-listbox-border: var(--border-1);
+  --sl-select-listbox-border-radius: var(--radius-2);
+  --sl-select-listbox-shadow: var(--shadow-3);
+  --sl-select-listbox-max-height: 200px;
+  --sl-select-option-color: var(--text-1);
+  --sl-select-option-padding: 8px 12px;
+  --sl-select-option-font-family: var(--font-family-primary);
+  --sl-select-option-font-size: 0.9rem;
+  --sl-select-option-font-weight: 400;
+  --sl-select-option-hover-background: var(--surface-1);
+  --sl-select-option-selected-background: var(--accent-600);
+  --sl-select-option-selected-color: var(--text-on-accent);
+  
+  /* Select Colors - Base Theme (Light) */
+  --sl-select-color: var(--text-1);
+  --sl-select-background-color: var(--surface-0);
+  --sl-select-border-color: var(--border-1);
+  --sl-select-shadow: var(--shadow-1);
+  
+  /* Select Focus States */
+  --sl-select-focus-color: var(--text-1);
+  --sl-select-focus-background-color: var(--surface-0);
+  --sl-select-focus-border-color: var(--accent-600);
+  --sl-select-focus-shadow: 0 0 0 3px var(--ring-color), var(--shadow-2);
+  
+  /* ===== SHOELACE SWITCH TOKENS ===== */
   --sl-switch-width: 60px;
   --sl-switch-height: 25px;
   --sl-switch-thumb-size: 26px;
-}
-
-/* Dark theme component overrides */
-:root[data-theme='dark'] {
-  /* Dark theme button tokens */
-  --sl-button-color: var(--text-1);
-  --sl-button-background-color: var(--surface-0);
-  --sl-button-border-color: var(--border-2);
-  --sl-button-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 15px rgba(96, 165, 250, 0.25), 0 0 5px rgba(255, 255, 255, 0.1);
   
-  --sl-button-hover-color: var(--text-1);
-  --sl-button-hover-background-color: var(--surface-1);
-  --sl-button-hover-border-color: var(--accent-600);
-  --sl-button-hover-shadow: 0 2px 14px rgba(0,0,0,0.5), 0 0 20px rgba(96,165,250,0.35), 0 0 8px rgba(255, 255, 255, 0.15);
+  /* Switch Colors - Base Theme (Light) */
+  --sl-switch-color: var(--text-1);
+  --sl-switch-background-color: var(--surface-1);
+  --sl-switch-border-color: var(--border-1);
+  --sl-switch-shadow: var(--shadow-1);
   
-  --sl-button-focus-shadow: 0 6px 20px rgba(0,0,0,0.25), 0 0 15px rgba(96, 165, 250, 0.3), var(--shadow-2);
+  --sl-switch-checked-color: var(--text-on-accent);
+  --sl-switch-checked-background-color: var(--accent-600);
+  --sl-switch-checked-border-color: var(--accent-600);
+  --sl-switch-checked-shadow: var(--shadow-2);
   
-  --sl-button-active-color: var(--text-on-accent);
-  --sl-button-active-background-color: var(--accent-600);
-  --sl-button-active-border-color: var(--accent-600);
-  --sl-button-active-shadow: 0 8px 28px rgba(0,0,0,0.28), 0 0 25px rgba(96, 165, 250, 0.4), 0 0 10px rgba(255, 255, 255, 0.2);
+  --sl-switch-focus-shadow: 0 0 0 3px var(--ring-color), var(--shadow-2);
   
-  /* Dark theme select tokens */
-  --sl-input-border-color: var(--border-2);
-  --sl-input-border-color-hover: var(--accent-600);
-  --sl-input-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 15px rgba(96, 165, 250, 0.25), 0 0 5px rgba(255, 255, 255, 0.1);
-  --sl-input-shadow-hover: 0 2px 14px rgba(0,0,0,0.5), 0 0 20px rgba(96,165,250,0.35), 0 0 8px rgba(255, 255, 255, 0.15);
-  --sl-input-shadow-focus: 0 6px 20px rgba(0,0,0,0.25), 0 0 15px rgba(96, 165, 250, 0.3), var(--shadow-2);
+  /* ===== SHOELACE COLOR SYSTEM ===== */
+  /* Primary Colors */
+  --sl-color-primary-600: var(--accent-600);
+  --sl-color-primary-500: var(--accent-500);
+  --sl-color-primary-400: var(--accent-400);
+  
+  /* Neutral Colors */
+  --sl-color-neutral-0: var(--surface-0);
+  --sl-color-neutral-50: var(--surface-1);
+  --sl-color-neutral-100: var(--surface-2);
+  --sl-color-neutral-200: var(--border-1);
+  --sl-color-neutral-300: var(--border-2);
+  --sl-color-neutral-400: var(--text-3);
+  --sl-color-neutral-500: var(--text-2);
+  --sl-color-neutral-600: var(--text-1);
+  --sl-color-neutral-700: var(--text-1);
+  --sl-color-neutral-800: var(--text-1);
+  --sl-color-neutral-900: var(--text-1);
+  --sl-color-neutral-950: var(--surface-0);
+  
+  /* Typography */
+  --sl-font-family: var(--font-family-primary);
+  --sl-font-size-medium: 0.9rem;
+  
+  /* ===== CUSTOM COMPONENT TOKENS ===== */
+  /* Legend Component */
+  --legend-line: var(--text-1);
+  --legend-dotted-contrast: var(--surface-0);
+  
+  /* Slider Component */
+  --track-bg: var(--border-1);
+  --thumb-bg: var(--surface-0);
+  --ring-color: rgba(59, 130, 246, 0.2);
+  
+  /* Segmented Controls */
+  --seg-divider: rgba(17,24,39,0.35);
+  
+  /* Highlight Colors */
+  --highlight-bg: var(--accent-100);
+  
+  /* ===== SHARED THEME TOKENS ===== */
+  /* Mobile Toggle Button Tokens - Shared between themes */
+  --mobile-toggle-color: var(--text-1);
+  --mobile-toggle-background: var(--surface-0);
+  --mobile-toggle-border: var(--border-1);
+  --mobile-toggle-shadow: var(--shadow-1);
+  
+  --mobile-toggle-hover-background: var(--surface-1);
+  --mobile-toggle-hover-border: var(--accent-600);
+  --mobile-toggle-hover-shadow: var(--shadow-2);
+  
+  --mobile-toggle-focus-shadow: 0 0 0 3px var(--ring-color), var(--shadow-2);
+  
+  --mobile-toggle-active-background: var(--accent-600);
+  --mobile-toggle-active-border: var(--accent-600);
+  --mobile-toggle-active-shadow: var(--shadow-3);
+  
+  /* Sortable Button Tokens - Shared between themes */
+  --sortable-background: var(--surface-0);
+  --sortable-border: var(--border-1);
+  --sortable-shadow: var(--shadow-1);
+  
+  --sortable-hover-background: var(--surface-1);
+  --sortable-hover-border: var(--accent-600);
+  --sortable-hover-shadow: var(--shadow-2);
+  
+  --sortable-active-background: var(--accent-600);
+  --sortable-active-border: var(--accent-600);
+  --sortable-active-shadow: var(--shadow-3);
+  --sortable-active-color: var(--text-on-accent);
+  
+  /* Sort Indicator Tokens */
+  --sort-indicator-fill: var(--text-1);
+  --sort-indicator-active-fill: var(--text-on-accent);
 }

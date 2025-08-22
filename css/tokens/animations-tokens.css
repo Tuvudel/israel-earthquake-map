@@ -1,0 +1,82 @@
+/* ===== ANIMATION DESIGN TOKENS ===== */
+/* Centralized animation variables for consistent, smooth transitions */
+
+:root {
+  /* ===== ANIMATION TIMING ===== */
+  --animation-duration-fast: 150ms;
+  --animation-duration-normal: 200ms;
+  --animation-duration-slow: 300ms;
+  --animation-duration-bounce: 400ms;
+  
+  /* ===== ANIMATION EASING ===== */
+  --animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  --animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --animation-easing-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --animation-easing-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  /* ===== MOBILE-SPECIFIC ANIMATION TIMING ===== */
+  --mobile-animation-duration-fast: 200ms;
+  --mobile-animation-duration-normal: 300ms;
+  --mobile-animation-duration-slow: 400ms;
+  --mobile-animation-duration-bounce: 500ms;
+  
+  /* ===== MOBILE-SPECIFIC ANIMATION EASING ===== */
+  --mobile-animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+  --mobile-animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --mobile-animation-easing-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  /* ===== ANIMATION DELAYS ===== */
+  --animation-delay-fast: 50ms;
+  --animation-delay-normal: 100ms;
+  --animation-delay-slow: 150ms;
+  
+  /* ===== MOBILE ANIMATION DELAYS ===== */
+  --mobile-animation-delay-fast: 75ms;
+  --mobile-animation-delay-normal: 125ms;
+  --mobile-animation-delay-slow: 175ms;
+  
+  /* ===== TRANSFORM VALUES ===== */
+  --transform-slide-up: translateY(-100%);
+  --transform-slide-down: translateY(100%);
+  --transform-slide-left: translateX(-100%);
+  --transform-slide-right: translateX(100%);
+  --transform-scale-small: scale(0.95);
+  --transform-scale-large: scale(1.05);
+  
+  /* ===== MOBILE TRANSFORM VALUES ===== */
+  --mobile-transform-slide-up: translateY(-100%);
+  --mobile-transform-slide-down: translateY(100%);
+  --mobile-transform-slide-left: translateX(-100%);
+  --mobile-transform-slide-right: translateX(100%);
+  
+  /* ===== OPACITY VALUES ===== */
+  --opacity-hidden: 0;
+  --opacity-visible: 1;
+  --opacity-disabled: 0.5;
+  
+  /* ===== SHADOW VALUES ===== */
+  --shadow-elevation-1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-elevation-2: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  --shadow-elevation-3: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+/* ===== REDUCED MOTION SUPPORT ===== */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --animation-duration-fast: 0ms;
+    --animation-duration-normal: 0ms;
+    --animation-duration-slow: 0ms;
+    --animation-duration-bounce: 0ms;
+    --animation-delay-fast: 0ms;
+    --animation-delay-normal: 0ms;
+    --animation-delay-slow: 0ms;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

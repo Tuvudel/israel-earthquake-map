@@ -1,31 +1,45 @@
-/* ===== FILTER PANE LAYOUT ===== */
+/* ===== FILTERS LAYOUT ===== */
+/* Base layout styles for filter components */
 
-/* Base filter group styling */
+/* ===== FILTERS CONTAINER ===== */
+.filters-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 16px 20px;
+    background: var(--surface-0);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-3);
+    box-shadow: var(--shadow-1);
+    overflow: visible; 
+}
+
+/* ===== FILTER GROUPS ===== */
 .filter-group { 
     display: flex; 
     flex-direction: column; 
     gap: 6px; /* ADJUSTABLE: Reduced from 10px to 6px for tighter spacing */
 }
 
-/* ===== DESKTOP LAYOUT (1024px+) ===== */
-
-/* Magnitude filter - Left side */
-.magnitude-group { 
-    flex: 0 0 600px; /* ADJUSTABLE: Fixed width for magnitude filter */
-    min-width: 600px; /* ADJUSTABLE: Minimum width */
-    max-width: 600px; /* ADJUSTABLE: Maximum width */
+.magnitude-group {
+    flex: 0 0 600px; /* Fixed width - no shrinking or growing */
+    min-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow: visible; 
 }
 
-/* Location filters container - Middle (inline horizontally) */
-.location-filters-group { 
-    flex: 1 1 auto; /* ADJUSTABLE: Flexible width, takes available space */
-    min-width: 400px; /* ADJUSTABLE: Increased minimum width for inline layout */
-    max-width: 700px; /* ADJUSTABLE: Increased maximum width from 600px to 700px */
-    margin: 0; /* ADJUSTABLE: Removed margin, using container gap for spacing */
-    display: flex; /* Ensure flex container */
-    flex-direction: row; /* ADJUSTABLE: Inline layout (side by side) */
-    gap: 20px; /* ADJUSTABLE: Spacing between country and area filters */
-    align-items: flex-start; /* Align items to top */
+.location-filters-group {
+    flex: 0 0 400px; /* Fixed width - no shrinking or growing */
+    min-width: 280px;
+    max-width: 400px;
+    margin: 0 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    overflow: visible; 
 }
 
 /* Individual location filter items */
@@ -37,129 +51,34 @@
     min-width: 180px; /* ADJUSTABLE: Minimum width for each filter */
 }
 
-/* Date filter - Right side */
-.year-group { 
-    flex: 1 1 auto; /* ADJUSTABLE: Changed to flex: 0 1 auto to not expand unnecessarily */
-    min-width: 1300px; /* ADJUSTABLE: Reduced from 800px to 400px */
-    max-width: none; /* ADJUSTABLE: Removed max-width constraint to allow expansion */
-    margin-left: auto; /* ADJUSTABLE: Push to the right edge */
+.year-group {
+    flex: 1 1 auto; /* Take remaining space, can grow and shrink */
+    min-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow: visible; 
+    /* Ensure it stays on the right and extends to fill remaining space */
+    margin-left: auto;
 }
 
 /* Prevent inner contents from overflowing the card area and ensure pips are visible */
 .year-group .date-filter-card { 
     overflow: visible; 
-}
-.year-group { 
-    overflow: visible; 
-}
-
-/* ===== TABLET LAYOUT (768px - 1023px) ===== */
-@media (max-width: 1023px) and (min-width: 769px) {
-    .filters-container { 
-        gap: 20px; /* ADJUSTABLE: Reduced gap for tablet */
-    }
-    
-    .magnitude-group { 
-        flex: 0 0 500px; /* ADJUSTABLE: Smaller width for tablet */
-        min-width: 300px;
-    }
-    
-    .location-filters-group { 
-        min-width: 320px; /* ADJUSTABLE: Smaller minimum width for tablet */
-        max-width: 500px; /* ADJUSTABLE: Smaller maximum width for tablet */
-        margin: 0 15px; /* ADJUSTABLE: Reduced margin */
-        gap: 15px; /* ADJUSTABLE: Reduced gap for tablet */
-        flex-direction: row; /* ADJUSTABLE: Inline layout on tablet too */
-    }
-    
-    .year-group { 
-        flex: 1 1 auto; /* ADJUSTABLE: Changed to flex: 1 1 auto to take available space */
-        min-width: 300px; /* ADJUSTABLE: Reduced minimum width */
-        margin-left: 0; /* ADJUSTABLE: Removed margin for proper alignment */
-    }
-}
-
-/* ===== MOBILE LAYOUT (768px and below) ===== */
-@media (max-width: 768px) {
-    .filters-container { 
-        flex-direction: column; 
-        gap: 0px; /* ADJUSTABLE: Vertical gap for mobile */
-    }
-    
-    .magnitude-group,
-    .location-filters-group { 
-        margin-left: 0 !important; 
-        min-width: 100% !important; 
-        max-width: 100% !important; 
-        width: 100% !important; 
-        flex: 1 1 100% !important;
-        margin-bottom: 2px !important; /* ADJUSTABLE: Reduced from 4px to 2px */
-    }
-    .year-group { 
-        margin-left: 0 !important; 
-        min-width: 100% !important; 
-        max-width: 100% !important; 
-        width: 100% !important; 
-        flex: 1 1 100% !important;
-    }
-    .location-filters-group {
-        gap: 8px !important; /* ADJUSTABLE: Reduced gap on mobile */
-        flex-direction: column !important; /* ADJUSTABLE: Stack vertically on mobile */
-    }
-    
-    .location-filter-item { 
-        margin-bottom: 0 !important; /* Remove any bottom margin */
-    }
-    
-    /* Remove extra bottom space on mobile */
-    .year-group .year-slider-container,
-    .year-group .magnitude-slider-container,
-    .year-group #magnitude-range-container { 
-        width: 100% !important; 
-        max-width: 100% !important; 
-        padding: 0 4px 4px 4px !important; /* ADJUSTABLE: Minimal bottom padding */
-        box-sizing: border-box; 
-        margin-bottom: 0 !important; /* Remove bottom margin */
-    }
-    
-    /* Remove any extra padding from date filter card */
-    .year-group .date-filter-card {
-        padding-bottom: 0 !important; /* ADJUSTABLE: Remove bottom padding */
-    }
-    
-    /* Remove extra spacing from relative options */
-    .relative-options {
-        margin-bottom: 0 !important; /* ADJUSTABLE: Remove bottom margin */
-    }
-    
-    /* Remove extra spacing from date mode row */
-    .date-mode-row {
-        margin-bottom: 0 !important; /* ADJUSTABLE: Remove bottom margin */
-    }
+    width: 100%; /* Ensure full width */
 }
 
 /* ===== KEY PARAMETERS FOR EASY ADJUSTMENT ===== */
 /*
 DESKTOP LAYOUT PARAMETERS:
 - Magnitude filter width: .magnitude-group { flex: 0 0 600px; }
-- Location filters min/max width: .location-filters-group { min-width: 280px; max-width: 400px; }
-- Date filter width: .year-group { flex: 0 1 520px; }
+- Location filters width: .location-filters-group { flex: 0 0 400px; }
+- Date filter width: .year-group { flex: 1 1 auto; } - takes remaining space
 - Horizontal spacing: .location-filters-group { margin: 0 20px; }
 - Filter element spacing: .filter-group { gap: 10px; }
 - Country/Area spacing: .location-filters-group { gap: 15px; }
 
-TABLET LAYOUT PARAMETERS:
-- Magnitude filter width: .magnitude-group { flex: 0 0 500px; }
-- Location filters width: .location-filters-group { min-width: 240px; max-width: 350px; }
-- Date filter width: .year-group { flex: 0 1 450px; }
-- Container gap: .filters-container { gap: 20px; }
-- Country/Area spacing: .location-filters-group { gap: 12px; }
-
-MOBILE LAYOUT PARAMETERS:
-- Vertical gap: .filters-container { gap: 15px; }
-- Country/Area spacing: .location-filters-group { gap: 12px; }
-- Bottom padding: .year-slider-container { padding: 0 4px 4px 4px; }
-- Remove all bottom margins/padding to prevent extra space
+Note: Responsive styles have been moved to css/responsive/filters.css
 */
 
 

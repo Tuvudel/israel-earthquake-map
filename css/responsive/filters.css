@@ -1,10 +1,22 @@
 /* ===== FILTERS RESPONSIVE STYLES ===== */
+/* Component-specific responsive styles for filters */
+
+/* ===== FILTERS RESPONSIVE STYLES ===== */
+
+/* ===== DESKTOP FILTER PANE STYLES ===== */
+/* Desktop: allow dropdowns to overflow the pane and tighten spacing */
+@media (min-width: 1024px) {
+    #filters-pane.filters-container { 
+        overflow: visible; 
+        gap: 18px; 
+    }
+}
 
 /* ===== TABLET STYLES (768px and below) ===== */
 @media (max-width: 768px) {
 	/* Shoelace Select Responsive Styling */
 	.filter-group sl-select {
-		width: 100% !important;
+		width: 100%;
 		--sl-input-font-size-medium: 0.85rem;
 		--sl-input-padding-medium: 10px 12px;
 		--sl-input-height-medium: 40px;
@@ -26,44 +38,45 @@
     }
     
     /* ===== FILTERS PANE OVERLAY ===== */
+    /* Mobile-specific filter pane - higher specificity to override base styles */
     #filters-pane.filters-container { 
-        display: none !important; 
+        display: none; 
         /* Base state - hidden and translated up */
-        transform: translateY(-100%) !important;
-        opacity: 0 !important;
+        transform: translateY(-100%);
+        opacity: 0;
         /* Enhanced mobile animations */
         transition: transform var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth),
                     opacity var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth),
-                    box-shadow var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth) !important;
+                    box-shadow var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth);
         /* Performance optimizations for mobile */
         will-change: transform, opacity;
         touch-action: pan-y;
     }
     
     #filters-pane.filters-container.show {
-        display: flex !important;
-        position: absolute !important;
-        top: 100% !important;
-        bottom: auto !important;
-        left: 0 !important;
-        right: 0 !important;
-        background: rgba(255,255,255,0.95) !important;
-        backdrop-filter: none !important;
-        border-top: 1px solid var(--glass-border) !important;
-        padding: 4px 14px !important;
-        max-height: 75vh !important; /* Fixed: Set proper max-height for scrolling */
-        overflow-y: auto !important; /* Fixed: Enable scrolling when needed */
-        overflow-x: hidden !important;
-        z-index: 2000 !important;
-        box-shadow: var(--shadow-2) !important;
-        pointer-events: auto !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: translateY(0) !important;
+        display: flex;
+        position: absolute;
+        top: 100%;
+        bottom: auto;
+        left: 0;
+        right: 0;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: none;
+        border-top: 1px solid var(--glass-border);
+        padding: 4px 14px;
+        max-height: 75vh; /* Fixed: Set proper max-height for scrolling */
+        overflow-y: auto; /* Fixed: Enable scrolling when needed */
+        overflow-x: hidden;
+        z-index: 2000;
+        box-shadow: var(--shadow-2);
+        pointer-events: auto;
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
         /* Enhanced mobile animations */
         transition: transform var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth),
                     opacity var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth),
-                    box-shadow var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth) !important;
+                    box-shadow var(--mobile-animation-duration-slow) var(--mobile-animation-easing-smooth);
     }
     
     /* Mobile filter pane backdrop animation */
@@ -78,21 +91,19 @@
         transition: opacity var(--mobile-animation-duration-normal) var(--mobile-animation-easing);
     }
     
-    :root[data-theme='dark'] #filters-pane.filters-container.show { 
-        background: rgba(15,23,42,0.95) !important; 
-    }
+
     
     /* ===== FILTER COMPONENT OVERRIDES ===== */
     /* Filter Controls */
     .date-filter-card .collapsible { 
-        min-height: 0 !important; 
+        min-height: 0; 
     }
     .date-mode-toggle { 
-        margin-bottom: 4px !important; 
+        margin-bottom: 4px; 
     }
     .relative-options { 
-        margin-top: 0px !important; 
-        margin-bottom: 0px !important; 
+        margin-top: 0px; 
+        margin-bottom: 0px; 
     }
     
     /* Remove conflicting max-height rule */
@@ -104,67 +115,67 @@
     .magnitude-group,
     .location-filters-group,
     .year-group { 
-        margin-left: 0 !important; 
-        min-width: 100% !important; 
-        max-width: 100% !important; 
-        width: 100% !important; 
-        flex: 1 1 100% !important;
+        margin-left: 0; 
+        min-width: 100%; 
+        max-width: 100%; 
+        width: 100%; 
+        flex: 1 1 100%;
     }
     
     /* Location filter items on mobile - ensure proper stacking */
     .location-filters-group {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 8px !important; /* ADJUSTABLE: Reduced gap on mobile */
+        display: flex;
+        flex-direction: column;
+        gap: 8px; /* ADJUSTABLE: Reduced gap on mobile */
     }
     
     .location-filter-item {
-        margin-bottom: 0 !important;
-        width: 100% !important;
-        flex: 1 1 100% !important; /* ADJUSTABLE: Take full width on mobile */
+        margin-bottom: 0;
+        width: 100%;
+        flex: 1 1 100%; /* ADJUSTABLE: Take full width on mobile */
     }
     
     .year-slider-container,
     .magnitude-slider-container,
     #magnitude-range-container { 
-        width: 100% !important; 
-        max-width: 100% !important; 
-        padding: 0 4px 6px 4px !important; /* ADJUSTABLE: Removed bottom padding completely */
+        width: 100%; 
+        max-width: 100%; 
+        padding: 0 4px 6px 4px; /* ADJUSTABLE: Removed bottom padding completely */
         box-sizing: border-box; 
-        margin-bottom: 0 !important; /* Remove bottom margin */
+        margin-bottom: 0; /* Remove bottom margin */
     }
     
     /* Remove extra bottom space from date filter components */
     .date-filter-card {
-        padding-bottom: 0 !important;
+        padding-bottom: 0;
     }
     
     .relative-options {
-        margin-bottom: 0 !important;
-        padding-bottom: 0 !important;
+        margin-bottom: 0;
+        padding-bottom: 0;
     }
     
     .date-mode-row {
-        margin-bottom: 0 !important;
-        padding-bottom: 0 !important;
+        margin-bottom: 0;
+        padding-bottom: 0;
     }
     
     /* Filter Sliders */
     #year-range-slider .noUi-pips,
     #magnitude-range-slider .noUi-pips { 
-        width: 100% !important; 
-        transform: none !important; 
+        width: 100%; 
+        transform: none; 
     }
 
     /* Remove extra bottom space on mobile */
     .year-group .year-slider-container,
     .year-group .magnitude-slider-container,
     .year-group #magnitude-range-container { 
-        width: 100% !important; 
-        max-width: 100% !important; 
-        padding: 0 4px 0px 4px !important; /* ADJUSTABLE: Removed bottom padding completely */
+        width: 100%; 
+        max-width: 100%; 
+        padding: 0 4px 0px 4px; /* ADJUSTABLE: Removed bottom padding completely */
         box-sizing: border-box; 
-        margin-bottom: 0 !important; /* Remove bottom margin */
+        margin-bottom: 0; /* Remove bottom margin */
     }
 }
 
@@ -172,7 +183,7 @@
 @media (max-width: 480px) {
 	/* Shoelace Select Small Mobile Styling */
 	.filter-group sl-select {
-		width: 100% !important;
+		width: 100%;
 		--sl-input-font-size-medium: 0.9rem;
 		--sl-input-padding-medium: 8px 10px;
 		--sl-input-height-medium: 36px;
@@ -196,17 +207,43 @@
         width: 100%; 
     }
     #filters-pane.filters-container { 
-        display: none !important; 
+        display: none; 
     }
     #filters-pane.filters-container.show { 
-        display: flex !important; 
+        display: flex; 
     }
     #filters-pane { 
-        overflow-y: auto !important; 
+        overflow-y: auto; 
     }
     
     /* ===== MISC ===== */
     #magnitude-range-container {
         margin: 0px 0 0px 0;
+    }
+}
+
+/* ===== TABLET LAYOUT (768px - 1023px) ===== */
+@media (max-width: 1023px) and (min-width: 769px) {
+    .filters-container { 
+        gap: 20px; /* ADJUSTABLE: Reduced gap for tablet */
+    }
+    
+    .magnitude-group { 
+        flex: 0 0 500px; /* ADJUSTABLE: Smaller width for tablet */
+        min-width: 300px;
+    }
+    
+    .location-filters-group { 
+        min-width: 320px; /* ADJUSTABLE: Smaller minimum width for tablet */
+        max-width: 500px; /* ADJUSTABLE: Smaller maximum width for tablet */
+        margin: 0 15px; /* ADJUSTABLE: Reduced margin */
+        gap: 15px; /* ADJUSTABLE: Reduced gap for tablet */
+        flex-direction: row; /* ADJUSTABLE: Inline layout on tablet too */
+    }
+    
+    .year-group { 
+        flex: 1 1 auto; /* ADJUSTABLE: Changed to flex: 1 1 auto to take available space */
+        min-width: 300px; /* ADJUSTABLE: Reduced minimum width */
+        margin-left: 0; /* ADJUSTABLE: Removed margin for proper alignment */
     }
 }

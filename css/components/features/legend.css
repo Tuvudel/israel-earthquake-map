@@ -14,7 +14,7 @@
     opacity: 0;
     visibility: hidden;
     transform: translateY(8px);
-    transition: opacity var(--transition-med) var(--easing), visibility var(--transition-med) var(--easing), transform var(--transition-med) var(--easing);
+    transition: opacity var(--animation-duration-normal) var(--animation-easing), visibility var(--animation-duration-normal) var(--animation-easing), transform var(--animation-duration-normal) var(--animation-easing);
 }
 
 #map-legend.show { 
@@ -40,6 +40,37 @@
 .size-circle.size-medium { width: 16px; height: 16px; }
 .size-circle.size-large { width: 32px; height: 32px; }
 .size-labels { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); }
+
+/* ===== MAGNITUDE BADGE STYLES ===== */
+/* Consolidated magnitude badge styles - used across the application */
+.mag-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 8px;
+    border-radius: 9999px;
+    color: var(--text-on-accent);
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.04) inset;
+}
+
+.mag-badge.minor { background-color: var(--mag-minor); }
+.mag-badge.light { background-color: var(--mag-light); color: var(--text-1); }
+.mag-badge.moderate { background-color: var(--mag-moderate); color: var(--text-1); }
+.mag-badge.strong { background-color: var(--mag-strong); }
+.mag-badge.major { background-color: var(--mag-major); }
+
+/* Event card specific magnitude badge variant */
+.event-magnitude .mag-badge {
+    min-width: 36px;
+    height: 36px;
+    font-size: 0.95rem;
+    padding: 0 10px;
+}
 
 /* Basemap toggle inside legend */
 

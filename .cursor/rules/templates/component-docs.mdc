@@ -1,0 +1,366 @@
+---
+description: Component Documentation Template
+globs:
+alwaysApply: false
+---
+# Component Name
+# Component Documentation Template
+
+## 📋 Overview
+
+**Component Name**: [Component Name]  
+**ITCSS Layer**: [Components]  
+**Purpose**: [Brief description of what this component does]  
+**Status**: [Active|Deprecated|Experimental]  
+**Version**: [1.0.0]  
+**Last Updated**: [YYYY-MM-DD]
+
+## 🎯 Purpose
+
+[Detailed description of the component's purpose and use cases]
+
+### When to Use
+- [Use case 1]
+- [Use case 2]
+- [Use case 3]
+
+### When Not to Use
+- [Anti-pattern 1]
+- [Anti-pattern 2]
+
+## 🎨 Design
+
+### Visual Design
+- **Design Tokens Used**: [List design tokens]
+- **Color Scheme**: [Primary, secondary, etc.]
+- **Typography**: [Font sizes, weights, etc.]
+- **Spacing**: [Padding, margins, etc.]
+- **Border Radius**: [Border radius values]
+- **Shadows**: [Shadow values]
+
+### Responsive Behavior
+- **Mobile (< 768px)**: [Mobile behavior]
+- **Tablet (768px - 1024px)**: [Tablet behavior]
+- **Desktop (> 1024px)**: [Desktop behavior]
+
+### States
+- **Default**: [Default state appearance]
+- **Hover**: [Hover state appearance]
+- **Focus**: [Focus state appearance]
+- **Active**: [Active state appearance]
+- **Disabled**: [Disabled state appearance]
+- **Loading**: [Loading state appearance]
+- **Error**: [Error state appearance]
+
+## 🧩 Structure
+
+### HTML Structure
+```html
+<!-- Basic Structure -->
+<div class="component-name">
+  <div class="component-name__header">
+    <h3 class="component-name__title">Title</h3>
+  </div>
+  <div class="component-name__content">
+    <p class="component-name__text">Content</p>
+  </div>
+  <div class="component-name__footer">
+    <button class="component-name__button">Action</button>
+  </div>
+</div>
+```
+
+### CSS Classes
+| Class | Purpose | Modifiers |
+|-------|---------|-----------|
+| `.component-name` | Main component container | `--primary`, `--secondary`, `--large`, `--small` |
+| `.component-name__header` | Header section | None |
+| `.component-name__title` | Title element | None |
+| `.component-name__content` | Content section | None |
+| `.component-name__text` | Text content | None |
+| `.component-name__footer` | Footer section | None |
+| `.component-name__button` | Action button | `--primary`, `--secondary` |
+
+### JavaScript API
+```javascript
+// Initialize component
+const component = new ComponentName(element, options);
+
+// Methods
+component.init();           // Initialize component
+component.destroy();        // Clean up component
+component.update(data);     // Update component data
+component.show();           // Show component
+component.hide();           // Hide component
+
+// Events
+component.on('change', callback);    // Listen for changes
+component.on('submit', callback);    // Listen for submissions
+component.on('error', callback);     // Listen for errors
+```
+
+## 📝 Usage Examples
+
+### Basic Usage
+```html
+<div class="component-name">
+  <div class="component-name__content">
+    <p>Basic component content</p>
+  </div>
+</div>
+```
+
+### With Modifiers
+```html
+<!-- Primary variant -->
+<div class="component-name component-name--primary">
+  <div class="component-name__content">
+    <p>Primary component</p>
+  </div>
+</div>
+
+<!-- Large variant -->
+<div class="component-name component-name--large">
+  <div class="component-name__content">
+    <p>Large component</p>
+  </div>
+</div>
+```
+
+### With JavaScript
+```javascript
+// Initialize with options
+const component = new ComponentName(document.querySelector('.component-name'), {
+  theme: 'primary',
+  size: 'large',
+  animated: true
+});
+
+// Handle events
+component.on('change', (data) => {
+  console.log('Component changed:', data);
+});
+```
+
+### Complex Example
+```html
+<div class="component-name component-name--primary component-name--large">
+  <div class="component-name__header">
+    <h3 class="component-name__title">Earthquake Filter</h3>
+  </div>
+  <div class="component-name__content">
+    <div class="component-name__filters">
+      <label for="magnitude">Magnitude:</label>
+      <input type="range" id="magnitude" min="0" max="10" step="0.1">
+    </div>
+  </div>
+  <div class="component-name__footer">
+    <button class="component-name__button component-name__button--primary">
+      Apply Filters
+    </button>
+  </div>
+</div>
+```
+
+## ♿ Accessibility
+
+### ARIA Attributes
+```html
+<div class="component-name" 
+     role="region" 
+     aria-labelledby="component-title"
+     aria-describedby="component-description">
+  <h3 id="component-title" class="component-name__title">Title</h3>
+  <p id="component-description" class="component-name__description">Description</p>
+</div>
+```
+
+### Keyboard Navigation
+- **Tab**: Navigate through interactive elements
+- **Enter/Space**: Activate buttons and controls
+- **Arrow Keys**: Navigate through options (if applicable)
+- **Escape**: Close or cancel (if applicable)
+
+### Screen Reader Support
+- **Semantic HTML**: Uses appropriate HTML elements
+- **ARIA Labels**: Provides descriptive labels
+- **Live Regions**: Updates announced to screen readers
+- **Focus Management**: Proper focus handling
+
+### Color and Contrast
+- **Text Contrast**: 4.5:1 minimum contrast ratio
+- **Interactive Elements**: Clear focus indicators
+- **Color Independence**: Information not conveyed by color alone
+
+## 🔧 Configuration
+
+### Options
+```javascript
+const options = {
+  // Theme
+  theme: 'primary' | 'secondary' | 'default',
+  
+  // Size
+  size: 'small' | 'medium' | 'large',
+  
+  // Animation
+  animated: true | false,
+  
+  // Accessibility
+  ariaLabel: 'Custom ARIA label',
+  ariaDescribedBy: 'description-id',
+  
+  // Behavior
+  autoFocus: true | false,
+  disabled: true | false,
+  
+  // Events
+  onChange: (data) => {},
+  onSubmit: (data) => {},
+  onError: (error) => {}
+};
+```
+
+### CSS Custom Properties
+```css
+:root {
+  --component-name-bg: var(--surface-1);
+  --component-name-border: var(--border-1);
+  --component-name-text: var(--text-1);
+  --component-name-padding: var(--spacing-md);
+  --component-name-border-radius: var(--border-radius-md);
+}
+```
+
+## 🧪 Testing
+
+### Unit Tests
+```javascript
+describe('ComponentName', () => {
+  it('should initialize correctly', () => {
+    const element = document.createElement('div');
+    const component = new ComponentName(element);
+    expect(component).toBeDefined();
+  });
+  
+  it('should handle events correctly', () => {
+    const element = document.createElement('div');
+    const component = new ComponentName(element);
+    const callback = jest.fn();
+    
+    component.on('change', callback);
+    component.trigger('change', { data: 'test' });
+    
+    expect(callback).toHaveBeenCalledWith({ data: 'test' });
+  });
+});
+```
+
+### Integration Tests
+```javascript
+describe('ComponentName Integration', () => {
+  it('should work with other components', () => {
+    // Test integration with other components
+  });
+  
+  it('should handle data flow correctly', () => {
+    // Test data flow through the application
+  });
+});
+```
+
+### Accessibility Tests
+```javascript
+describe('ComponentName Accessibility', () => {
+  it('should be keyboard navigable', () => {
+    // Test keyboard navigation
+  });
+  
+  it('should have proper ARIA attributes', () => {
+    // Test ARIA attributes
+  });
+  
+  it('should work with screen readers', () => {
+    // Test screen reader compatibility
+  });
+});
+```
+
+## 🚀 Performance
+
+### Optimization Techniques
+- **CSS**: Uses efficient selectors and properties
+- **JavaScript**: Debounced event handlers
+- **Animations**: Uses `transform` and `opacity`
+- **Loading**: Lazy loading for large components
+
+### Bundle Size
+- **CSS**: ~2KB minified
+- **JavaScript**: ~1KB minified
+- **Dependencies**: [List dependencies]
+
+### Performance Metrics
+- **First Paint**: < 100ms
+- **First Contentful Paint**: < 200ms
+- **Time to Interactive**: < 500ms
+
+## 🔄 Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0.0 | 2024-01-01 | Initial release |
+| 1.1.0 | 2024-02-01 | Added accessibility improvements |
+| 1.2.0 | 2024-03-01 | Added responsive design |
+
+## 🐛 Known Issues
+
+- [Issue 1]: [Description and workaround]
+- [Issue 2]: [Description and workaround]
+
+## 🔮 Future Enhancements
+
+- [Enhancement 1]: [Description]
+- [Enhancement 2]: [Description]
+
+## 📚 Related Components
+
+- [Related Component 1]: [Link to documentation]
+- [Related Component 2]: [Link to documentation]
+
+## 🛠️ Development
+
+### File Structure
+```
+components/
+├── features/
+│   └── component-name.css      # Component styles
+├── js/
+│   └── ui/
+│       └── component-name.js   # Component logic
+└── templates/
+    └── component-docs.md       # This documentation
+```
+
+### Dependencies
+- **CSS**: `design-system.css`, `utilities.css`
+- **JavaScript**: `eventBus.js`, `utils.js`
+- **External**: [List external dependencies]
+
+### Browser Support
+- **Chrome**: 90+
+- **Firefox**: 88+
+- **Safari**: 14+
+- **Edge**: 90+
+- **IE**: 11+ (with polyfills)
+
+## 📞 Support
+
+For questions or issues with this component:
+- **Documentation**: [Link to full documentation]
+- **Issues**: [Link to issue tracker]
+- **Team**: [Contact information]
+
+---
+
+**Last Updated**: [YYYY-MM-DD]  
+**Maintained By**: [Team/Developer Name]

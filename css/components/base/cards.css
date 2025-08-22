@@ -1,0 +1,98 @@
+/* Base Card Styles - Extracted from component files */
+
+/* ===== BASE CARD STYLES ===== */
+.card {
+    background: var(--surface-0);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-1);
+    box-shadow: var(--shadow-1);
+    color: var(--text-1);
+    overflow: hidden;
+}
+
+.card-header {
+    background: var(--surface-0);
+    border-bottom: 1px solid var(--border-1);
+    color: var(--text-1);
+    font-weight: 600;
+    padding: 16px;
+}
+
+.card-body {
+    padding: 16px;
+}
+
+.card-footer {
+    border-top: 1px solid var(--border-1);
+    padding: 16px;
+    background: var(--surface-1);
+}
+
+/* ===== TABLE CARD STYLES ===== */
+.table-card::part(header) {
+    background: var(--surface-0);
+    border-bottom: 1px solid var(--border-1);
+    color: var(--text-1);
+    font-weight: 600;
+}
+
+.table-card::part(base) {
+    border: 1px solid var(--border-1);
+    box-shadow: var(--shadow-1);
+    background: var(--surface-0);
+    color: var(--text-1);
+}
+
+
+
+/* ===== FILTER PANEL CARD STYLES ===== */
+.filter-panel {
+    background: var(--surface-0);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-1);
+    box-shadow: var(--shadow-1);
+    color: var(--text-1);
+    overflow: hidden;
+}
+
+.filter-panel-header {
+    background: var(--surface-0);
+    border-bottom: 1px solid var(--border-1);
+    color: var(--text-1);
+    font-weight: 600;
+    padding: 16px;
+}
+
+.filter-panel-body {
+    padding: 16px;
+}
+
+/* ===== SIDEBAR CARD STYLES ===== */
+.sidebar-card {
+    background: var(--surface-0);
+    border: 1px solid var(--border-1);
+    border-radius: var(--radius-1);
+    box-shadow: var(--shadow-1);
+    color: var(--text-1);
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-card-header {
+    background: var(--surface-0);
+    border-bottom: 1px solid var(--border-1);
+    color: var(--text-1);
+    font-weight: 600;
+    padding: 16px;
+    flex-shrink: 0;
+}
+
+.sidebar-card-body {
+    padding: 16px;
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}

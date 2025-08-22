@@ -1,0 +1,112 @@
+/* ===== TABLE COMPONENT ===== */
+/* Data table styles extracted from sidebar component */
+
+/* Data table panel container */
+#data-table-panel { flex: 1; padding: 8px 16px 16px; display: flex; flex-direction: column; }
+#data-table-panel h3 { font-size: 1.1rem; margin-bottom: 12px; color: var(--text-2); }
+
+/* Shoelace-aligned card header and base for the data table card (theme-aware) */
+.table-card::part(header) { background: var(--surface-0); border-bottom: 1px solid var(--border-1); color: var(--text-1); font-weight: 600; }
+.table-card::part(base) { border: 1px solid var(--border-1); box-shadow: var(--shadow-1); background: var(--surface-0); color: var(--text-1); }
+
+/* ===== TABLE STRUCTURE ===== */
+#earthquake-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    font-size: 0.85rem; 
+    color: var(--text-1); 
+    table-layout: fixed; 
+    /* Performance optimizations for large data tables */
+    contain: layout style;
+    content-visibility: auto;
+    contain-intrinsic-size: 0 400px;
+}
+#earthquake-table th { display: none; }
+#earthquake-table td { padding: 10px 8px; border-bottom: 1px solid var(--border-1); }
+#earthquake-table tbody tr:hover { background-color: var(--surface-1); }
+#earthquake-table tbody tr.highlighted { background-color: var(--highlight-bg) !important; animation: highlight-pulse 0.5s ease-in-out; }
+
+/* ===== TABLE ROWS ===== */
+.earthquake-row { cursor: pointer; transition: background-color 0.2s; border-left: 4px solid transparent; }
+.earthquake-row.mag-minor { border-left-color: var(--mag-minor); }
+.earthquake-row.mag-light { border-left-color: var(--mag-light); }
+.earthquake-row.mag-moderate { border-left-color: var(--mag-moderate); }
+.earthquake-row.mag-strong { border-left-color: var(--mag-strong); }
+.earthquake-row.mag-major { border-left-color: var(--mag-major); }
+
+/* Magnitude cell */
+.mag-cell { text-align: center; }
+
+/* ===== SORTABLE BUTTON STYLES ===== */
+.sortable { 
+    cursor: pointer; 
+    user-select: none; 
+    position: relative; 
+    font-weight: 600;
+    font-size: 0.8rem;
+    font-family: var(--font-family-primary);
+}
+
+.sort-indicator { 
+    margin-left: 4px; 
+    opacity: 0.4; 
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+    transition: all var(--animation-duration-fast) var(--animation-easing);
+}
+
+.sort-indicator.active { 
+    opacity: 1; 
+    fill: var(--accent-600);
+}
+
+.sort-indicator.active.asc { 
+    transform: rotate(180deg);
+    fill: var(--accent-600);
+}
+
+.sort-indicator.active.desc { 
+    transform: rotate(0deg);
+    fill: var(--accent-600);
+}
+
+/* ===== PAGINATION ===== */
+#pagination { margin-top: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
+.pagination-info { color: var(--text-muted); }
+.pagination-controls { display: flex; align-items: center; gap: 10px; }
+.pagination-controls sl-button.pagination-btn { margin: 0 4px; }
+
+#page-numbers { display: flex; gap: 5px; }
+.page-number { padding: 6px 10px; border: 1px solid var(--border-1); background: var(--surface-0); color: var(--text-1); cursor: pointer; border-radius: 6px; font-size: 0.8rem; min-width: 32px; text-align: center; transition: all 0.2s; box-shadow: var(--shadow-1); }
+.page-number:hover { background: var(--surface-1); }
+.page-number.active { background: var(--brand-600); color: var(--text-on-accent); border-color: var(--brand-600); box-shadow: var(--shadow-2); }
+
+/* ===== EVENT CARD ROWS (inside table) ===== */
+/* Increase specificity so we can avoid !important while overriding table cell defaults */
+#earthquake-table td.card-cell { padding: 0; border-bottom: none; }
+.event-card { display: flex; flex-direction: column; gap: 10px; padding: 12px 14px; background: var(--surface-0); border-radius: 10px; border: 1px solid var(--border-1); box-shadow: var(--shadow-1); }
+.earthquake-row:hover .event-card { background: var(--surface-1); }
+.earthquake-row.highlighted .event-card { outline: 2px solid var(--brand-600); outline-offset: 0; }
+
+.event-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.event-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+
+.event-primary { display: flex; flex-direction: column; min-width: 0; }
+.event-location { font-weight: 700; color: var(--text-1); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.event-region { color: var(--text-3); font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.event-time { text-align: right; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.event-time .time-ago { font-weight: 600; color: var(--text-1); }
+.event-time .exact-date { color: var(--text-3); font-size: 0.8rem; }
+.event-time .exact-time { color: var(--text-3); font-size: 0.8rem; }
+
+.event-details { display: grid; grid-template-columns: minmax(64px, auto) 1fr auto; column-gap: 6px; row-gap: 6px; padding-top: 6px; border-top: 1px dashed var(--border-1); align-items: start; }
+.detail-item { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.detail-felt { justify-self: end; text-align: right; white-space: nowrap; }
+.detail-label { color: var(--text-3); font-size: 0.7rem; text-transform: uppercase; letter-spacing: .04em; }
+.detail-value { color: var(--text-1); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.detial-distance {align-items: center;}
+.detail-distance .detail-label, .detail-distance .detail-value { padding-left: 40px; }
+
+.felt-none { color: var(--text-3); }

@@ -1,11 +1,73 @@
 /* ===== SIDEBAR RESPONSIVE STYLES ===== */
 
+/* ===== MOBILE TAB PANEL OPTIMIZATIONS ===== */
+/* Consolidated mobile styles for sidebar components */
+
+/* ===== DESKTOP SIDEBAR COLLAPSED STATE ===== */
+/* Desktop sidebar collapsed state (toggled by header Data button) */
+@media (min-width: 769px) {
+    #sidebar {
+        /* Dynamic width that can collapse */
+        width: 450px;
+        /* Smooth transitions for better UX */
+        transition: transform var(--animation-duration-slow) var(--animation-easing),
+                    opacity var(--animation-duration-slow) var(--animation-easing),
+                    border-color var(--animation-duration-slow) var(--animation-easing),
+                    width var(--animation-duration-slow) var(--animation-easing);
+        /* Performance optimizations */
+        will-change: transform, opacity, width;
+        transform: translateZ(0);
+        contain: layout style paint;
+    }
+    #sidebar.collapsed {
+        /* Collapse width to 0 to allow map to expand */
+        width: 0 !important;
+        min-width: 0 !important;
+        transform: translateX(100%);
+        opacity: 0;
+        border-left-color: transparent !important;
+        overflow: hidden !important;
+        /* Stay in normal document flow to prevent layout shifts */
+        position: relative !important;
+        z-index: 1000 !important;
+    }
+    
+    /* No transitions - instant changes for zero flicker */
+    #map-container {
+        /* Performance optimizations */
+        will-change: flex-basis;
+        transform: translateZ(0);
+    }
+    
+    /* Enhanced button state transitions - immediate response */
+    #header-data-toggle {
+        transition: background-color var(--animation-duration-fast) var(--animation-easing),
+                    border-color var(--animation-duration-fast) var(--animation-easing),
+                    color var(--animation-duration-fast) var(--animation-easing),
+                    box-shadow var(--animation-duration-fast) var(--animation-easing);
+    }
+    
+}
+
 /* ===== TABLET STYLES (768px and below) ===== */
 @media (max-width: 768px) {
-    /* ===== STATISTICS ===== */
-    .stat-grid { 
-        grid-template-columns: 1fr 1fr; 
-        gap: 10px; 
+    /* ===== MOBILE TAB PANEL OPTIMIZATIONS ===== */
+    #sidebar sl-tab-panel::part(base) {
+        /* Optimize for mobile performance */
+        will-change: transform, opacity;
+        /* Ensure smooth height transitions */
+        transition: opacity var(--mobile-animation-duration-normal) var(--animation-easing-smooth),
+                    transform var(--mobile-animation-duration-normal) var(--animation-easing-smooth),
+                    height var(--mobile-animation-duration-normal) var(--animation-easing-smooth);
+    }
+    
+    /* Mobile slide transitions */
+    #sidebar sl-tab-panel.tab-panel-slide-out::part(base) {
+        transform: translateX(-100%);
+    }
+    
+    #sidebar sl-tab-panel.tab-panel-slide-in::part(base) {
+        transform: translateX(0);
     }
     
     /* ===== TABLE ===== */
@@ -15,6 +77,33 @@
     #earthquake-table th, 
     #earthquake-table td { 
         padding: 8px 6px; 
+    }
+    
+    /* ===== TABLE SORT CONTROLS ===== */
+    .table-sort-controls {
+        gap: 2px;
+        margin-bottom: 12px;
+        padding: 0 1px;
+        overflow: hidden;
+        flex-wrap: nowrap;
+        display: flex;
+        align-items: center;
+    }
+    
+    .sortable {
+        font-size: 0.75rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: fit-content;
+        flex: 0 1 auto;
+    }
+    
+    .sort-indicator {
+        width: 13px;
+        height: 13px;
+        margin-left: 4px;
+        flex-shrink: 0;
     }
 }
 
@@ -92,27 +181,6 @@
         z-index: 1;
     }
     
-    /* ===== STATISTICS ===== */
-    .stat-grid { 
-        grid-template-columns: 1fr; 
-        gap: 8px; 
-    }
-    .stat-item { 
-        padding: 12px; 
-        /* Enhanced mobile stat item animations */
-            transition: transform var(--animation-duration-fast) var(--animation-easing),
-                background-color var(--animation-duration-fast) var(--animation-easing);
-    }
-    .stat-item:hover {
-        transform: translateY(-1px);
-    }
-    .stat-value { 
-        font-size: 1.3rem; 
-    }
-    .stat-label { 
-        font-size: 0.75rem; 
-    }
-    
     /* ===== TABLE ===== */
     .table-container { 
         overflow-x: auto; 
@@ -183,14 +251,50 @@
     }
     
     /* ===== SIDEBAR COMPONENT OVERRIDES ===== */
-    .mag-badge { 
-        min-width: 24px; 
-        height: 24px; 
-        font-size: 0.8rem; 
-        padding: 0 6px; 
-    }
     
     /* Mobile row animations - using utility classes */
+    
+    /* ===== TABLE ANIMATIONS ===== */
+    /* Enhanced table animations for mobile */
+    #data-table-panel {
+        transition: opacity var(--animation-duration-normal) var(--animation-easing);
+    }
+
+    #data-table-panel.loading {
+        opacity: 0.6;
+    }
+
+    /* Table row animations */
+    .earthquake-row {
+        transition: background-color var(--animation-duration-fast) var(--animation-easing),
+                    transform var(--animation-duration-fast) var(--animation-easing),
+                    box-shadow var(--animation-duration-fast) var(--animation-easing);
+        /* Performance optimizations */
+        will-change: transform, background-color, box-shadow;
+        contain: layout style paint;
+        content-visibility: auto;
+        contain-intrinsic-size: 0 60px;
+    }
+
+    .earthquake-row:hover {
+        transform: translateY(-1px);
+    }
+
+    .earthquake-row.highlighted {
+        background-color: var(--highlight-bg);
+        box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+        transform: translateY(-1px);
+    }
+
+    /* ===== PAGINATION ANIMATIONS ===== */
+    .pagination-controls {
+        transition: opacity var(--animation-duration-fast) var(--animation-easing);
+    }
+
+    .pagination-controls.loading {
+        opacity: 0.6;
+        pointer-events: none;
+    }
 }
 
 /* ===== SMALL MOBILE STYLES (520px and below) ===== */
@@ -213,12 +317,7 @@
     .event-card { 
         padding: 10px 12px; 
     }
-    .event-magnitude .mag-badge { 
-        min-width: 30px; 
-        height: 30px; 
-        font-size: 0.85rem; 
-        padding: 0 8px; 
-    }
+
     #earthquake-table th { 
         padding: 10px 6px; 
         white-space: nowrap; 
@@ -229,9 +328,6 @@
 
 /* ===== VERY SMALL MOBILE (320px and below) ===== */
 @media (max-width: 320px) {
-    .stat-value { 
-        font-size: 1.2rem; 
-    }
     #earthquake-table { 
         font-size: 0.7rem; 
     }
@@ -239,5 +335,65 @@
         min-width: 32px; 
         height: 32px; 
         font-size: 0.75rem; 
+    }
+}
+
+/* ===== TABLE SORT CONTROLS RESPONSIVE ===== */
+/* Consolidated into main 768px media query above */
+
+@media (max-width: 480px) {
+    .table-sort-controls {
+        gap: 1px;
+        padding: 0 1px;
+        overflow: hidden;
+        flex-wrap: nowrap;
+        display: flex;
+        align-items: center;
+    }
+    
+    .sortable {
+        font-size: 0.7rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: fit-content;
+        flex: 0 1 auto;
+    }
+    
+    .sort-indicator {
+        width: 12px;
+        height: 12px;
+        margin-left: 3px;
+        flex-shrink: 0;
+    }
+}
+
+/* Very small devices - ensure buttons always fit */
+@media (max-width: 380px) {
+    .table-sort-controls {
+        flex-wrap: wrap;
+        gap: 2px;
+        padding: 0;
+        overflow: visible;
+        justify-content: center;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .sortable {
+        font-size: 0.65rem;
+        min-width: 0;
+        flex: 0 1 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .sort-indicator {
+        width: 10px;
+        height: 10px;
+        margin-left: 2px;
+        flex-shrink: 0;
     }
 }

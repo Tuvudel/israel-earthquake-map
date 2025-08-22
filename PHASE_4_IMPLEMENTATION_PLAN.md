@@ -17,13 +17,9 @@ Comprehensive optimization of map integration, data loading performance, theme t
 - **Animation Conflicts**: Map resize happens during sidebar animations
 - **Timing Issues**: No coordination between CSS transitions and map operations
 
-### Data Loading Performance
-- **Large Dataset**: 3.6MB GeoJSON loads synchronously, blocking UI
-- **No Caching**: Data reloads on every page refresh
-- **No Progressive Loading**: All data loads before UI becomes interactive
 
 ### Theme Transition Issues
-- **Initial Flicker**: Toggle starts in light mode but quickly flickers to dark mode
+- **Initial Flicker**: in dark mode on init, Toggle starts in light mode but quickly flickers to dark mode
 - **Race Condition**: Conflict between initial theme application and toggle initialization
 - **No Smooth Transitions**: Theme changes are applied instantly without animations
 - **Uncoordinated Changes**: Map style and UI theme change separately

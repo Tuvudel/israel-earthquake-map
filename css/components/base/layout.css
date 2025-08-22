@@ -1,0 +1,260 @@
+/* Base Layout Styles - Extracted from component files */
+
+/* ===== FLEXBOX LAYOUT UTILITIES ===== */
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.flex-shrink-0 {
+    flex-shrink: 0;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.items-start {
+    align-items: flex-start;
+}
+
+.items-end {
+    align-items: flex-end;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-start {
+    justify-content: flex-start;
+}
+
+.justify-end {
+    justify-content: flex-end;
+}
+
+.gap-8 {
+    gap: 8px;
+}
+
+.gap-12 {
+    gap: 12px;
+}
+
+.gap-16 {
+    gap: 16px;
+}
+
+/* ===== GRID LAYOUT UTILITIES ===== */
+.grid {
+    display: grid;
+}
+
+.grid-cols-2 {
+    grid-template-columns: 1fr 1fr;
+}
+
+.grid-cols-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid-cols-4 {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+/* ===== CONTAINER LAYOUTS ===== */
+/* Container class moved to utilities/modern.css for proper ITCSS layer separation */
+
+.sidebar-container {
+    width: 400px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface-0);
+    border-right: 1px solid var(--border-1);
+    overflow: hidden;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.map-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ===== PANEL LAYOUTS ===== */
+.panel {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-1);
+    color: var(--text-1);
+}
+
+.panel-header {
+    margin-bottom: 16px;
+}
+
+.panel-title {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+    color: var(--text-2);
+}
+
+.panel-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    color: var(--text-2);
+}
+
+/* ===== TABLE LAYOUTS ===== */
+.table-container {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 0;
+    border-radius: 0;
+}
+
+.table-wrapper {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    color: var(--text-1);
+    table-layout: fixed;
+}
+
+.table-header {
+    display: none;
+}
+
+.table-row {
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-left: 4px solid transparent;
+}
+
+.table-row:hover {
+    background-color: var(--surface-1);
+}
+
+.table-row.highlighted {
+    background-color: var(--accent-100) !important;
+    animation: highlight-pulse 0.5s ease-in-out;
+}
+
+.table-cell {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border-1);
+}
+
+/* ===== STATISTICS LAYOUT ===== */
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* ===== FILTER LAYOUT ===== */
+.filter-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+}
+
+.filter-section {
+    margin-bottom: 16px;
+}
+
+.filter-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ===== SORT CONTROLS LAYOUT ===== */
+.table-sort-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1px;
+    margin-bottom: 16px;
+    flex-wrap: nowrap;
+    padding: 0 1px;
+    overflow: hidden;
+}
+
+/* ===== MAGNITUDE CELL LAYOUT ===== */
+.magnitude-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mag-cell {
+    text-align: center;
+}
+
+/* ===== OVERFLOW HANDLING ===== */
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.overflow-auto {
+    overflow: auto;
+}
+
+.overflow-y-auto {
+    overflow-y: auto;
+}
+
+.overflow-x-hidden {
+    overflow-x: hidden;
+}
+
+/* ===== POSITIONING ===== */
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.fixed {
+    position: fixed;
+}
+
+/* ===== Z-INDEX UTILITIES ===== */
+.z-1000 {
+    z-index: 1000;
+}
+
+.z-1100 {
+    z-index: 1100;
+}
+
+.z-1200 {
+    z-index: 1200;
+}

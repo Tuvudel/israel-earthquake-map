@@ -3,6 +3,7 @@
 
 /* ===== CONTENT VISIBILITY ===== */
 /* Optimize rendering performance for off-screen content */
+/* Applied to large components like sidebar and table for performance */
 
 .content-visibility-auto {
     content-visibility: auto;

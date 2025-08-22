@@ -1,0 +1,237 @@
+---
+description: ITCSS Methodology + Web Design Best Practices
+globs:
+alwaysApply: false
+---
+# Israel Earthquake Map - Project Rules
+# ITCSS Methodology + Web Design Best Practices
+
+## 🎯 PROJECT OVERVIEW
+This is a scientific visualization web application for earthquake data in Israel, built with modern web technologies and following ITCSS (Inverted Triangle CSS) methodology for scalable, maintainable CSS architecture.
+
+## 🏗️ ARCHITECTURE PRINCIPLES
+
+### ITCSS Layer Hierarchy (Bottom to Top)
+1. **Settings** - Design tokens, variables, configurations
+2. **Tools** - Mixins, functions, utilities
+3. **Generic** - Reset, normalize, base styles
+4. **Elements** - HTML element styles
+5. **Objects** - Layout patterns, grid systems
+6. **Components** - Reusable UI components
+7. **Utilities** - Helper classes, overrides
+8. **Themes** - Visual variations
+
+### File Organization
+```
+css/
+├── tokens/           # Settings layer - Design tokens
+├── mixins/          # Tools layer - Reusable patterns
+├── base.css         # Generic layer - Resets & base styles
+├── layout.css       # Elements layer - HTML elements
+├── components/      # Objects & Components layers
+├── utilities/       # Utilities layer
+├── themes/          # Themes layer
+└── responsive/      # Responsive overrides
+```
+
+## 🎨 CSS BEST PRACTICES
+
+### Design Tokens (Settings Layer)
+- **Use CSS custom properties for all design values**
+- **Naming convention**: `--{category}-{scale}-{variant}`
+- **Examples**:
+  ```css
+  --color-primary-600: #3b82f6;
+  --spacing-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --border-radius-md: 8px;
+  ```
+
+### Component Architecture
+- **Single Responsibility**: Each component file handles one concern
+- **BEM Methodology**: Block__Element--Modifier
+- **Component Structure**:
+  ```css
+  /* Component name and purpose */
+  .component-name {
+    /* Layout properties */
+    /* Visual properties */
+    /* Interactive states */
+  }
+  
+  .component-name__element {
+    /* Element-specific styles */
+  }
+  
+  .component-name--modifier {
+    /* Modifier variations */
+  }
+  ```
+
+### Responsive Design
+- **Mobile-first approach**
+- **Breakpoint tokens**: Use design system breakpoints
+- **Progressive enhancement**: Build up from mobile
+- **Container queries**: Prefer over media queries when possible
+
+### Performance Guidelines
+- **Critical CSS**: Inline above-the-fold styles
+- **CSS optimization**: Minimize specificity conflicts
+- **Animation performance**: Use `transform` and `opacity`
+- **Loading strategy**: Load non-critical CSS asynchronously
+
+## 🧩 COMPONENT PATTERNS
+
+### Interactive Components
+- **Focus states**: Always provide visible focus indicators
+- **Hover states**: Use subtle transitions (200ms ease-out)
+- **Active states**: Provide immediate visual feedback
+- **Disabled states**: Clear visual indication of disabled state
+
+### Form Components
+- **Accessibility**: Proper labels, ARIA attributes
+- **Validation**: Clear error states and messages
+- **Progressive disclosure**: Show/hide based on context
+- **Auto-save**: Implement where appropriate
+
+### Data Visualization Components
+- **Color accessibility**: Ensure sufficient contrast ratios
+- **Semantic colors**: Use consistent color meanings
+- **Responsive charts**: Adapt to container size
+- **Interactive elements**: Clear hover/active states
+
+## 🔧 DEVELOPMENT WORKFLOW
+
+### CSS Writing Guidelines
+1. **Start with design tokens** - Define variables first
+2. **Use logical properties** - Prefer `margin-inline` over `margin-left/right`
+3. **Avoid magic numbers** - Use design tokens for all values
+4. **Minimize specificity** - Prefer classes over IDs
+5. **Document complex selectors** - Add comments for non-obvious rules
+
+### Code Organization
+- **Group related properties**: Layout → Visual → Interactive
+- **Consistent ordering**: Position, Box Model, Typography, Visual, Misc
+- **Comment sections**: Use clear section headers
+- **Import order**: Follow ITCSS hierarchy
+
+### Naming Conventions
+- **Components**: kebab-case (`.earthquake-card`)
+- **Utilities**: functional names (`.text-center`, `.mb-4`)
+- **States**: BEM modifiers (`.button--primary`)
+- **Breakpoints**: semantic names (`.md:`, `.lg:`)
+
+## 🎯 SPECIFIC PROJECT RULES
+
+### Earthquake Map Components
+- **Magnitude indicators**: Use semantic color scale
+- **Time filters**: Implement accessible date pickers
+- **Geographic overlays**: Ensure proper z-index management
+- **Interactive markers**: Clear hover states and tooltips
+
+### Scientific Visualization
+- **Color scales**: Ensure accessibility for colorblind users
+- **Data density**: Implement progressive disclosure
+- **Export functionality**: Support multiple formats
+- **Print styles**: Optimize for scientific publication
+
+### Performance Requirements
+- **Large datasets**: Implement virtual scrolling for tables
+- **Map rendering**: Optimize for smooth pan/zoom
+- **Filter performance**: Debounce user inputs
+- **Memory management**: Clean up event listeners
+
+## 🧪 TESTING & QUALITY
+
+### CSS Testing
+- **Cross-browser compatibility**: Test on modern browsers
+- **Accessibility testing**: WCAG 2.1 AA compliance
+- **Performance testing**: Lighthouse scores
+- **Visual regression**: Automated screenshot testing
+
+### Code Quality
+- **CSS linting**: Use stylelint with project rules
+- **Preprocessor**: Consider Sass for complex components
+- **Documentation**: Maintain living style guide
+- **Review process**: Peer review for all CSS changes
+
+## 🚀 DEPLOYMENT & OPTIMIZATION
+
+### Build Process
+- **CSS optimization**: Minify and compress
+- **Critical CSS**: Extract and inline above-the-fold
+- **Asset optimization**: Optimize images and fonts
+- **CDN delivery**: Use CDN for static assets
+
+### Monitoring
+- **Performance metrics**: Track Core Web Vitals
+- **Error tracking**: Monitor CSS-related errors
+- **User feedback**: Collect accessibility feedback
+- **Analytics**: Track component usage patterns
+
+## 📚 RESOURCES & REFERENCES
+
+### ITCSS Resources
+- Harry Roberts' ITCSS methodology
+- CSS Architecture for Design Systems
+- Scalable CSS Guidelines
+
+### Accessibility Standards
+- WCAG 2.1 AA Guidelines
+- ARIA Authoring Practices
+- Color Contrast Requirements
+
+### Performance Tools
+- Lighthouse CI
+- WebPageTest
+- CSS Coverage Analysis
+
+## 🔄 CONTINUOUS IMPROVEMENT
+
+### Regular Reviews
+- **Monthly**: Review CSS architecture and performance
+- **Quarterly**: Update design tokens and components
+- **Annually**: Major refactoring and optimization
+
+### Feedback Integration
+- **User feedback**: Incorporate accessibility improvements
+- **Developer feedback**: Refine development workflow
+- **Performance data**: Optimize based on metrics
+- **Industry trends**: Stay current with best practices
+
+---
+
+## 📋 USAGE INSTRUCTIONS
+
+When working on this project:
+
+1. **Always start with design tokens** - Check if a value already exists
+2. **Follow ITCSS hierarchy** - Place styles in appropriate layers
+3. **Use component patterns** - Leverage existing component structure
+4. **Test accessibility** - Ensure WCAG compliance
+5. **Document changes** - Update this file when adding new patterns
+6. **Performance first** - Consider impact on Core Web Vitals
+7. **Mobile-first** - Start with mobile, enhance for desktop
+8. **Semantic HTML** - Use proper HTML elements and ARIA attributes
+
+Remember: This is a scientific application - accuracy, accessibility, and performance are paramount.
+
+---
+
+## 📁 COMPANION FILES
+
+- `css/architecture.md` - Detailed ITCSS architecture guide
+- `css/stylelint.config.js` - Stylelint configuration
+- `css/component-template.md` - Component documentation template
+- `css/accessibility-checklist.md` - WCAG compliance checklist
+- `development/workflow.md` - Development workflow guide
+- `development/code-review.md` - Code review guidelines
+- `development/testing.md` - Testing strategies
+- `performance/optimization.md` - Performance optimization guide
+- `performance/core-web-vitals.md` - Core Web Vitals guidelines
+- `templates/component-docs.md` - Component documentation template
+- `templates/css-file-template.css` - CSS file structure template
+description:
+globs:
+alwaysApply: false
+---

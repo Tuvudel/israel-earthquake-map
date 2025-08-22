@@ -1,0 +1,44 @@
+/* ===== RESPONSIVE SHOELACE VARIABLE OVERRIDES ===== */
+/* Consolidated responsive overrides for Shoelace components */
+/* This file contains all responsive-specific Shoelace variable overrides */
+
+/* ===== MEDIUM MOBILE (768px and below) ===== */
+@media (max-width: 768px) {
+  :root {
+    /* Button responsive overrides */
+    --sl-button-font-size-small: 10px;
+    --sl-button-padding-small: 4px 3px;
+    --sl-button-height-small: 26px;
+  }
+}
+
+/* ===== SMALL MOBILE (480px and below) ===== */
+@media (max-width: 480px) {
+  :root {
+    /* Button responsive overrides */
+    --sl-button-font-size-small: 9px;
+    --sl-button-padding-small: 3px 2px;
+    --sl-button-height-small: 24px;
+  }
+}
+
+/* ===== VERY SMALL MOBILE (380px and below) ===== */
+@media (max-width: 380px) {
+  :root {
+    /* Button responsive overrides */
+    --sl-button-font-size-small: 8px;
+    --sl-button-padding-small: 2px 1px;
+    --sl-button-height-small: 22px;
+  }
+}
+
+/* ===== FILTER HEADER MOBILE STYLES (640px and below) ===== */
+@media (max-width: 640px) {
+  :root {
+    /* Header button specific overrides */
+    --sl-button-padding-medium: 10px 12px;
+  }
+}
+
+/* ===== RESPONSIVE UTILITY CLASSES ===== */
+/* Utility classes for responsive design - Container classes moved to utilities/modern.css */

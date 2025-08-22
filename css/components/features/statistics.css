@@ -1,0 +1,50 @@
+/* ===== STATISTICS PANEL ===== */
+
+#statistics-panel {
+    padding: 20px;
+    background: var(--surface-0);
+    color: var(--text-1);
+}
+
+/* Statistics grid uses base .stat-grid layout */
+#statistics-panel .stat-grid {
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    background: var(--surface-1);
+    border: 1px solid var(--border-1);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--brand-600);
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-2);
+    font-weight: 500;
+}
+
+/* Enhanced focus states for accessibility */
+.stat-item:focus-within {
+    outline: 2px solid var(--brand-500);
+    outline-offset: 2px;
+}
+
+/* ===== STATISTICS PANEL ANIMATIONS ===== */
+/* Statistics panel animations */
+#statistics-panel {
+    transition: opacity var(--animation-duration-normal) var(--animation-easing);
+}
+
+/* Note: .stat-item animations are now handled by utility classes in utilities/animations.css */
+
+

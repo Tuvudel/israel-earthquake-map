@@ -1,0 +1,33 @@
+/* ===== RESPONSIVE ANIMATIONS ===== */
+/* Mobile-specific animation optimizations */
+
+/* Optimize animations for mobile */
+@media (max-width: 768px) {
+    .hover-lift:hover,
+    .hover-lift-enhanced:hover,
+    .interactive:hover {
+        transform: translateY(-0.5px);
+    }
+    
+    .hover-lift-enhanced:hover {
+        transform: translateY(-1px);
+    }
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .hover-lift,
+    .hover-lift-enhanced,
+    .interactive {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    .hover-lift:hover,
+    .hover-lift-enhanced:hover,
+    .interactive:hover {
+        transform: none !important;
+    }
+}

@@ -1,0 +1,21 @@
+/* ===== COMPONENTS INDEX ===== */
+/* Main entry point for all component styles */
+
+/* ===== BASE COMPONENTS ===== */
+@import url('./base/buttons.css');
+@import url('./base/cards.css');
+@import url('./base/forms.css');
+@import url('./base/layout.css');
+
+/* ===== FEATURE COMPONENTS ===== */
+@import url('./features/sidebar.css');
+@import url('./features/statistics.css');
+@import url('./features/legend.css');
+@import url('./features/toggles.css');
+@import url('./features/loading.css');
+@import url('./features/popup.css');
+@import url('./features/magnitude.css');
+@import url('./features/table.css');
+
+/* ===== FILTER COMPONENTS ===== */
+@import url('./filters/index.css');

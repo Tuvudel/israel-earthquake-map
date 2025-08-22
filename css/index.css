@@ -1,30 +1,30 @@
-/* Aggregated modular CSS for Israel Earthquake Map
-   This file replaces css/styles.css. It imports modular styles split by concern. */
+/* ===== ISRAEL EARTHQUAKE MAP - CSS ARCHITECTURE ===== */
+/* Aggregated modular CSS with consolidated design system */
 
-/* Design System Tokens (load first) */
-@import url('./tokens/typography.css');
-@import url('./tokens/breakpoints.css');
+/* ===== DESIGN SYSTEM TOKENS (load first) ===== */
+@import url('./tokens/design-system.css');
+@import url('./tokens/animations-tokens.css');
 @import url('./tokens/components.css');
+@import url('./tokens/breakpoints.css');
+@import url('./tokens/typography.css');
 
-/* Animation System (load before base styles) */
-@import url('./animations.css');
-
-/* Base Styles */
+/* ===== BASE STYLES ===== */
 @import url('./base.css');
-@import url('./utilities.css');
+@import url('./layout.css');
+
+/* ===== UTILITIES ===== */
+@import url('./utilities/keyframes.css');
 @import url('./utilities/animations.css');
 @import url('./utilities/modern.css');
 @import url('./utilities/performance.css');
 @import url('./utilities/accessibility.css');
-@import url('./layout.css');
 
-/* Components */
-@import url('./components/filters/index.css');
-@import url('./components/legend.css');
-@import url('./components/sidebar.css');
-@import url('./components/toggles.css');
-@import url('./components/loading.css');
-@import url('./components/popup.css');
+/* ===== COMPONENTS ===== */
+@import url('./components/index.css');
 
-/* Responsive (kept last) */
+/* ===== THEMES ===== */
+@import url('./themes/light.css');
+@import url('./themes/dark.css');
+
+/* ===== RESPONSIVE (load last) ===== */
 @import url('./responsive/index.css');

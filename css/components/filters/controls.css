@@ -2,55 +2,11 @@
 
 /* Shoelace Select Styling for Filter Controls */
 .filter-group sl-select {
-    width: 280px; /* ADJUSTABLE: Increased from 220px to 280px to accommodate more values */
-    --sl-input-font-family: var(--font-family-primary);
-    --sl-input-font-size-medium: 0.9rem;
-    --sl-input-border-radius-medium: var(--radius-2);
-    --sl-input-border-color: var(--border-1);
-    --sl-input-border-color-hover: var(--brand-600);
-    --sl-input-background-color: var(--surface-0);
-    --sl-input-color: var(--text-1);
-    --sl-input-shadow: var(--shadow-1);
-    --sl-input-shadow-hover: var(--shadow-2);
-    --sl-input-shadow-focus: 0 0 0 3px var(--ring-color), var(--shadow-2);
-    
-    /* Additional font-related custom properties */
-    --sl-font-family: var(--font-family-primary);
-    --sl-font-size-medium: 0.9rem;
+    width: 100%; /* ADJUSTABLE: Changed from fixed 280px to 100% to be responsive to container */
+    min-width: 180px; /* ADJUSTABLE: Minimum width to ensure usability */
 }
 
-/* Dark mode styling for Shoelace select */
-:root[data-theme='dark'] .filter-group sl-select {
-    --sl-input-border-color: var(--border-2);
-    --sl-input-border-color-hover: var(--accent-600);
-    --sl-input-background-color: var(--surface-0);
-    --sl-input-color: var(--text-1);
-    --sl-input-placeholder-color: var(--text-1);
-    --sl-input-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 15px rgba(96, 165, 250, 0.25), 0 0 5px rgba(255, 255, 255, 0.1);
-    --sl-input-shadow-hover: 0 2px 14px rgba(0,0,0,0.5), 0 0 20px rgba(96,165,250,0.35), 0 0 8px rgba(255, 255, 255, 0.15);
-    --sl-input-shadow-focus: 0 6px 20px rgba(0,0,0,0.25), 0 0 15px rgba(96, 165, 250, 0.3), var(--shadow-2);
-    
-    /* Override Shoelace's default dark theme colors with our bluish theme */
-    --sl-color-primary-600: var(--accent-600);
-    --sl-color-primary-500: var(--accent-500);
-    --sl-color-primary-400: var(--accent-400);
-    --sl-color-neutral-0: var(--surface-0);
-    --sl-color-neutral-50: var(--surface-1);
-    --sl-color-neutral-100: var(--surface-2);
-    --sl-color-neutral-200: var(--border-1);
-    --sl-color-neutral-300: var(--border-2);
-    --sl-color-neutral-400: var(--text-3);
-    --sl-color-neutral-500: var(--text-2);
-    --sl-color-neutral-600: var(--text-1);
-    --sl-color-neutral-700: var(--text-1);
-    --sl-color-neutral-800: var(--text-1);
-    --sl-color-neutral-900: var(--text-1);
-    --sl-color-neutral-950: var(--surface-0);
-    
-    /* Additional font-related custom properties for dark mode */
-    --sl-font-family: var(--font-family-primary);
-    --sl-font-size-medium: 0.9rem;
-}
+
 
 /* Ensure dropdown options are properly styled */
 .filter-group sl-select::part(listbox) {
@@ -81,29 +37,7 @@
     font-family: var(--font-family-primary);
 }
 
-/* Dark mode dropdown styling */
-:root[data-theme='dark'] .filter-group sl-select::part(listbox) {
-    background: var(--surface-0);
-    border: 1px solid var(--border-2);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.6), 0 0 15px rgba(96, 165, 250, 0.25);
-}
 
-:root[data-theme='dark'] .filter-group sl-select::part(option) {
-    color: var(--text-1);
-    font-family: var(--font-family-primary);
-    font-size: 0.9rem;
-    font-weight: 400;
-}
-
-:root[data-theme='dark'] .filter-group sl-select::part(option):hover {
-    background: var(--surface-1);
-}
-
-:root[data-theme='dark'] .filter-group sl-select::part(option[selected]) {
-    background: var(--accent-600);
-    color: var(--text-on-accent);
-    font-family: var(--font-family-primary);
-}
 
 /* Tag styling for multi-select */
 .filter-group sl-select::part(tag) {
@@ -139,29 +73,7 @@
     opacity: 1;
 }
 
-/* Dark mode tag styling */
-:root[data-theme='dark'] .filter-group sl-select::part(tag) {
-    background: var(--surface-2);
-    color: var(--text-1);
-    font-family: var(--font-family-primary);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
 
-:root[data-theme='dark'] .filter-group sl-select::part(tag__remove-button) {
-    color: var(--text-2);
-}
-
-:root[data-theme='dark'] .filter-group sl-select::part(tag__remove-button):hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-:root[data-theme='dark'] .filter-group sl-select::part(clear-button) {
-    color: var(--text-2);
-}
-
-:root[data-theme='dark'] .filter-group sl-select::part(clear-button):hover {
-    color: var(--text-1);
-}
 
 /* Shoelace font family is now handled globally via CSS variables */
 
@@ -176,16 +88,9 @@
 
 /* Date filter (Relative | Range) */
 .date-mode-toggle { display: flex; gap: 6px; background: var(--surface-0); border: 1px solid var(--border-1); border-radius: var(--radius-2); padding: 2px; margin-bottom: 8px; flex: 1 1 auto; min-width: 0; }
-.toggle-btn { background: transparent; border: 1px solid transparent; color: var(--text-2); padding: 4px 8px; border-radius: var(--radius-1); cursor: pointer; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; flex: 1 1 0; justify-content: center; min-height: 28px; box-sizing: border-box; } /* ADJUSTABLE: Reduced padding from 6px 10px to 4px 8px and min-height from 32px to 28px */
-.toggle-btn:hover { background: var(--surface-1); border-color: var(--border-1); }
-.toggle-btn.active { background: var(--accent-600); color: var(--text-on-accent); box-shadow: var(--shadow-1); border-color: var(--accent-600); }
-.toggle-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring-color); }
-.toggle-btn .icon { display: inline-block; vertical-align: middle; }
+/* Base button styles moved to components/base/buttons.css */
 .date-mode-toggle .toggle-btn { position: relative; }
-.date-mode-toggle .toggle-btn + .toggle-btn::before { content: ""; position: absolute; left: -3px; top: 20%; bottom: 20%; width: 2px; background: var(--seg-divider); border-radius: 1px; opacity: 0.9; }
-.relative-options { margin-top: 0px !important; margin-bottom: 0px !important; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-.option-btn { background: var(--surface-0); border: 1px solid var(--border-1); color: var(--text-2); padding: 4px 8px !important; border-radius: var(--radius-1); cursor: pointer; font-size: 0.85rem !important; font-weight: 600; line-height: 1.2; min-height: 28px; } /* ADJUSTABLE: Reduced padding from 6px 10px to 4px 8px and min-height from 32px to 28px */
-.option-btn.active { background: var(--accent-600); border-color: var(--accent-600); color: var(--text-on-accent); }
+.relative-options { margin-top: 0px; margin-bottom: 0px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 
 /* Card container for date filter */
 .date-filter-card { background: transparent; border: none; border-radius: 0; padding: 0px; box-shadow: none;}
@@ -200,11 +105,11 @@
 /* Optional: when range mode active, ensure toggle spans full width above slider */
 .date-filter-card.range-active .date-mode-toggle { flex: 1 1 100%; }
 /* Ensure range mode replaces the relative options area entirely */
-.date-filter-card.range-active .collapsible.is-hidden { min-height: 0 !important; }
-.date-filter-card.range-active #year-range-container { margin-top: 0 !important; }
+.date-filter-card.range-active .collapsible.is-hidden { min-height: 0; }
+.date-filter-card.range-active #year-range-container { margin-top: 0; }
 
 /* Ensure the overall filter group fits content without extra bottom space */
-.year-group { margin-bottom: 0 !important; }
+.year-group { margin-bottom: 0; }
 
 /* Smooth mode transitions for relative options, summary text, and slider container */
 .date-filter-card .collapsible { overflow: hidden; transition: grid-template-rows 180ms ease, opacity 180ms ease, margin 180ms ease; display: grid; grid-template-rows: 1fr; opacity: 1; }
@@ -215,35 +120,35 @@
 .date-mode-row .date-mode-toggle { flex: 1 1 auto; min-width: 0; }
 /* Keep summary visible (not clipped by collapsible overflow) - dates stacked vertically */
 .date-summary { 
-    color: var(--text-muted) !important; 
-    display: flex !important; 
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    line-height: 1.1 !important; 
-    overflow: visible !important; 
-    white-space: nowrap !important; 
-    flex: 0 0 auto !important; 
-    min-height: 28px !important; /* ADJUSTABLE: Reduced from 32px to 28px */
-    gap: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    justify-content: center !important;
+    color: var(--text-muted); 
+    display: flex; 
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.1; 
+    overflow: visible; 
+    white-space: nowrap; 
+    flex: 0 0 auto; 
+    min-height: 28px; /* ADJUSTABLE: Reduced from 32px to 28px */
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
 }
 .date-summary .min { 
-    opacity: 0.9 !important; 
-    margin: 0 !important; 
-    padding: 0 !important; 
-    display: block !important;
-    font-size: 13px !important;
-    line-height: 1.1 !important;
+    opacity: 0.9; 
+    margin: 0; 
+    padding: 0; 
+    display: block;
+    font-size: 13px;
+    line-height: 1.1;
 }
 .date-summary .max { 
-    opacity: 0.9 !important; 
-    margin: 0 !important; 
-    padding: 0 !important; 
-    display: block !important;
-    font-size: 13px !important;
-    line-height: 1.1 !important;
+    opacity: 0.9; 
+    margin: 0; 
+    padding: 0; 
+    display: block;
+    font-size: 13px;
+    line-height: 1.1;
 }
 
 

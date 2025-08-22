@@ -1,0 +1,278 @@
+---
+description: Accessibility Checklist
+globs:
+alwaysApply: false
+---
+# Accessibility Checklist
+# WCAG 2.1 AA Compliance for Israel Earthquake Map
+
+## 🎯 Overview
+This checklist ensures our scientific visualization application meets WCAG 2.1 AA standards and provides an inclusive experience for all users, including those with disabilities.
+
+## 📋 Pre-Development Checklist
+
+### Design Phase
+- [ ] **Color Contrast**: All text meets 4.5:1 contrast ratio (3:1 for large text)
+- [ ] **Color Independence**: Information is not conveyed by color alone
+- [ ] **Focus Indicators**: Clear, visible focus states for all interactive elements
+- [ ] **Touch Targets**: Minimum 44px × 44px for touch targets
+- [ ] **Typography**: Readable font sizes (minimum 16px for body text)
+- [ ] **Spacing**: Adequate spacing between interactive elements
+
+### Content Planning
+- [ ] **Alternative Text**: Plan for all images, charts, and data visualizations
+- [ ] **Headings**: Logical heading hierarchy (h1 → h2 → h3)
+- [ ] **Landmarks**: Semantic HTML structure with proper landmarks
+- [ ] **Language**: Document language and language changes marked
+- [ ] **Skip Links**: Navigation skip links for keyboard users
+
+## 🔍 Perceptible Information
+
+### 1.1 Text Alternatives
+- [ ] **Images**: All images have meaningful alt text
+- [ ] **Charts**: Data visualizations have text descriptions
+- [ ] **Icons**: Decorative icons have `aria-hidden="true"`
+- [ ] **Maps**: Interactive maps have accessible descriptions
+- [ ] **Magnitude Indicators**: Color-coded magnitude has text labels
+
+### 1.2 Time-based Media
+- [ ] **Animations**: Non-essential animations can be paused/stopped
+- [ ] **Auto-play**: No auto-playing content without user control
+- [ ] **Transitions**: Smooth transitions don't cause motion sickness
+- [ ] **Loading States**: Loading animations have accessible descriptions
+
+### 1.3 Adaptable
+- [ ] **Information Structure**: Information structure preserved without CSS
+- [ ] **Orientation**: Content works in portrait and landscape
+- [ ] **Input Purpose**: Form inputs have appropriate autocomplete attributes
+- [ ] **Identify Purpose**: UI components have clear, identifiable purposes
+
+### 1.4 Distinguishable
+- [ ] **Color Usage**: Information not conveyed by color alone
+- [ ] **Audio Control**: Audio can be paused/stopped/adjusted
+- [ ] **Contrast**: Text contrast meets 4.5:1 ratio (3:1 for large text)
+- [ ] **Text Resizing**: Text can be resized up to 200% without loss of functionality
+- [ ] **Images of Text**: Text is not presented as images
+- [ ] **Line Spacing**: Line spacing at least 1.5 within paragraphs
+- [ ] **Paragraph Spacing**: Paragraph spacing at least 2 times line spacing
+- [ ] **Visual Presentation**: Text can be presented without loss of information
+
+## 🎮 Operable
+
+### 2.1 Keyboard Accessible
+- [ ] **Keyboard Navigation**: All functionality available via keyboard
+- [ ] **No Keyboard Trap**: Focus can be moved away from any component
+- [ ] **Keyboard Shortcuts**: Custom shortcuts can be turned off or remapped
+- [ ] **Single Key**: Single key activation can be turned off
+
+### 2.2 Enough Time
+- [ ] **Timing Adjustable**: Time limits can be extended or turned off
+- [ ] **Pause, Stop, Hide**: Moving content can be paused, stopped, or hidden
+- [ ] **No Timing**: No time limits on content interaction
+- [ ] **Interruptions**: Interruptions can be postponed or suppressed
+- [ ] **Re-authentication**: Session doesn't expire during data entry
+
+### 2.3 Seizures and Physical Reactions
+- [ ] **Three Flashes**: Content doesn't flash more than 3 times per second
+- [ ] **Animation from Interactions**: Motion animation can be disabled
+
+### 2.4 Navigable
+- [ ] **Bypass Blocks**: Skip links or other mechanisms to bypass repeated blocks
+- [ ] **Page Titled**: Pages have descriptive titles
+- [ ] **Focus Order**: Focus order is logical and intuitive
+- [ ] **Link Purpose**: Link purpose is clear from link text or context
+- [ ] **Multiple Ways**: Multiple ways to navigate (menu, search, sitemap)
+- [ ] **Headings and Labels**: Headings and labels describe topic or purpose
+- [ ] **Focus Visible**: Keyboard focus is clearly visible
+- [ ] **Location**: User's location within the site is clear
+- [ ] **Link Purpose (Link Only)**: Link purpose is clear from link text alone
+- [ ] **Section Headings**: Section headings are used to organize content
+
+### 2.5 Input Modalities
+- [ ] **Pointer Gestures**: Single pointer gestures can be completed with single taps/clicks
+- [ ] **Pointer Cancellation**: Single pointer can be cancelled before completion
+- [ ] **Label in Name**: UI components have accessible names that match visible labels
+- [ ] **Motion Actuation**: Functionality triggered by motion can be disabled
+- [ ] **Target Size**: Touch targets are at least 44px × 44px
+- [ ] **Input Purpose**: Input purpose can be programmatically determined
+
+## 🧠 Understandable
+
+### 3.1 Readable
+- [ ] **Language of Page**: Page language is programmatically determined
+- [ ] **Language of Parts**: Language changes are marked
+- [ ] **Unusual Words**: Unusual words are defined
+- [ ] **Abbreviations**: Abbreviations are expanded or explained
+- [ ] **Reading Level**: Content is written at lower secondary education level
+- [ ] **Pronunciation**: Pronunciation is provided for unusual words
+
+### 3.2 Predictable
+- [ ] **On Focus**: Focus doesn't change context unexpectedly
+- [ ] **On Input**: Input doesn't change context unexpectedly
+- [ ] **Consistent Navigation**: Navigation is consistent across pages
+- [ ] **Consistent Identification**: UI components are identified consistently
+- [ ] **Change on Request**: Context changes only on user request
+
+### 3.3 Input Assistance
+- [ ] **Error Identification**: Errors are clearly identified
+- [ ] **Labels or Instructions**: Labels or instructions are provided
+- [ ] **Error Suggestion**: Error suggestions are provided
+- [ ] **Error Prevention**: Critical data entry has confirmation or review
+- [ ] **Help**: Context-sensitive help is available
+- [ ] **Error Prevention (All)**: All data entry has confirmation or review
+
+## 🔧 Robust
+
+### 4.1 Compatible
+- [ ] **Parsing**: HTML is well-formed and valid
+- [ ] **Name, Role, Value**: UI components have accessible names, roles, and values
+- [ ] **Status Messages**: Status messages can be programmatically determined
+
+## 🗺️ Earthquake Map Specific
+
+### Data Visualization
+- [ ] **Chart Descriptions**: All charts have text descriptions
+- [ ] **Data Tables**: Data is available in table format
+- [ ] **Magnitude Scale**: Magnitude scale is explained in text
+- [ ] **Time Filters**: Date/time filters are accessible
+- [ ] **Geographic Data**: Geographic information is described textually
+- [ ] **Interactive Elements**: Map interactions have keyboard equivalents
+
+### Scientific Content
+- [ ] **Technical Terms**: Scientific terms are defined
+- [ ] **Units**: Units of measurement are clearly stated
+- [ ] **Data Sources**: Data sources are accessible
+- [ ] **Methodology**: Methodology is explained in plain language
+- [ ] **Export Options**: Data can be exported in accessible formats
+
+### Mobile Accessibility
+- [ ] **Touch Targets**: All interactive elements are 44px × 44px minimum
+- [ ] **Gesture Alternatives**: Complex gestures have simple alternatives
+- [ ] **Orientation**: App works in both portrait and landscape
+- [ ] **Zoom**: Content remains usable when zoomed to 200%
+- [ ] **Viewport**: Viewport is properly configured
+
+## 🧪 Testing Checklist
+
+### Manual Testing
+- [ ] **Keyboard Navigation**: Test all functionality with keyboard only
+- [ ] **Screen Reader**: Test with NVDA, JAWS, or VoiceOver
+- [ ] **High Contrast**: Test in high contrast mode
+- [ ] **Zoom**: Test with 200% zoom
+- [ ] **Color Blindness**: Test with color blindness simulators
+- [ ] **Mobile**: Test on mobile devices with accessibility features
+
+### Automated Testing
+- [ ] **axe-core**: Run automated accessibility tests
+- [ ] **Lighthouse**: Check accessibility score
+- [ ] **WAVE**: Web Accessibility Evaluation Tool
+- [ ] **HTML Validator**: Validate HTML structure
+- [ ] **CSS Validator**: Validate CSS for accessibility issues
+
+### User Testing
+- [ ] **Screen Reader Users**: Test with actual screen reader users
+- [ ] **Keyboard Users**: Test with keyboard-only users
+- [ ] **Motor Impairment**: Test with users with motor impairments
+- [ ] **Cognitive Disabilities**: Test with users with cognitive disabilities
+- [ ] **Elderly Users**: Test with elderly users
+
+## 🛠️ Implementation Guidelines
+
+### HTML Semantics
+```html
+<!-- Use semantic HTML -->
+<main>
+  <h1>Israel Earthquake Map</h1>
+  <section aria-labelledby="map-heading">
+    <h2 id="map-heading">Interactive Map</h2>
+    <div role="application" aria-label="Earthquake data visualization">
+      <!-- Map content -->
+    </div>
+  </section>
+</main>
+```
+
+### ARIA Attributes
+```html
+<!-- Proper ARIA usage -->
+<button aria-expanded="false" aria-controls="filter-panel">
+  Filters
+</button>
+<div id="filter-panel" aria-labelledby="filter-button" hidden>
+  <!-- Filter content -->
+</div>
+```
+
+### Focus Management
+```css
+/* Visible focus indicators */
+.button:focus {
+  outline: 2px solid var(--color-primary-600);
+  outline-offset: 2px;
+}
+
+/* Skip links */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--color-primary-600);
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+```
+
+### Color and Contrast
+```css
+/* Ensure sufficient contrast */
+.text-primary {
+  color: var(--text-1); /* 4.5:1 contrast ratio */
+}
+
+.text-muted {
+  color: var(--text-muted); /* 4.5:1 contrast ratio */
+}
+
+/* Don't rely on color alone */
+.magnitude-indicator {
+  color: var(--mag-moderate);
+  font-weight: bold; /* Additional visual indicator */
+}
+```
+
+## 📊 Monitoring and Maintenance
+
+### Regular Audits
+- [ ] **Monthly**: Automated accessibility scans
+- [ ] **Quarterly**: Manual accessibility testing
+- [ ] **Annually**: Full WCAG 2.1 AA audit
+- [ ] **User Feedback**: Collect and address accessibility feedback
+
+### Documentation
+- [ ] **Accessibility Statement**: Public accessibility statement
+- [ ] **Contact Information**: How to report accessibility issues
+- [ ] **Testing Results**: Document accessibility testing results
+- [ ] **Improvement Plan**: Plan for ongoing accessibility improvements
+
+## 📚 Resources
+
+- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+- [WebAIM Checklist](https://webaim.org/standards/wcag/checklist)
+- [A11Y Project](https://www.a11yproject.com/)
+- [Inclusive Design Principles](https://www.inclusivedesignprinciples.org/)
+- [Color Contrast Analyzer](https://www.tpgi.com/color-contrast-checker/)
+
+## 🎯 Success Criteria
+
+- [ ] **WCAG 2.1 AA**: All AA criteria met
+- [ ] **Screen Reader**: Fully navigable with screen readers
+- [ ] **Keyboard**: All functionality accessible via keyboard
+- [ ] **Mobile**: Accessible on mobile devices
+- [ ] **Performance**: Accessibility features don't impact performance
+- [ ] **User Feedback**: Positive feedback from users with disabilities

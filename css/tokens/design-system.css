@@ -1,0 +1,159 @@
+/* ===== UNIFIED DESIGN SYSTEM ===== */
+/* Single source of truth for all design tokens */
+
+:root {
+  /* ===== COLOR TOKENS ===== */
+  /* Brand Colors */
+  --brand-600: #3b82f6;
+  --accent-600: var(--brand-600);
+  
+  /* Text Colors */
+  --text-1: #111827;
+  --text-2: #374151;
+  --text-3: #6b7280;
+  --text-muted: #6b7280;
+  --text-on-accent: #ffffff;
+  
+  /* Surface Colors */
+  --surface-0: #ffffff;
+  --surface-1: #f8fafc;
+  
+  /* Glass Surfaces */
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(0, 0, 0, 0.06);
+  --glass-blur: 16px;
+  
+  /* Border Colors */
+  --border-1: #e5e7eb;
+  --border-2: #d1d5db;
+  
+  /* Component Colors */
+  --legend-line: #000000;
+  --legend-dotted-contrast: #ffffff;
+  --track-bg: #e0e0e0;
+  --thumb-bg: #ffffff;
+  --ring-color: rgba(59, 130, 246, 0.2);
+  --seg-divider: rgba(17,24,39,0.35);
+  
+  /* Magnitude Colors */
+  --mag-minor: #6aa84f;
+  --mag-light: #d5bf5a;
+  --mag-moderate: #f2a144;
+  --mag-strong: #d6553f;
+  --mag-major: #9e2f3a;
+  
+  /* Theme-Specific Colors */
+  --sun-primary: #f59e0b;
+  --sun-secondary: #fbbf24;
+  --moon-bg: #f1f5f9;
+  --light-sky: #e2e8f0;
+  --pure-white: #ffffff;
+  --pure-black: #000000;
+  
+  /* ===== STATUS COLORS ===== */
+  --error-500: #dc2626;
+  --error-100: #fef2f2;
+  --success-500: #059669;
+  --success-100: #f0fdf4;
+  --warning-500: #d97706;
+  --warning-100: #fffbeb;
+  
+  /* Accent Colors */
+  --accent-100: rgba(59, 130, 246, 0.1);
+
+  /* ===== CONTAINER TOKENS ===== */
+  --container-max-width: 1200px;
+  --container-padding: 1rem;
+  --container-padding-mobile: 15px;
+  --container-padding-small: 10px;
+
+  /* ===== SPACING TOKENS ===== */
+  --spacing-1: 0.25rem;  /* 4px */
+  --spacing-2: 0.5rem;   /* 8px */
+  --spacing-3: 0.75rem;  /* 12px */
+  --spacing-4: 1rem;     /* 16px */
+  --spacing-5: 1.25rem;  /* 20px */
+  --spacing-6: 1.5rem;   /* 24px */
+  --spacing-8: 2rem;     /* 32px */
+  --spacing-10: 2.5rem;  /* 40px */
+  --spacing-12: 3rem;    /* 48px */
+  --spacing-16: 4rem;    /* 64px */
+  --spacing-20: 5rem;    /* 80px */
+  --spacing-24: 6rem;    /* 96px */
+
+  /* ===== BORDER RADIUS TOKENS ===== */
+  --radius-1: 8px;
+  --radius-2: 12px;
+
+  /* ===== SHADOW TOKENS ===== */
+  --shadow-1: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-2: 0 4px 12px rgba(0,0,0,0.12);
+  --shadow-3: 0 8px 25px rgba(0,0,0,0.15);
+
+  /* ===== THEME TRANSITION CONTROL ===== */
+  --theme-transition-disabled: false;
+}
+
+/* ===== DARK THEME OVERRIDES ===== */
+:root[data-theme='dark'] {
+  /* Brand Colors */
+  --brand-600: #60a5fa;
+  --accent-600: #60a5fa;
+  
+  /* Text Colors */
+  --text-1: #f1f5f9;
+  --text-2: #e2e8f0;
+  --text-3: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-on-accent: #ffffff;
+  
+  /* Surface Colors */
+  --surface-0: #0f172a;
+  --surface-1: #0b1020;
+  
+  /* Glass Surfaces */
+  --glass-bg: rgba(15, 23, 42, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 18px;
+  
+  /* Border Colors */
+  --border-1: #1f2937;
+  --border-2: #334155;
+  
+  /* Component Colors */
+  --legend-line: #ffffff;
+  --legend-dotted-contrast: #ffffff;
+  --track-bg: #334155;
+  --thumb-bg: #0f172a;
+  --ring-color: rgba(96, 165, 250, 0.35);
+  --seg-divider: rgba(255,255,255,0.35);
+  
+  /* Theme-Specific Colors */
+  --sun-primary: #f59e0b;
+  --sun-secondary: #fbbf24;
+  --moon-bg: #1e293b;
+  --light-sky: #334155;
+  --pure-white: #ffffff;
+  --pure-black: #000000;
+  
+  /* Accent Colors */
+  --accent-100: rgba(96, 165, 250, 0.15);
+  
+  /* Shadow Tokens */
+  --shadow-1: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-2: 0 4px 12px rgba(0,0,0,0.5);
+  --shadow-3: 0 8px 25px rgba(0,0,0,0.6);
+}
+
+/* ===== GLOBAL FONT APPLICATION ===== */
+* {
+  font-family: var(--font-family-primary);
+}
+
+body {
+  font-family: var(--font-family-primary);
+  line-height: var(--line-height-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}

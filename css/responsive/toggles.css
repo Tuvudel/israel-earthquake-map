@@ -110,7 +110,6 @@
         background-color: var(--surface-0) !important;
         border: 1px solid var(--border-1) !important;
         border-radius: var(--radius-2) !important;
-        box-shadow: var(--shadow-1) !important;
         -webkit-tap-highlight-color: transparent;
         outline: none;
         transition: all var(--animation-duration-fast) var(--animation-easing) !important;
@@ -154,12 +153,7 @@
     .mobile-sidebar-toggle.active .toggle-text { 
         color: var(--text-on-accent) !important; 
     }
-    :root[data-theme='dark'] .mobile-legend-toggle,
-    :root[data-theme='dark'] .mobile-filters-toggle,
-    :root[data-theme='dark'] .mobile-sidebar-toggle {
-        box-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 10px rgba(96, 165, 250, 0.18) !important;
-        border-color: var(--border-2) !important;
-    }
+
     .mobile-legend-toggle:hover,
     .mobile-legend-toggle:focus-visible,
     .mobile-filters-toggle:hover,

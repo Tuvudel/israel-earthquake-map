@@ -14,14 +14,13 @@
     z-index: 9999;
     opacity: 0;
     visibility: hidden;
-    transition: opacity var(--transition-med) var(--easing), visibility var(--transition-med) var(--easing);
+    transition: opacity var(--animation-duration-normal) var(--animation-easing), visibility var(--animation-duration-normal) var(--animation-easing);
 }
 .loading-overlay.show {
     opacity: 1;
     visibility: visible;
 }
-/* Dark theme: darker translucent backdrop */
-:root[data-theme='dark'] .loading-overlay { background: var(--glass-bg); }
+
 .loading-spinner { 
     width: 40px; 
     height: 40px; 
@@ -31,5 +30,4 @@
     animation: spin 1s linear infinite; 
     margin-bottom: 20px; 
 }
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .loading-text { font-size: 1.1rem; color: var(--text-1); font-weight: 500; }

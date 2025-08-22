@@ -1,0 +1,474 @@
+---
+description: Development Workflow Guide
+globs:
+alwaysApply: false
+---
+# Development Workflow Guide
+# Israel Earthquake Map - Development Process
+
+## 🎯 Overview
+This guide outlines the complete development workflow for the Israel Earthquake Map project, ensuring consistent quality, maintainability, and collaboration across the team.
+
+## 📋 Pre-Development Phase
+
+### 1. Requirements Analysis
+- [ ] **User Stories**: Define user stories and acceptance criteria
+- [ ] **Technical Requirements**: Identify technical constraints and requirements
+- [ ] **Accessibility Requirements**: Ensure WCAG 2.1 AA compliance
+- [ ] **Performance Requirements**: Define Core Web Vitals targets
+- [ ] **Browser Support**: Define supported browsers and versions
+
+### 2. Design Planning
+- [ ] **Design Tokens**: Review and update design tokens if needed
+- [ ] **Component Design**: Design new components following existing patterns
+- [ ] **Responsive Design**: Plan mobile-first responsive approach
+- [ ] **Accessibility Design**: Ensure accessible design patterns
+- [ ] **Performance Design**: Consider performance implications
+
+### 3. Technical Planning
+- [ ] **Architecture Review**: Determine appropriate ITCSS layer
+- [ ] **Dependencies**: Identify required dependencies and libraries
+- [ ] **Testing Strategy**: Plan testing approach (unit, integration, e2e)
+- [ ] **Documentation**: Plan component documentation
+- [ ] **Review Process**: Schedule code review sessions
+
+## 🔧 Development Phase
+
+### 1. Environment Setup
+```bash
+# Clone repository
+git clone [repository-url]
+cd israel-earthquake-map
+
+# Install dependencies
+npm install
+
+# Set up development environment
+npm run dev
+
+# Verify setup
+npm run lint
+npm run test
+```
+
+### 2. Feature Development Workflow
+
+#### Step 1: Create Feature Branch
+```bash
+# Create feature branch from main
+git checkout main
+git pull origin main
+git checkout -b feature/component-name
+
+# Or use conventional commits
+git checkout -b feat/add-magnitude-filter
+```
+
+#### Step 2: Development Process
+1. **Start with Design Tokens** (if needed)
+   ```css
+   /* Add to css/tokens/design-system.css */
+   :root {
+     --new-component-bg: #f8fafc;
+     --new-component-border: #e5e7eb;
+   }
+   ```
+
+2. **Create Component Structure**
+   ```bash
+   # Create component files
+   touch css/components/features/new-component.css
+   touch js/ui/new-component.js
+   touch project-rules/templates/component-docs.md
+   ```
+
+3. **Follow ITCSS Hierarchy**
+   - Place styles in appropriate layer
+   - Use existing design tokens
+   - Follow naming conventions
+   - Maintain low specificity
+
+4. **Implement Accessibility**
+   - Add proper ARIA attributes
+   - Ensure keyboard navigation
+   - Test with screen readers
+   - Verify color contrast
+
+5. **Add Responsive Design**
+   - Mobile-first approach
+   - Use design system breakpoints
+   - Test on multiple devices
+
+#### Step 3: Testing
+```bash
+# Run automated tests
+npm run test
+
+# Run accessibility tests
+npm run test:a11y
+
+# Run performance tests
+npm run test:perf
+
+# Manual testing checklist
+- [ ] Cross-browser testing
+- [ ] Mobile device testing
+- [ ] Screen reader testing
+- [ ] Keyboard navigation testing
+- [ ] Performance testing
+```
+
+#### Step 4: Documentation
+- [ ] Update component documentation
+- [ ] Add usage examples
+- [ ] Document accessibility features
+- [ ] Update style guide if needed
+
+### 3. Code Quality Standards
+
+#### CSS Standards
+```css
+/* ✅ Good - Follows ITCSS and project conventions */
+.earthquake-card {
+  /* Layout properties */
+  display: flex;
+  flex-direction: column;
+  
+  /* Visual properties */
+  background: var(--surface-1);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-1);
+  
+  /* Interactive properties */
+  transition: all 200ms ease-out;
+}
+
+.earthquake-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+}
+
+/* ❌ Bad - Violates project conventions */
+#earthquakeCard {
+  background: #f8fafc !important;
+  border-radius: 8px;
+  margin: 1rem;
+}
+```
+
+#### JavaScript Standards
+```javascript
+// ✅ Good - Follows project conventions
+class EarthquakeFilter {
+  constructor(element) {
+    this.element = element;
+    this.init();
+  }
+  
+  init() {
+    this.bindEvents();
+    this.setupAccessibility();
+  }
+  
+  bindEvents() {
+    this.element.addEventListener('change', this.handleChange.bind(this));
+  }
+  
+  setupAccessibility() {
+    this.element.setAttribute('aria-label', 'Filter earthquakes by magnitude');
+  }
+}
+
+// ❌ Bad - Violates project conventions
+function filterEarthquakes() {
+  var element = document.getElementById('filter');
+  element.onchange = function() {
+    // Inline event handler
+  };
+}
+```
+
+### 4. Commit Standards
+
+#### Conventional Commits
+```bash
+# Feature commits
+git commit -m "feat: add magnitude filter component"
+
+# Bug fixes
+git commit -m "fix: resolve accessibility issue in filter panel"
+
+# Documentation
+git commit -m "docs: update component documentation"
+
+# Style changes
+git commit -m "style: improve button hover states"
+
+# Refactoring
+git commit -m "refactor: extract filter logic into separate module"
+
+# Performance
+git commit -m "perf: optimize map rendering performance"
+```
+
+#### Commit Message Format
+```
+type(scope): description
+
+[optional body]
+
+[optional footer]
+```
+
+## 🔍 Code Review Process
+
+### 1. Pre-Review Checklist
+- [ ] **Self-Review**: Review your own code before submitting
+- [ ] **Tests Pass**: All tests pass locally
+- [ ] **Linting**: No linting errors or warnings
+- [ ] **Documentation**: Code is properly documented
+- [ ] **Accessibility**: Accessibility requirements met
+- [ ] **Performance**: Performance impact assessed
+
+### 2. Review Criteria
+
+#### Technical Review
+- [ ] **Code Quality**: Follows project conventions
+- [ ] **Architecture**: Appropriate ITCSS layer usage
+- [ ] **Performance**: No performance regressions
+- [ ] **Security**: No security vulnerabilities
+- [ ] **Maintainability**: Code is maintainable and readable
+
+#### Accessibility Review
+- [ ] **WCAG Compliance**: Meets WCAG 2.1 AA standards
+- [ ] **Screen Reader**: Works with screen readers
+- [ ] **Keyboard Navigation**: Fully keyboard accessible
+- [ ] **Color Contrast**: Sufficient color contrast
+- [ ] **Focus Management**: Proper focus indicators
+
+#### Design Review
+- [ ] **Design Consistency**: Matches design system
+- [ ] **Responsive Design**: Works on all screen sizes
+- [ ] **Visual Quality**: High visual quality
+- [ ] **User Experience**: Good user experience
+
+### 3. Review Process
+```bash
+# Create pull request
+git push origin feature/component-name
+
+# Request review from team members
+# Address feedback and make changes
+git commit -m "fix: address review feedback"
+
+# Push updates
+git push origin feature/component-name
+```
+
+## 🧪 Testing Strategy
+
+### 1. Unit Testing
+```javascript
+// Test component functionality
+describe('EarthquakeFilter', () => {
+  it('should filter earthquakes by magnitude', () => {
+    const filter = new EarthquakeFilter(document.createElement('div'));
+    const result = filter.filterByMagnitude(5.0);
+    expect(result).toBeDefined();
+  });
+});
+```
+
+### 2. Integration Testing
+```javascript
+// Test component integration
+describe('Filter Integration', () => {
+  it('should update map when filter changes', () => {
+    // Test filter-map integration
+  });
+});
+```
+
+### 3. Accessibility Testing
+```bash
+# Run automated accessibility tests
+npm run test:a11y
+
+# Manual accessibility testing
+- [ ] Screen reader testing
+- [ ] Keyboard navigation testing
+- [ ] Color contrast testing
+- [ ] Focus management testing
+```
+
+### 4. Performance Testing
+```bash
+# Run performance tests
+npm run test:perf
+
+# Lighthouse testing
+npm run lighthouse
+
+# Bundle size analysis
+npm run bundle-analyzer
+```
+
+## 🚀 Deployment Process
+
+### 1. Pre-Deployment Checklist
+- [ ] **All Tests Pass**: Unit, integration, and e2e tests
+- [ ] **Performance**: Core Web Vitals targets met
+- [ ] **Accessibility**: WCAG 2.1 AA compliance verified
+- [ ] **Cross-Browser**: Tested on supported browsers
+- [ ] **Mobile**: Tested on mobile devices
+- [ ] **Documentation**: Updated documentation
+
+### 2. Build Process
+```bash
+# Build for production
+npm run build
+
+# Optimize assets
+npm run optimize
+
+# Generate critical CSS
+npm run critical
+
+# Validate build
+npm run validate
+```
+
+### 3. Deployment Steps
+```bash
+# Deploy to staging
+npm run deploy:staging
+
+# Run staging tests
+npm run test:staging
+
+# Deploy to production
+npm run deploy:production
+
+# Monitor deployment
+npm run monitor
+```
+
+### 4. Post-Deployment
+- [ ] **Monitor Performance**: Track Core Web Vitals
+- [ ] **Monitor Errors**: Track JavaScript errors
+- [ ] **User Feedback**: Collect user feedback
+- [ ] **Analytics**: Monitor user behavior
+- [ ] **Accessibility**: Monitor accessibility issues
+
+## 📊 Quality Assurance
+
+### 1. Automated Quality Gates
+```yaml
+# GitHub Actions workflow
+name: Quality Check
+on: [push, pull_request]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Run linting
+        run: npm run lint
+      - name: Run tests
+        run: npm run test
+      - name: Run accessibility tests
+        run: npm run test:a11y
+      - name: Run performance tests
+        run: npm run test:perf
+```
+
+### 2. Manual Quality Checks
+- [ ] **Code Review**: Peer review completed
+- [ ] **Design Review**: Design team approval
+- [ ] **Accessibility Review**: Accessibility expert review
+- [ ] **Performance Review**: Performance expert review
+- [ ] **Security Review**: Security expert review
+
+### 3. Continuous Monitoring
+```javascript
+// Performance monitoring
+web_vitals.getCLS(console.log);
+web_vitals.getFID(console.log);
+web_vitals.getFCP(console.log);
+web_vitals.getLCP(console.log);
+web_vitals.getTTFB(console.log);
+
+// Error monitoring
+window.addEventListener('error', (event) => {
+  // Send to error tracking service
+});
+```
+
+## 🔄 Maintenance and Updates
+
+### 1. Regular Maintenance
+- [ ] **Monthly**: Update dependencies
+- [ ] **Quarterly**: Review and update documentation
+- [ ] **Annually**: Major refactoring and optimization
+- [ ] **Continuous**: Monitor and fix issues
+
+### 2. Update Process
+```bash
+# Update dependencies
+npm update
+
+# Test updates
+npm run test
+
+# Update documentation
+npm run docs:update
+
+# Deploy updates
+npm run deploy
+```
+
+### 3. Performance Monitoring
+- [ ] **Core Web Vitals**: Monitor LCP, FID, CLS
+- [ ] **Bundle Size**: Monitor JavaScript bundle size
+- [ ] **Load Times**: Monitor page load times
+- [ ] **User Experience**: Monitor user interaction metrics
+
+## 📚 Resources and Tools
+
+### Development Tools
+- **Editor**: VS Code with recommended extensions
+- **Linting**: ESLint, Stylelint
+- **Testing**: Jest, Playwright
+- **Performance**: Lighthouse, WebPageTest
+- **Accessibility**: axe-core, WAVE
+
+### Documentation
+- **Component Library**: Storybook
+- **API Documentation**: JSDoc
+- **Style Guide**: Living style guide
+- **Architecture**: ITCSS documentation
+
+### Monitoring
+- **Performance**: Google Analytics, Web Vitals
+- **Errors**: Sentry, LogRocket
+- **Accessibility**: axe-core monitoring
+- **User Feedback**: UserVoice, Hotjar
+
+## 🎯 Success Metrics
+
+### Development Metrics
+- [ ] **Code Quality**: 0 linting errors
+- [ ] **Test Coverage**: >90% test coverage
+- [ ] **Performance**: Core Web Vitals targets met
+- [ ] **Accessibility**: WCAG 2.1 AA compliance
+- [ ] **Deployment**: <5 minute deployment time
+
+### User Experience Metrics
+- [ ] **Performance**: <2 second load time
+- [ ] **Accessibility**: 100% accessibility score
+- [ ] **Usability**: High user satisfaction scores
+- [ ] **Adoption**: High feature adoption rates
+- [ ] **Retention**: High user retention rates

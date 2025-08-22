@@ -1,11 +1,18 @@
 /* ===== RESPONSIVE CSS - ISRAEL EARTHQUAKE MAP ===== */
 /* Main entry point for all responsive styles */
 
+/* Import responsive Shoelace variable overrides first */
+@import url('./breakpoints.css');
+
+/* Import responsive utilities */
+@import url('./animations.css');
+
 /* Import component-specific responsive styles */
 @import url('./layout.css');
 @import url('./header.css');
 @import url('./filters.css');
 @import url('./sidebar.css');
+@import url('./statistics.css');
 @import url('./legend.css');
 @import url('./toggles.css');
 @import url('./map.css');

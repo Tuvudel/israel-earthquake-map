@@ -3,6 +3,7 @@
 
 /* ===== LOGICAL PROPERTIES ===== */
 /* Use logical properties for better internationalization and RTL support */
+/* Available for future use when RTL support is needed */
 
 .logical-padding {
     padding-block: var(--spacing-4);
@@ -21,6 +22,7 @@
 
 /* ===== CONTAINER QUERIES ===== */
 /* Modern container query support for component-based responsive design */
+/* Available for future use when container queries are needed */
 
 @container (min-width: 400px) {
     .container-responsive {
@@ -33,6 +35,29 @@
 @container (min-width: 600px) {
     .container-responsive {
         grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ===== CONTAINER UTILITIES ===== */
+/* Consolidated container classes for consistent layout */
+
+.container {
+    width: 100%;
+    max-width: var(--container-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 var(--container-padding);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 var(--container-padding-mobile);
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 var(--container-padding-small);
     }
 }
 
@@ -57,6 +82,7 @@
 }
 
 /* ===== MODERN LAYOUT UTILITIES ===== */
+/* Available for future use when grid layouts are needed */
 
 /* CSS Grid utilities */
 .grid-auto-fit {
@@ -91,22 +117,7 @@
 }
 
 /* ===== MODERN SPACING SYSTEM ===== */
-/* Use CSS custom properties for consistent spacing */
-
-:root {
-    --spacing-1: 0.25rem;  /* 4px */
-    --spacing-2: 0.5rem;   /* 8px */
-    --spacing-3: 0.75rem;  /* 12px */
-    --spacing-4: 1rem;     /* 16px */
-    --spacing-5: 1.25rem;  /* 20px */
-    --spacing-6: 1.5rem;   /* 24px */
-    --spacing-8: 2rem;     /* 32px */
-    --spacing-10: 2.5rem;  /* 40px */
-    --spacing-12: 3rem;    /* 48px */
-    --spacing-16: 4rem;    /* 64px */
-    --spacing-20: 5rem;    /* 80px */
-    --spacing-24: 6rem;    /* 96px */
-}
+/* Spacing tokens consolidated in design-system.css */
 
 /* Spacing utilities */
 .p-1 { padding: var(--spacing-1); }
@@ -303,42 +314,9 @@
     border: 1px solid var(--glass-border);
 }
 
-/* Card component */
-.card {
-    background: var(--surface-0);
-    border: 1px solid var(--border-1);
-    border-radius: var(--radius-2);
-    padding: var(--spacing-6);
-    box-shadow: var(--shadow-1);
-}
 
-/* Button component */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-3) var(--spacing-6);
-    border: 1px solid var(--border-1);
-    border-radius: var(--radius-2);
-    background: var(--surface-0);
-    color: var(--text-1);
-    font-weight: 500;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all var(--animation-duration-fast) var(--animation-easing);
-}
 
-.btn:hover {
-    background: var(--surface-1);
-    border-color: var(--border-2);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-2);
-}
 
-.btn:focus-visible {
-    outline: 2px solid var(--brand-600);
-    outline-offset: 2px;
-}
 
 /* ===== MODERN DEBUGGING UTILITIES ===== */
 

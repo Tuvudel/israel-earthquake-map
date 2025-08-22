@@ -1,0 +1,444 @@
+---
+description: CSS Architecture Guide
+globs:
+alwaysApply: false
+---
+# CSS Architecture Guide
+# Israel Earthquake Map - ITCSS Implementation
+
+## 🎯 Overview
+
+This document outlines the CSS architecture for the Israel Earthquake Map project, following ITCSS (Inverted Triangle CSS) methodology for scalable, maintainable CSS.
+
+## 🏗️ ITCSS Layer Structure
+
+Our CSS follows the ITCSS hierarchy from bottom to top:
+
+### 1. **Settings Layer** (`tokens/`)
+- **Purpose**: Design tokens, variables, configurations
+- **Files**:
+  - `design-system.css` - Colors, typography, spacing, shadows
+  - `animations-tokens.css` - Animation timing, easing, transforms
+  - `components.css` - Component-specific tokens (Shoelace variables)
+  - `breakpoints.css` - Responsive breakpoint definitions
+  - `typography.css` - Typography scale and font definitions
+
+### 2. **Tools Layer** (`mixins/`)
+- **Purpose**: Reusable patterns, functions, mixins
+- **Files**: Currently empty, for future Sass mixins if needed
+
+### 3. **Generic Layer** (`base.css`, `layout.css`)
+- **Purpose**: Reset, normalize, base styles
+- **Files**:
+  - `base.css` - Global resets and base element styles
+  - `layout.css` - Layout patterns and grid systems
+
+### 4. **Elements Layer** (HTML elements)
+- **Purpose**: HTML element styles
+- **Implementation**: Handled in `base.css` and `layout.css`
+
+### 5. **Objects Layer** (`components/base/`)
+- **Purpose**: Layout patterns, grid systems
+- **Files**:
+  - `buttons.css` - Base button styles
+  - `cards.css` - Card component styles
+  - `forms.css` - Form element styles
+  - `layout.css` - Layout component styles
+
+### 6. **Components Layer** (`components/features/`)
+- **Purpose**: Reusable UI components
+- **Files**:
+  - `sidebar.css` - Sidebar component
+  - `statistics.css` - Statistics panel
+  - `legend.css` - Map legend
+  - `toggles.css` - Toggle switches
+  - `loading.css` - Loading states
+  - `popup.css` - Popup dialogs
+  - `magnitude.css` - Magnitude indicators
+  - `table.css` - Data tables
+
+### 7. **Utilities Layer** (`utilities/`)
+- **Purpose**: Helper classes, overrides
+- **Files**:
+  - `keyframes.css` - Animation keyframes
+  - `animations.css` - Animation utility classes
+  - `modern.css` - Modern CSS utilities
+  - `performance.css` - Performance optimizations
+  - `accessibility.css` - Accessibility utilities
+
+### 8. **Themes Layer** (`themes/`)
+- **Purpose**: Visual variations
+- **Files**:
+  - `light.css` - Light theme overrides
+  - `dark.css` - Dark theme overrides
+
+### 9. **Responsive Layer** (`responsive/`)
+- **Purpose**: Responsive overrides
+- **Files**:
+  - `breakpoints.css` - Responsive Shoelace variable overrides
+  - `layout.css` - Responsive layout adjustments
+  - `header.css` - Responsive header styles
+  - `filters.css` - Responsive filter styles
+  - `sidebar.css` - Responsive sidebar styles
+  - `statistics.css` - Responsive statistics styles
+  - `legend.css` - Responsive legend styles
+  - `toggles.css` - Responsive toggle styles
+  - `map.css` - Responsive map styles
+  - `mobile.css` - Mobile-specific overrides
+
+## 📁 File Organization
+
+```
+css/
+├── index.css                    # Main entry point
+├── base.css                     # Generic layer - Base styles
+├── layout.css                   # Generic layer - Layout styles
+├── tokens/                      # Settings layer
+│   ├── design-system.css        # Design tokens
+│   ├── animations-tokens.css    # Animation tokens
+│   ├── components.css           # Component tokens
+│   ├── breakpoints.css          # Breakpoint tokens
+│   └── typography.css           # Typography tokens
+├── components/                  # Objects & Components layers
+│   ├── base/                    # Objects layer
+│   │   ├── buttons.css
+│   │   ├── cards.css
+│   │   ├── forms.css
+│   │   └── layout.css
+│   ├── features/                # Components layer
+│   │   ├── sidebar.css
+│   │   ├── statistics.css
+│   │   ├── legend.css
+│   │   ├── toggles.css
+│   │   ├── loading.css
+│   │   ├── popup.css
+│   │   ├── magnitude.css
+│   │   └── table.css
+│   ├── filters/                 # Filter components
+│   │   ├── header.css
+│   │   ├── panel.css
+│   │   ├── layout.css
+│   │   ├── controls.css
+│   │   ├── sliders.css
+│   │   └── index.css
+│   └── index.css                # Component imports
+├── utilities/                   # Utilities layer
+│   ├── keyframes.css            # Animation keyframes
+│   ├── animations.css           # Animation utilities
+│   ├── modern.css               # Modern CSS utilities
+│   ├── performance.css          # Performance utilities
+│   └── accessibility.css        # Accessibility utilities
+├── themes/                      # Themes layer
+│   ├── light.css                # Light theme
+│   └── dark.css                 # Dark theme
+└── responsive/                  # Responsive layer
+    ├── breakpoints.css          # Responsive variable overrides
+    ├── layout.css               # Responsive layout
+    ├── header.css               # Responsive header
+    ├── filters.css              # Responsive filters
+    ├── sidebar.css              # Responsive sidebar
+    ├── statistics.css           # Responsive statistics
+    ├── legend.css               # Responsive legend
+    ├── toggles.css              # Responsive toggles
+    ├── map.css                  # Responsive map
+    ├── mobile.css               # Mobile overrides
+    └── index.css                # Responsive imports
+```
+
+## 🎨 Design Token System
+
+### Color Tokens
+```css
+/* Brand Colors */
+--brand-600: #3b82f6;
+--accent-600: var(--brand-600);
+
+/* Text Colors */
+--text-1: #111827;
+--text-2: #374151;
+--text-3: #6b7280;
+--text-muted: #6b7280;
+--text-on-accent: #ffffff;
+
+/* Surface Colors */
+--surface-0: #ffffff;
+--surface-1: #f8fafc;
+
+/* Border Colors */
+--border-1: #e5e7eb;
+--border-2: #d1d5db;
+```
+
+### Typography Tokens
+```css
+/* Font Families */
+--font-family-primary: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+
+/* Font Sizes */
+--font-size-xs: 0.75rem;    /* 12px */
+--font-size-sm: 0.875rem;   /* 14px */
+--font-size-base: 1rem;     /* 16px */
+--font-size-lg: 1.125rem;   /* 18px */
+--font-size-xl: 1.25rem;    /* 20px */
+--font-size-2xl: 1.5rem;    /* 24px */
+--font-size-3xl: 1.875rem;  /* 30px */
+
+/* Font Weights */
+--font-weight-normal: 400;
+--font-weight-medium: 500;
+--font-weight-semibold: 600;
+--font-weight-bold: 700;
+```
+
+### Animation Tokens
+```css
+/* Timing */
+--animation-duration-fast: 150ms;
+--animation-duration-normal: 200ms;
+--animation-duration-slow: 300ms;
+--animation-duration-bounce: 400ms;
+
+/* Easing */
+--animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+--animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+```
+
+## 🧩 Component Architecture
+
+### Component Structure
+Each component follows this structure:
+```css
+/* Component name and purpose */
+.component-name {
+  /* Layout properties */
+  display: flex;
+  align-items: center;
+  
+  /* Visual properties */
+  background: var(--surface-1);
+  border-radius: var(--border-radius-md);
+  
+  /* Interactive properties */
+  transition: all var(--animation-duration-normal) var(--animation-easing);
+}
+
+.component-name__element {
+  /* Element-specific styles */
+}
+
+.component-name--modifier {
+  /* Modifier variations */
+}
+```
+
+### Shoelace Integration
+We use Shoelace components with custom theming:
+```css
+/* Shoelace button tokens */
+:root {
+  --sl-button-font-size-small: 11px;
+  --sl-button-padding-small: 6px 3px;
+  --sl-button-height-small: 30px;
+  --sl-button-color: var(--text-1);
+  --sl-button-background-color: var(--surface-0);
+  --sl-button-border-color: var(--border-1);
+}
+```
+
+## 📱 Responsive Design
+
+### Mobile-First Approach
+All responsive styles use mobile-first approach:
+```css
+/* Base styles (mobile) */
+.component {
+  padding: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+}
+
+/* Tablet and up */
+@media (min-width: 768px) {
+  .component {
+    padding: var(--spacing-md);
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Desktop and up */
+@media (min-width: 1024px) {
+  .component {
+    padding: var(--spacing-lg);
+    font-size: var(--font-size-lg);
+  }
+}
+```
+
+### Breakpoint Tokens
+```css
+/* Breakpoint definitions */
+--breakpoint-sm: 640px;
+--breakpoint-md: 768px;
+--breakpoint-lg: 1024px;
+--breakpoint-xl: 1280px;
+```
+
+## 🎭 Theme System
+
+### Theme Structure
+Themes override design tokens for different visual appearances:
+```css
+/* Light theme (default) */
+:root {
+  --surface-0: #ffffff;
+  --text-1: #111827;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --surface-0: #1f2937;
+  --text-1: #f9fafb;
+}
+```
+
+### Theme Switching
+Themes are applied using the `data-theme` attribute:
+```html
+<html data-theme="dark">
+  <!-- Dark theme applied -->
+</html>
+```
+
+## ⚡ Performance Guidelines
+
+### CSS Optimization
+- **Critical CSS**: Inline above-the-fold styles
+- **CSS optimization**: Minimize specificity conflicts
+- **Animation performance**: Use `transform` and `opacity`
+- **Loading strategy**: Load non-critical CSS asynchronously
+
+### Performance Utilities
+```css
+/* GPU acceleration */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Content visibility */
+.content-visible {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+```
+
+## ♿ Accessibility
+
+### Accessibility Utilities
+```css
+/* Focus indicators */
+.focus-visible {
+  outline: 2px solid var(--brand-600);
+  outline-offset: 2px;
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+```
+
+### Reduced Motion Support
+```css
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --animation-duration-fast: 0ms;
+    --animation-duration-normal: 0ms;
+    --animation-duration-slow: 0ms;
+  }
+}
+```
+
+## 🔧 Development Workflow
+
+### Adding New Components
+1. **Create component file** in appropriate layer
+2. **Use design tokens** for all values
+3. **Follow naming conventions** (kebab-case)
+4. **Add responsive styles** if needed
+5. **Test accessibility** features
+6. **Document component** usage
+
+### CSS Writing Guidelines
+1. **Start with design tokens** - Define variables first
+2. **Use logical properties** - Prefer `margin-inline` over `margin-left/right`
+3. **Avoid magic numbers** - Use design tokens for all values
+4. **Minimize specificity** - Prefer classes over IDs
+5. **Document complex selectors** - Add comments for non-obvious rules
+
+### Code Organization
+- **Group related properties**: Layout → Visual → Interactive
+- **Consistent ordering**: Position, Box Model, Typography, Visual, Misc
+- **Comment sections**: Use clear section headers
+- **Import order**: Follow ITCSS hierarchy
+
+## 📊 File Size Analysis
+
+### Current File Sizes
+- **tokens/animations-tokens.css**: ~2KB (optimized from 18KB)
+- **themes/dark.css**: ~12KB
+- **responsive/sidebar.css**: ~12KB
+- **utilities/accessibility.css**: ~10KB
+
+### Optimization Achievements
+- ✅ **Consolidated Shoelace variables** - No more duplication
+- ✅ **Split animation tokens** - Separated tokens from utilities
+- ✅ **Removed backup files** - Cleaned up unused files
+- ✅ **Proper ITCSS structure** - Clear layer separation
+
+## 🎯 Best Practices
+
+### Do's
+- ✅ Use design tokens for all values
+- ✅ Follow ITCSS layer hierarchy
+- ✅ Write mobile-first responsive code
+- ✅ Use semantic class names
+- ✅ Test accessibility features
+- ✅ Document complex components
+
+### Don'ts
+- ❌ Use magic numbers
+- ❌ Mix layers inappropriately
+- ❌ Use IDs for styling
+- ❌ Create deep selector nesting
+- ❌ Duplicate design tokens
+- ❌ Ignore accessibility
+
+## 📚 Resources
+
+### ITCSS Resources
+- [Harry Roberts' ITCSS methodology](https://www.xfive.co/blog/itcss-scalable-maintainable-css-architecture/)
+- [CSS Architecture for Design Systems](https://css-tricks.com/css-architecture-for-design-systems/)
+- [Scalable CSS Guidelines](https://github.com/csswizardry/CSS-Guidelines)
+
+### Project Resources
+- `css/accessibility-checklist.mdc` - WCAG compliance checklist
+- `css/stylelint.config.js` - Stylelint configuration
+- `templates/component-docs.mdc` - Component documentation template
+- `templates/css-file-template.css` - CSS file structure template
+
+---
+
+**Last Updated**: 2024-01-XX  
+**Maintained By**: Development Team
+description:
+globs:
+alwaysApply: false
+---
