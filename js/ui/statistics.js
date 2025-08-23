@@ -9,25 +9,32 @@ class StatisticsController {
         };
         this.statisticsPanel = document.getElementById('statistics-panel');
         this.isLoading = false;
+        
+        // Initialize magnitude distribution
+        this.initializeMagnitudeDistribution();
     }
     
     updateStatistics(filteredData, yearRange) {
         if (!filteredData || filteredData.length === 0) {
             this.displayEmptyStatistics();
+            this.displayEmptyDistribution();
             return;
         }
         
         // Show loading state
         this.showLoading();
+        this.showDistributionLoading();
         
         // Use requestAnimationFrame for smooth transitions
         requestAnimationFrame(() => {
             const stats = this.calculateStatistics(filteredData, yearRange);
             this.displayStatistics(stats);
+            this.updateMagnitudeDistribution(filteredData);
             
             // Hide loading state after a short delay for smooth UX
             setTimeout(() => {
                 this.hideLoading();
+                this.hideDistributionLoading();
             }, 150);
         });
     }
@@ -294,6 +301,93 @@ class StatisticsController {
                 obj[key] = value;
                 return obj;
             }, {});
+    }
+    
+    // Magnitude Distribution Methods
+    initializeMagnitudeDistribution() {
+        this.distributionPanel = document.getElementById('magnitude-distribution-panel');
+        this.distributionItems = document.getElementById('distribution-items');
+        this.distributionSubtitle = document.getElementById('distribution-subtitle');
+        
+        if (!this.distributionPanel) {
+            console.warn('Magnitude distribution panel not found');
+            return;
+        }
+    }
+    
+    updateMagnitudeDistribution(filteredData) {
+        if (!this.distributionPanel) return;
+        
+        if (!filteredData || filteredData.length === 0) {
+            this.displayEmptyDistribution();
+            return;
+        }
+        
+        const distribution = this.calculateMagnitudeDistribution(filteredData);
+        this.renderMagnitudeDistribution(distribution, filteredData.length);
+    }
+    
+    renderMagnitudeDistribution(distribution, totalCount) {
+        if (!this.distributionItems || !this.distributionSubtitle) return;
+        
+        // Update subtitle
+        this.distributionSubtitle.textContent = '';
+        
+        // Clear existing items
+        this.distributionItems.innerHTML = '';
+        
+        // Define magnitude classes in order
+        const magnitudeClasses = ['minor', 'light', 'moderate', 'strong', 'major'];
+        const magnitudeLabels = {
+            minor: '2.5-3.9',
+            light: '4.0-4.9', 
+            moderate: '5.0-5.9',
+            strong: '6.0-6.9',
+            major: '7.0+'
+        };
+        
+        // Find the maximum count for percentage calculation
+        const maxCount = Math.max(...Object.values(distribution));
+        
+        // Create distribution items
+        magnitudeClasses.forEach(className => {
+            const count = distribution[className] || 0;
+            const percentage = maxCount > 0 ? (count / maxCount) * 100 : 0;
+            
+            const item = document.createElement('div');
+            item.className = 'distribution-item';
+            item.innerHTML = `
+                <div class="mag-color mag-${className}"></div>
+                <div class="mag-info">
+                    <div class="mag-range">${magnitudeLabels[className]}</div>
+                    <div class="mag-count">${count.toLocaleString()} events</div>
+                </div>
+                <div class="mag-bar">
+                    <div class="mag-fill mag-fill-${className}" style="width: ${percentage}%;"></div>
+                </div>
+            `;
+            
+            this.distributionItems.appendChild(item);
+        });
+    }
+    
+    displayEmptyDistribution() {
+        if (!this.distributionItems || !this.distributionSubtitle) return;
+        
+        this.distributionSubtitle.textContent = 'No events found';
+        this.distributionItems.innerHTML = '<div class="empty">No earthquake data available for the selected filters</div>';
+    }
+    
+    showDistributionLoading() {
+        if (this.distributionItems) {
+            this.distributionItems.classList.add('loading');
+        }
+    }
+    
+    hideDistributionLoading() {
+        if (this.distributionItems) {
+            this.distributionItems.classList.remove('loading');
+        }
     }
 }
 

@@ -37,7 +37,7 @@
         width: 100%; 
         border-left: none; 
         border-top: 1px solid var(--border-1); 
-        max-height: 40vh; 
+        max-height: 80vh; 
     }
     
     /* Container padding handled by utilities/modern.css */
@@ -65,6 +65,6 @@
         min-height: 250px; 
     }
     #sidebar { 
-        max-height: 60vh; 
+        max-height: 80vh; 
     }
 }

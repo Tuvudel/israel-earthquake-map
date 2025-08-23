@@ -1,0 +1,183 @@
+/* ===== MAGNITUDE DISTRIBUTION CHART ===== */
+
+.magnitude-distribution {
+    background: var(--surface-0);
+    border: 1px solid var(--border-1);
+    border-radius: 8px;
+    margin-top: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform var(--animation-duration-fast) var(--animation-easing),
+                background-color var(--animation-duration-fast) var(--animation-easing),
+                box-shadow var(--animation-duration-fast) var(--animation-easing);
+}
+
+.magnitude-distribution:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode white glow effect */
+@media (prefers-color-scheme: dark) {
+    .magnitude-distribution {
+        box-shadow: 0 1px 12px rgba(255, 255, 255, 0.1);
+    }
+    
+    .magnitude-distribution:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.distribution-header {
+    padding: 7px 20px 0px;
+
+    border-radius: 8px 8px 0 0;
+}
+
+.distribution-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-1);
+    margin-bottom: 8px;
+}
+
+.distribution-subtitle {
+    font-size: 12px;
+    color: var(--text-2);
+}
+
+.distribution-chart {
+    padding: 5px 20px 20px 20px;
+    border-radius: 0 0 8px 8px;
+}
+
+.distribution-items {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.distribution-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 0px;
+    border-radius: 6px;
+    transition: background-color var(--animation-duration-normal) var(--animation-easing);
+}
+
+.distribution-item:hover {
+    background: var(--surface-1);
+}
+
+.mag-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 2px solid var(--surface-0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Magnitude class colors - using existing constants */
+.mag-minor { background: #6aa84f; }
+.mag-light { background: #d5bf5a; }
+.mag-moderate { background: #f2a144; }
+.mag-strong { background: #d6553f; }
+.mag-major { background: #9e2f3a; }
+
+.mag-info {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 0; /* Allow text truncation */
+}
+
+.mag-range {
+    font-size: 12px;
+    color: var(--text-1);
+    font-weight: 500;
+}
+
+.mag-count {
+    font-size: 12px;
+    color: var(--text-2);
+    font-weight: 500;
+}
+
+.mag-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--surface-2);
+    border-radius: 3px;
+    margin: 0 12px;
+    position: relative;
+    overflow: hidden;
+    min-width: 60px; /* Ensure minimum bar width */
+}
+
+.mag-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width var(--animation-duration-normal) var(--animation-easing);
+}
+
+/* Magnitude fill colors - same as circle colors */
+.mag-fill-minor { background: #6aa84f; }
+.mag-fill-light { background: #d5bf5a; }
+.mag-fill-moderate { background: #f2a144; }
+.mag-fill-strong { background: #d6553f; }
+.mag-fill-major { background: #9e2f3a; }
+
+/* Empty state */
+.distribution-items.empty {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--text-2);
+    font-size: 14px;
+}
+
+/* Loading state */
+.distribution-items.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .distribution-header {
+        padding: 7px 20px 0px;
+    }
+    
+    .distribution-chart {
+        padding: 5px 20px 20px 20px;
+    }
+    
+    .distribution-items {
+        gap: 0px;
+    }
+    
+    .distribution-item {
+        padding: 6px;
+    }
+    
+    .mag-info {
+        gap: 8px;
+    }
+    
+    .mag-range {
+        white-space: nowrap;
+        font-size: 11px;
+    }
+    
+    .mag-count {
+        font-size: 11px;
+        white-space: nowrap;
+    }
+    
+    .mag-bar {
+        margin: 0 8px;
+        min-width: 40px;
+    }
+}

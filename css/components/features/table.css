@@ -28,11 +28,11 @@
 
 /* ===== TABLE ROWS ===== */
 .earthquake-row { cursor: pointer; transition: background-color 0.2s; border-left: 4px solid transparent; }
-.earthquake-row.mag-minor { border-left-color: var(--mag-minor); }
-.earthquake-row.mag-light { border-left-color: var(--mag-light); }
-.earthquake-row.mag-moderate { border-left-color: var(--mag-moderate); }
-.earthquake-row.mag-strong { border-left-color: var(--mag-strong); }
-.earthquake-row.mag-major { border-left-color: var(--mag-major); }
+.earthquake-row.mag-minor { border-left-color: var(--mag-minor); background: none; }
+.earthquake-row.mag-light { border-left-color: var(--mag-light); background: none; }
+.earthquake-row.mag-moderate { border-left-color: var(--mag-moderate); background: none; }
+.earthquake-row.mag-strong { border-left-color: var(--mag-strong); background: none; }
+.earthquake-row.mag-major { border-left-color: var(--mag-major); background: none; }
 
 /* Magnitude cell */
 .mag-cell { text-align: center; }

@@ -23,19 +23,19 @@
 /* ===== MOBILE STYLES (480px and below) ===== */
 @media (max-width: 480px) {
     .stat-grid {
-        grid-template-columns: 1fr;
-        gap: 8px;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
     }
     
     .stat-item {
-        padding: 10px;
+        padding: 8px;
     }
     
     .stat-value {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
     
     .stat-label {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
     }
 }

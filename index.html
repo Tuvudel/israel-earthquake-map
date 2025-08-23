@@ -25,6 +25,7 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/components/features/magnitude-distribution.css">
     <!-- Theme initialization handled by js/ui/theme.js -->
 </head>
 <body>
@@ -351,6 +352,19 @@
                                 <div class="stat-item stat-item-hover">
                                     <div class="stat-value" id="land-water-percent">-</div>
                                     <div class="stat-label">On Land / Water</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Magnitude Distribution Chart -->
+                            <div id="magnitude-distribution-panel" class="magnitude-distribution">
+                                <div class="distribution-header">
+                                    <div class="distribution-title">Magnitude Distribution</div>
+                                    <div class="distribution-subtitle" id="distribution-subtitle">Loading...</div>
+                                </div>
+                                <div class="distribution-chart">
+                                    <div class="distribution-items" id="distribution-items">
+                                        <!-- Will be populated by JavaScript -->
+                                    </div>
                                 </div>
                             </div>
                         </div>

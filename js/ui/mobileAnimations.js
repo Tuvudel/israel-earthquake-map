@@ -206,14 +206,15 @@
      * @param {CustomEvent} e - Tab change event
      */
     handleTabChange(e) {
-      if (!this.sidebar || this.isAnimating) return;
+      if (!this.sidebar) return;
       
       // Get the new active tab panel
       const activePanel = e.target.querySelector('sl-tab-panel[active]');
       if (!activePanel) return;
       
-      // Animate height transition
-      this.animateHeightTransition(activePanel);
+      // No height transition needed - sidebar has fixed height
+      // Just ensure proper scroll position
+      this.sidebar.scrollTop = 0;
     }
 
     /**
@@ -221,36 +222,11 @@
      * @param {HTMLElement} newPanel - The new active tab panel
      */
     animateHeightTransition(newPanel) {
-      if (!this.sidebar || this.isAnimating) return;
+      if (!this.sidebar) return;
       
-      this.isAnimating = true;
-      
-      // Get current and new heights
-      const currentHeight = this.sidebar.scrollHeight;
-      const newHeight = this.calculatePanelHeight(newPanel);
-      
-      // If heights are similar, no animation needed
-      if (Math.abs(currentHeight - newHeight) < 10) {
-        this.isAnimating = false;
-        return;
-      }
-      
-      // Preserve scroll position
-      const scrollTop = this.sidebar.scrollTop;
-      
-      // Animate height change
-      this.sidebar.style.transition = `height ${this.heightTransitionDuration}ms ${this.heightTransitionEasing}`;
-      this.sidebar.style.height = `${newHeight}px`;
-      
-      // Restore scroll position after animation
-      setTimeout(() => {
-        if (this.sidebar) {
-          this.sidebar.scrollTop = Math.min(scrollTop, this.sidebar.scrollHeight);
-          this.sidebar.style.transition = '';
-          this.sidebar.style.height = '';
-          this.isAnimating = false;
-        }
-      }, this.heightTransitionDuration);
+      // No height animation needed - sidebar has fixed height
+      // Just ensure proper scroll position
+      this.sidebar.scrollTop = 0;
     }
 
     /**
@@ -292,11 +268,9 @@
     updateHeight() {
       if (!this.sidebar) return;
       
-      const activePanel = this.sidebar.querySelector('sl-tab-panel[active]');
-      if (activePanel) {
-        const height = this.calculatePanelHeight(activePanel);
-        this.sidebar.style.height = `${height}px`;
-      }
+      // No height update needed - sidebar has fixed height
+      // Just ensure proper scroll position
+      this.sidebar.scrollTop = 0;
     }
 
     /**
@@ -307,17 +281,9 @@
     adaptHeightSmoothly(heightDiff, duration = 400) {
       if (!this.sidebar) return;
       
-      const currentHeight = parseInt(this.sidebar.style.height) || this.sidebar.scrollHeight;
-      const targetHeight = currentHeight + heightDiff;
-      
-      // Set transition for smooth height change
-      this.sidebar.style.transition = `height ${duration}ms var(--animation-easing-smooth)`;
-      this.sidebar.style.height = `${targetHeight}px`;
-      
-      // Remove transition after animation completes
-      setTimeout(() => {
-        this.sidebar.style.transition = '';
-      }, duration + 100);
+      // No height adaptation needed - sidebar has fixed height
+      // Just ensure proper scroll position
+      this.sidebar.scrollTop = 0;
     }
 
     /**
