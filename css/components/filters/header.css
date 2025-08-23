@@ -251,4 +251,10 @@ body.filters-pane-open #filters-panel {
     display: block; 
 }
 
+/* Desktop: prevent credit lines from wrapping */
+.credits-popup div {
+        white-space: nowrap;
+}
+
+
 
