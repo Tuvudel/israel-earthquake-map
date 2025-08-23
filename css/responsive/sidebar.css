@@ -83,26 +83,27 @@
     .table-sort-controls {
         display: flex;
         align-items: center;
-        gap: var(--spacing-1);
+        gap: clamp(1px, 1vw, 4px);
         flex-wrap: nowrap;
         margin-bottom: 12px;
-        padding: 0 1px;
-        overflow: hidden;
+        padding: 0 clamp(2px, 2vw, 8px);
+        overflow: visible;
     }
     
     .sortable {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        flex: 0 1 auto;
-        font-size: 0.75rem;
-        min-width: fit-content;
+        flex: 1 1 auto;
+        font-size: clamp(0.6rem, 2.5vw, 0.8rem);
+        min-width: 0;
+        white-space: nowrap;
     }
     
     .sort-indicator {
-        width: 13px;
-        height: 13px;
-        margin-left: 4px;
+        width: clamp(10px, 2.5vw, 14px);
+        height: clamp(10px, 2.5vw, 14px);
+        margin-left: clamp(1px, 1vw, 4px);
         flex-shrink: 0;
     }
 }
@@ -336,64 +337,30 @@
         height: 32px; 
         font-size: 0.75rem; 
     }
+    
+    /* Horizontal scroll fallback for sort controls on extremely small screens */
+    .table-sort-controls {
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 0 clamp(1px, 1vw, 2px);
+        gap: clamp(1px, 0.5vw, 2px);
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .sortable {
+        font-size: clamp(0.55rem, 2vw, 0.7rem);
+        min-width: 0;
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+    
+    .sort-indicator {
+        width: clamp(8px, 2vw, 12px);
+        height: clamp(8px, 2vw, 12px);
+        margin-left: clamp(1px, 0.5vw, 2px);
+    }
 }
 
 /* ===== TABLE SORT CONTROLS RESPONSIVE ===== */
-/* Consolidated into main 768px media query above */
-
-@media (max-width: 480px) {
-    .table-sort-controls {
-        gap: 1px;
-        padding: 0 1px;
-        overflow: hidden;
-        flex-wrap: nowrap;
-        display: flex;
-        align-items: center;
-    }
-    
-    .sortable {
-        font-size: 0.7rem;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: fit-content;
-        flex: 0 1 auto;
-    }
-    
-    .sort-indicator {
-        width: 12px;
-        height: 12px;
-        margin-left: 3px;
-        flex-shrink: 0;
-    }
-}
-
-/* Very small devices - ensure buttons always fit */
-@media (max-width: 380px) {
-    .table-sort-controls {
-        flex-wrap: nowrap;
-        gap: 2px;
-        padding: 0;
-        overflow: visible;
-        justify-content: center;
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-    }
-    
-    .sortable {
-        font-size: 0.65rem;
-        min-width: 0;
-        flex: 0 1 auto;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .sort-indicator {
-        width: 10px;
-        height: 10px;
-        margin-left: 2px;
-        flex-shrink: 0;
-    }
-}
+/* Now handled by fluid responsive design with clamp() in main 768px media query */
