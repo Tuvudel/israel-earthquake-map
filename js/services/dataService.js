@@ -67,7 +67,7 @@
         
         // Add timezone information for display
         if (global.Timezone && p.dateObject instanceof Date) {
-          p.localDateObject = p.dateObject;;
+          p.localDateObject = p.dateObject;
           p.timezoneOffset = global.Timezone.getOffsetString();
         }
         

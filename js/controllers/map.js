@@ -316,7 +316,9 @@ class MapController {
 
         // Format date with timezone information
         let dateStr = props['date-time'] || props.date || '—';
-        if (props.localDateObject && props.timezoneOffset) {
+        
+        // Check if we have timezone information and a valid date object
+        if (props.localDateObject && props.timezoneOffset && props.localDateObject instanceof Date) {
             const localTime = props.localDateObject.toLocaleString('en-GB', {
                 year: 'numeric',
                 month: '2-digit',
@@ -325,6 +327,16 @@ class MapController {
                 minute: '2-digit'
             });
             dateStr = `${localTime} ${props.timezoneOffset}`;
+        } else if (props.dateObject && props.dateObject instanceof Date) {
+            // Fallback: use the original date object with timezone offset if available
+            const timeStr = props.dateObject.toLocaleString('en-GB', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            dateStr = props.timezoneOffset ? `${timeStr} ${props.timezoneOffset}` : timeStr;
         }
 
         // Create popup content
