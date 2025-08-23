@@ -61,7 +61,16 @@
             hour = parseInt(t[0]) || 0; minute = parseInt(t[1]) || 0; second = parseInt(t[2]) || 0;
           }
         }
-        p.dateObject = new Date(year, month, day, hour, minute, second);
+        // Create date object - treat the earthquake data as UTC
+        // The data comes in dd/mm/yyyy HH:MM:SS format and is in UTC
+        p.dateObject = new Date(Date.UTC(year, month, day, hour, minute, second));
+        
+        // Add timezone information for display
+        if (global.Timezone && p.dateObject instanceof Date) {
+          p.localDateObject = p.dateObject;;
+          p.timezoneOffset = global.Timezone.getOffsetString();
+        }
+        
         p.year = year;
         p.magnitudeClass = this._classifyMagnitude(p.magnitude);
         if (Number.isFinite(year)) {

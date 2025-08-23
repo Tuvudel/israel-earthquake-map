@@ -30,6 +30,19 @@ jobs:
       run: |
         python scripts/update_earthquake_data.py
         
+    - name: Update metadata
+      run: |
+        # Update the metadata file with current timestamp
+        cat > data/metadata.json << EOF
+        {
+          "last_update_timestamp": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+          "version": "1.0.0",
+          "description": "Metadata tracking when the earthquake data was last updated by the GitHub action",
+          "data_source": "GSI Last 30 Days",
+          "data_source_url": "https://eq.gsi.gov.il/en/earthquake/files/last30_event.csv"
+        }
+        EOF
+        
     - name: Check for changes
       id: verify-changed-files
       run: |
@@ -44,8 +57,17 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add data/all_EQ_cleaned.geojson
+        git add data/all_EQ_cleaned.geojson data/metadata.json
         git commit -m "🌍 Auto-update earthquake data - $(date '+%Y-%m-%d %H:%M:%S UTC')"
+        git push
+        
+    - name: Commit metadata only (if no earthquake data changes)
+      if: steps.verify-changed-files.outputs.changed == 'false'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add data/metadata.json
+        git commit -m "📝 Update metadata timestamp - $(date '+%Y-%m-%d %H:%M:%S UTC')"
         git push
         
     - name: Create summary

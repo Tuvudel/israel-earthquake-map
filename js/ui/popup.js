@@ -6,7 +6,19 @@
     const depthVal = Number(props.depth);
     const depthText = Number.isFinite(depthVal) ? depthVal.toFixed(1) : (props.depth ?? '—');
     const magnitude = props.magnitude != null ? props.magnitude : (props.mag != null ? props.mag : '—');
-    const dateStr = props['date-time'] || props.date || props.time || '—';
+    
+    // Format date with timezone information
+    let dateStr = props['date-time'] || props.date || props.time || '—';
+    if (props.localDateObject && props.timezoneOffset) {
+      const localTime = props.localDateObject.toLocaleString('en-GB', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      dateStr = `${localTime} ${props.timezoneOffset}`;
+    }
 
     return (
       `<div class="earthquake-popup">`

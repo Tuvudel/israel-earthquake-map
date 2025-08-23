@@ -97,7 +97,7 @@ class EarthquakeApp {
                 this.setupYearRange();
                 // Magnitude range derived from dataset
                 this.setupMagnitudeRange();
-                this.updateLastUpdated();
+                await this.updateLastUpdated();
                 if (window.Logger && window.Logger.info) window.Logger.info(`Loaded ${this.earthquakeData.length} earthquakes (via DataService)`);
             } else {
                 throw new Error('DataService not available');
@@ -134,11 +134,33 @@ class EarthquakeApp {
         }
     }
     
-    updateLastUpdated() {
+    async updateLastUpdated() {
         const timeEl = document.getElementById('last-updated-time');
         if (!timeEl) return;
 
         try {
+            // First, try to fetch and use the metadata timestamp (GitHub action last run)
+            try {
+                const metadataResponse = await fetch('data/metadata.json');
+                if (metadataResponse.ok) {
+                    const metadata = await metadataResponse.json();
+                    const updateTimestamp = metadata.last_update_timestamp;
+                    
+                    if (updateTimestamp) {
+                        const parsedTimestamp = new Date(updateTimestamp);
+                        if (!isNaN(parsedTimestamp.getTime())) {
+                            // The metadata timestamp is in UTC format, so we can use it directly
+                            // sl-relative-time will handle the timezone conversion automatically
+                            timeEl.setAttribute('date', parsedTimestamp.toISOString());
+                            return;
+                        }
+                    }
+                }
+            } catch (metadataError) {
+                console.warn('Could not fetch metadata, falling back to earthquake data:', metadataError);
+            }
+
+            // Fallback: Use the existing earthquake-based logic
             // Prefer the processed latest feature with a ready Date object
             let latestFeature = null;
             if (window.Data && typeof window.Data.getLatest === 'function') {
@@ -152,6 +174,7 @@ class EarthquakeApp {
 
             const latestDate = latestFeature?.properties?.dateObject;
             if (latestDate instanceof Date && !isNaN(latestDate.getTime())) {
+                // Use original UTC date for sl-relative-time (it handles timezone conversion automatically)
                 timeEl.setAttribute('date', latestDate.toISOString());
                 return;
             }
@@ -164,6 +187,7 @@ class EarthquakeApp {
             if (dateStr) {
                 const parsed = new Date(dateStr);
                 if (!isNaN(parsed.getTime())) {
+                    // Use original UTC date for sl-relative-time (it handles timezone conversion automatically)
                     timeEl.setAttribute('date', parsed.toISOString());
                     return;
                 }

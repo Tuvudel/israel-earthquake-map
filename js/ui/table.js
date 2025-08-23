@@ -297,13 +297,23 @@ class TableController {
             }
             const locationSecondary = regionParts.join(', ');
 
-            // Stacked time: relative time (time ago), date-only, and 24h UTC time
+            // Stacked time: relative time (time ago), date-only, and local time with UTC offset
             const dateIso = props.dateObject instanceof Date ? props.dateObject.toISOString() : null;
             const timeStack = dateIso
                 ? `
                     <div class="time-ago"><sl-relative-time date="${dateIso}" numeric="auto"></sl-relative-time></div>
-                    <div class="exact-date"><sl-format-date date="${dateIso}" year="numeric" month="2-digit" day="2-digit" time-zone="UTC" lang="en-GB"></sl-format-date></div>
-                    <div class="exact-time"><sl-format-date date="${dateIso}" hour="2-digit" minute="2-digit" time-zone="UTC" lang="en-GB"></sl-format-date> UTC</div>
+                    <div class="exact-date">
+                      ${props.localDateObject ? 
+                        `${props.localDateObject.toLocaleDateString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit' })}` :
+                        `<sl-format-date date="${dateIso}" year="numeric" month="2-digit" day="2-digit" time-zone="UTC" lang="en-GB"></sl-format-date>`
+                      }
+                    </div>
+                    <div class="exact-time">
+                      ${props.localDateObject ? 
+                        `${props.localDateObject.toLocaleString('en-GB', { hour: '2-digit', minute: '2-digit' })} ${props.timezoneOffset || 'UTC'}` :
+                        `<sl-format-date date="${dateIso}" hour="2-digit" minute="2-digit" time-zone="UTC" lang="en-GB"></sl-format-date> UTC`
+                      }
+                    </div>
                   `
                 : `
                     <div class="time-ago">${dateTime}</div>

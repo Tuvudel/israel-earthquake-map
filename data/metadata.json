@@ -1,0 +1,7 @@
+{
+  "last_update_timestamp": "2025-08-23T22:00:00Z",
+  "version": "1.0.0",
+  "description": "Metadata tracking when the earthquake data was last updated by the GitHub action",
+  "data_source": "GSI Last 30 Days",
+  "data_source_url": "https://eq.gsi.gov.il/en/earthquake/files/last30_event.csv"
+}
