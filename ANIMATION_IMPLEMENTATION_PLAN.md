@@ -4,7 +4,7 @@
 Comprehensive animation system implementation to add smooth, modern animations for data pane interactions including show/hide, tab switching, and mobile responsiveness while preventing map flicker.
 
 ## Objectives
-1. **Smooth Data Pane Show/Hide**: Add elegant transitions for desktop sidebar collapse/expand and mobile slide-up
+1. **Smooth Data Pane Show/Hide**: Add elegant transitions for desktop sidebar collapse/expand and mobile slide-down (from top)
 2. **Tab Switching Animations**: Implement cross-fade and slide transitions between Events and Analytics tabs
 3. **Mobile Height Adaptation**: Smooth transitions when content height changes on mobile
 4. **Map Flicker Prevention**: Optimize map resize to prevent visual artifacts during sidebar transitions

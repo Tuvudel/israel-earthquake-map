@@ -97,7 +97,8 @@
     gap: var(--spacing-4);
 }
 
-/* Flexbox utilities */
+/* Flexbox composite utilities */
+/* Using utility combinations for consistency */
 .flex-center {
     display: flex;
     align-items: center;
@@ -110,7 +111,7 @@
     justify-content: space-between;
 }
 
-.flex-wrap {
+.flex-wrap-gap {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-4);
@@ -203,8 +204,8 @@
 /* Reduced motion utilities */
 @media (prefers-reduced-motion: reduce) {
     .motion-safe {
-        animation: none !important;
-        transition: none !important;
+        animation: none;
+        transition: none;
     }
 }
 
@@ -335,7 +336,7 @@
 
 @media print {
     .print-hidden {
-        display: none !important;
+        display: none;
     }
     
     .print-break-before {

@@ -178,9 +178,9 @@
 
 @media (prefers-reduced-motion: reduce) {
     .performance-motion {
-        animation: none !important;
-        transition: none !important;
-        scroll-behavior: auto !important;
+        animation: none;
+        transition: none;
+        scroll-behavior: auto;
     }
 }
 
@@ -290,7 +290,7 @@
     }
     
     .no-print {
-        display: none !important;
+        display: none;
     }
 }
 

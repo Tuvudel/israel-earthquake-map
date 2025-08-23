@@ -81,22 +81,22 @@
     
     /* ===== TABLE SORT CONTROLS ===== */
     .table-sort-controls {
-        gap: 2px;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-1);
+        flex-wrap: nowrap;
         margin-bottom: 12px;
         padding: 0 1px;
         overflow: hidden;
-        flex-wrap: nowrap;
-        display: flex;
-        align-items: center;
     }
     
     .sortable {
-        font-size: 0.75rem;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: fit-content;
         flex: 0 1 auto;
+        font-size: 0.75rem;
+        min-width: fit-content;
     }
     
     .sort-indicator {
@@ -371,7 +371,7 @@
 /* Very small devices - ensure buttons always fit */
 @media (max-width: 380px) {
     .table-sort-controls {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         gap: 2px;
         padding: 0;
         overflow: visible;

@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    gap: 24px;
+    gap: var(--spacing-6);
     padding: 16px 20px;
     background: var(--surface-0);
     border: 1px solid var(--border-1);
@@ -17,49 +17,45 @@
 
 /* ===== FILTER GROUPS ===== */
 .filter-group { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 6px; /* ADJUSTABLE: Reduced from 10px to 6px for tighter spacing */
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
 }
 
 .magnitude-group {
-    flex: 0 0 600px; /* Fixed width - no shrinking or growing */
-    min-width: 400px;
+    flex: 1 1 0%;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--spacing-4);
+    min-width: 0; /* Allow shrinking */
     overflow: visible; 
 }
 
 .location-filters-group {
-    flex: 0 0 400px; /* Fixed width - no shrinking or growing */
-    min-width: 280px;
-    max-width: 400px;
-    margin: 0 20px;
+    flex: 1 1 0%;
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: var(--spacing-5);
+    min-width: 0; /* Allow shrinking */
     overflow: visible; 
 }
 
 /* Individual location filter items */
 .location-filter-item { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 8px; /* ADJUSTABLE: Spacing between label and select */
-    flex: 1 1 50%; /* ADJUSTABLE: Each filter takes equal width */
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    flex: 1 1 0%;
     min-width: 180px; /* ADJUSTABLE: Minimum width for each filter */
 }
 
 .year-group {
-    flex: 1 1 auto; /* Take remaining space, can grow and shrink */
-    min-width: 400px;
+    flex: 1 1 0%;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--spacing-4);
+    min-width: 0; /* Allow shrinking */
     overflow: visible; 
-    /* Ensure it stays on the right and extends to fill remaining space */
-    margin-left: auto;
 }
 
 /* Prevent inner contents from overflowing the card area and ensure pips are visible */

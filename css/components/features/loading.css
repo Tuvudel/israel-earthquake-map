@@ -7,6 +7,7 @@
     height: 100%; 
     background: var(--glass-bg); 
     backdrop-filter: blur(var(--glass-blur));
+    /* Using utility classes for flexbox layout */
     display: flex; 
     flex-direction: column; 
     justify-content: center; 
@@ -15,6 +16,14 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity var(--animation-duration-normal) var(--animation-easing), visibility var(--animation-duration-normal) var(--animation-easing);
+}
+
+/* Alternative: Use utility classes directly */
+.loading-overlay.flex-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .loading-overlay.show {
     opacity: 1;

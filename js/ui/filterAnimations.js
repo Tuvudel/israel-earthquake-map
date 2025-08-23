@@ -42,6 +42,9 @@
       
       // Add mobile animation classes
       this.addMobileAnimationClasses();
+      
+      // Initialize dynamic height calculation
+      this.initDynamicHeight();
     }
 
     /**
@@ -225,6 +228,9 @@
         this.filtersPane.classList.add('show');
         console.log('FilterAnimationController: Added show class, classes:', this.filtersPane.className);
         
+        // Allow body overflow when filter pane is open
+        document.body.classList.add('filters-pane-open');
+        
         // Animate backdrop
         if (this.backdrop) {
           this.backdrop.classList.add('show');
@@ -260,6 +266,9 @@
         // Remove show class to trigger CSS animation
         this.filtersPane.classList.remove('show');
         console.log('FilterAnimationController: Removed show class, classes:', this.filtersPane.className);
+        
+        // Restore body overflow when filter pane is closed
+        document.body.classList.remove('filters-pane-open');
         
         // Animate backdrop
         if (this.backdrop) {
@@ -304,6 +313,39 @@
     }
 
     /**
+     * Initialize filter pane (no height management needed with fixed height)
+     */
+    initDynamicHeight() {
+      if (!this.filtersPane) return;
+      
+      // Fixed height approach: no dynamic calculations needed
+      // CSS handles all height management with fixed values
+      console.log('FilterAnimationController: Using fixed height approach');
+    }
+
+    /**
+     * Fixed height management - no calculations needed
+     */
+    updateFilterPaneHeight() {
+      if (!this.filtersPane || !this.filtersPane.classList.contains('show')) return;
+      
+      // Fixed height approach: CSS handles everything
+      // No JavaScript calculations needed
+      
+      console.log('FilterAnimationController: Using fixed height approach');
+    }
+
+    /**
+     * Handle filter mode changes (e.g., switching between relative/range date modes)
+     */
+    handleFilterModeChange() {
+      console.log('FilterAnimationController: Mode change detected');
+      
+      // Fixed height approach: no height management needed
+      // CSS handles all layout with fixed height values
+    }
+
+    /**
      * Clean up event listeners
      */
     destroy() {
@@ -312,6 +354,8 @@
         this.filtersPane.removeEventListener('touchmove', this.handleTouchMove);
         this.filtersPane.removeEventListener('touchend', this.handleTouchEnd);
       }
+      
+      // Clean up event listeners (none needed with fixed height approach)
       
       this.cancelAnimation();
       this.filtersPane = null;

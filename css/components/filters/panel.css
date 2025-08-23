@@ -1,12 +1,5 @@
 /* Filters pane overlay styles (extracted from pane.css) */
 
-.filters-container {
-	display: flex;
-	gap: 30px;
-	align-items: flex-start;
-	flex-wrap: wrap;
-}
-
 /* Unified Filters Pane (top-sheet overlay within header) */
 #filters-pane.filters-container {
 	/* hidden by default; opened via .show */
@@ -20,23 +13,22 @@
 	box-shadow: var(--shadow-2);
 	padding: 16px 20px;
 	z-index: 4000; /* above any backdrop */
-	max-height: 60vh; /* ADJUSTABLE: Fixed max height to prevent expansion */
-	height: auto; /* ADJUSTABLE: Allow natural height with max-height constraint */
-	min-height: 100px; /* ADJUSTABLE: Minimum height to ensure visibility */
-	overflow-y: auto; /* ADJUSTABLE: Allow scrolling if content exceeds max-height */
-	overflow-x: hidden; /* ADJUSTABLE: Prevent horizontal overflow */
-	display: flex;
-	gap: 30px;
-	align-items: flex-start;
-	flex-wrap: wrap;
+	/* FIXED HEIGHT: CSS manages height with fixed values */
+	max-height: none; /* Let CSS handle height */
+	height: auto; /* Allow natural height on desktop */
+	min-height: 100px; /* Minimum height to ensure visibility */
+	overflow-y: visible; /* Let CSS manage overflow */
+	overflow-x: hidden; /* Prevent horizontal overflow */
 	/* animation state */
 	opacity: 0;
 	visibility: hidden;
 	transform: translateY(-8px);
 	pointer-events: none; /* prevent interaction when hidden */
 	transition: opacity var(--animation-duration-normal) var(--animation-easing), transform var(--animation-duration-normal) var(--animation-easing), visibility 0s linear var(--animation-duration-normal);
-	/* ADJUSTABLE: Prevent dynamic expansion */
+	/* Ensure proper box sizing for height calculations */
 	box-sizing: border-box;
+	/* Ensure slider pips are not cut off */
+	overflow: visible;
 }
 #filters-pane.filters-container.show {
 	opacity: 1 !important;

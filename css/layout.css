@@ -3,6 +3,8 @@
    Header has intrinsic height; main fills the rest. */
 html, body, #app { height: 100%; }
 body { overflow: hidden; }
+/* Allow filter pane to extend beyond viewport when needed */
+body.filters-pane-open { overflow: visible; }
 #app { display: flex; flex-direction: column; min-height: 0; }
 
 #main-content {

@@ -1,6 +1,6 @@
 /* Year dual-range slider (Material UI style) */
-.year-slider-container { position: relative; width: 100%; padding: 0 8px 2px 8px; box-sizing: border-box; } /* ADJUSTABLE: Reduced bottom padding from 4px to 2px */
-#year-range-slider { margin: 3px 0 0 0; --thumb-size: 20px; --track-height: 4px; --ring-color: var(--ring-color); display: block; width: 100%; max-width: 100%; box-sizing: border-box; } /* ADJUSTABLE: Reduced top margin from 5px to 3px */
+.year-slider-container { position: relative; width: 100%; padding: 0 8px 1px 8px; margin: 0px 0 0px 0; box-sizing: border-box; } /* OPTIMIZED: Absolute minimal padding - 1px bottom padding */
+#year-range-slider { margin: 0px 0 0 0; --thumb-size: 20px; --track-height: 4px; --ring-color: var(--ring-color); display: block; width: 100%; max-width: 100%; box-sizing: border-box; } /* OPTIMIZED: Removed top margin for minimal space */
 #year-range-slider.noUi-horizontal { height: var(--track-height); }
 #year-range-slider.noUi-target,
 #year-range-slider .noUi-base { background: var(--track-bg); border-radius: 9999px; border: none; box-shadow: none; overflow: visible; }
@@ -45,15 +45,22 @@
 
 /* Show and style pips (marks) similar to MUI marks */
 #year-range-slider .noUi-pips,
-#magnitude-range-slider .noUi-pips { display: block !important; margin-top: 4px; color: var(--text-muted); opacity: 1; visibility: visible; left: 0; right: 0; width: calc(100% + 16px); transform: translateX(-8px); box-sizing: border-box; overflow: visible; } /* ADJUSTABLE: Reduced margin-top from 8px to 4px */
+#magnitude-range-slider .noUi-pips { display: block !important; margin-top: 0px; color: var(--text-muted); opacity: 1; visibility: visible; left: 0; right: 0; width: calc(100% + 16px); transform: translateX(-8px); box-sizing: border-box; overflow: visible; } /* OPTIMIZED: Removed margin-top to eliminate extra space */
+
+/* CRITICAL FIX: Override noUi-slider default pips height that's causing extra space */
+#year-range-slider .noUi-pips-horizontal,
+#magnitude-range-slider .noUi-pips-horizontal { 
+    height: 20px !important; /* Override default 80px height */
+    padding: 2px 0 !important; /* Minimal padding */
+}
 #year-range-slider .noUi-marker,
 #magnitude-range-slider .noUi-marker { background: var(--text-muted); }
 #year-range-slider .noUi-marker-large,
-#magnitude-range-slider .noUi-marker-large { height: 8px; }
+#magnitude-range-slider .noUi-marker-large { height: 6px; } /* Reduced from 8px */
 #year-range-slider .noUi-marker-normal,
-#magnitude-range-slider .noUi-marker-normal { height: 5px; }
+#magnitude-range-slider .noUi-marker-normal { height: 4px; } /* Reduced from 5px */
 #year-range-slider .noUi-marker-sub,
-#magnitude-range-slider .noUi-marker-sub { height: 4px; opacity: 0.8; }
+#magnitude-range-slider .noUi-marker-sub { height: 3px; opacity: 0.8; } /* Reduced from 4px */
 /* Hide all pip labels by default, then show only majors */
 #year-range-slider .noUi-value,
 #magnitude-range-slider .noUi-value { display: none; }
@@ -61,7 +68,7 @@
 #magnitude-range-slider .noUi-value-large { display: block; color: var(--text-2); font-size: 11px; }
 
 /* Prevent pips and handles from being clipped near container edges */
-.year-slider-container { overflow: visible; }
+.year-slider-container { overflow: visible; margin: 0; padding: 0 8px 1px 8px; }
 .year-slider-container::before,
 .year-slider-container::after { content: ""; position: absolute; top: 0; bottom: 0; width: 8px; }
 .year-slider-container::before { left: 0; }

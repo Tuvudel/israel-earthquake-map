@@ -27,6 +27,17 @@ Modern CSS features and contemporary utilities.
 - **Flexbox Utilities**: `.flex-center`, `.flex-between`, etc.
 - **Container Classes**: `.container` (responsive container)
 
+### `flexbox.css`
+Comprehensive flexbox utility classes for layout management.
+- **Display**: `.flex`, `.inline-flex`
+- **Direction**: `.flex-row`, `.flex-col`, `.flex-row-reverse`, `.flex-col-reverse`
+- **Wrap**: `.flex-wrap`, `.flex-nowrap`, `.flex-wrap-reverse`
+- **Flex Properties**: `.flex-1`, `.flex-auto`, `.flex-initial`, `.flex-none`
+- **Alignment**: `.justify-start`, `.justify-center`, `.justify-between`, `.items-center`, etc.
+- **Composite Utilities**: `.flex-center`, `.flex-between`, `.flex-stretch`, `.flex-stack`
+- **Gap Utilities**: `.gap-1` through `.gap-24` using design system spacing tokens
+- **Responsive Utilities**: Mobile-specific flexbox patterns
+
 ### `performance.css`
 Performance optimization utilities.
 - **Content Visibility**: `.content-visibility-auto`, `.content-visibility-hidden`, `.content-visibility-visible`

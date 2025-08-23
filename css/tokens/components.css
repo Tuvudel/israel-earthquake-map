@@ -131,6 +131,15 @@
   --sl-font-family: var(--font-family-primary);
   --sl-font-size-medium: 0.9rem;
   
+  /* Override Shoelace's internal font variables to use our font system */
+  --sl-font-sans: var(--font-family-primary);
+  --sl-font-weight-normal: var(--font-weight-normal);
+  --sl-font-weight-medium: var(--font-weight-medium);
+  --sl-font-weight-semibold: var(--font-weight-semibold);
+  --sl-font-weight-bold: var(--font-weight-bold);
+  --sl-line-height-normal: var(--line-height-normal);
+  --sl-letter-spacing-normal: var(--letter-spacing-normal);
+  
   /* ===== CUSTOM COMPONENT TOKENS ===== */
   /* Legend Component */
   --legend-line: var(--text-1);
