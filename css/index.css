@@ -27,7 +27,7 @@
 
 /* ===== THEMES ===== */
 @import url('./themes/light.css');
-@import url('./themes/dark.css');
+@import url('./themes/shoelace-blue-dark.css');
 
 /* ===== RESPONSIVE (load last) ===== */
 @import url('./responsive/index.css');

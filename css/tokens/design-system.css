@@ -95,55 +95,8 @@
 }
 
 /* ===== DARK THEME OVERRIDES ===== */
-:root[data-theme='dark'] {
-  /* Brand Colors */
-  --brand-600: #60a5fa;
-  --accent-600: #60a5fa;
-  
-  /* Text Colors */
-  --text-1: #f1f5f9;
-  --text-2: #e2e8f0;
-  --text-3: #cbd5e1;
-  --text-muted: #94a3b8;
-  --text-on-accent: #ffffff;
-  
-  /* Surface Colors */
-  --surface-0: #0f172a;
-  --surface-1: #0b1020;
-  
-  /* Glass Surfaces */
-  --glass-bg: rgba(15, 23, 42, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-blur: 18px;
-  
-  /* Border Colors */
-  --border-1: #1f2937;
-  --border-2: #334155;
-  
-  /* Component Colors */
-  --legend-line: #ffffff;
-  --legend-dotted-contrast: #ffffff;
-  --track-bg: #334155;
-  --thumb-bg: #0f172a;
-  --ring-color: rgba(96, 165, 250, 0.35);
-  --seg-divider: rgba(255,255,255,0.35);
-  
-  /* Theme-Specific Colors */
-  --sun-primary: #f59e0b;
-  --sun-secondary: #fbbf24;
-  --moon-bg: #1e293b;
-  --light-sky: #334155;
-  --pure-white: #ffffff;
-  --pure-black: #000000;
-  
-  /* Accent Colors */
-  --accent-100: rgba(96, 165, 250, 0.15);
-  
-  /* Shadow Tokens */
-  --shadow-1: 0 1px 3px rgba(0,0,0,0.4);
-  --shadow-2: 0 4px 12px rgba(0,0,0,0.5);
-  --shadow-3: 0 8px 25px rgba(0,0,0,0.6);
-}
+/* Note: Dark theme variables are now handled by shoelace-blue-dark.css */
+/* This section is kept for reference but will be removed in future cleanup */
 
 /* ===== GLOBAL FONT APPLICATION ===== */
 * {

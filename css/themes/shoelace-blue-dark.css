@@ -1,0 +1,558 @@
+/* ===== SHOELACE BLUE DARK THEME ===== */
+/* Custom blue dark theme that extends Shoelace dark theme */
+/* Extends Shoelace dark theme with blue color palette */
+
+/* Blue Dark Theme - Extends Shoelace Dark */
+:host,
+.sl-theme-blue-dark {
+  /* Surface Colors - Blue Palette */
+  --sl-color-neutral-0: #0f172a;   /* Deep blue surface */
+  --sl-color-neutral-50: #0b1020;  /* Darker blue surface */
+  --sl-color-neutral-100: #1e293b; /* Blue-gray surface */
+  --sl-color-neutral-200: #334155; /* Blue-tinted surface */
+  --sl-color-neutral-300: #475569; /* Lighter blue surface */
+  --sl-color-neutral-400: #64748b; /* Medium blue surface */
+  --sl-color-neutral-500: #94a3b8; /* Light blue surface */
+  --sl-color-neutral-600: #cbd5e1; /* Very light blue surface */
+  --sl-color-neutral-700: #e2e8f0; /* Almost white blue surface */
+  --sl-color-neutral-800: #f1f5f9; /* White with blue tint */
+  --sl-color-neutral-900: #f8fafc; /* Pure white */
+  --sl-color-neutral-950: #ffffff; /* Pure white */
+  
+  /* Text Colors - Optimized for blue background */
+  --sl-color-neutral-600: #f1f5f9; /* Primary text */
+  --sl-color-neutral-500: #e2e8f0; /* Secondary text */
+  --sl-color-neutral-400: #cbd5e1; /* Muted text */
+  --sl-color-neutral-300: #94a3b8; /* Disabled text */
+  
+  /* Border Colors - Blue-tinted borders */
+  --sl-color-neutral-200: #334155; /* Primary borders */
+  --sl-color-neutral-300: #475569; /* Secondary borders */
+  --sl-color-neutral-400: #64748b; /* Focus borders */
+  
+  /* Accent Colors - Maintain blue brand */
+  --sl-color-primary-600: #60a5fa; /* Blue accent */
+  --sl-color-primary-500: #3b82f6; /* Blue brand */
+  --sl-color-primary-400: #93c5fd; /* Light blue */
+  --sl-color-primary-300: #bfdbfe; /* Very light blue */
+  --sl-color-primary-200: #dbeafe; /* Pale blue */
+  --sl-color-primary-100: #eff6ff; /* Very pale blue */
+  --sl-color-primary-50: #f8fafc;  /* Almost white blue */
+  
+  /* Success Colors - Blue-tinted green */
+  --sl-color-success-600: #10b981; /* Emerald green */
+  --sl-color-success-500: #059669; /* Darker emerald */
+  
+  /* Warning Colors - Blue-tinted amber */
+  --sl-color-warning-600: #f59e0b; /* Amber */
+  --sl-color-warning-500: #d97706; /* Darker amber */
+  
+  /* Danger Colors - Blue-tinted red */
+  --sl-color-danger-600: #ef4444;  /* Red */
+  --sl-color-danger-500: #dc2626;  /* Darker red */
+  
+  /* Focus and Selection Colors */
+  --sl-focus-ring-color: rgba(96, 165, 250, 0.35);
+  --sl-focus-ring-width: 3px;
+  
+  /* Shadow Colors - Blue-tinted shadows */
+  --sl-shadow-x-small: 0 1px 3px rgba(15, 23, 42, 0.4);
+  --sl-shadow-small: 0 4px 12px rgba(15, 23, 42, 0.5);
+  --sl-shadow-medium: 0 8px 25px rgba(15, 23, 42, 0.6);
+  --sl-shadow-large: 0 16px 50px rgba(15, 23, 42, 0.7);
+  --sl-shadow-x-large: 0 32px 100px rgba(15, 23, 42, 0.8);
+
+  /* ===== CUSTOM APPLICATION VARIABLES ===== */
+  /* These variables are used throughout the application components */
+  
+  /* Brand Colors */
+  --brand-600: #60a5fa;
+  --accent-600: #60a5fa;
+  
+  /* Text Colors */
+  --text-1: #f1f5f9;
+  --text-2: #e2e8f0;
+  --text-3: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-on-accent: #ffffff;
+  
+  /* Surface Colors */
+  --surface-0: #0f172a;
+  --surface-1: #0b1020;
+  
+  /* Glass Surfaces */
+  --glass-bg: rgba(15, 23, 42, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 18px;
+  
+  /* Border Colors */
+  --border-1: #1f2937;
+  --border-2: #334155;
+  
+  /* Component Colors */
+  --legend-line: #ffffff;
+  --legend-dotted-contrast: #ffffff;
+  --track-bg: #334155;
+  --thumb-bg: #0f172a;
+  --ring-color: rgba(96, 165, 250, 0.35);
+  --seg-divider: rgba(255,255,255,0.35);
+  
+  /* Theme-Specific Colors */
+  --sun-primary: #f59e0b;
+  --sun-secondary: #fbbf24;
+  --moon-bg: #1e293b;
+  --light-sky: #334155;
+  --pure-white: #ffffff;
+  --pure-black: #000000;
+  
+  /* Accent Colors */
+  --accent-100: rgba(96, 165, 250, 0.15);
+  
+  /* Shadow Tokens */
+  --shadow-1: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-2: 0 4px 12px rgba(0,0,0,0.5);
+  --shadow-3: 0 8px 25px rgba(0,0,0,0.6);
+
+  /* Component-Specific Variables */
+  --mobile-toggle-color: var(--text-1);
+  --mobile-toggle-background: var(--surface-0);
+  --mobile-toggle-hover-background: var(--surface-1);
+  --mobile-toggle-hover-border: var(--accent-600);
+  --mobile-toggle-active-background: var(--accent-600);
+  --mobile-toggle-active-border: var(--accent-600);
+  
+  --sortable-background: var(--surface-0);
+  --sortable-hover-background: var(--surface-1);
+  --sortable-active-background: var(--accent-600);
+  --sortable-shadow: var(--shadow-1);
+  --sortable-hover-shadow: var(--shadow-2);
+  --sortable-active-shadow: var(--shadow-3);
+  --sortable-active-color: var(--text-on-accent);
+  
+  --sort-indicator-fill: var(--text-2);
+  --sort-indicator-active-fill: var(--text-on-accent);
+}
+
+/* ===== COMPONENT-SPECIFIC OVERRIDES ===== */
+
+/* Button Components */
+.sl-theme-blue-dark sl-button::part(base) {
+  background-color: var(--sl-color-neutral-100);
+  border-color: var(--sl-color-neutral-200);
+  color: var(--sl-color-neutral-600);
+}
+
+.sl-theme-blue-dark sl-button:hover::part(base) {
+  background-color: var(--sl-color-neutral-200);
+  border-color: var(--sl-color-neutral-300);
+}
+
+.sl-theme-blue-dark sl-button:focus-visible::part(base) {
+  box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-focus-ring-color);
+}
+
+/* Primary Button */
+.sl-theme-blue-dark sl-button[variant="primary"]::part(base) {
+  background-color: var(--sl-color-primary-600);
+  border-color: var(--sl-color-primary-600);
+  color: white;
+}
+
+.sl-theme-blue-dark sl-button[variant="primary"]:hover::part(base) {
+  background-color: var(--sl-color-primary-500);
+  border-color: var(--sl-color-primary-500);
+}
+
+/* Input Components */
+.sl-theme-blue-dark sl-input::part(base) {
+  background-color: var(--sl-color-neutral-100);
+  border-color: var(--sl-color-neutral-200);
+  color: var(--sl-color-neutral-600);
+}
+
+.sl-theme-blue-dark sl-input:focus-within::part(base) {
+  border-color: var(--sl-color-primary-600);
+  box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-focus-ring-color);
+}
+
+/* Select Components */
+.sl-theme-blue-dark sl-select::part(base) {
+  background-color: var(--sl-color-neutral-100);
+  border-color: var(--sl-color-neutral-200);
+  color: var(--sl-color-neutral-600);
+}
+
+.sl-theme-blue-dark sl-select:focus-within::part(base) {
+  border-color: var(--sl-color-primary-600);
+  box-shadow: 0 0 0 var(--sl-focus-ring-width) var(--sl-focus-ring-color);
+}
+
+/* Dropdown Options */
+.sl-theme-blue-dark sl-select::part(option) {
+  background-color: var(--sl-color-neutral-100);
+  color: var(--sl-color-neutral-600);
+}
+
+.sl-theme-blue-dark sl-select::part(option):hover {
+  background-color: var(--sl-color-neutral-200);
+}
+
+.sl-theme-blue-dark sl-select::part(option[selected]) {
+  background-color: var(--sl-color-primary-600);
+  color: white;
+}
+
+/* Switch Components */
+.sl-theme-blue-dark sl-switch::part(base) {
+  border-color: var(--sl-color-neutral-300);
+}
+
+.sl-theme-blue-dark sl-switch[checked]::part(base) {
+  border-color: var(--sl-color-primary-600);
+}
+
+.sl-theme-blue-dark sl-switch::part(thumb) {
+  background-color: var(--sl-color-neutral-600);
+}
+
+.sl-theme-blue-dark sl-switch[checked]::part(thumb) {
+  background-color: white;
+}
+
+/* Tab Components */
+.sl-theme-blue-dark sl-tab::part(base) {
+  color: var(--sl-color-neutral-500);
+  border-color: transparent;
+}
+
+.sl-theme-blue-dark sl-tab:hover::part(base) {
+  color: var(--sl-color-neutral-600);
+}
+
+.sl-theme-blue-dark sl-tab[active]::part(base) {
+  color: var(--sl-color-primary-600);
+  border-color: var(--sl-color-primary-600);
+}
+
+/* Tab Panel */
+.sl-theme-blue-dark sl-tab-panel {
+  background-color: var(--sl-color-neutral-100);
+  color: var(--sl-color-neutral-600);
+}
+
+/* Card-like Components */
+.sl-theme-blue-dark .filters-container,
+.sl-theme-blue-dark .sidebar,
+.sl-theme-blue-dark .legend {
+  background-color: var(--sl-color-neutral-100);
+  border-color: var(--sl-color-neutral-200);
+  color: var(--sl-color-neutral-600);
+}
+
+
+
+/* ===== CUSTOM COMPONENT OVERRIDES ===== */
+/* Application-specific dark theme styles migrated from dark.css */
+
+/* Credits Component */
+.sl-theme-blue-dark .me-link {
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 4px rgba(255, 255, 255, 0.4));
+}
+
+/* Sidebar Component */
+.sl-theme-blue-dark .earthquake-row.highlighted {
+    background-color: var(--accent-100);
+    box-shadow: 0 2px 8px var(--accent-200);
+}
+
+/* Statistics Component */
+.sl-theme-blue-dark .stat-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Mobile Toggle Buttons */
+.sl-theme-blue-dark {
+    --mobile-toggle-border: var(--border-2);
+    --mobile-toggle-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 0px rgba(96, 165, 250, 0.25), 0 0 5px rgba(255, 255, 255, 0.1);
+    --mobile-toggle-hover-shadow: 0 2px 14px rgba(0,0,0,0.5), 0 0 20px rgba(96,165,250,0.35), 0 0 8px rgba(255, 255, 255, 0.15);
+    --mobile-toggle-focus-shadow: 0 0 0 3px var(--ring-color), 0 2px 14px rgba(0,0,0,0.5), 0 0 20px rgba(96,165,250,0.35);
+    --mobile-toggle-active-shadow: 0 2px 14px rgba(0,0,0,0.5), 0 0 20px rgba(96,165,250,0.35), 0 0 8px rgba(255, 255, 255, 0.15);
+}
+
+.sl-theme-blue-dark .mobile-sidebar-toggle,
+.sl-theme-blue-dark .mobile-legend-toggle,
+.sl-theme-blue-dark .mobile-filters-toggle {
+    color: var(--mobile-toggle-color);
+    background-color: var(--mobile-toggle-background);
+    border-color: var(--mobile-toggle-border);
+    box-shadow: var(--mobile-toggle-shadow);
+}
+
+.sl-theme-blue-dark .mobile-sidebar-toggle:not(.active):hover,
+.sl-theme-blue-dark .mobile-legend-toggle:not(.active):hover,
+.sl-theme-blue-dark .mobile-filters-toggle:not(.active):hover {
+    background-color: var(--mobile-toggle-hover-background);
+    border-color: var(--mobile-toggle-hover-border);
+    box-shadow: var(--mobile-toggle-hover-shadow);
+}
+
+.sl-theme-blue-dark .mobile-sidebar-toggle:focus-visible,
+.sl-theme-blue-dark .mobile-legend-toggle:focus-visible,
+.sl-theme-blue-dark .mobile-filters-toggle:focus-visible {
+    box-shadow: var(--mobile-toggle-focus-shadow);
+}
+
+.sl-theme-blue-dark .mobile-sidebar-toggle.active,
+.sl-theme-blue-dark .mobile-legend-toggle.active,
+.sl-theme-blue-dark .mobile-filters-toggle.active {
+    background-color: var(--mobile-toggle-active-background);
+    border-color: var(--mobile-toggle-active-border);
+    box-shadow: var(--mobile-toggle-active-shadow);
+}
+
+/* Sortable Table Buttons */
+.sl-theme-blue-dark {
+    --sortable-border: var(--border-2);
+}
+
+.sl-theme-blue-dark .sortable.active .sort-indicator,
+.sl-theme-blue-dark .sortable.active .sort-indicator.active,
+.sl-theme-blue-dark .sortable.active .sort-indicator.asc,
+.sl-theme-blue-dark .sortable.active .sort-indicator.desc {
+    opacity: 1;
+    fill: var(--sort-indicator-active-fill);
+    font-size: var(--sl-button-font-size-small);
+}
+
+.sl-theme-blue-dark .sortable::part(base) {
+    background-color: var(--sortable-background);
+    border-color: var(--sortable-border);
+    box-shadow: var(--sortable-shadow);
+    color: var(--text-1);
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--sl-button-font-size-small);
+    text-align: center;
+    justify-content: center;
+}
+
+.sl-theme-blue-dark .sortable:hover::part(base) {
+    background-color: var(--sortable-hover-background);
+    border-color: var(--sortable-hover-border);
+    box-shadow: var(--sortable-hover-shadow);
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--sl-button-font-size-small);
+    text-align: center;
+    justify-content: center;
+}
+
+.sl-theme-blue-dark .sortable.active::part(base) {
+    background-color: var(--sortable-active-background);
+    border-color: var(--sortable-active-border);
+    box-shadow: var(--sortable-active-shadow);
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--sl-button-font-size-small);
+    text-align: center;
+    justify-content: center;
+}
+
+.sl-theme-blue-dark .sortable.active {
+    color: var(--sortable-active-color);
+    background-color: var(--sortable-active-background);
+    border-color: var(--sortable-active-border);
+    box-shadow: var(--sortable-active-shadow);
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+/* Sort Indicators */
+.sl-theme-blue-dark .sort-indicator {
+    fill: var(--sort-indicator-fill);
+    width: 14px;
+    height: 14px;
+}
+
+.sl-theme-blue-dark .sort-indicator.active {
+    fill: var(--sort-indicator-active-fill);
+}
+
+/* Pagination Controls */
+.sl-theme-blue-dark .pagination-controls sl-button.pagination-btn::part(base) {
+    background-color: var(--surface-0);
+    border-color: var(--border-2);
+    box-shadow: var(--shadow-1);
+}
+
+.sl-theme-blue-dark .pagination-controls sl-button.pagination-btn:hover::part(base) {
+    background-color: var(--surface-1);
+    border-color: var(--accent-600);
+    box-shadow: var(--shadow-2);
+}
+
+.sl-theme-blue-dark .pagination-controls sl-button.pagination-btn:not([disabled])::part(base) {
+    background-color: var(--accent-600);
+    border-color: var(--accent-600);
+    box-shadow: var(--shadow-3);
+}
+
+/* Loading Overlay */
+.sl-theme-blue-dark .loading-overlay {
+    background: var(--glass-bg);
+}
+
+/* Filter Controls - Enhanced Select Styling */
+.sl-theme-blue-dark .filter-group sl-select {
+    --sl-input-border-color: var(--border-2);
+    --sl-input-border-color-hover: var(--accent-600);
+    --sl-input-background-color: var(--surface-0);
+    --sl-input-color: var(--text-1);
+    --sl-input-placeholder-color: var(--text-2);
+    --sl-input-focus-background-color: var(--surface-0);
+    --sl-input-focus-color: var(--text-1);
+    --sl-input-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 15px rgba(96, 165, 250, 0.25), 0 0 5px rgba(255, 255, 255, 0.1);
+    --sl-input-shadow-hover: 0 2px 14px rgba(0,0,0,0.5), 0 0 20px rgba(96,165,250,0.35), 0 0 8px rgba(255, 255, 255, 0.15);
+    --sl-input-shadow-focus: 0 6px 20px rgba(0,0,0,0.25), 0 0 15px rgba(96, 165, 250, 0.3), var(--shadow-2);
+}
+
+.sl-theme-blue-dark .filter-group sl-select::part(base) {
+    background-color: var(--surface-0);
+    border-color: var(--border-2);
+    color: var(--text-1);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 15px rgba(96, 165, 250, 0.25), 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.sl-theme-blue-dark .filter-group sl-select:hover::part(base) {
+    background-color: var(--surface-1);
+    border-color: var(--accent-600);
+    box-shadow: 0 2px 14px rgba(0,0,0,0.5), 0 0 20px rgba(96,165,250,0.35), 0 0 8px rgba(255, 255, 255, 0.15);
+}
+
+.sl-theme-blue-dark .filter-group sl-select:focus-within::part(base) {
+    background-color: var(--surface-0);
+    border-color: var(--accent-600);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25), 0 0 15px rgba(96, 165, 250, 0.3), var(--shadow-2);
+}
+
+.sl-theme-blue-dark .filter-group sl-select::part(listbox) {
+    background: var(--surface-0);
+    border: 1px solid var(--border-2);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6), 0 0 15px rgba(96, 165, 250, 0.25);
+}
+
+.sl-theme-blue-dark .filter-group sl-select::part(option) {
+    color: var(--text-1);
+    font-family: var(--font-family-primary);
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.sl-theme-blue-dark .filter-group sl-select::part(option):hover {
+    background: var(--surface-1);
+}
+
+.sl-theme-blue-dark .filter-group sl-select::part(option[selected]) {
+    background: var(--accent-600);
+    color: var(--text-on-accent);
+    font-family: var(--font-family-primary);
+}
+
+.sl-theme-blue-dark .filter-group sl-select::part(tag) {
+    background-color: var(--surface-1);
+    border-color: var(--border-2);
+    color: var(--text-1);
+}
+
+.sl-theme-blue-dark .filter-group sl-select::part(tag__remove-button) {
+    color: var(--text-2);
+}
+
+.sl-theme-blue-dark .filter-group sl-select::part(tag__remove-button):hover {
+    color: var(--text-1);
+}
+
+.sl-theme-blue-dark .filter-group sl-select::part(clear-button) {
+    color: var(--text-2);
+}
+
+.sl-theme-blue-dark .filter-group sl-select::part(clear-button):hover {
+    color: var(--text-1);
+}
+
+/* Statistics */
+.sl-theme-blue-dark .stat-item {
+    background: var(--surface-1);
+    border-color: var(--border-2);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 15px rgba(96, 165, 250, 0.25), 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+/* Filter Panel */
+.sl-theme-blue-dark #filters-pane.filters-container.show {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-2);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 20px rgba(96, 165, 250, 0.3);
+}
+
+/* Filter Header */
+.sl-theme-blue-dark #filters-panel:has(#filters-pane.filters-container.show),
+.sl-theme-blue-dark body.filters-pane-open #filters-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-2);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6), 0 0 15px rgba(96, 165, 250, 0.25);
+}
+
+/* Header Actions */
+.sl-theme-blue-dark .header-actions sl-button::part(base) {
+    background-color: var(--surface-0);
+    border-color: var(--border-2);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.45), 0 0 15px rgba(96, 165, 250, 0.25), 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.sl-theme-blue-dark .header-actions sl-button:hover::part(base) {
+    background-color: var(--surface-1);
+    border-color: var(--accent-600);
+    box-shadow: 0 2px 14px rgba(0,0,0,0.5), 0 0 20px rgba(96,165,250,0.35), 0 0 8px rgba(255, 255, 255, 0.15);
+}
+
+.sl-theme-blue-dark .header-actions sl-button.active::part(base) {
+    background-color: var(--accent-600);
+    border-color: var(--accent-600);
+    box-shadow: 0 2px 14px rgba(0,0,0,0.5), 0 0 20px rgba(96,165,250,0.35), 0 0 8px rgba(255, 255, 255, 0.15);
+}
+
+/* Icons */
+.sl-theme-blue-dark .me-icon {
+    filter: brightness(0.8) contrast(1.2);
+}
+
+/* Mobile Filter Pane */
+.sl-theme-blue-dark #filters-pane.filters-container.show { 
+    background: rgba(15,23,42,0.95) !important; 
+}
+
+/* Custom Component Tokens */
+.sl-theme-blue-dark {
+  /* Legend Component */
+  --legend-line: var(--text-1);
+  --legend-dotted-contrast: var(--surface-0);
+  
+  /* Slider Component */
+  --track-bg: var(--border-2);
+  --thumb-bg: var(--surface-0);
+  --ring-color: rgba(96, 165, 250, 0.35);
+  
+  /* Segmented Controls */
+  --seg-divider: rgba(255,255,255,0.35);
+}
+
+/* Sidebar Tab Divider */
+.sl-theme-blue-dark #sidebar sl-tab-group::part(tabs)::after {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 0 6px rgba(255, 255, 255, 0.4),
+        0 0 12px rgba(255, 255, 255, 0.2),
+        0 0 2px rgba(255, 255, 255, 0.6);
+}

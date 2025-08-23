@@ -47,6 +47,40 @@
     font-family: var(--font-family-primary);
 }
 
+/* Sortable button hover state - applies to both light and dark themes */
+.sortable:hover::part(base) {
+    background-color: var(--sortable-hover-background);
+    border-color: var(--sortable-hover-border);
+    box-shadow: var(--sortable-hover-shadow);
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--sl-button-font-size-small);
+    text-align: center;
+    justify-content: center;
+}
+
+/* Sortable button active state - applies to both light and dark themes */
+.sortable.active::part(base) {
+    background-color: var(--sortable-active-background);
+    border-color: var(--sortable-active-border);
+    box-shadow: var(--sortable-active-shadow);
+    color: var(--sortable-active-color);
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--sl-button-font-size-small);
+    text-align: center;
+    justify-content: center;
+}
+
+.sortable.active {
+    color: var(--sortable-active-color);
+    background-color: var(--sortable-active-background);
+    border-color: var(--sortable-active-border);
+    box-shadow: var(--sortable-active-shadow);
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
 .sort-indicator { 
     margin-left: 4px; 
     opacity: 0.4; 
@@ -58,17 +92,17 @@
 
 .sort-indicator.active { 
     opacity: 1; 
-    fill: var(--accent-600);
+    fill: var(--sort-indicator-active-fill);
 }
 
 .sort-indicator.active.asc { 
     transform: rotate(180deg);
-    fill: var(--accent-600);
+    fill: var(--sort-indicator-active-fill);
 }
 
 .sort-indicator.active.desc { 
     transform: rotate(0deg);
-    fill: var(--accent-600);
+    fill: var(--sort-indicator-active-fill);
 }
 
 /* ===== PAGINATION ===== */

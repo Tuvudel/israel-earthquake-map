@@ -27,99 +27,182 @@
     return !!(mq && mq.matches);
   }
   
-  // Enhanced theme application with smooth transitions
+  // Enhanced theme application with smooth transitions and better error handling
   function applyTheme(isDark, options = {}) {
     try {
-      const root = document.documentElement;
-      const body = document.body;
+      const html = document.documentElement;
+      if (!html) {
+        console.warn('Theme: HTML element not available');
+        return;
+      }
       
       // Prevent transitions during initial load to avoid flicker
       if (options.preventTransitions) {
-        root.style.setProperty('--theme-transition-disabled', 'true');
+        html.style.setProperty('--theme-transition-disabled', 'true');
       }
       
+      // Apply theme classes with proper Shoelace integration
       if (isDark) {
-        root.setAttribute('data-theme', 'dark');
-        if (body) body.classList.add('sl-theme-dark');
+        // Apply custom blue dark theme class to html element (proper Shoelace integration)
+        html.classList.add('sl-theme-blue-dark');
       } else {
-        root.removeAttribute('data-theme');
-        if (body) body.classList.remove('sl-theme-dark');
+        // Remove custom blue dark theme class from html element
+        html.classList.remove('sl-theme-blue-dark');
       }
       
-      // Re-enable transitions after a short delay
+      // Re-enable transitions after a short delay for smooth theme switching
       if (options.preventTransitions) {
         setTimeout(() => {
-          root.style.removeProperty('--theme-transition-disabled');
+          try {
+            html.style.removeProperty('--theme-transition-disabled');
+          } catch (e) {
+            console.warn('Theme: Error removing transition property:', e);
+          }
         }, 50);
       }
       
-      // Emit theme change event for coordination
+      // Emit theme change event for coordination with other components
       if (options.emitEvent !== false) {
-        window.dispatchEvent(new CustomEvent('themeChanged', { 
-          detail: { isDark, preference: getPreference() } 
-        }));
+        try {
+          window.dispatchEvent(new CustomEvent('themeChanged', { 
+            detail: { isDark, preference: getPreference() } 
+          }));
+        } catch (e) {
+          console.warn('Theme: Error dispatching theme change event:', e);
+        }
       }
-    } catch(_) {}
+    } catch(e) {
+      console.error('Theme: Error applying theme:', e);
+    }
   }
   
   // Synchronous theme initialization to prevent race conditions
   function initializeThemeSynchronously() {
-    const savedTheme = getPreference();
-    const isDark = isDarkFromPreference(savedTheme);
-    
-    // Apply theme immediately with transitions disabled to prevent flicker
-    applyTheme(isDark, { preventTransitions: true, emitEvent: false });
-    
-    return { isDark, preference: savedTheme };
-  }
-  
-  // Enhanced theme application with coordination
-  function applyThemeWithCoordination(isDark, options = {}) {
-    // Apply UI theme
-    applyTheme(isDark, options);
-    
-    // Coordinate with map if available
-    if (window.MapController && window.MapController.instance) {
-      const targetStyle = isDark ? 'dark_matter' : 'positron';
-      if (window.MapController.instance.currentStyleName !== targetStyle) {
-        // Use animation system if available for smooth coordination
-        if (window.AnimationController) {
-          window.AnimationController.queueAnimation(async () => {
-            await window.MapController.instance.setBasemap(targetStyle);
-          }, 'theme-coordination');
-        } else {
-          // Fallback to immediate change
-          window.MapController.instance.setBasemap(targetStyle);
-        }
-      }
+    try {
+      const savedTheme = getPreference();
+      const isDark = isDarkFromPreference(savedTheme);
+      
+      // Apply theme immediately with transitions disabled to prevent flicker
+      applyTheme(isDark, { preventTransitions: true, emitEvent: false });
+      
+      return { isDark, preference: savedTheme };
+    } catch (e) {
+      console.error('Theme: Error initializing theme:', e);
+      return { isDark: false, preference: 'system' };
     }
   }
   
-  function listenToSystemChanges(callback){
-    const mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
-    if (!mq) return () => {};
-    const handler = (e) => {
-      if (getPreference() === 'system') {
-        callback(!!e.matches);
+  // Enhanced theme application with coordination and error handling
+  function applyThemeWithCoordination(isDark, options = {}) {
+    try {
+      // Apply UI theme
+      applyTheme(isDark, options);
+      
+      // Coordinate with map if available
+      if (window.MapController && window.MapController.instance) {
+        const targetStyle = isDark ? 'dark_matter' : 'positron';
+        if (window.MapController.instance.currentStyleName !== targetStyle) {
+          // Use animation system if available for smooth coordination
+          if (window.AnimationController) {
+            try {
+              window.AnimationController.queueAnimation(async () => {
+                try {
+                  await window.MapController.instance.setBasemap(targetStyle);
+                } catch (e) {
+                  console.warn('Theme: Error setting basemap:', e);
+                }
+              }, 'theme-coordination');
+            } catch (e) {
+              console.warn('Theme: Error queuing animation:', e);
+              // Fallback to immediate change
+              try {
+                window.MapController.instance.setBasemap(targetStyle);
+              } catch (e2) {
+                console.warn('Theme: Error setting basemap (fallback):', e2);
+              }
+            }
+          } else {
+            // Fallback to immediate change
+            try {
+              window.MapController.instance.setBasemap(targetStyle);
+            } catch (e) {
+              console.warn('Theme: Error setting basemap (fallback):', e);
+            }
+          }
+        }
       }
-    };
-    if (mq.addEventListener) mq.addEventListener('change', handler); else mq.addListener(handler);
-    return () => { if (mq.removeEventListener) mq.removeEventListener('change', handler); else mq.removeListener(handler); };
+    } catch (e) {
+      console.error('Theme: Error in theme coordination:', e);
+    }
+  }
+  
+  // Enhanced system preference listener with error handling
+  function listenToSystemChanges(callback){
+    try {
+      const mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+      if (!mq) {
+        console.warn('Theme: System preference listener not supported');
+        return () => {};
+      }
+      
+      const handler = (e) => {
+        try {
+          if (getPreference() === 'system') {
+            callback(!!e.matches);
+          }
+        } catch (e) {
+          console.warn('Theme: Error in system preference handler:', e);
+        }
+      };
+      
+      if (mq.addEventListener) {
+        mq.addEventListener('change', handler);
+        return () => { 
+          try {
+            mq.removeEventListener('change', handler);
+          } catch (e) {
+            console.warn('Theme: Error removing system preference listener:', e);
+          }
+        };
+      } else {
+        mq.addListener(handler);
+        return () => { 
+          try {
+            mq.removeListener(handler);
+          } catch (e) {
+            console.warn('Theme: Error removing system preference listener:', e);
+          }
+        };
+      }
+    } catch (e) {
+      console.error('Theme: Error setting up system preference listener:', e);
+      return () => {};
+    }
   }
 
   // Apply CSS custom properties for magnitude colors so UI and legend match the map.
   function applyMagnitudeCssVars(){
     try {
       const mag = (window.Constants && window.Constants.MAGNITUDE_CLASSES) ? window.Constants.MAGNITUDE_CLASSES : null;
-      if (!mag) return;
+      if (!mag) {
+        console.warn('Theme: Magnitude classes not available');
+        return;
+      }
+      
       const root = document.documentElement;
-      if (!root) return;
+      if (!root) {
+        console.warn('Theme: Root element not available for magnitude variables');
+        return;
+      }
+      
       root.style.setProperty('--mag-minor', mag.minor.color);
       root.style.setProperty('--mag-light', mag.light.color);
       root.style.setProperty('--mag-moderate', mag.moderate.color);
       root.style.setProperty('--mag-strong', mag.strong.color);
       root.style.setProperty('--mag-major', mag.major.color);
-    } catch(_) {}
+    } catch(e) {
+      console.error('Theme: Error applying magnitude CSS variables:', e);
+    }
   }
 
   // Expose and apply immediately so variables are ready before main app init
@@ -138,5 +221,7 @@
   try { 
     applyMagnitudeCssVars(); 
     initializeThemeSynchronously();
-  } catch(_) {}
+  } catch(e) {
+    console.error('Theme: Error during initialization:', e);
+  }
 })();
