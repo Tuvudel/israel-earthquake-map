@@ -8,6 +8,10 @@ class MapController {
         this.earthquakeSource = null;
         // Track currently hovered feature id for highlight state
         this.hoveredFeatureId = null;
+        // Store initial map state for returning to original view
+        this.initialCenter = null;
+        this.initialZoom = null;
+        this.initialStateCaptured = false;
         // Resolve initial theme/basemap from stored preference or system
         const pref = (window.Theme && window.Theme.getPreference) ? window.Theme.getPreference() : 'system';
         const initialIsDark = (window.Theme && window.Theme.isDarkFromPreference) ? window.Theme.isDarkFromPreference(pref) : false;
@@ -361,6 +365,35 @@ class MapController {
         const shouldFit = !(options && options.fit === false);
         if (shouldFit && earthquakeData.length > 0) {
             this.fitToEarthquakes(earthquakeData);
+            
+            // Capture initial state after fitting to earthquakes (this is the "true" initial state)
+            if (!this.initialStateCaptured) {
+                // Use a small delay to ensure the fit animation completes
+                setTimeout(() => {
+                    this.initialCenter = this.map.getCenter();
+                    this.initialZoom = this.map.getZoom();
+                    this.initialStateCaptured = true;
+                    if (window.Logger && window.Logger.debug) {
+                        window.Logger.debug('Initial map state captured after fitting to earthquakes:', {
+                            center: this.initialCenter,
+                            zoom: this.initialZoom
+                        });
+                    }
+                }, 1500); // Wait for fit animation to complete
+            }
+        } else if (!this.initialStateCaptured) {
+            // If no earthquakes to fit to, capture current state as initial
+            setTimeout(() => {
+                this.initialCenter = this.map.getCenter();
+                this.initialZoom = this.map.getZoom();
+                this.initialStateCaptured = true;
+                if (window.Logger && window.Logger.debug) {
+                    window.Logger.debug('Initial map state captured (no earthquakes to fit):', {
+                        center: this.initialCenter,
+                        zoom: this.initialZoom
+                    });
+                }
+            }, 100);
         }
     }
     
@@ -423,11 +456,54 @@ class MapController {
     
     // Method to zoom back to default view
     zoomToDefault() {
+        // Safety check: ensure map is available
+        if (!this.map) {
+            if (window.Logger && window.Logger.warn) {
+                window.Logger.warn('Map not available for zoomToDefault');
+            }
+            return;
+        }
+        
+        // Use stored initial state if available, otherwise fall back to default Israel center
+        const center = this.initialCenter || [35.2, 31.8];
+        const zoom = this.initialZoom || 7;
+        
+        if (window.Logger && window.Logger.debug) {
+            window.Logger.debug('Zooming to default view:', {
+                center: center,
+                zoom: zoom,
+                usingInitialState: !!this.initialCenter,
+                initialStateCaptured: this.initialStateCaptured,
+                mapLoaded: !!this.map
+            });
+        }
+        
         this.map.flyTo({
-            center: [35.2, 31.8], // Center on Israel
-            zoom: 7,
+            center: center,
+            zoom: zoom,
             duration: 1000
         });
+    }
+    
+    // Method to manually capture current state as initial (for debugging/testing)
+    captureCurrentStateAsInitial() {
+        if (!this.map) {
+            if (window.Logger && window.Logger.warn) {
+                window.Logger.warn('Map not available for captureCurrentStateAsInitial');
+            }
+            return;
+        }
+        
+        this.initialCenter = this.map.getCenter();
+        this.initialZoom = this.map.getZoom();
+        this.initialStateCaptured = true;
+        
+        if (window.Logger && window.Logger.info) {
+            window.Logger.info('Manually captured current state as initial:', {
+                center: this.initialCenter,
+                zoom: this.initialZoom
+            });
+        }
     }
 
     /**
