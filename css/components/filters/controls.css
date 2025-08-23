@@ -124,7 +124,7 @@
 .date-filter-card .collapsible { 
     min-height: 0px; 
     overflow: hidden;
-    transition: opacity 180ms ease, margin 180ms ease;
+    transition: opacity var(--mobile-animation-duration-fast) var(--animation-easing), margin var(--mobile-animation-duration-fast) var(--animation-easing);
     opacity: 1;
     margin: 0;
 }

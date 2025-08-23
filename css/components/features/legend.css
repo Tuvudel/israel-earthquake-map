@@ -23,7 +23,72 @@
     transform: translateY(0);
 }
 
-#map-legend h3 { margin-bottom: 15px; font-size: 1.1rem; color: var(--text-2); }
+/* ===== LEGEND HEADER ===== */
+.legend-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    gap: var(--spacing-3);
+}
+
+.legend-header h3 { 
+    margin: 0; 
+    font-size: 1.1rem; 
+    color: var(--text-2); 
+    flex: 1;
+    line-height: 1.2;
+}
+
+/* ===== LEGEND TOGGLE BUTTON ===== */
+.legend-toggle-btn {
+    background: transparent;
+    border: 1px solid var(--border-1);
+    color: var(--text-2);
+    padding: 6px;
+    border-radius: var(--radius-1);
+    cursor: pointer;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    min-height: 28px;
+    box-sizing: border-box;
+    transition: all var(--animation-duration-fast) var(--animation-easing);
+    flex-shrink: 0;
+}
+
+.legend-toggle-btn:hover {
+    background: var(--surface-1);
+    border-color: var(--accent-600);
+    color: var(--accent-600);
+}
+
+.legend-toggle-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--ring-color);
+}
+
+.legend-toggle-btn[aria-expanded="true"] .legend-toggle-icon {
+    transform: rotate(45deg);
+}
+
+.legend-toggle-icon {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    transition: transform var(--animation-duration-fast) var(--animation-easing);
+}
+
+/* Hide toggle button on desktop - only show on mobile */
+@media (min-width: 769px) {
+    .legend-toggle-btn {
+        display: none !important;
+    }
+}
+
+/* ===== LEGEND SECTIONS ===== */
 .legend-section { margin-bottom: 15px; }
 .legend-section:last-child { margin-bottom: 0; }
 .legend-section h4 { font-size: 0.9rem; margin-bottom: 8px; color: var(--text-2); }

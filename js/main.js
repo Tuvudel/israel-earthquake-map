@@ -24,6 +24,7 @@ class EarthquakeApp {
             // After filters are initialized and data is loaded, compute cascading options once
             this.updateCascadingFilters();
             this.initializeTable();
+            this.initializeLegend();
             // New header/mobile controller
             if (window.HeaderController) {
                 this.header = new window.HeaderController({
@@ -195,6 +196,12 @@ class EarthquakeApp {
     initializeTable() {
         if (window.TableController) {
             this.table = new TableController(this);
+        }
+    }
+    
+    initializeLegend() {
+        if (window.LegendController) {
+            this.legend = new LegendController();
         }
     }
     

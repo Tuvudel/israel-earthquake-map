@@ -32,6 +32,17 @@
         z-index: 1000 !important;
     }
     
+    /* Force hide all date filter elements when sidebar is collapsed to prevent ghosting */
+    #sidebar.collapsed .date-filter-card .collapsible,
+    #sidebar.collapsed .date-filter-card .relative-options,
+    #sidebar.collapsed .date-filter-card .year-slider-container,
+    #sidebar.collapsed .date-filter-card .date-summary {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: scale(0.95) !important;
+        transition: none !important;
+    }
+    
     /* No transitions - instant changes for zero flicker */
     #map-container {
         /* Performance optimizations */
@@ -126,13 +137,24 @@
         border-left: none !important;
         box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15) !important;
         overflow-y: auto !important;
-        transition: transform var(--animation-duration-bounce) var(--animation-easing),
+        transition: transform var(--mobile-animation-duration-fast) var(--animation-easing),
                     height var(--animation-duration-normal) var(--animation-easing) !important;
         /* Ensure smooth animations by keeping element in DOM */
         visibility: visible !important;
         /* Performance optimizations for touch gestures */
         will-change: transform, height;
         touch-action: pan-y;
+    }
+    
+    /* Force hide all date filter elements when sidebar is sliding down to prevent ghosting */
+    #sidebar:not(.show) .date-filter-card .collapsible,
+    #sidebar:not(.show) .date-filter-card .relative-options,
+    #sidebar:not(.show) .date-filter-card .year-slider-container,
+    #sidebar:not(.show) .date-filter-card .date-summary {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: scale(0.95) !important;
+        transition: none !important;
     }
     #sidebar.show { 
         transform: translateY(0) !important; 

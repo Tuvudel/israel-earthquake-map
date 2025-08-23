@@ -98,7 +98,7 @@
     /* Mobile-specific filter pane - unified height management */
     #filters-pane.filters-container { 
         display: none; 
-        /* Base state - hidden and translated up */
+        /* Base state - hidden and translated up (drawer slides down from header) */
         transform: translateY(-100%);
         opacity: 0;
         /* Enhanced mobile animations */

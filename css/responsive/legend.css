@@ -3,27 +3,29 @@
 /* ===== TABLET STYLES (768px and below) ===== */
 @media (max-width: 768px) {
     /* ===== LEGEND ===== */
-    /* Temporarily disabled for testing - will re-enable with proper animations
     #map-legend { 
         position: fixed; 
         bottom: 10px; 
         left: 10px; 
-        right: 10px; 
+        width: fit-content;
+        max-width: calc(100vw - 20px);
         z-index: 999; 
         max-height: 50vh; 
         overflow-y: auto; 
-        min-width: auto; 
+        min-width: 200px; 
         padding: 12px; 
         
-        // Mobile animation properties
+        /* Base show/hide animation - align with desktop */
         opacity: 0;
         visibility: hidden;
-        transform: translateY(100%);
+        transform: translateY(8px);
         transition: opacity var(--animation-duration-normal) var(--animation-easing),
                     visibility var(--animation-duration-normal) var(--animation-easing),
-                    transform var(--animation-duration-normal) var(--animation-easing);
+                    transform var(--animation-duration-normal) var(--animation-easing),
+                    height var(--animation-duration-normal) var(--animation-easing),
+                    padding var(--animation-duration-normal) var(--animation-easing);
         
-        // Ensure proper stacking and backdrop
+        /* Ensure proper stacking and backdrop */
         background: var(--glass-bg);
         backdrop-filter: blur(var(--glass-blur));
         border: 1px solid var(--glass-border);
@@ -31,43 +33,205 @@
         box-shadow: var(--shadow-3);
     }
     
+    /* Show state - align with desktop */
     #map-legend.show { 
         opacity: 1;
         visibility: visible;
-        transform: translateY(0);
+        transform: translateY(0) translateZ(0);
+        /* Hardware acceleration for content animations */
+        will-change: transform, opacity, height;
     }
-    */
     
+    /* Ensure hide animation works by preserving base transitions when not showing */
+    #map-legend:not(.show) {
+        /* Reset to base animation - align with desktop */
+        transition: opacity var(--animation-duration-normal) var(--animation-easing),
+                    visibility var(--animation-duration-normal) var(--animation-easing),
+                    transform var(--animation-duration-normal) var(--animation-easing);
+    }
+    
+    /* ===== LEGEND HEADER MOBILE ===== */
+    .legend-header {
+        margin-bottom: 12px;
+        gap: var(--spacing-2);
+    }
+    
+    /* Compact mode: tighter header spacing */
+    #map-legend.legend-compact .legend-header {
+        margin-bottom: 8px;
+        gap: var(--spacing-1);
+    }
+    
+    .legend-header h3 { 
+        font-size: 1rem; 
+    }
+    
+    /* ===== TOGGLE BUTTON MOBILE ===== */
+    .legend-toggle-btn {
+        min-width: 20px;
+        min-height: 20px;
+        padding: 4px;
+        /* Enhanced touch target for mobile */
+        touch-action: manipulation;
+        /* Smooth transitions for all button states */
+        transition: all var(--animation-duration-fast) var(--animation-easing);
+        /* Hardware acceleration for smooth animations */
+        will-change: transform, background-color, border-color;
+        transform: translateZ(0);
+    }
+    
+    .legend-toggle-btn:hover {
+        transform: translateY(-1px) translateZ(0);
+        box-shadow: var(--shadow-2);
+    }
+    
+    .legend-toggle-btn:active {
+        transform: translateY(0) translateZ(0) scale(0.95);
+        transition: transform var(--animation-duration-fast) var(--animation-easing);
+    }
+    
+    .legend-toggle-icon {
+        width: 14px;
+        height: 14px;
+        /* Smooth icon rotation with professional timing */
+        transition: transform var(--animation-duration-normal) var(--animation-easing);
+        /* Hardware acceleration for smooth rotation */
+        will-change: transform;
+        transform: translateZ(0);
+    }
+    
+    /* Icon rotation for expanded state */
+    #map-legend.legend-expanded .legend-toggle-icon {
+        transform: rotate(45deg) translateZ(0);
+    }
+    
+    /* ===== LEGEND SECTIONS MOBILE ===== */
     .legend-section { 
         margin-bottom: 10px; 
     }
+    
     .legend-items { 
         display: grid; 
         grid-template-columns: repeat(2, 1fr); 
         gap: 5px; 
+    }
+    
+    /* ===== MOBILE LEGEND STAGES ===== */
+    /* Compact mode - show only magnitude section */
+    #map-legend.legend-compact .legend-sections-expanded {
+        display: none;
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    
+    #map-legend.legend-compact .legend-section-magnitude {
+        margin-bottom: 0;
+    }
+    
+    /* Compact mode: reduce padding for narrower appearance */
+    #map-legend.legend-compact {
+        padding: 8px;
+        min-width: 100px;
+        transition: padding var(--animation-duration-normal) var(--animation-easing);
+    }
+    
+    /* Compact mode: single column layout for narrower, taller legend */
+    #map-legend.legend-compact .legend-items {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        transition: all var(--animation-duration-normal) var(--animation-easing);
+    }
+    
+    /* Expanded mode - show all sections with smooth animations */
+    #map-legend.legend-expanded .legend-sections-expanded {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+        /* Smooth animation for expanding with staggered content */
+        animation: legendExpand var(--animation-duration-normal) var(--animation-easing);
+    }
+    
+    #map-legend.legend-expanded .legend-section-magnitude {
+        margin-bottom: 10px;
+        transition: margin-bottom var(--animation-duration-normal) var(--animation-easing);
+    }
+    
+    /* Expanded mode: keep 2-column layout for better space usage */
+    #map-legend.legend-expanded .legend-items {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px;
+        transition: all var(--animation-duration-normal) var(--animation-easing);
+    }
+    
+    /* ===== LEGEND EXPANSION ANIMATION ===== */
+    @keyframes legendExpand {
+        from {
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* ===== STAGGERED CONTENT ANIMATIONS ===== */
+    /* Animate legend items with subtle stagger */
+    #map-legend.legend-expanded .legend-item {
+        animation: legendItemFadeIn var(--animation-duration-normal) var(--animation-easing) forwards;
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    
+    /* Stagger the animation delays for smooth reveal */
+    #map-legend.legend-expanded .legend-item:nth-child(1) { animation-delay: 50ms; }
+    #map-legend.legend-expanded .legend-item:nth-child(2) { animation-delay: 100ms; }
+    #map-legend.legend-expanded .legend-item:nth-child(3) { animation-delay: 150ms; }
+    #map-legend.legend-expanded .legend-item:nth-child(4) { animation-delay: 200ms; }
+    #map-legend.legend-expanded .legend-item:nth-child(5) { animation-delay: 250ms; }
+    
+    @keyframes legendItemFadeIn {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 }
 
 /* ===== SMALL MOBILE STYLES (480px and below) ===== */
 @media (max-width: 480px) {
     /* ===== LEGEND ===== */
-    /* Temporarily disabled for testing
     #map-legend { 
-        position: fixed; 
-        bottom: 10px; 
-        left: 10px; 
-        right: 10px; 
-        padding: 10px; 
-        max-height: 30vh; 
-        overflow-y: auto; 
-        
-        // Enhanced mobile animation for smaller screens
-        transition: opacity var(--animation-duration-normal) var(--animation-easing),
-                    visibility var(--animation-duration-normal) var(--animation-easing),
-                    transform var(--animation-duration-slow) var(--animation-easing);
+        /* Adjust width for very small screens */
+        min-width: 180px;
+        max-width: calc(100vw - 20px);
     }
-    */
     
+    /* ===== LEGEND HEADER SMALL MOBILE ===== */
+    .legend-header {
+        margin-bottom: 10px;
+        gap: var(--spacing-1);
+    }
+    
+    .legend-header h3 { 
+        font-size: 0.95rem; 
+    }
+    
+    /* ===== TOGGLE BUTTON SMALL MOBILE ===== */
+    .legend-toggle-btn {
+        min-width: 20px;
+        min-height: 20px;
+        padding: 1px;
+    }
+    
+    .legend-toggle-icon {
+        width: 16px;
+        height: 16px;
+    }
+    
+    /* ===== LEGEND SECTIONS SMALL MOBILE ===== */
     #map-legend h3 { 
         font-size: 1rem; 
         margin-bottom: 10px; 
@@ -84,47 +248,62 @@
         width: 10px; 
         height: 10px; 
     }
+    
+    /* ===== LEGEND STAGES SMALL MOBILE ===== */
+    /* Compact mode adjustments for very small screens */
+    #map-legend.legend-compact {
+        /* Reduce padding for compact mode on small screens */
+        padding: 12px;
+    }
+    
+    #map-legend.legend-compact .legend-header {
+        margin-bottom: 8px;
+    }
+    
+    /* Expanded mode adjustments for very small screens */
+    #map-legend.legend-expanded {
+        /* Ensure proper spacing in expanded mode */
+        padding: 15px;
+    }
 }
 
 /* ===== MOBILE LEGEND ANIMATION ENHANCEMENTS ===== */
 @media (max-width: 768px) {
-    /* Temporarily disabled for testing
-    // Add mobile touch feedback
-    #map-legend.mobile-touch-feedback {
-        transform: translateY(0) scale(0.98);
+
+    
+    /* ===== MOBILE TOUCH FEEDBACK ===== */
+    /* Add touch feedback for toggle button */
+    .legend-toggle-btn:active {
+        transform: scale(0.95);
         transition: transform var(--animation-duration-fast) var(--animation-easing);
     }
     
-    // Enhanced backdrop for mobile legend
-    #map-legend::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: var(--glass-bg);
-        backdrop-filter: blur(var(--glass-blur));
-        border-radius: inherit;
-        z-index: -1;
+    /* ===== REDUCED MOTION SUPPORT ===== */
+    @media (prefers-reduced-motion: reduce) {
+        #map-legend,
+        .legend-toggle-btn,
+        .legend-toggle-icon,
+        .legend-item,
+        .legend-sections-expanded {
+            transition: none !important;
+            animation: none !important;
+            transform: none !important;
+        }
+        
+        /* Ensure content is visible without animations */
+        #map-legend.legend-expanded .legend-sections-expanded {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+        
+        #map-legend.legend-expanded .legend-item {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+        
+        /* Keep icon rotation for state indication */
+        #map-legend.legend-expanded .legend-toggle-icon {
+            transform: rotate(45deg) !important;
+        }
     }
-    
-    // Smooth scrollbar for mobile legend
-    #map-legend::-webkit-scrollbar {
-        width: 4px;
-    }
-    
-    #map-legend::-webkit-scrollbar-track {
-        background: transparent;
-    }
-    
-    #map-legend::-webkit-scrollbar-thumb {
-        background: var(--border-2);
-        border-radius: 2px;
-    }
-    
-    #map-legend::-webkit-scrollbar-thumb:hover {
-        background: var(--border-3);
-    }
-    */
 }
