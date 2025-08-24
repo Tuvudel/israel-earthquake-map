@@ -117,14 +117,16 @@ class MapController {
     // Attach handler to the basemap <sl-switch> (sun/moon)
     setupBasemapToggle() {
         const el = document.getElementById('basemap-toggle');
-        if (!el) return;
+        const mobileEl = document.getElementById('mobile-basemap-toggle');
+        const toggleEl = el || mobileEl;
+        if (!toggleEl) return;
         
         // Get the current theme state from the Theme system to prevent race conditions
         const currentTheme = window.Theme ? window.Theme.getPreference() : 'system';
         const isDark = window.Theme ? window.Theme.isDarkFromPreference(currentTheme) : false;
         
         // Initialize UI to match current theme state (not current map style)
-        el.checked = isDark;
+        toggleEl.checked = isDark;
         
         // Ensure map style matches theme preference
         const targetStyle = isDark ? 'dark_matter' : 'positron';
@@ -132,9 +134,9 @@ class MapController {
             this.setBasemap(targetStyle);
         }
         
-        // Shoelace emits "sl-change"; read el.checked
-        el.addEventListener('sl-change', () => {
-            const isDark = !!el.checked;
+        // Shoelace emits "sl-change"; read toggleEl.checked
+        toggleEl.addEventListener('sl-change', () => {
+            const isDark = !!toggleEl.checked;
             const target = isDark ? 'dark_matter' : 'positron';
             
             // Use coordinated theme application for smooth transitions
@@ -191,10 +193,14 @@ class MapController {
     // Keep the toggle UI in sync when basemap changes programmatically
     syncBasemapToggleUI() {
         const el = document.getElementById('basemap-toggle');
-        if (!el) return;
+        const mobileEl = document.getElementById('mobile-basemap-toggle');
         const shouldBeChecked = this.currentStyleName === 'dark_matter';
-        if (el.checked !== shouldBeChecked) {
+        
+        if (el && el.checked !== shouldBeChecked) {
             el.checked = shouldBeChecked;
+        }
+        if (mobileEl && mobileEl.checked !== shouldBeChecked) {
+            mobileEl.checked = shouldBeChecked;
         }
     }
 

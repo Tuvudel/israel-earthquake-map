@@ -1,9 +1,7 @@
 /* Mobile toggle buttons (theme-aware) - Updated to match desktop Shoelace design */
-.mobile-sidebar-toggle,
-.mobile-legend-toggle,
+.mobile-sidebar-toggle, 
+.mobile-legend-toggle, 
 .mobile-filters-toggle {
-    position: fixed;
-    z-index: 1100;
     background-color: var(--surface-0);
     color: var(--text-2);
     border: 1px solid var(--border-1);
@@ -30,9 +28,7 @@
     box-shadow: var(--shadow-3);
     transform: translateY(-1px);
 }
-.mobile-sidebar-toggle { bottom: 50px; right: 20px; }
-.mobile-legend-toggle { bottom: 20px; right: 100px; }
-.mobile-filters-toggle { bottom: 20px; right: 5px; }
+
 .mobile-sidebar-toggle:not(.active):hover,
 .mobile-legend-toggle:not(.active):hover,
 .mobile-filters-toggle:not(.active):hover { 

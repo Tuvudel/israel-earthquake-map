@@ -33,21 +33,26 @@ body.filters-pane-open #filters-panel {
 #filters-panel .header-layout {
 	display: flex;
 	align-items: center;
-	gap: 16px;
+	justify-content: space-between;
 	position: static; /* allow header actions to anchor to #filters-panel (full-width) */
 	width: 100%;
 }
 
 .title-section {
-	flex: 0 0 auto;
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 20px;
 	text-align: left;
 	margin-left: 0;
 	padding-left: 0;
+	min-width: 0; /* Allow text to shrink */
 }
 
 #filters-panel h1 {
 	font-size: 1.6rem;
-	margin: 0 0 8px 0;
+	margin: 0 0 4px 0;
 	color: var(--text-1);
 	font-weight: 600;
 	letter-spacing: -0.02em;
@@ -59,6 +64,8 @@ body.filters-pane-open #filters-panel {
 	gap: 15px;
 	font-size: 0.8rem;
 	color: var(--text-muted);
+	flex-wrap: wrap;
+	margin-top: 0;
 }
 
 .last-updated .icon {
@@ -68,14 +75,26 @@ body.filters-pane-open #filters-panel {
 
 /* Header actions (top-right placement) */
 .header-actions {
-	margin-left: auto;
+	flex: 0 0 auto;
 	display: flex;
 	align-items: center;
-	position: absolute;
-	top: 8px;
-	right: 5px; /* align with page edge/padding */
-	z-index: 5000; /* above backdrops and pane */
 	gap: 10px;
+	z-index: 5000; /* above backdrops and pane */
+	overflow: visible;
+}
+
+/* Desktop actions container */
+.desktop-actions {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+/* Mobile actions container */
+.mobile-actions {
+	display: none; /* Hidden by default on desktop */
+	align-items: center;
+	gap: 8px;
 }
 	
 .header-actions .basemap-toggle-row {
@@ -83,10 +102,9 @@ body.filters-pane-open #filters-panel {
 	align-items: center;
 	gap: 5px;
 	color: var(--text-2);
+	margin-left: 3px;
 }
-#header-actions .header-actions {
-	right: 50px;
-}
+
 .header-actions .basemap-icon {
 	display: inline-flex;
 	align-items: center;

@@ -36,30 +36,30 @@
                 <div class="header-layout">
                     <div class="title-section">
                         <h1>Israel Earthquakes</h1>
-                    </div>
-                    <div class="last-updated">
-                        <span id="last-updated">
-                            <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
-                                <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            Updated: <sl-relative-time id="last-updated-time" numeric="auto">Loading...</sl-relative-time>
-                        </span>
-                        <div class="credits-container">
-                            <span class="credits-trigger">Credits</span>
-                            <div class="credits-popup">
-                                <div>Earthquake Data: <a href="https://eq.gsi.gov.il/heb/earthquake/lastEarthquakes.php" target="_blank">Israel Geophysical Institute</a></div>
-                                <div>Fault Lines: <a href="https://github.com/cossatot/gem-global-active-faults" target="_blank">GEM Global Active Faults</a></div>
-                                <div>Tectonic Plates: <a href="https://data.humdata.org/dataset/tectonic-plate" target="_blank">HDX Tectonic Plates</a></div>
-                                <div>Reverse Geo-Coding: <a href="https://www.naturalearthdata.com/" target="_blank">Natural Earth Data</a> / <a href="https://www.geonames.org/" target="_blank">Geonames</a></div>
-                                <div class="me-section">
-                                    Me!:
-                                    <a class="me-link" href="https://github.com/Tuvudel" target="_blank" rel="noopener">
-                                        <img class="me-icon" src="assets/icons/github-mark.svg" alt="GitHub">
-                                    </a>
-                                    <a class="me-link" href="https://www.linkedin.com/in/tuval-udelsman-107929155/" target="_blank" rel="noopener">
-                                        <img class="me-icon" src="assets/icons/linkedin-mark.svg" alt="LinkedIn">
-                                    </a>
+                        <div class="last-updated">
+                            <span id="last-updated">
+                                <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Updated: <sl-relative-time id="last-updated-time" numeric="auto">Loading...</sl-relative-time>
+                            </span>
+                            <div class="credits-container">
+                                <span class="credits-trigger">Credits</span>
+                                <div class="credits-popup">
+                                    <div>Earthquake Data: <a href="https://eq.gsi.gov.il/heb/earthquake/lastEarthquakes.php" target="_blank">Israel Geophysical Institute</a></div>
+                                    <div>Fault Lines: <a href="https://github.com/cossatot/gem-global-active-faults" target="_blank">GEM Global Active Faults</a></div>
+                                    <div>Tectonic Plates: <a href="https://data.humdata.org/dataset/tectonic-plate" target="_blank">HDX Tectonic Plates</a></div>
+                                    <div>Reverse Geo-Coding: <a href="https://www.naturalearthdata.com/" target="_blank">Natural Earth Data</a> / <a href="https://www.geonames.org/" target="_blank">Geonames</a></div>
+                                    <div class="me-section">
+                                        Me!:
+                                        <a class="me-link" href="https://github.com/Tuvudel/israel-earthquake-map" target="_blank" rel="noopener">
+                                            <img class="me-icon" src="assets/icons/github-mark.svg" alt="GitHub">
+                                        </a>
+                                        <a class="me-link" href="https://www.linkedin.com/in/tuval-udelsman-107929155/" target="_blank" rel="noopener">
+                                            <img class="me-icon" src="assets/icons/linkedin-mark.svg" alt="LinkedIn">
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -142,25 +142,54 @@
                         </div>
                     </div>
                     <!-- Header actions (top-right) -->
-                    <div id="header-actions" class="header-actions">
-                        <sl-button id="header-filters-toggle" variant="default" size="medium" aria-controls="filters-pane" aria-expanded="false" aria-label="Toggle filters">
-                            <svg slot="prefix" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M3 4h18v2H3V4zm2 6h14v2H5v-2zm4 6h6v2H9v-2z"/>
-                            </svg>
-                            Filters
-                        </sl-button>
-                        <sl-button id="header-legend-toggle" variant="default" size="medium" aria-label="Toggle legend">
-                            <svg slot="prefix" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                            </svg>
-                            Legend
-                        </sl-button>
-                        <sl-button id="header-data-toggle" variant="default" size="medium" aria-controls="sidebar" aria-expanded="true" aria-label="Toggle data panel">
-                            <svg slot="prefix" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M3 3h18v18H3V3zm16 16V5H5v14h14zm-8-2h2v-4h-2v4zm0-6h2V9h-2v2z"/>
-                            </svg>
-                            Data
-                        </sl-button>
+                    <div id="header-actions" class="header-actions flex items-center gap-3">
+                        <!-- Desktop buttons (hidden on mobile) -->
+                        <div class="desktop-actions flex items-center gap-3">
+                            <sl-button id="header-filters-toggle" variant="default" size="medium" aria-controls="filters-pane" aria-expanded="false" aria-label="Toggle filters">
+                                <svg slot="prefix" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M3 4h18v2H3V4zm2 6h14v2H5v-2zm4 6h6v2H9v-2z"/>
+                                </svg>
+                                Filters
+                            </sl-button>
+                            <sl-button id="header-legend-toggle" variant="default" size="medium" aria-label="Toggle legend">
+                                <svg slot="prefix" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                                Legend
+                            </sl-button>
+                            <sl-button id="header-data-toggle" variant="default" size="medium" aria-controls="sidebar" aria-expanded="true" aria-label="Toggle data panel">
+                                <svg slot="prefix" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M3 3h18v18H3V3zm16 16V5H5v14h14zm-8-2h2v-4h-2v4zm0-6h2V9h-2v2z"/>
+                                </svg>
+                                Data
+                            </sl-button>
+                        </div>
+                        
+                        <!-- Mobile buttons (hidden on desktop) -->
+                        <div class="mobile-actions flex items-center gap-2">
+                            <button id="mobile-legend-toggle" class="mobile-legend-toggle" aria-label="Toggle legend">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                                <span class="toggle-text">Legend</span>
+                            </button>
+                            
+                            <button id="mobile-sidebar-toggle" class="mobile-sidebar-toggle" aria-label="Toggle data panel">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M3 3h18v18H3V3zm16 16V5H5v14h14zm-8-2h2v-4h-2v4zm0-6h2V9h-2v2z"/>
+                                </svg>
+                                <span class="toggle-text">Data</span>
+                            </button>
+                            
+                            <button id="mobile-filters-toggle" class="mobile-filters-toggle" aria-label="Toggle filters">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M3 4h18v2H3V4zm2 6h14v2H5v-2zm4 6h6v2H9v-2z"/>
+                                </svg>
+                                <span class="toggle-text">Filters</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Basemap toggle (visible on all screen sizes) -->
                         <div class="basemap-toggle-row" title="Switch light/dark mode">
                             <sl-switch id="basemap-toggle" size="medium" aria-label="Switch light/dark mode"></sl-switch>
                         </div>
@@ -169,27 +198,7 @@
             </div>
         </header>
 
-        <!-- Mobile toggles (SVG icons for consistency with desktop design) -->
-        <button id="mobile-legend-toggle" class="mobile-legend-toggle" aria-label="Toggle legend">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-            <span class="toggle-text">Legend</span>
-        </button>
-        
-        <button id="mobile-sidebar-toggle" class="mobile-sidebar-toggle" aria-label="Toggle data panel">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M3 3h18v18H3V3zm16 16V5H5v14h14zm-8-2h2v-4h-2v4zm0-6h2V9h-2v2z"/>
-            </svg>
-            <span class="toggle-text">Data</span>
-        </button>
-        
-        <button id="mobile-filters-toggle" class="mobile-filters-toggle" aria-label="Toggle filters">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M3 4h18v2H3V4zm2 6h14v2H5v-2zm4 6h6v2H9v-2z"/>
-            </svg>
-            <span class="toggle-text">Filters</span>
-        </button>
+
 
         <!-- Main content area -->
         <main id="main-content">

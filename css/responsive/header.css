@@ -1,117 +1,136 @@
 /* ===== HEADER RESPONSIVE STYLES ===== */
 
-/* ===== TABLET STYLES (768px and below) ===== */
-@media (max-width: 768px) {
+/* ===== MOBILE STYLES (480px and below) ===== */
+@media (max-width: 480px) {
     /* ===== HEADER LAYOUT ===== */
     .header-layout { 
-        flex-direction: column; 
-        gap: 5px; 
-        align-items: flex-start; 
+        flex-direction: row; 
+        align-items: center; 
+        justify-content: space-between;
+        gap: 4px; 
     }
-    .title-section { 
-        text-align: left; 
-        width: 100%; 
-        order: 1; 
-        margin-bottom: 0;
+    
+    /* ===== CONTAINER PADDING ===== */
+    #filters-panel .container {
+        padding-right: 0px !important; /* Remove right padding to hug edge */
     }
-    .last-updated { 
-        width: 100%; 
-        justify-content: flex-start; 
-        flex-wrap: wrap; 
-        gap: 10px; 
-        margin-left: 0; 
-        margin-top: 0;
-        order: 2; 
-    }
-    #filters-panel h1 { 
-        font-size: 1.4rem; 
-        margin-bottom: 5px; 
-    }
-}
-
-/* ===== SMALL MOBILE STYLES (480px and below) ===== */
-@media (max-width: 480px) {
-    /* ===== HEADER ===== */
-    header { 
-        padding: 6px 0; 
-        min-height: 56px; 
-    }
-    .header-layout { 
-        flex-direction: column; 
-        align-items: flex-start; 
-        gap: 0px; 
-    }
-    #filters-panel {
-        padding: 5px 0px 5px 0px;
-    }
-    #filters-panel .header-layout {
-        gap: 0px;
-    }
+    
+    /* ===== TITLE SECTION ===== */
     .title-section { 
         order: 1; 
-        padding: 0px 0px 0 0px; 
+        padding: 0; 
         text-align: left; 
-        width: 100%; 
+        flex: 1 1 0%;
+        min-width: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        overflow: hidden;
+        flex-shrink: 0; /* Prevent title section from shrinking */
+        min-width: 120px; /* Ensure minimum space for title */
     }
+    
     .title-section h1 { 
-        font-size: 1.1rem; 
+        font-size: clamp(0.9rem, 4vw, 1rem); 
         margin: 0; 
         line-height: 1.2; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
-    #filters-panel h1 { 
-        font-size: 1.1rem; 
-        margin-bottom: 6px; 
+    
+    #filters-panel h1 {
+        font-size: clamp(0.9rem, 4vw, 1rem) !important; /* Override main header CSS */
+        margin: 0;
+        line-height: 1.2;
     }
+    
+    /* ===== LAST UPDATED SECTION ===== */
+    .last-updated { 
+        font-size: clamp(0.5rem, 3vw, 0.6rem); 
+        margin-top: 1px; 
+        gap: 4px; 
+        flex-wrap: nowrap; /* Prevent wrapping */
+        overflow: hidden;
+        align-items: center;
+        white-space: nowrap; /* Prevent text wrapping */
+        flex-shrink: 1; /* Allow shrinking */
+        min-width: 0; /* Allow shrinking below content size */
+        min-width: 120px; /* Ensure minimum space for updated text + credits */
+    }
+    
+    .last-updated .icon {
+        flex-shrink: 0; /* Keep icon from shrinking */
+        width: 10px;
+        height: 10px;
+    }
+    
+    /* ===== CREDITS BUTTON ===== */
+    .credits-trigger { 
+        font-size: clamp(0.5rem, 3vw, 0.55rem); 
+        padding: 3px 8px; 
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex-shrink: 1; /* Allow shrinking */
+        min-width: 0; /* Allow shrinking below content size */
+        min-width: 40px; /* Ensure minimum space for credits button */
+    }
+    
+    /* ===== HEADER ACTIONS ===== */
     .header-actions { 
-        position: absolute; 
-        top: 14px; 
-        right: 0px; 
         margin: 0; 
         order: 3; 
         z-index: 1001; 
+        display: flex;
+        align-items: center;
+        gap: 4px; /* Reduce gap to fit more elements */
+        flex-shrink: 1; /* Allow shrinking but not at expense of title */
+        margin-right: 0 !important; /* Ensure no right margin */
+        padding-right: 0 !important; /* Ensure no right padding */
+        overflow: hidden; /* Prevent overflow */
+        min-width: 0; /* Allow shrinking */
     }
-    .last-updated { 
-        font-size: 0.6rem; 
-        margin-top: 1px; 
-        gap: 6px; 
+    
+    .mobile-actions {
+        display: flex !important;
+        align-items: center;
+        gap: 4px; /* Reduce gap between mobile buttons */
+        flex-shrink: 1; /* Allow shrinking */
+        min-width: 0; /* Allow shrinking below content size */
     }
-    .credits-trigger { 
-        font-size: 0.55rem; 
-        padding: 3px; 
+    
+    /* ===== MOBILE BUTTONS ===== */
+    .mobile-sidebar-toggle,
+    .mobile-legend-toggle,
+    .mobile-filters-toggle {
+        padding: 4px !important; /* Reduce padding */
+        min-width: 28px !important; /* Reduce minimum width */
+        height: 32px !important; /* Reduce height */
+        flex-shrink: 1; /* Allow shrinking */
+        min-width: 0; /* Allow shrinking below content size */
     }
-}
+    
 
-/* ===== FILTER HEADER MOBILE STYLES (640px and below) ===== */
-@media (max-width: 640px) {
-    .header-actions sl-button { 
-        min-width: 44px; 
+    /* ===== BASEMAP TOGGLE POSITIONING ===== */
+    .header-actions .basemap-toggle-row {
+        margin-right: 4px !important; /* Reduce margin */
+        flex-shrink: 1; /* Allow shrinking */
+        min-width: 0; /* Allow shrinking below content size */
     }
-    .header-actions sl-button::part(base) {
-        justify-content: center; 
+    
+    /* ===== BASEMAP TOGGLE SIZE ===== */
+    .header-actions sl-switch#basemap-toggle::part(base) {
+        --width: 44px !important; /* Reduce toggle width */
     }
-    .header-actions sl-button::part(label) {
-        display: none; 
+    
+    sl-switch#basemap-toggle::part(control) {
+        height: 22px !important; /* Reduce toggle height */
     }
-}
-
-/* ===== VERY SMALL MOBILE (320px and below) ===== */
-@media (max-width: 320px) {
-    #filters-panel h1 { 
-        font-size: 1.1rem; 
-    }
-    .last-updated { 
-        font-size: 0.7rem; 
-    }
-}
-
-/* ===== ULTRA-SMALL LAYOUT (360px and below) ===== */
-@media (max-width: 360px) {
-    header { 
-        min-height: 72px; 
-    }
-    .header-actions { 
-        top: 8px; 
-        right: 8px; 
+    
+    sl-switch#basemap-toggle::part(thumb) {
+        width: 22px !important; /* Reduce thumb size */
+        height: 22px !important;
     }
 }
 
