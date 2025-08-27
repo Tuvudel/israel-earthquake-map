@@ -1,4 +1,7 @@
-/* Base Form Styles - Extracted from component files */
+/* ===== BASE FORM COMPONENTS ===== */
+/* ITCSS Layer: Objects */
+/* Purpose: Base form element styles including inputs, selects, and form groups */
+/* Dependencies: Design tokens (colors, spacing, typography, animations) */
 
 /* ===== BASE FORM STYLES ===== */
 .form-group {

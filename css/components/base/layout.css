@@ -1,24 +1,9 @@
-/* Base Layout Styles - Extracted from component files */
-
-/* ===== GRID LAYOUT UTILITIES ===== */
-.grid {
-    display: grid;
-}
-
-.grid-cols-2 {
-    grid-template-columns: 1fr 1fr;
-}
-
-.grid-cols-3 {
-    grid-template-columns: 1fr 1fr 1fr;
-}
-
-.grid-cols-4 {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-}
+/* ===== BASE LAYOUT COMPONENTS ===== */
+/* ITCSS Layer: Objects */
+/* Purpose: Base layout patterns for containers, panels, tables, and statistics */
+/* Dependencies: Design tokens (colors, spacing, borders) */
 
 /* ===== CONTAINER LAYOUTS ===== */
-/* Container class moved to utilities/modern.css for proper ITCSS layer separation */
 
 .sidebar-container {
     width: 400px;
@@ -155,45 +140,4 @@
     text-align: center;
 }
 
-/* ===== OVERFLOW HANDLING ===== */
-.overflow-hidden {
-    overflow: hidden;
-}
 
-.overflow-auto {
-    overflow: auto;
-}
-
-.overflow-y-auto {
-    overflow-y: auto;
-}
-
-.overflow-x-hidden {
-    overflow-x: hidden;
-}
-
-/* ===== POSITIONING ===== */
-.relative {
-    position: relative;
-}
-
-.absolute {
-    position: absolute;
-}
-
-.fixed {
-    position: fixed;
-}
-
-/* ===== Z-INDEX UTILITIES ===== */
-.z-1000 {
-    z-index: 1000;
-}
-
-.z-1100 {
-    z-index: 1100;
-}
-
-.z-1200 {
-    z-index: 1200;
-}

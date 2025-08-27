@@ -46,7 +46,7 @@
     flex-direction: column;
     gap: var(--spacing-2);
     flex: 1 1 0%;
-    min-width: 180px; /* ADJUSTABLE: Minimum width for each filter */
+    min-width: 180px;
 }
 
 .year-group {
@@ -64,18 +64,7 @@
     width: 100%; /* Ensure full width */
 }
 
-/* ===== KEY PARAMETERS FOR EASY ADJUSTMENT ===== */
-/*
-DESKTOP LAYOUT PARAMETERS:
-- Magnitude filter width: .magnitude-group { flex: 0 0 600px; }
-- Location filters width: .location-filters-group { flex: 0 0 400px; }
-- Date filter width: .year-group { flex: 1 1 auto; } - takes remaining space
-- Horizontal spacing: .location-filters-group { margin: 0 20px; }
-- Filter element spacing: .filter-group { gap: 10px; }
-- Country/Area spacing: .location-filters-group { gap: 15px; }
 
-Note: Responsive styles have been moved to css/responsive/filters.css
-*/
 
 
 

@@ -4,11 +4,8 @@ An interactive web application for visualizing earthquake data across the Easter
 
 ## Features
 
-- **Interactive Map**: MapLibre GL JS powered map with 7,712 earthquake data points
-- **Smart Filtering**: Multi-select magnitude filter and dynamic year range sliders
-- **Data Visualization**: Circle markers with magnitude-based scaling and color coding
-- **Sortable Table**: Paginated earthquake data with map synchronization
-- **Real-time Statistics**: Dynamic stats panel updating with filter changes
+- **Interactive Map**: MapLibre GL JS powered map, updated every day
+- **Smart Filtering**: Magnitude, Country, Area, and date
 - **Responsive Design**: Works on desktop and mobile devices
 
 ## Live Map
@@ -38,24 +35,42 @@ An interactive web application for visualizing earthquake data across the Easter
 - **Data Formats**: GeoJSON and CSV
 - **Deployment**: GitHub Pages
 
+## Data Processing
+
+The earthquake data undergoes location enrichment using geographic datasets. For detailed information about the data enrichment pipeline, see [Data_Process.md](Data_Process.md).
+
 ## File Structure
 
 ```
 israel-earthquake-map/
 ├── index.html              # Main HTML file
 ├── css/
-│   ├── index.css           # Aggregator entry point (imports modules)
-│   ├── base.css
-│   ├── utilities.css
-│   ├── layout.css
-│   ├── responsive.css
-│   └── components/
-│       ├── filters.css
-│       ├── legend.css
-│       ├── stats.css
-│       ├── table.css
-│       ├── toggles.css
-│       └── loading.css
+│   ├── index.css           # Main entry point (ITCSS architecture)
+│   ├── base.css            # Base styles and resets
+│   ├── layout.css          # Layout patterns
+│   ├── tokens/             # Design system tokens
+│   │   ├── design-system.css
+│   │   ├── animations-tokens.css
+│   │   ├── components.css
+│   │   ├── breakpoints.css
+│   │   └── typography.css
+│   ├── utilities/          # Utility classes
+│   │   └── modern.css      # Layout, positioning, flexbox utilities
+│   ├── components/         # Component styles
+│   │   ├── base/           # Base components (buttons, cards, forms, layout)
+│   │   ├── features/       # Feature components (legend, sidebar, table, etc.)
+│   │   └── filters/        # Filter-specific components
+│   ├── themes/             # Theme overrides
+│   │   └── shoelace-blue-dark.css
+│   └── responsive/         # Responsive styles
+│       ├── index.css       # Responsive entry point
+│       ├── breakpoints.css # Responsive breakpoints
+│       ├── layout.css      # Responsive layout
+│       ├── header.css      # Responsive header
+│       ├── filters.css     # Responsive filters
+│       ├── sidebar.css     # Responsive sidebar
+│       ├── legend.css      # Responsive legend
+│       └── toggles.css     # Responsive toggles
 ├── js/
 │   ├── controllers/
 │   │   ├── map.js           # MapController: basemap, events, updates
@@ -94,4 +109,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Data Source**: [Israel Geophysical Institute](https://eq.gsi.gov.il/default.php)
 - **Mapping**: MapLibre GL JS community
-- **Inspiration**: Seismic monitoring and public safety awareness

@@ -39,7 +39,7 @@ class MapController {
     async getInitialStyle() {
         return await (window.StyleResolver && window.StyleResolver.resolveInitialStyle
             ? window.StyleResolver.resolveInitialStyle()
-            : Promise.resolve('css/positron.json'));
+            : Promise.resolve('data/map-styles/positron.json'));
     }
 
     // Helper: fetch style JSON and inject MapTiler key where applicable

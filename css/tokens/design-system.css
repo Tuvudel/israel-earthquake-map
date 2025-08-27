@@ -95,8 +95,7 @@
 }
 
 /* ===== DARK THEME OVERRIDES ===== */
-/* Note: Dark theme variables are now handled by shoelace-blue-dark.css */
-/* This section is kept for reference but will be removed in future cleanup */
+/* Dark theme variables are handled by shoelace-blue-dark.css */
 
 /* ===== GLOBAL FONT APPLICATION ===== */
 * {

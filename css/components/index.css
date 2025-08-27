@@ -15,6 +15,7 @@
 @import url('./features/loading.css');
 @import url('./features/popup.css');
 @import url('./features/magnitude.css');
+@import url('./features/magnitude-distribution.css');
 @import url('./features/table.css');
 
 /* ===== FILTER COMPONENTS ===== */

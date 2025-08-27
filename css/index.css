@@ -15,18 +15,12 @@
 @import url('./layout.css');
 
 /* ===== UTILITIES ===== */
-@import url('./utilities/keyframes.css');
-@import url('./utilities/animations.css');
 @import url('./utilities/modern.css');
-@import url('./utilities/performance.css');
-@import url('./utilities/accessibility.css');
-@import url('./utilities/flexbox.css');
 
 /* ===== COMPONENTS ===== */
 @import url('./components/index.css');
 
 /* ===== THEMES ===== */
-@import url('./themes/light.css');
 @import url('./themes/shoelace-blue-dark.css');
 
 /* ===== RESPONSIVE (load last) ===== */

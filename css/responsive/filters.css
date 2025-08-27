@@ -80,7 +80,7 @@
         display: flex !important;
         flex-direction: column !important;
         gap: var(--spacing-4) !important;
-        padding: 12px 16px; /* Optimized mobile padding */
+        padding: 12px 16px;
     }
     .filter-group { 
         width: 100%; 
@@ -254,7 +254,7 @@
         margin-top: 0; /* Ensure no extra space */
     }
 
-    /* Optimize slider container spacing on mobile */
+    /* Slider container spacing on mobile */
     .year-group .year-slider-container,
     .year-group .magnitude-slider-container,
     .year-group #magnitude-range-container { 
@@ -324,7 +324,7 @@
         padding: 0 2px 2px 2px; /* Reduced padding for small mobile */
     }
     
-    /* Further optimize year slider container on small mobile */
+    /* Year slider container on small mobile */
     .year-group .year-slider-container {
         padding: 0 4px 1px 4px; /* Absolute minimal padding for small mobile */
     }

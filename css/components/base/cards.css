@@ -1,4 +1,7 @@
-/* Base Card Styles - Extracted from component files */
+/* ===== BASE CARD COMPONENTS ===== */
+/* ITCSS Layer: Objects */
+/* Purpose: Base card component styles for panels, tables, and containers */
+/* Dependencies: Design tokens (colors, spacing, shadows, borders) */
 
 /* ===== BASE CARD STYLES ===== */
 .card {

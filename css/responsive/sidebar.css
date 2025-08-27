@@ -64,7 +64,7 @@
 @media (max-width: 768px) {
     /* ===== MOBILE TAB PANEL OPTIMIZATIONS ===== */
     #sidebar sl-tab-panel::part(base) {
-        /* Optimize for mobile performance */
+        /* Mobile performance optimizations */
         will-change: transform, opacity;
         /* Ensure smooth height transitions */
         transition: opacity var(--mobile-animation-duration-normal) var(--animation-easing-smooth),
@@ -384,3 +384,44 @@
 
 /* ===== TABLE SORT CONTROLS RESPONSIVE ===== */
 /* Now handled by fluid responsive design with clamp() in main 768px media query */
+
+/* ===== STATISTICS RESPONSIVE STYLES ===== */
+/* ===== TABLET STYLES (768px and below) ===== */
+@media (max-width: 768px) {
+    .stat-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    
+    .stat-item {
+        padding: 12px;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+    }
+}
+
+/* ===== MOBILE STYLES (480px and below) ===== */
+@media (max-width: 480px) {
+    .stat-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+    
+    .stat-item {
+        padding: 8px;
+    }
+    
+    .stat-value {
+        font-size: 1.2rem;
+    }
+    
+    .stat-label {
+        font-size: 0.7rem;
+    }
+}

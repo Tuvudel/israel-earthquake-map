@@ -1,5 +1,7 @@
 /* ===== BASE BUTTON COMPONENTS ===== */
-/* Base button styles for the application */
+/* ITCSS Layer: Objects */
+/* Purpose: Base button styles including toggle buttons and option buttons */
+/* Dependencies: Design tokens (colors, spacing, typography, animations) */
 
 /* ===== TOGGLE BUTTONS ===== */
 /* Base toggle button styles */
@@ -91,7 +93,6 @@
 
 /* ===== BUTTON UTILITIES ===== */
 /* Common button utility classes */
-/* Note: .btn-group removed as it was unused */
 
 /* ===== ACCESSIBILITY ===== */
 /* Ensure buttons are accessible */

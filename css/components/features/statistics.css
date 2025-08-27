@@ -45,6 +45,4 @@
     transition: opacity var(--animation-duration-normal) var(--animation-easing);
 }
 
-/* Note: .stat-item animations are now handled by utility classes in utilities/animations.css */
-
 

@@ -42,8 +42,8 @@
 }
 
 /* ===== DARK THEME OVERRIDES ===== */
-/* Note: Most dark theme variables are now handled in design-system.css */
-/* Theme overrides moved to themes/dark.css for proper ITCSS layer separation */
+/* Dark theme variables are handled in design-system.css */
+/* Theme overrides moved to themes/ for proper ITCSS layer separation */
 
 /* ===== GLOBAL STYLES ===== */
 

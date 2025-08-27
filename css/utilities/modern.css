@@ -1,46 +1,9 @@
-/* ===== MODERN CSS UTILITIES ===== */
-/* Contemporary CSS features and best practices */
-
-/* ===== LOGICAL PROPERTIES ===== */
-/* Use logical properties for better internationalization and RTL support */
-/* Available for future use when RTL support is needed */
-
-.logical-padding {
-    padding-block: var(--spacing-4);
-    padding-inline: var(--spacing-6);
-}
-
-.logical-margin {
-    margin-block: var(--spacing-4);
-    margin-inline: var(--spacing-6);
-}
-
-.logical-border {
-    border-block: 1px solid var(--border-1);
-    border-inline: 1px solid var(--border-1);
-}
-
-/* ===== CONTAINER QUERIES ===== */
-/* Modern container query support for component-based responsive design */
-/* Available for future use when container queries are needed */
-
-@container (min-width: 400px) {
-    .container-responsive {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-4);
-    }
-}
-
-@container (min-width: 600px) {
-    .container-responsive {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
+/* ===== MODERN UTILITIES ===== */
+/* ITCSS Layer: Utilities */
+/* Purpose: Modern CSS utility classes for layout and responsive design */
+/* Dependencies: Design tokens (container, spacing) */
 
 /* ===== CONTAINER UTILITIES ===== */
-/* Consolidated container classes for consistent layout */
-
 .container {
     width: 100%;
     max-width: var(--container-max-width);
@@ -61,289 +24,58 @@
     }
 }
 
-/* ===== MODERN SELECTORS ===== */
-/* Use modern CSS selectors for better specificity and maintainability */
-
-/* Focus-visible for better accessibility */
-.focus-visible:focus-visible {
-    outline: 2px solid var(--brand-600);
-    outline-offset: 2px;
+/* ===== OVERFLOW UTILITIES ===== */
+.overflow-hidden {
+    overflow: hidden;
 }
 
-/* Has selector for conditional styling */
-.has-children:has(> *) {
-    padding: var(--spacing-4);
+.overflow-auto {
+    overflow: auto;
 }
 
-/* Is selector for state-based styling */
-.is-active {
-    background-color: var(--accent-600);
-    color: var(--text-on-accent);
+.overflow-y-auto {
+    overflow-y: auto;
 }
 
-/* ===== MODERN LAYOUT UTILITIES ===== */
-/* Available for future use when grid layouts are needed */
-
-/* CSS Grid utilities */
-.grid-auto-fit {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--spacing-4);
+.overflow-x-hidden {
+    overflow-x: hidden;
 }
 
-.grid-auto-fill {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: var(--spacing-4);
+/* ===== POSITIONING UTILITIES ===== */
+.relative {
+    position: relative;
 }
 
-/* Flexbox composite utilities */
-/* Using utility combinations for consistency */
-.flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.absolute {
+    position: absolute;
 }
 
-.flex-between {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.fixed {
+    position: fixed;
 }
 
-.flex-wrap-gap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-4);
+/* ===== Z-INDEX UTILITIES ===== */
+.z-1000 {
+    z-index: 1000;
 }
 
-/* ===== MODERN SPACING SYSTEM ===== */
-/* Spacing tokens consolidated in design-system.css */
-
-/* Spacing utilities */
-.p-1 { padding: var(--spacing-1); }
-.p-2 { padding: var(--spacing-2); }
-.p-3 { padding: var(--spacing-3); }
-.p-4 { padding: var(--spacing-4); }
-.p-5 { padding: var(--spacing-5); }
-.p-6 { padding: var(--spacing-6); }
-
-.m-1 { margin: var(--spacing-1); }
-.m-2 { margin: var(--spacing-2); }
-.m-3 { margin: var(--spacing-3); }
-.m-4 { margin: var(--spacing-4); }
-.m-5 { margin: var(--spacing-5); }
-.m-6 { margin: var(--spacing-6); }
-
-/* ===== MODERN TYPOGRAPHY ===== */
-/* Use modern typography features */
-
-.text-balance {
-    text-wrap: balance;
+.z-1100 {
+    z-index: 1100;
 }
 
-.text-pretty {
-    text-wrap: pretty;
+.z-1200 {
+    z-index: 1200;
 }
 
-.text-nowrap {
-    text-wrap: nowrap;
-}
+/* ===== FLEXBOX UTILITIES ===== */
+/* Flexbox utility classes for layout and alignment */
 
-/* ===== MODERN COLOR UTILITIES ===== */
-/* Use modern color functions */
+/* ===== DISPLAY ===== */
+.flex { display: flex; }
 
-.color-mix-light {
-    background-color: color-mix(in srgb, var(--brand-600) 20%, white);
-}
+/* ===== ALIGNMENT - CROSS AXIS ===== */
+.items-center { align-items: center; }
 
-.color-mix-dark {
-    background-color: color-mix(in srgb, var(--brand-600) 20%, black);
-}
-
-/* ===== MODERN ANIMATION UTILITIES ===== */
-/* Use modern animation features */
-
-.scroll-timeline {
-    animation-timeline: scroll();
-    animation-range: entry 10% cover 20%;
-}
-
-.view-timeline {
-    animation-timeline: view();
-    animation-range: entry 25% cover 50%;
-}
-
-/* ===== MODERN PERFORMANCE UTILITIES ===== */
-
-/* Content-visibility for performance */
-.content-visibility-auto {
-    content-visibility: auto;
-    contain-intrinsic-size: 0 500px;
-}
-
-/* Contain for better performance */
-.contain-layout {
-    contain: layout;
-}
-
-.contain-paint {
-    contain: paint;
-}
-
-.contain-size {
-    contain: size;
-}
-
-.contain-strict {
-    contain: strict;
-}
-
-/* ===== MODERN ACCESSIBILITY ===== */
-
-/* Reduced motion utilities */
-@media (prefers-reduced-motion: reduce) {
-    .motion-safe {
-        animation: none;
-        transition: none;
-    }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .high-contrast {
-        border-width: 2px;
-        outline-width: 2px;
-    }
-}
-
-/* Dark mode utilities */
-@media (prefers-color-scheme: dark) {
-    .auto-dark {
-        background-color: var(--surface-1);
-        color: var(--text-1);
-    }
-}
-
-/* ===== MODERN RESPONSIVE UTILITIES ===== */
-
-/* Container queries for responsive design */
-@container (max-width: 400px) {
-    .mobile-first {
-        font-size: 0.875rem;
-        padding: var(--spacing-2);
-    }
-}
-
-@container (min-width: 768px) {
-    .desktop-enhanced {
-        font-size: 1.125rem;
-        padding: var(--spacing-6);
-    }
-}
-
-/* ===== MODERN INTERACTION UTILITIES ===== */
-
-/* Touch-friendly targets */
-.touch-target {
-    min-height: 44px;
-    min-width: 44px;
-}
-
-/* Hover media query for devices that support hover */
-@media (hover: hover) {
-    .hover-only {
-        opacity: 0.7;
-        transition: opacity var(--animation-duration-fast) var(--animation-easing);
-    }
-    
-    .hover-only:hover {
-        opacity: 1;
-    }
-}
-
-/* Pointer media query for touch devices */
-@media (pointer: coarse) {
-    .touch-friendly {
-        padding: var(--spacing-4);
-        margin: var(--spacing-2);
-    }
-}
-
-/* ===== MODERN LAYOUT PATTERNS ===== */
-
-/* Stack layout pattern */
-.stack {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-4);
-}
-
-.stack-sm {
-    gap: var(--spacing-2);
-}
-
-.stack-lg {
-    gap: var(--spacing-6);
-}
-
-/* Cluster layout pattern */
-.cluster {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-4);
-    align-items: center;
-}
-
-/* Sidebar layout pattern */
-.sidebar {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: var(--spacing-6);
-}
-
-.sidebar-left {
-    grid-template-columns: auto 1fr;
-}
-
-/* ===== MODERN COMPONENT UTILITIES ===== */
-
-/* Glass morphism effect */
-.glass {
-    background: var(--glass-bg);
-    backdrop-filter: blur(var(--glass-blur));
-    border: 1px solid var(--glass-border);
-}
-
-
-
-
-
-/* ===== MODERN DEBUGGING UTILITIES ===== */
-
-/* Debug outline for development */
-.debug * {
-    outline: 1px solid red;
-}
-
-.debug-grid {
-    background-image: linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px);
-    background-size: 20px 20px;
-}
-
-/* ===== MODERN PRINT UTILITIES ===== */
-
-@media print {
-    .print-hidden {
-        display: none;
-    }
-    
-    .print-break-before {
-        break-before: page;
-    }
-    
-    .print-break-after {
-        break-after: page;
-    }
-}
+/* ===== GAP UTILITIES ===== */
+.gap-2 { gap: var(--spacing-2); }  /* 0.5rem - 8px */
+.gap-3 { gap: var(--spacing-3); }  /* 0.75rem - 12px */

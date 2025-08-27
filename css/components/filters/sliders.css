@@ -1,6 +1,6 @@
 /* Year dual-range slider (Material UI style) */
-.year-slider-container { position: relative; width: 100%; padding: 0 8px 1px 8px; margin: 0px 0 0px 0; box-sizing: border-box; } /* OPTIMIZED: Absolute minimal padding - 1px bottom padding */
-#year-range-slider { margin: 0px 0 0 0; --thumb-size: 20px; --track-height: 4px; --ring-color: var(--ring-color); display: block; width: 100%; max-width: 100%; box-sizing: border-box; } /* OPTIMIZED: Removed top margin for minimal space */
+.year-slider-container { position: relative; width: 100%; padding: 0 8px 1px 8px; margin: 0px 0 0px 0; box-sizing: border-box; }
+#year-range-slider { margin: 0px 0 0 0; --thumb-size: 20px; --track-height: 4px; --ring-color: var(--ring-color); display: block; width: 100%; max-width: 100%; box-sizing: border-box; }
 #year-range-slider.noUi-horizontal { height: var(--track-height); }
 #year-range-slider.noUi-target,
 #year-range-slider .noUi-base { background: var(--track-bg); border-radius: 9999px; border: none; box-shadow: none; overflow: visible; }
@@ -23,7 +23,7 @@
 
 /* Magnitude dual-range slider (Material UI style) */
 .magnitude-slider-container,
-#magnitude-range-container { position: relative; width: 100%; max-width: 100%; margin: 8px 0 0px 0; box-sizing: border-box; } /* ADJUSTABLE: Reduced from 25px to 8px */
+#magnitude-range-container { position: relative; width: 100%; max-width: 100%; margin: 8px 0 0px 0; box-sizing: border-box; }
 #magnitude-range-slider { margin: 1px 0; --thumb-size: 20px; --track-height: 4px; --ring-color: var(--ring-color); display: block; width: 100%; max-width: 100%; box-sizing: border-box; }
 #magnitude-range-slider.noUi-horizontal { height: var(--track-height); }
 #magnitude-range-slider.noUi-target,
@@ -45,7 +45,7 @@
 
 /* Show and style pips (marks) similar to MUI marks */
 #year-range-slider .noUi-pips,
-#magnitude-range-slider .noUi-pips { display: block !important; margin-top: 0px; color: var(--text-muted); opacity: 1; visibility: visible; left: 0; right: 0; width: calc(100% + 16px); transform: translateX(-8px); box-sizing: border-box; overflow: visible; } /* OPTIMIZED: Removed margin-top to eliminate extra space */
+#magnitude-range-slider .noUi-pips { display: block !important; margin-top: 0px; color: var(--text-muted); opacity: 1; visibility: visible; left: 0; right: 0; width: calc(100% + 16px); transform: translateX(-8px); box-sizing: border-box; overflow: visible; }
 
 /* CRITICAL FIX: Override noUi-slider default pips height that's causing extra space */
 #year-range-slider .noUi-pips-horizontal,

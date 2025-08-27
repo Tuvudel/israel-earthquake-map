@@ -84,7 +84,7 @@
 /* Hide toggle button on desktop - only show on mobile */
 @media (min-width: 769px) {
     .legend-toggle-btn {
-        display: none !important;
+        display: none;
     }
 }
 

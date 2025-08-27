@@ -28,11 +28,11 @@
   async function resolveInitialStyle(){
     const key = getKey();
     if (isLocalhost()) {
-      return 'css/positron.json';
+      return 'data/map-styles/positron.json';
     }
     if (key) {
       try {
-        const style = await fetchAndInject('css/positron.json', key);
+        const style = await fetchAndInject('data/map-styles/positron.json', key);
         if (window.Logger && window.Logger.info) window.Logger.info('Using Positron style with MapTiler API key');
         return style;
       } catch(e) {
@@ -44,31 +44,31 @@
       if (window.Logger && window.Logger.warn) window.Logger.warn('No MAPTILER_KEY found. Using MapLibre demo style on GitHub Pages to avoid MapTiler demo key restrictions.');
       return 'https://demotiles.maplibre.org/style.json';
     }
-    return 'css/positron.json';
+    return 'data/map-styles/positron.json';
   }
 
   async function resolveStyleForName(name){
     const key = getKey();
 
     if (name === 'positron') {
-      if (isLocalhost()) return 'css/positron.json';
+      if (isLocalhost()) return 'data/map-styles/positron.json';
       if (key) {
-        try { return await fetchAndInject('css/positron.json', key); }
+        try { return await fetchAndInject('data/map-styles/positron.json', key); }
         catch(e){ if (window.Logger && window.Logger.warn) window.Logger.warn('Positron style with key failed, falling back to demo style.', e); return 'https://demotiles.maplibre.org/style.json'; }
       }
       if (isGithubPages()) return 'https://demotiles.maplibre.org/style.json';
-      return 'css/positron.json';
+      return 'data/map-styles/positron.json';
     }
 
     if (name === 'dark_matter') {
       try {
-        if (isLocalhost()) return 'css/dark_matter.json';
-        if (key) return await fetchAndInject('css/dark_matter.json', key);
+        if (isLocalhost()) return 'data/map-styles/dark_matter.json';
+        if (key) return await fetchAndInject('data/map-styles/dark_matter.json', key);
         if (isGithubPages()) {
           if (window.Logger && window.Logger.warn) window.Logger.warn('No MAPTILER_KEY on GitHub Pages; falling back to MapLibre demo style for Dark Matter.');
           return 'https://demotiles.maplibre.org/style.json';
         }
-        return 'css/dark_matter.json';
+        return 'data/map-styles/dark_matter.json';
       } catch(e){
         if (window.Logger && window.Logger.warn) window.Logger.warn('Dark Matter style failed, falling back to Positron demo.', e);
         return 'https://demotiles.maplibre.org/style.json';
