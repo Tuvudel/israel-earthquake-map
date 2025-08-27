@@ -2,18 +2,54 @@
 (function (global) {
   class Logger {
     constructor() {
-      this.logLevel = 'info'; // debug, info, warn, error
-      this.enableConsole = true;
-      this.enablePerformanceMonitoring = true;
+      // Environment detection
+      this.isDevelopment = this.detectDevelopmentEnvironment();
+      
+      // Get log level from config or use environment-appropriate default
+      const configLevel = global.LOG_LEVEL || 'info';
+      this.logLevel = this.isDevelopment ? configLevel : 'warn'; // Production defaults to warn
+      
+      // Production-appropriate defaults
+      this.enableConsole = true; // Always enable console for errors/warnings
+      this.enablePerformanceMonitoring = this.isDevelopment; // Only in development
+      this.enableStackTraces = this.isDevelopment; // Only in development
+      
       this.performanceData = {
         logs: [],
         metrics: {},
         errors: []
       };
+      
+      // Log initialization
+      if (this.isDevelopment) {
+        this.info('Logger initialized in development mode', { 
+          logLevel: this.logLevel, 
+          performanceMonitoring: this.enablePerformanceMonitoring 
+        });
+      }
+    }
+
+    /**
+     * Detect if we're in development environment
+     * @returns {boolean} True if in development
+     */
+    detectDevelopmentEnvironment() {
+      // Check for development indicators
+      const isLocalhost = window.location.hostname === 'localhost' || 
+                         window.location.hostname === '127.0.0.1';
+      const hasDebugParam = window.location.search.includes('debug=true');
+      const isGitHubPages = window.location.hostname.includes('github.io');
+      
+      // Development if localhost, has debug param, or explicitly set
+      // GitHub Pages and other hosted environments are production
+      return isLocalhost || hasDebugParam || (global.DEBUG_MODE === true);
     }
 
     setLogLevel(level) {
       this.logLevel = level;
+      if (this.isDevelopment) {
+        this.info(`Log level changed to: ${level}`);
+      }
     }
 
     debug(message, data = null) {
@@ -51,17 +87,21 @@
         timestamp,
         level,
         message,
-        data,
-        stack: new Error().stack
+        data
       };
 
-      // Store in performance data
+      // Only capture stack traces in development
+      if (this.enableStackTraces) {
+        logEntry.stack = new Error().stack;
+      }
+
+      // Store in performance data only in development
       if (this.enablePerformanceMonitoring) {
         this.performanceData.logs.push(logEntry);
         
-        // Keep only last 1000 logs
-        if (this.performanceData.logs.length > 1000) {
-          this.performanceData.logs = this.performanceData.logs.slice(-1000);
+        // Keep only last 100 logs in development (reduced from 1000)
+        if (this.performanceData.logs.length > 100) {
+          this.performanceData.logs = this.performanceData.logs.slice(-100);
         }
       }
 
@@ -77,7 +117,7 @@
     }
 
     /**
-     * Performance monitoring utilities
+     * Performance monitoring utilities (development only)
      */
     
     /**
@@ -85,6 +125,10 @@
      * @returns {Object} Complete performance report
      */
     getPerformanceReport() {
+      if (!this.enablePerformanceMonitoring) {
+        return { message: 'Performance monitoring disabled in production' };
+      }
+
       const report = {
         timestamp: new Date().toISOString(),
         animationSystem: this.getAnimationSystemMetrics(),
@@ -101,7 +145,7 @@
      * @returns {Object} Animation system metrics
      */
     getAnimationSystemMetrics() {
-      if (global.MapAnimations) {
+      if (global.MapAnimations && this.enablePerformanceMonitoring) {
         return global.MapAnimations.getPerformanceMetrics();
       }
       return null;
@@ -112,7 +156,7 @@
      * @returns {Object} Memory metrics
      */
     getMemoryMetrics() {
-      if ('memory' in performance) {
+      if ('memory' in performance && this.enablePerformanceMonitoring) {
         const memory = performance.memory;
         return {
           used: this.formatBytes(memory.usedJSHeapSize),
@@ -129,6 +173,10 @@
      * @returns {Object} Error summary
      */
     getErrorSummary() {
+      if (!this.enablePerformanceMonitoring) {
+        return { message: 'Error tracking disabled in production' };
+      }
+
       const errors = this.performanceData.logs.filter(log => log.level === 'error');
       const errorTypes = {};
       
@@ -149,6 +197,10 @@
      * @returns {Array} Array of recommendations
      */
     generateRecommendations() {
+      if (!this.enablePerformanceMonitoring) {
+        return ['Performance monitoring disabled in production'];
+      }
+
       const recommendations = [];
       
       // Check animation system
@@ -194,6 +246,10 @@
      * @returns {Object} Exportable performance data
      */
     exportPerformanceData() {
+      if (!this.enablePerformanceMonitoring) {
+        return { message: 'Performance data export disabled in production' };
+      }
+
       return {
         timestamp: new Date().toISOString(),
         logs: this.performanceData.logs,
@@ -233,6 +289,20 @@
           global.MapAnimations.stopPerformanceMonitoring();
         }
       }
+    }
+
+    /**
+     * Get current environment info
+     * @returns {Object} Environment information
+     */
+    getEnvironmentInfo() {
+      return {
+        isDevelopment: this.isDevelopment,
+        logLevel: this.logLevel,
+        enableConsole: this.enableConsole,
+        enablePerformanceMonitoring: this.enablePerformanceMonitoring,
+        enableStackTraces: this.enableStackTraces
+      };
     }
   }
 

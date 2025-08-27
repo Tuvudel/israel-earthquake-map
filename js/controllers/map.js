@@ -547,9 +547,11 @@ class MapController {
         this.optimizedResize(() => {
             try {
                 this.map.resize();
-            } catch (error) {
-                console.warn('Map resize failed:', error);
-            }
+                  } catch (error) {
+        if (global.Logger && global.Logger.warn) {
+          global.Logger.warn('Map resize failed:', error);
+        }
+      }
         });
     }
 

@@ -106,7 +106,9 @@
           navigator.vibrate(pattern);
         }
       } catch (e) {
-        console.debug('Haptic feedback not supported:', e);
+        if (global.Logger && global.Logger.debug) {
+          global.Logger.debug('Haptic feedback not supported:', e);
+        }
       }
     }
 
@@ -121,13 +123,42 @@
       this.isAnimating = true;
 
       try {
-        // For mobile legend, we'll use CSS transitions instead of MobileAnimationUtils
-        // since the CSS already has the proper transitions defined
+        // For mobile legend, trigger CSS transitions properly
         if (this.panel.id === 'map-legend') {
-          // Let CSS handle the animation
           const duration = this.getAnimationDuration();
+          
+          // Ensure the panel has the proper initial state for animation
+          if (show) {
+            // For showing: set initial state, then trigger animation
+            this.panel.style.transition = 'none';
+            this.panel.style.opacity = '0';
+            this.panel.style.transform = 'translateY(-20px)';
+            
+            // Force reflow
+            this.panel.offsetHeight;
+            
+            // Enable transition and trigger animation
+            this.panel.style.transition = `opacity ${duration}ms var(--animation-easing), transform ${duration}ms var(--animation-easing)`;
+            this.panel.style.opacity = '1';
+            this.panel.style.transform = 'translateY(0)';
+          } else {
+            // For hiding: trigger animation to hidden state
+            this.panel.style.transition = `opacity ${duration}ms var(--animation-easing), transform ${duration}ms var(--animation-easing)`;
+            this.panel.style.opacity = '0';
+            this.panel.style.transform = 'translateY(-20px)';
+          }
+          
+          // Wait for animation to complete
           await new Promise(resolve => {
-            setTimeout(resolve, duration);
+            setTimeout(() => {
+              // Clean up inline styles after animation
+              if (!show) {
+                this.panel.style.transition = '';
+                this.panel.style.opacity = '';
+                this.panel.style.transform = '';
+              }
+              resolve();
+            }, duration);
           });
         } else if (global.MobileAnimationUtils) {
           // Use MobileAnimationUtils for other panels
@@ -153,7 +184,9 @@
           });
         }
       } catch (error) {
-        console.warn('Animation failed:', error);
+        if (global.Logger && global.Logger.warn) {
+          global.Logger.warn('Animation failed:', error);
+        }
       } finally {
         this.isAnimating = false;
       }
@@ -188,7 +221,9 @@
       // Animate panel show as enhancement (non-blocking)
       if (this.enableAnimations) {
         this.animatePanel(true).catch(error => {
-          console.warn('Animation failed, but panel is shown:', error);
+          if (global.Logger && global.Logger.warn) {
+            global.Logger.warn('Animation failed, but panel is shown:', error);
+          }
         });
       }
 
@@ -222,7 +257,9 @@
       // Animate panel hide as enhancement (non-blocking)
       if (this.enableAnimations) {
         await this.animatePanel(false).catch(error => {
-          console.warn('Animation failed, but panel will be hidden:', error);
+          if (global.Logger && global.Logger.warn) {
+            global.Logger.warn('Animation failed, but panel will be hidden:', error);
+          }
         });
       }
 

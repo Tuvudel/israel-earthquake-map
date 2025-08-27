@@ -219,14 +219,11 @@
     animateOpen() {
       if (!this.filtersPane) return Promise.resolve();
       
-      console.log('FilterAnimationController: Starting open animation');
-      
       return new Promise((resolve) => {
         this.isAnimating = true;
         
         // Add show class to trigger CSS animation
         this.filtersPane.classList.add('show');
-        console.log('FilterAnimationController: Added show class, classes:', this.filtersPane.className);
         
         // Allow body overflow when filter pane is open
         document.body.classList.add('filters-pane-open');
@@ -245,7 +242,6 @@
         // Resolve after animation completes
         setTimeout(() => {
           this.isAnimating = false;
-          console.log('FilterAnimationController: Open animation completed');
           resolve();
         }, this.animationDuration);
       });
@@ -258,14 +254,11 @@
     animateClose() {
       if (!this.filtersPane) return Promise.resolve();
       
-      console.log('FilterAnimationController: Starting close animation');
-      
       return new Promise((resolve) => {
         this.isAnimating = true;
         
         // Remove show class to trigger CSS animation
         this.filtersPane.classList.remove('show');
-        console.log('FilterAnimationController: Removed show class, classes:', this.filtersPane.className);
         
         // Restore body overflow when filter pane is closed
         document.body.classList.remove('filters-pane-open');
@@ -284,7 +277,6 @@
         // Resolve after animation completes
         setTimeout(() => {
           this.isAnimating = false;
-          console.log('FilterAnimationController: Close animation completed');
           resolve();
         }, this.animationDuration);
       });
@@ -320,7 +312,6 @@
       
       // Fixed height approach: no dynamic calculations needed
       // CSS handles all height management with fixed values
-      console.log('FilterAnimationController: Using fixed height approach');
     }
 
     /**
@@ -331,16 +322,12 @@
       
       // Fixed height approach: CSS handles everything
       // No JavaScript calculations needed
-      
-      console.log('FilterAnimationController: Using fixed height approach');
     }
 
     /**
      * Handle filter mode changes (e.g., switching between relative/range date modes)
      */
     handleFilterModeChange() {
-      console.log('FilterAnimationController: Mode change detected');
-      
       // Fixed height approach: no height management needed
       // CSS handles all layout with fixed height values
     }

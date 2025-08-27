@@ -32,7 +32,9 @@
     try {
       const html = document.documentElement;
       if (!html) {
-        console.warn('Theme: HTML element not available');
+        if (global.Logger && global.Logger.warn) {
+          global.Logger.warn('Theme: HTML element not available');
+        }
         return;
       }
       
@@ -53,26 +55,32 @@
       // Re-enable transitions after a short delay for smooth theme switching
       if (options.preventTransitions) {
         setTimeout(() => {
-          try {
-            html.style.removeProperty('--theme-transition-disabled');
-          } catch (e) {
-            console.warn('Theme: Error removing transition property:', e);
-          }
+                     try {
+             html.style.removeProperty('--theme-transition-disabled');
+           } catch (e) {
+             if (global.Logger && global.Logger.warn) {
+               global.Logger.warn('Theme: Error removing transition property:', e);
+             }
+           }
         }, 50);
       }
       
       // Emit theme change event for coordination with other components
       if (options.emitEvent !== false) {
-        try {
-          window.dispatchEvent(new CustomEvent('themeChanged', { 
-            detail: { isDark, preference: getPreference() } 
-          }));
-        } catch (e) {
-          console.warn('Theme: Error dispatching theme change event:', e);
-        }
+                 try {
+           window.dispatchEvent(new CustomEvent('themeChanged', { 
+             detail: { isDark, preference: getPreference() } 
+           }));
+         } catch (e) {
+           if (global.Logger && global.Logger.warn) {
+             global.Logger.warn('Theme: Error dispatching theme change event:', e);
+           }
+         }
       }
     } catch(e) {
-      console.error('Theme: Error applying theme:', e);
+      if (global.Logger && global.Logger.error) {
+        global.Logger.error('Theme: Error applying theme:', e);
+      }
     }
   }
   
@@ -87,7 +95,9 @@
       
       return { isDark, preference: savedTheme };
     } catch (e) {
-      console.error('Theme: Error initializing theme:', e);
+      if (global.Logger && global.Logger.error) {
+        global.Logger.error('Theme: Error initializing theme:', e);
+      }
       return { isDark: false, preference: 'system' };
     }
   }
@@ -106,19 +116,25 @@
           if (window.AnimationController) {
             try {
               window.AnimationController.queueAnimation(async () => {
-                try {
-                  await window.MapController.instance.setBasemap(targetStyle);
-                } catch (e) {
-                  console.warn('Theme: Error setting basemap:', e);
-                }
+                                 try {
+                   await window.MapController.instance.setBasemap(targetStyle);
+                 } catch (e) {
+                   if (global.Logger && global.Logger.warn) {
+                     global.Logger.warn('Theme: Error setting basemap:', e);
+                   }
+                 }
               }, 'theme-coordination');
             } catch (e) {
-              console.warn('Theme: Error queuing animation:', e);
+              if (global.Logger && global.Logger.warn) {
+                global.Logger.warn('Theme: Error queuing animation:', e);
+              }
               // Fallback to immediate change
               try {
                 window.MapController.instance.setBasemap(targetStyle);
               } catch (e2) {
-                console.warn('Theme: Error setting basemap (fallback):', e2);
+                if (global.Logger && global.Logger.warn) {
+                  global.Logger.warn('Theme: Error setting basemap (fallback):', e2);
+                }
               }
             }
           } else {
@@ -126,13 +142,17 @@
             try {
               window.MapController.instance.setBasemap(targetStyle);
             } catch (e) {
-              console.warn('Theme: Error setting basemap (fallback):', e);
+              if (global.Logger && global.Logger.warn) {
+                global.Logger.warn('Theme: Error setting basemap (fallback):', e);
+              }
             }
           }
         }
       }
     } catch (e) {
-      console.error('Theme: Error in theme coordination:', e);
+      if (global.Logger && global.Logger.error) {
+        global.Logger.error('Theme: Error in theme coordination:', e);
+      }
     }
   }
   
@@ -141,7 +161,9 @@
     try {
       const mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
       if (!mq) {
-        console.warn('Theme: System preference listener not supported');
+        if (global.Logger && global.Logger.warn) {
+          global.Logger.warn('Theme: System preference listener not supported');
+        }
         return () => {};
       }
       
@@ -150,9 +172,11 @@
           if (getPreference() === 'system') {
             callback(!!e.matches);
           }
-        } catch (e) {
-          console.warn('Theme: Error in system preference handler:', e);
-        }
+                 } catch (e) {
+           if (global.Logger && global.Logger.warn) {
+             global.Logger.warn('Theme: Error in system preference handler:', e);
+           }
+         }
       };
       
       if (mq.addEventListener) {
@@ -161,7 +185,9 @@
           try {
             mq.removeEventListener('change', handler);
           } catch (e) {
-            console.warn('Theme: Error removing system preference listener:', e);
+            if (global.Logger && global.Logger.warn) {
+              global.Logger.warn('Theme: Error removing system preference listener:', e);
+            }
           }
         };
       } else {
@@ -170,12 +196,16 @@
           try {
             mq.removeListener(handler);
           } catch (e) {
-            console.warn('Theme: Error removing system preference listener:', e);
+            if (global.Logger && global.Logger.warn) {
+              global.Logger.warn('Theme: Error removing system preference listener:', e);
+            }
           }
         };
       }
     } catch (e) {
-      console.error('Theme: Error setting up system preference listener:', e);
+      if (global.Logger && global.Logger.error) {
+        global.Logger.error('Theme: Error setting up system preference listener:', e);
+      }
       return () => {};
     }
   }
@@ -185,13 +215,17 @@
     try {
       const mag = (window.Constants && window.Constants.MAGNITUDE_CLASSES) ? window.Constants.MAGNITUDE_CLASSES : null;
       if (!mag) {
-        console.warn('Theme: Magnitude classes not available');
+        if (global.Logger && global.Logger.warn) {
+          global.Logger.warn('Theme: Magnitude classes not available');
+        }
         return;
       }
       
       const root = document.documentElement;
       if (!root) {
-        console.warn('Theme: Root element not available for magnitude variables');
+        if (global.Logger && global.Logger.warn) {
+          global.Logger.warn('Theme: Root element not available for magnitude variables');
+        }
         return;
       }
       
@@ -201,7 +235,9 @@
       root.style.setProperty('--mag-strong', mag.strong.color);
       root.style.setProperty('--mag-major', mag.major.color);
     } catch(e) {
-      console.error('Theme: Error applying magnitude CSS variables:', e);
+      if (global.Logger && global.Logger.error) {
+        global.Logger.error('Theme: Error applying magnitude CSS variables:', e);
+      }
     }
   }
 
@@ -222,6 +258,8 @@
     applyMagnitudeCssVars(); 
     initializeThemeSynchronously();
   } catch(e) {
-    console.error('Theme: Error during initialization:', e);
+    if (global.Logger && global.Logger.error) {
+      global.Logger.error('Theme: Error during initialization:', e);
+    }
   }
 })();

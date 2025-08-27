@@ -310,7 +310,9 @@ class StatisticsController {
         this.distributionSubtitle = document.getElementById('distribution-subtitle');
         
         if (!this.distributionPanel) {
-            console.warn('Magnitude distribution panel not found');
+            if (global.Logger && global.Logger.warn) {
+                global.Logger.warn('Magnitude distribution panel not found');
+            }
             return;
         }
     }

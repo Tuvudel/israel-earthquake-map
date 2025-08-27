@@ -28,84 +28,58 @@ An interactive web application for visualizing earthquake data across the Easter
 
 ## Technology Stack
 
-- **Frontend**: HTML5, CSS3, JavaScript
+- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
 - **Mapping**: MapLibre GL JS (tiles/glyphs via MapTiler/OpenMapTiles)
-- **UI Components**: Shoelace Web Components (via CDN)
-- **Controls**: noUiSlider for range sliders
-- **Data Formats**: GeoJSON and CSV
+- **UI Components**: Shoelace Web Components 2.13.0 (via CDN)/noUiSlider for range sliders
+- **Data Formats**: GeoJSON (Plates and Faults convertred from .shp)
 - **Deployment**: GitHub Pages
 
 ## Data Processing
 
-The earthquake data undergoes location enrichment using geographic datasets. For detailed information about the data enrichment pipeline, see [Data_Process.md](Data_Process.md).
+The earthquake data undergoes location enrichment using geographic datasets. For detailed information about the data enrichment pipeline, see [Data_Process.md](docs/Data_Process.md).
 
 ## File Structure
 
 ```
 israel-earthquake-map/
 ├── index.html              # Main HTML file
-├── css/
-│   ├── index.css           # Main entry point (ITCSS architecture)
+├── css/                    # ITCSS architecture
+│   ├── index.css           # Main entry point
 │   ├── base.css            # Base styles and resets
 │   ├── layout.css          # Layout patterns
 │   ├── tokens/             # Design system tokens
-│   │   ├── design-system.css
-│   │   ├── animations-tokens.css
-│   │   ├── components.css
-│   │   ├── breakpoints.css
-│   │   └── typography.css
 │   ├── utilities/          # Utility classes
-│   │   └── modern.css      # Layout, positioning, flexbox utilities
-│   ├── components/         # Component styles
-│   │   ├── base/           # Base components (buttons, cards, forms, layout)
-│   │   ├── features/       # Feature components (legend, sidebar, table, etc.)
-│   │   └── filters/        # Filter-specific components
+│   ├── components/         # Component styles (base, features, filters)
 │   ├── themes/             # Theme overrides
-│   │   └── shoelace-blue-dark.css
 │   └── responsive/         # Responsive styles
-│       ├── index.css       # Responsive entry point
-│       ├── breakpoints.css # Responsive breakpoints
-│       ├── layout.css      # Responsive layout
-│       ├── header.css      # Responsive header
-│       ├── filters.css     # Responsive filters
-│       ├── sidebar.css     # Responsive sidebar
-│       ├── legend.css      # Responsive legend
-│       └── toggles.css     # Responsive toggles
 ├── js/
-│   ├── controllers/
-│   │   ├── map.js           # MapController: basemap, events, updates
-│   │   └── interactions.js  # Hover/click/popup wiring
-│   ├── layers/
-│   │   ├── earthquakeLayer.js # Source + circle/glow layers
-│   │   └── platesLayer.js     # Faults/plates line layers
-│   ├── utils/
-│   │   ├── constants.js     # Central IDs and magnitude classes
-│   │   ├── logger.js        # Leveled logging (window.Logger)
-│   │   └── styleResolver.js # Basemap style resolution
-│   ├── ui/
-│   │   ├── theme.js         # Light/Dark theme application
-│   │   ├── popup.js         # Popup HTML builder
-│   │   ├── filters.js       # Filters UI + syncing
-│   │   ├── statistics.js    # Live analytics
-│   │   └── table.js         # Table rendering and sorting
-│   ├── config.js            # Optional MAPTILER key (window.MAPTILER_KEY)
-│   └── main.js              # App bootstrap (kept at root)
+│   ├── controllers/        # Map and interaction controllers
+│   ├── layers/             # Map layers (earthquakes, plates)
+│   ├── utils/              # Utilities (constants, logger, timezone, styleResolver)
+│   ├── core/               # Core modules (eventBus)
+│   ├── services/           # Data, filter, and persistence services
+│   ├── ui/                 # UI components and animations
+│   ├── config.js           # Configuration
+│   └── main.js             # App bootstrap
 ├── data/
 │   ├── all_EQ_cleaned.geojson   # Earthquake dataset
-│   └── faults_plates/
-│       ├── EMME_faults.geojson
-│       ├── ridge.geojson
-│       ├── transform.geojson
-│       └── trench.geojson
-├── assets/
-│   └── icons/
+│   ├── metadata.json            # Data update metadata
+│   ├── external/                # Geographic datasets (admin, places, natural_earth)
+│   └── faults_plates/           # Fault and plate boundary data
+├── assets/icons/           # Magnitude and social icons
+├── scripts/                # Python data processing scripts
+├── docs/                   # Documentation
 └── README.md
 ```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
-- **Data Source**: [Israel Geophysical Institute](https://eq.gsi.gov.il/default.php)
+- **Earthquake Data**: [Israel Geophysical Institute](https://eq.gsi.gov.il/heb/earthquake/lastEarthquakes.php)
+- **Fault Lines**: [GEM Global Active Faults](https://github.com/cossatot/gem-global-active-faults)
+- **Tectonic Plates**: [HDX Tectonic Plates](https://data.humdata.org/dataset/tectonic-plate)
+- **Reverse Geo-Coding**: [Natural Earth Data](https://www.naturalearthdata.com/) / [Geonames](https://www.geonames.org/)
 - **Mapping**: MapLibre GL JS community

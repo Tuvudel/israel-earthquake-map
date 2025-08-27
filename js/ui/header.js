@@ -454,25 +454,25 @@
         });
       }
 
-      // Legend (mobile): exclusive, no outside-click requirement, no persistence, with enhanced animations
-      if (mobile.legendBtn && legend) {
-        this.mobile.legend = new global.ToggleController({
-          button: mobile.legendBtn,
-          panel: legend,
-          ariaControls: 'map-legend',
-          enableOutsideClick: false,
-          onOpen: () => { closeOthers(this.mobile.legend); this.resizeSoon(); },
-          onClose: () => this.resizeSoon(),
-          textOn: 'Hide',
-          textOff: 'Legend',
-          enableAnimations: false,
-          animationType: 'slide',
-          animationDirection: 'up',
-          animationPreset: 'normal',
-          enableHaptic: false,
-          hapticType: 'light'
-        });
-      }
+             // Legend (mobile): exclusive, no outside-click requirement, no persistence, with enhanced animations
+       if (mobile.legendBtn && legend) {
+         this.mobile.legend = new global.ToggleController({
+           button: mobile.legendBtn,
+           panel: legend,
+           ariaControls: 'map-legend',
+           enableOutsideClick: false,
+           onOpen: () => { closeOthers(this.mobile.legend); this.resizeSoon(); },
+           onClose: () => this.resizeSoon(),
+           textOn: 'Hide',
+           textOff: 'Legend',
+           enableAnimations: true,
+           animationType: 'slide',
+           animationDirection: 'up',
+           animationPreset: 'normal',
+           enableHaptic: false,
+           hapticType: 'light'
+         });
+       }
 
       // Data (mobile): manage #sidebar .show, outside-click closes with enhanced animations
       if (mobile.dataBtn && sidebar) {
@@ -482,7 +482,6 @@
             const startTime = performance.now();
             
             try {
-              console.log('Opening mobile data pane');
               closeOthers(dataCtrl);
               
               // Set state immediately for responsive feel
@@ -493,7 +492,6 @@
               
               // Add show class to trigger CSS animation
               sidebar.classList.add('show');
-              console.log('Added show class to sidebar, classes:', sidebar.className);
               
               // Initialize mobile animations after sidebar is shown
               setTimeout(() => {
@@ -559,7 +557,6 @@
             }
           },
           toggle: () => {
-            console.log('Toggle called, isOpen:', dataCtrl.isOpen);
             return (dataCtrl.isOpen ? dataCtrl.close() : dataCtrl.open());
           }
         };
@@ -569,7 +566,6 @@
           e.preventDefault();
           e.stopPropagation();
           if (this.isDesktop()) return;
-          console.log('Mobile data button clicked, isDesktop:', this.isDesktop());
           dataCtrl.toggle();
         });
 

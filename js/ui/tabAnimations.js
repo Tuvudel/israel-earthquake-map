@@ -29,17 +29,21 @@
         this.addAnimationClasses();
         this.isInitialized = true;
         
-        console.log('TabAnimationController initialized successfully');
-        
-        // Test integration with existing systems
-        if (global.MobileAnimations) {
-          console.log('✓ MobileAnimations integration available');
-        }
-        if (global.Animations) {
-          console.log('✓ Animations integration available');
+        if (global.Logger && global.Logger.debug) {
+          global.Logger.debug('TabAnimationController initialized successfully');
+          
+          // Test integration with existing systems
+          if (global.MobileAnimations) {
+            global.Logger.debug('MobileAnimations integration available');
+          }
+          if (global.Animations) {
+            global.Logger.debug('Animations integration available');
+          }
         }
       } catch (error) {
-        console.warn('Failed to initialize TabAnimationController:', error);
+        if (global.Logger && global.Logger.warn) {
+          global.Logger.warn('Failed to initialize TabAnimationController:', error);
+        }
       }
     }
 
@@ -48,7 +52,6 @@
      */
     findTabElements() {
       this.tabGroup = document.querySelector('#sidebar sl-tab-group');
-      console.log('Found tab group:', this.tabGroup);
       
       if (!this.tabGroup) {
         throw new Error('Tab group not found');
@@ -56,17 +59,13 @@
 
       // Find all tab panels
       const panels = this.tabGroup.querySelectorAll('sl-tab-panel');
-      console.log('Found panels:', panels);
       
       panels.forEach(panel => {
         const name = panel.getAttribute('name');
-        console.log('Panel name:', name, 'Panel element:', panel);
         if (name) {
           this.panels.set(name, panel);
         }
       });
-
-      console.log('Panels map:', this.panels);
       
       if (this.panels.size === 0) {
         throw new Error('No tab panels found');
@@ -78,16 +77,13 @@
      */
     setupEventListeners() {
       if (!this.tabGroup) return;
-
-      console.log('Setting up event listeners for tab group:', this.tabGroup);
       
       // Listen for Shoelace tab show events (this is what's actually firing)
       this.tabGroup.addEventListener('sl-tab-show', this.handleTabChange);
-      console.log('Added sl-tab-show listener');
       
       // Also listen for sl-change events as backup
       this.tabGroup.addEventListener('sl-change', (event) => {
-        console.log('sl-change event fired:', event.detail);
+        // Backup event listener - no logging needed
       });
       
       // Listen for reduced motion preference changes
@@ -97,8 +93,6 @@
           this.prefersReducedMotion = e.matches;
         });
       } catch (_) {}
-      
-      console.log('Event listeners setup complete');
     }
 
     /**
@@ -116,18 +110,11 @@
      * @param {CustomEvent} event - Shoelace tab change event
      */
     handleTabChange(event) {
-      console.log('handleTabChange called with event:', event);
-      console.log('Event detail:', event.detail);
-      
       const targetTab = event.detail.name;
-      console.log('Target tab:', targetTab, 'Current tab:', this.currentTab);
       
       if (this.isAnimating || targetTab === this.currentTab) {
-        console.log('Skipping animation - already animating or same tab');
         return; // Already animating or same tab
       }
-
-      console.log('Processing tab change...');
 
       // Store previous tab and update current
       this.previousTab = this.currentTab;
@@ -138,10 +125,7 @@
 
       // Start panel animation IMMEDIATELY to catch it before it becomes visible
       if (!this.prefersReducedMotion) {
-        console.log('Starting panel animation immediately...');
         this.animatePanelContent(targetTab);
-      } else {
-        console.log('Reduced motion enabled, skipping animation');
       }
     }
 
@@ -165,7 +149,9 @@
         await this.addEntranceAnimation(targetPanel);
         
       } catch (error) {
-        console.warn('Panel animation failed:', error);
+        if (global.Logger && global.Logger.warn) {
+          global.Logger.warn('Panel animation failed:', error);
+        }
       } finally {
         this.isAnimating = false;
       }
@@ -177,17 +163,8 @@
      */
     async addEntranceAnimation(panel) {
       return new Promise((resolve) => {
-        console.log('Starting panel animation for:', panel);
-        console.log('Panel initial state:', {
-          opacity: panel.style.opacity,
-          transform: panel.style.transform,
-          display: panel.style.display,
-          visibility: panel.style.visibility
-        });
-        
         // Since we're using opacity-only animation, we don't need to control overflow
         // This prevents any interference with legitimate scrollbars
-        console.log('Using opacity-only animation - no overflow control needed');
         
         // Use CSS classes with higher specificity to override Shoelace
         panel.classList.add('tab-entrance-animating');
@@ -198,21 +175,13 @@
         panel.style.setProperty('transform', 'translateY(0)', 'important');
         panel.style.setProperty('transition', 'opacity 400ms cubic-bezier(0.4, 0, 0.2, 1)', 'important');
         
-        console.log('Panel after setting initial state:', {
-          opacity: panel.style.opacity,
-          transform: panel.style.transform,
-          transition: panel.style.transition
-        });
-        
         // Use a longer delay to ensure the initial state is visible
         setTimeout(() => {
-          console.log('Triggering animation...');
           panel.style.setProperty('opacity', '1', 'important');
         }, 10); // Small delay to ensure initial state is applied
         
         // Wait for animation to complete
         setTimeout(() => {
-          console.log('Animation complete, cleaning up...');
           // Clean up
           panel.style.removeProperty('opacity');
           panel.style.removeProperty('transform');
@@ -240,9 +209,6 @@
         }
       });
       document.dispatchEvent(customEvent);
-      
-      // Log for debugging
-      console.log(`Tab switching to: ${tabName} (from: ${this.previousTab})`);
     }
 
     /**
@@ -251,7 +217,9 @@
      */
     switchToTab(tabName) {
       if (!this.panels.has(tabName)) {
-        console.warn(`Tab "${tabName}" not found`);
+        if (global.Logger && global.Logger.warn) {
+          global.Logger.warn(`Tab "${tabName}" not found`);
+        }
         return;
       }
       
@@ -282,18 +250,19 @@
      * Test the tab animation system
      */
     testTabAnimation() {
-      console.log('Testing tab animation system...');
-      console.log('Current tab:', this.currentTab);
-      console.log('Available panels:', Array.from(this.panels.keys()));
-      console.log('Tab group found:', !!this.tabGroup);
-      console.log('Animation system ready:', this.isInitialized);
+      if (global.Logger && global.Logger.debug) {
+        global.Logger.debug('Testing tab animation system', {
+          currentTab: this.currentTab,
+          availablePanels: Array.from(this.panels.keys()),
+          tabGroupFound: !!this.tabGroup,
+          animationSystemReady: this.isInitialized
+        });
+      }
       
       // Test switching to analytics tab if not already there
       if (this.currentTab === 'events') {
-        console.log('Testing switch to analytics tab...');
         this.switchToTab('analytics');
       } else {
-        console.log('Testing switch to events tab...');
         this.switchToTab('events');
       }
     }

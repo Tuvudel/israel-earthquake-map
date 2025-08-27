@@ -400,7 +400,9 @@
         }
       } catch (e) {
         // Ignore errors if vibration is not supported
-        console.debug('Haptic feedback not supported:', e);
+        if (global.Logger && global.Logger.debug) {
+          global.Logger.debug('Haptic feedback not supported:', e);
+        }
       }
     }
     

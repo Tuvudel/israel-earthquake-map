@@ -140,6 +140,11 @@ The final enriched dataset contains a minimal but comprehensive schema:
 - **pandas**: Data manipulation and analysis
 - **geopandas**: Advanced geographic data processing
 - **shapely**: Geometric operations and spatial analysis
+- **requests**: HTTP library for data fetching
+- **reverse_geocoder**: Reverse geocoding utilities
+- **pycountry**: Country data and utilities
+- **geopy**: Geocoding library
+- **pyproj**: Cartographic projections and coordinate transformations
 
 ### External Datasets
 - **Natural Earth**: High-quality vector map data
@@ -147,7 +152,7 @@ The final enriched dataset contains a minimal but comprehensive schema:
 
 ### Installation
 ```bash
-pip install pandas geopandas shapely
+pip install -r requirements.txt
 ```
 
 
@@ -159,6 +164,10 @@ The enrichment process is implemented in the production pipeline:
 - `scripts/update_earthquake_data.py`: Fetches and processes latest GSI data
 - `scripts/enrich_eq_locations.py`: Core spatial enrichment engine
 - `scripts/pipeline_utils.py`: Shared utilities and data normalization
+- `scripts/area_aggregation.py`: Administrative area grouping and normalization
+- `scripts/normalization.py`: Data normalization utilities
+- `scripts/clean_eq_data.py`: Earthquake data cleaning utilities
+- `scripts/fetch_geodata.py`: Geographic data fetching utilities
 
 ### Key Functions
 - `clean_eq_df()`: Normalizes raw GSI data schema
