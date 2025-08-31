@@ -27,6 +27,8 @@ jobs:
         pip install -r requirements.txt
         
     - name: Update earthquake data
+      env:
+        GOOGLE_DRIVE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIALS }}
       run: |
         python scripts/update_earthquake_data.py
         
@@ -81,10 +83,12 @@ jobs:
           echo "✅ **Status:** New earthquake data added to database" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "📊 **Changes:** Updated \`data/all_EQ_cleaned.geojson\`" >> $GITHUB_STEP_SUMMARY
+          echo "🌐 **Google Drive:** Uploaded to 'Israel-Earthquake-Map' folder" >> $GITHUB_STEP_SUMMARY
         else
           echo "ℹ️ **Status:** No new earthquake data found" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "📊 **Changes:** Database is up to date" >> $GITHUB_STEP_SUMMARY
+          echo "🌐 **Google Drive:** No upload needed (no changes)" >> $GITHUB_STEP_SUMMARY
         fi
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "🔗 **Data Source:** [GSI Last 30 Days](https://eq.gsi.gov.il/en/earthquake/files/last30_event.csv)" >> $GITHUB_STEP_SUMMARY

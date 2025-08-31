@@ -18,6 +18,7 @@ if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
 from scripts.pipeline_utils import clean_eq_df, enrich_and_format, append_to_geojson as append_to_geojson_util
+from scripts.google_drive_utils import upload_earthquake_data_to_drive
 
 def fetch_latest_eq_data(url="https://eq.gsi.gov.il/en/earthquake/files/last30_event.csv"):
     """Fetch the latest earthquake data from GSI CSV endpoint."""
@@ -164,6 +165,21 @@ def main():
         print(f"📊 Database now contains {total_count} total earthquake records")
     else:
         print("📊 Database updated; total count unavailable (failed to reload GeoJSON)")
+    
+    # Step 7: Upload to Google Drive (if changes were made)
+    if (new_count + updated_count) > 0:
+        print("\n🌐 Uploading updated data to Google Drive...")
+        drive_credentials = os.getenv('GOOGLE_DRIVE_CREDENTIALS')
+        if drive_credentials:
+            drive_success = upload_earthquake_data_to_drive(geojson_filepath, drive_credentials)
+            if drive_success:
+                print("✅ Google Drive upload completed successfully")
+            else:
+                print("⚠️ Google Drive upload failed, but local update succeeded")
+        else:
+            print("⚠️ Google Drive credentials not found, skipping Drive upload")
+    else:
+        print("\nℹ️ No data changes detected, skipping Google Drive upload")
 
 if __name__ == "__main__":
     main()
