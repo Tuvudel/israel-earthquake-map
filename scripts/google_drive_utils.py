@@ -89,7 +89,7 @@ def find_or_create_folder(service, folder_name: str = "Israel-Earthquake-Map") -
         raise
 
 
-def upload_file_to_drive(service, file_path: str, folder_id: str, filename: str = "all_EQ_cleaned.geojson") -> Optional[str]:
+def upload_file_to_drive(service, file_path: str, folder_id: str, filename: str = "all_EQ_cleaned.csv") -> Optional[str]:
     """
     Upload file to Google Drive folder, update if it already exists.
     

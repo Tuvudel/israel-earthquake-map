@@ -121,6 +121,7 @@ def main():
     
     # File paths
     geojson_filepath = "data/all_EQ_cleaned.geojson"
+    csv_filepath = "data/all_EQ_cleaned.csv"
     
     # Step 1: Fetch latest earthquake data
     print("\n📡 Fetching latest earthquake data...")
@@ -144,13 +145,39 @@ def main():
     print("\n🔍 Computing changes (new vs updated) in the latest window...")
     new_count, updated_count = compute_change_stats(geocoded_df, existing_geojson)
     
-    # Step 6: Upsert latest window into GeoJSON (updates + new)
+    # Step 6: Upsert latest window into GeoJSON and create CSV (updates + new)
     print("\n💾 Updating earthquake database (upsert)...")
     append_to_geojson_util(geocoded_df, geojson_filepath)
+    
+    # Also create/update CSV file with upsert
+    print("\n📊 Creating CSV file...")
+    # Use the same enriched data that was used for GeoJSON upsert
+    # Convert to DataFrame and save as CSV
+    csv_df = pd.DataFrame(enriched_gdf.drop(columns=['geometry'], errors='ignore'))
+    
+    # Load existing CSV if it exists
+    if os.path.exists(csv_filepath):
+        try:
+            existing_csv_df = pd.read_csv(csv_filepath)
+            # Combine new data with existing data and remove duplicates by epiid
+            combined_csv_df = pd.concat([csv_df, existing_csv_df], ignore_index=True)
+            combined_csv_df = combined_csv_df.drop_duplicates(subset=['epiid'], keep='first')
+            combined_csv_df.to_csv(csv_filepath, index=False)
+            print(f"✓ Upserted CSV data into {csv_filepath}")
+        except Exception as e:
+            print(f"⚠️ Error reading existing CSV, creating new file: {e}")
+            csv_df.to_csv(csv_filepath, index=False)
+            print(f"✓ Created new CSV file: {csv_filepath}")
+    else:
+        csv_df.to_csv(csv_filepath, index=False)
+        print(f"✓ Created new CSV file: {csv_filepath}")
+    
     if (new_count + updated_count) > 0:
         print(f"✓ Upserted {new_count} new and {updated_count} updated earthquakes into {geojson_filepath}")
+        print(f"✓ Created updated CSV file: {csv_filepath}")
     else:
         print("✓ No changes detected; sanitized GeoJSON to ensure valid JSON")
+        print(f"✓ Updated CSV file: {csv_filepath}")
 
     # Reload GeoJSON to report accurate total count after write
     try:
@@ -171,7 +198,7 @@ def main():
         print("\n🌐 Uploading updated data to Google Drive...")
         drive_credentials = os.getenv('GOOGLE_DRIVE_CREDENTIALS')
         if drive_credentials:
-            drive_success = upload_earthquake_data_to_drive(geojson_filepath, drive_credentials)
+            drive_success = upload_earthquake_data_to_drive(csv_filepath, drive_credentials)
             if drive_success:
                 print("✅ Google Drive upload completed successfully")
             else:

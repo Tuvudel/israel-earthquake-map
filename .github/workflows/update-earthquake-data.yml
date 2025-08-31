@@ -59,7 +59,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add data/all_EQ_cleaned.geojson data/metadata.json
+        git add data/all_EQ_cleaned.geojson data/all_EQ_cleaned.csv data/metadata.json
         git commit -m "🌍 Auto-update earthquake data - $(date '+%Y-%m-%d %H:%M:%S UTC')"
         git push
         
@@ -82,7 +82,7 @@ jobs:
         if [ "${{ steps.verify-changed-files.outputs.changed }}" == "true" ]; then
           echo "✅ **Status:** New earthquake data added to database" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "📊 **Changes:** Updated \`data/all_EQ_cleaned.geojson\`" >> $GITHUB_STEP_SUMMARY
+          echo "📊 **Changes:** Updated \`data/all_EQ_cleaned.geojson\` and \`data/all_EQ_cleaned.csv\`" >> $GITHUB_STEP_SUMMARY
           echo "🌐 **Google Drive:** Uploaded to 'Israel-Earthquake-Map' folder" >> $GITHUB_STEP_SUMMARY
         else
           echo "ℹ️ **Status:** No new earthquake data found" >> $GITHUB_STEP_SUMMARY
