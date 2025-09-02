@@ -1,5 +1,8 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
 202509010129,33.35,35.8462,01/09/2025,01/09/2025 01:29:43,2.4,8.6018880208333,False,Majdal Shams,South,Syria,True,"11km SW of Majdal Shams, Syria",11km Southwest
+202508302107,35.6604,30.2761,30/08/2025,30/08/2025 21:07:14,3.7,31.901041666667,False,Beymelek,South,Turkey,False,69km NNW of Antalya coast,69km North-Northwest
+202508291930,27.5937,33.4141,29/08/2025,29/08/2025 19:30:54,3.2,99.8046875,False,El Gouna,South,Egypt,True,"34km SE of El Gouna, Egypt",34km Southeast
+202508291619,36.2865,33.4919,29/08/2025,29/08/2025 16:19:44,3.4,30.533854166667,False,Gülnar,South,Turkey,True,"10km NW of Gülnar, Turkey",10km Northwest
 202508272232,32.9598,34.9615,27/08/2025,27/08/2025 22:32:49,2.6,22.615559895833,False,Acre,HaZafon,Israel,False,11km ESE of HaZafon coast,11km East-Southeast
 202508260730,27.4621,33.3962,26/08/2025,26/08/2025 07:30:37,3.2,29.850260416667,False,El Gouna,South,Egypt,True,"29km ESE of El Gouna, Egypt",29km East-Southeast
 202508260350,27.8206,33.9317,26/08/2025,26/08/2025 03:50:07,3.8,51.953125,False,Sharm el-Sheikh,Sinai,Egypt,False,41km ENE of South Sinai coast,41km East-Northeast
@@ -24,11 +27,9 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202508150800,33.8105,35.6218,15/08/2025,15/08/2025 08:00:36,2.7,2.2216796875,False,Aley,North,Lebanon,True,"2km WSW of Aley, Lebanon",2km West-Southwest
 202508131739,35.851,27.6237,13/08/2025,13/08/2025 17:39:21,5.8,106.18489583333,False,Lárdos,South Aegean,Greece,False,44km NE of South Aegean coast,44km Northeast
 202508130124,27.5075,33.304,13/08/2025,13/08/2025 01:24:43,3.2,29.850260416667,False,El Gouna,South,Egypt,True,"39km ESE of El Gouna, Egypt",39km East-Southeast
-202508122130,37.5478,30.1559,12/08/2025,12/08/2025 21:30:57,4.2,30.078125,False,Kozluca,Burdur,Turkey,True,"6km SSW of Kozluca, Turkey",6km South-Southwest
+202508122130,37.5478,30.1559,12/08/2025,12/08/2025 21:30:57,4.1,30.078125,False,Kozluca,Burdur,Turkey,True,"6km SSW of Kozluca, Turkey",6km South-Southwest
 202508112002,35.5651,31.552,11/08/2025,11/08/2025 20:02:05,3.4,29.850260416667,False,Pólis,Cyprus,Cyprus,False,99km SE of Paphos coast,99km Southeast
-202508111713,39.2378,28.1175,11/08/2025,11/08/2025 17:13:35,4.3,14.697265625,False,Sındırgı,Balıkesir,Turkey,True,"5km E of Sındırgı, Turkey",5km East
-202508110155,39.2219,28.2902,11/08/2025,11/08/2025 01:55:13,4.6,29.850260416667,False,Sındırgı,Balıkesir,Turkey,True,"10km WNW of Sındırgı, Turkey",10km West-Northwest
-202508110151,35.674,32.2165,11/08/2025,11/08/2025 01:51:13,3.1,12.076822916667,False,Gazipaşa,South,Turkey,False,67km N of Antalya coast,67km North
+202509010129,33.35,35.8462,01/09/2025,01/09/2025 01:29:43,2.4,8.6018880208333,False,Majdal Shams,South,Syria,True,"11km SW of Majdal Shams, Syria",11km Southwest
 202508272232,32.9598,34.9615,27/08/2025,27/08/2025 22:32:49,2.6,22.615559895833,False,Acre,HaZafon,Israel,False,11km ESE of HaZafon coast,11km East-Southeast
 202508260730,27.4621,33.3962,26/08/2025,26/08/2025 07:30:37,3.2,29.850260416667,False,El Gouna,South,Egypt,True,"29km ESE of El Gouna, Egypt",29km East-Southeast
 202508260350,27.8206,33.9317,26/08/2025,26/08/2025 03:50:07,3.8,51.953125,False,Sharm el-Sheikh,Sinai,Egypt,False,41km ENE of South Sinai coast,41km East-Northeast
