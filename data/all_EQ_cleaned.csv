@@ -8141,3 +8141,4 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 190603010000,33.8182,35.393,01/03/1906,01/03/1906 00:00:00,3.1,10.0,True,Ra’s Bayrūt,North,Lebanon,False,12km NE of Mount Lebanon coast,12km Northeast
 190303290000,32.0957,35.4954,29/03/1903,29/03/1903 00:00:00,5.6,10.0,True,Al Jiftlik,West Bank,Palestine,True,"5km N of Al Jiftlik, Palestine",5km North
 190001050000,35.1998,33.1997,05/01/1900,05/01/1900 00:00:00,6.6,0.0,False,Mámmari,Cyprus,Cyprus,True,"3km S of Mámmari, Turkish Republic of Northern Cyprus",3km South
+199610091310,34.556,32.126,09/10/1996,09/10/1996 13:10:00,6.8,33,FALSE,Paphos,Cyprus,Cyprus,FALSE,"37km NE of Paphos Coast",37km Northeast
