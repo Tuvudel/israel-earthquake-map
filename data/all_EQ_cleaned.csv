@@ -1,4 +1,5 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202509062202,34.7054,33.4916,06/09/2025,06/09/2025 22:02:25,3.8,19.938151041667,False,Perivólia,Cyprus,Cyprus,False,16km NNE of Larnaca coast,16km North-Northeast
 202509021721,29.5917,34.7883,02/09/2025,02/09/2025 17:21:32,2.6,9.99755859375,False,Eilat,Sinai,Egypt,True,"16km ESE of Eilat, Egypt",16km East-Southeast
 202509021649,32.3853,35.4248,02/09/2025,02/09/2025 16:49:49,2.2,19.283040364583,False,Rābā,West Bank,Palestine,True,"4km W of Rābā, Palestine",4km West
 202509020725,29.962,31.3699,02/09/2025,02/09/2025 07:25:35,3.2,92.057291666667,False,Al Qāhirah al Jadīdah,Cairo,Egypt,True,"11km NE of Al Qāhirah al Jadīdah, Egypt",11km Northeast
@@ -16,7 +17,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202508260326,29.6512,34.643,26/08/2025,26/08/2025 03:26:45,2.0,30.419921875,False,Eilat,Sinai,Egypt,True,"31km ESE of Eilat, Egypt",31km East-Southeast
 202508241408,32.8634,35.5583,24/08/2025,24/08/2025 14:08:12,2.3,1.9368489583333,False,Migdal,HaZafon,Israel,True,"6km WSW of Migdal, Israel",6km West-Southwest
 202508240304,33.6165,35.4712,24/08/2025,24/08/2025 03:04:17,2.1,10.139973958333,False,Sidon,North,Lebanon,True,"11km SW of Sidon, Lebanon",11km Southwest
-202508230013,32.6297,29.4212,23/08/2025,23/08/2025 00:13:47,3.9,92.96875,False,Alexandria,Beheira,Egypt,False,166km SSE of Beheira coast,166km South-Southeast
 202508221221,39.231,28.1044,22/08/2025,22/08/2025 12:21:44,4.3,29.850260416667,False,Sındırgı,Balıkesir,Turkey,True,"6km E of Sındırgı, Turkey",6km East
 202508211928,30.7903,35.2945,21/08/2025,21/08/2025 19:28:31,2.2,24.901700973511,False,Aţ Ţafīlah,South,Jordan,True,"30km E of Aţ Ţafīlah, Jordan",30km East
 202508210733,29.9835,35.1986,21/08/2025,21/08/2025 07:33:23,2.1,9.0576171875,False,Al Quwayrah,South,Jordan,True,"23km SSE of Al Quwayrah, Jordan",23km South-Southeast
