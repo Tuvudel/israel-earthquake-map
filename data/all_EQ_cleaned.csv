@@ -1,8 +1,13 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202509110026,28.7869,34.1464,11/09/2025,11/09/2025 00:26:54,2.3,7.51953125,False,Saint Catherine,Sinai,Egypt,True,"32km SW of Saint Catherine, Egypt",32km Southwest
+202509101149,34.0974,36.1407,10/09/2025,10/09/2025 11:49:53,2.5,7.177734375,False,Baalbek,South,Lebanon,True,"12km SE of Baalbek, Lebanon",12km Southeast
+202509100804,28.6962,34.5819,10/09/2025,10/09/2025 08:04:17,2.4,8.4309895833333,False,Dahab,Sinai,Egypt,True,"25km SSW of Dahab, Egypt",25km South-Southwest
 202509090346,28.9616,34.1943,09/09/2025,09/09/2025 03:46:39,2.9,5.810546875,False,Nuwaybi‘a,Sinai,Egypt,True,"47km ENE of Nuwaybi‘a, Egypt",47km East-Northeast
 202509082127,38.124,24.021,08/09/2025,08/09/2025 21:27:56,5.1,2.05078125,False,Aghios Panteleímon,Attica,Greece,False,4km WSW of Attica coast,4km West-Southwest
 202509070935,39.1765,28.1508,07/09/2025,07/09/2025 09:35:12,5.0,27.115885416667,False,Sındırgı,Balıkesir,Turkey,True,"8km NNE of Sındırgı, Turkey",8km North-Northeast
+202509062237,27.5257,33.4423,06/09/2025,06/09/2025 22:37:10,2.6,29.850260416667,False,El Gouna,South,Egypt,True,"27km ESE of El Gouna, Egypt",27km East-Southeast
 202509062202,34.7054,33.4916,06/09/2025,06/09/2025 22:02:25,3.8,19.938151041667,False,Perivólia,Cyprus,Cyprus,False,16km NNE of Larnaca coast,16km North-Northeast
+202509060143,33.9409,25.7717,06/09/2025,06/09/2025 01:43:39,3.3,29.850260416667,False,Ierápetra,Crete,Greece,False,119km N of Crete coast,119km North
 202509060138,27.2852,33.7318,06/09/2025,06/09/2025 01:38:57,2.5,28.7109375,False,Hurghada,South,Egypt,True,"9km ESE of Hurghada, Egypt",9km East-Southeast
 202509052325,36.0778,35.5225,05/09/2025,05/09/2025 23:25:59,3.1,32.8125,False,Kapısuyu,South,Turkey,False,38km E of Hatay coast,38km East
 202509052038,36.2048,34.0858,05/09/2025,05/09/2025 20:38:19,3.3,42.838541666667,False,Arkum,South,Turkey,False,17km N of Mersin coast,17km North
@@ -24,15 +29,14 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202508240304,33.6165,35.4712,24/08/2025,24/08/2025 03:04:17,2.1,10.139973958333,False,Sidon,North,Lebanon,True,"11km SW of Sidon, Lebanon",11km Southwest
 202508230159,29.4017,34.3597,23/08/2025,23/08/2025 01:59:24,2.0,5.810546875,False,Nuwaybi‘a,Sinai,Egypt,True,"49km SE of Nuwaybi‘a, Egypt",49km Southeast
 202508221221,39.231,28.1044,22/08/2025,22/08/2025 12:21:44,4.3,29.850260416667,False,Sındırgı,Balıkesir,Turkey,True,"6km E of Sındırgı, Turkey",6km East
-202508210733,29.9835,35.1986,21/08/2025,21/08/2025 07:33:23,2.1,9.0576171875,False,Al Quwayrah,South,Jordan,True,"23km SSE of Al Quwayrah, Jordan",23km South-Southeast
-202508210654,32.8543,32.289,21/08/2025,21/08/2025 06:54:48,2.9,17.203776041667,False,‘Izbat al Burj,North,Egypt,False,155km SSW of Damietta coast,155km South-Southwest
-202508201719,35.2668,33.9273,20/08/2025,20/08/2025 17:19:47,3.2,29.9072265625,False,Tríkomo,Cyprus,Cyprus,False,4km NW of Northern Cyprus coast,4km Northwest
-202508201527,34.7122,23.3514,20/08/2025,20/08/2025 15:27:26,4.3,29.850260416667,False,Palaióchora,Crete,Greece,False,65km NNE of Crete coast,65km North-Northeast
-202508192209,32.0297,35.1429,19/08/2025,19/08/2025 22:09:12,2.0,2.4495442708333,False,Dayr as Sūdān,West Bank,Palestine,True,"1km ENE of Dayr as Sūdān, Palestine",1km East-Northeast
 202509090346,28.9616,34.1943,09/09/2025,09/09/2025 03:46:39,2.9,5.810546875,False,Nuwaybi‘a,Sinai,Egypt,True,"47km ENE of Nuwaybi‘a, Egypt",47km East-Northeast
 202509082127,38.124,24.021,08/09/2025,08/09/2025 21:27:56,5.1,2.05078125,False,Aghios Panteleímon,Attica,Greece,False,4km WSW of Attica coast,4km West-Southwest
 202509070935,39.1765,28.1508,07/09/2025,07/09/2025 09:35:12,5.0,27.115885416667,False,Sındırgı,Balıkesir,Turkey,True,"8km NNE of Sındırgı, Turkey",8km North-Northeast
 202509062202,34.7054,33.4916,06/09/2025,06/09/2025 22:02:25,3.8,19.938151041667,False,Perivólia,Cyprus,Cyprus,False,16km NNE of Larnaca coast,16km North-Northeast
+202509060138,27.2852,33.7318,06/09/2025,06/09/2025 01:38:57,2.5,28.7109375,False,Hurghada,South,Egypt,True,"9km ESE of Hurghada, Egypt",9km East-Southeast
+202509052325,36.0778,35.5225,05/09/2025,05/09/2025 23:25:59,3.1,32.8125,False,Kapısuyu,South,Turkey,False,38km E of Hatay coast,38km East
+202509052038,36.2048,34.0858,05/09/2025,05/09/2025 20:38:19,3.3,42.838541666667,False,Arkum,South,Turkey,False,17km N of Mersin coast,17km North
+202509050131,35.2974,26.5014,05/09/2025,05/09/2025 01:31:03,5.5,97.526041666667,False,Palekastro,Crete,Greece,False,25km WSW of Crete coast,25km West-Southwest
 202509041944,26.8678,35.0128,04/09/2025,04/09/2025 19:44:29,3.5,35.091145833333,False,Duba,Northwest,Saudi Arabia,False,86km NE of Tabuk coast,86km Northeast
 202509021721,29.5917,34.7883,02/09/2025,02/09/2025 17:21:32,2.6,9.99755859375,False,Eilat,Sinai,Egypt,True,"16km ESE of Eilat, Egypt",16km East-Southeast
 202509021649,32.3853,35.4248,02/09/2025,02/09/2025 16:49:49,2.2,19.283040364583,False,Rābā,West Bank,Palestine,True,"4km W of Rābā, Palestine",4km West
