@@ -1,4 +1,7 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202509131630,33.1033,35.6049,13/09/2025,13/09/2025 16:30:50,2.4,11.763509114583,False,Yesud HaMa‘ala,HaZafon,Israel,True,"5km S of Yesud HaMa‘ala, Israel",5km South
+202509122332,32.9938,34.6634,12/09/2025,12/09/2025 23:32:03,2.1,27.742513020833,False,Haifa,HaZafon,Israel,False,37km ESE of Haifa coast,37km East-Southeast
+202509121521,32.9904,34.6573,12/09/2025,12/09/2025 15:21:05,2.0,28.824869791667,False,Haifa,HaZafon,Israel,False,38km ESE of Haifa coast,38km East-Southeast
 202509110026,28.7869,34.1464,11/09/2025,11/09/2025 00:26:54,2.3,7.51953125,False,Saint Catherine,Sinai,Egypt,True,"32km SW of Saint Catherine, Egypt",32km Southwest
 202509101149,34.0974,36.1407,10/09/2025,10/09/2025 11:49:53,2.5,7.177734375,False,Baalbek,South,Lebanon,True,"12km SE of Baalbek, Lebanon",12km Southeast
 202509100804,28.6962,34.5819,10/09/2025,10/09/2025 08:04:17,2.4,8.4309895833333,False,Dahab,Sinai,Egypt,True,"25km SSW of Dahab, Egypt",25km South-Southwest
@@ -26,9 +29,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202508260730,27.4621,33.3962,26/08/2025,26/08/2025 07:30:37,3.2,29.850260416667,False,El Gouna,South,Egypt,True,"29km ESE of El Gouna, Egypt",29km East-Southeast
 202508260350,27.748,33.9112,26/08/2025,26/08/2025 03:50:07,3.9,35.546875,False,Sharm el-Sheikh,Sinai,Egypt,False,45km ENE of South Sinai coast,45km East-Northeast
 202508241408,32.8634,35.5583,24/08/2025,24/08/2025 14:08:12,2.3,1.9368489583333,False,Migdal,HaZafon,Israel,True,"6km WSW of Migdal, Israel",6km West-Southwest
-202508240304,33.6165,35.4712,24/08/2025,24/08/2025 03:04:17,2.1,10.139973958333,False,Sidon,North,Lebanon,True,"11km SW of Sidon, Lebanon",11km Southwest
-202508230159,29.4017,34.3597,23/08/2025,23/08/2025 01:59:24,2.0,5.810546875,False,Nuwaybi‘a,Sinai,Egypt,True,"49km SE of Nuwaybi‘a, Egypt",49km Southeast
-202508221221,39.231,28.1044,22/08/2025,22/08/2025 12:21:44,4.3,29.850260416667,False,Sındırgı,Balıkesir,Turkey,True,"6km E of Sındırgı, Turkey",6km East
 202509110026,28.7869,34.1464,11/09/2025,11/09/2025 00:26:54,2.3,7.51953125,False,Saint Catherine,Sinai,Egypt,True,"32km SW of Saint Catherine, Egypt",32km Southwest
 202509101149,34.0974,36.1407,10/09/2025,10/09/2025 11:49:53,2.5,7.177734375,False,Baalbek,South,Lebanon,True,"12km SE of Baalbek, Lebanon",12km Southeast
 202509100804,28.6962,34.5819,10/09/2025,10/09/2025 08:04:17,2.4,8.4309895833333,False,Dahab,Sinai,Egypt,True,"25km SSW of Dahab, Egypt",25km South-Southwest
