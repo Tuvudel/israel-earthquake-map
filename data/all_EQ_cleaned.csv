@@ -29,6 +29,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202509041944,26.8678,35.0128,04/09/2025,04/09/2025 19:44:29,3.5,35.091145833333,False,Duba,Northwest,Saudi Arabia,False,86km NE of Tabuk coast,86km Northeast
 202509021721,29.5917,34.7883,02/09/2025,02/09/2025 17:21:32,2.6,9.99755859375,False,Eilat,Sinai,Egypt,True,"16km ESE of Eilat, Egypt",16km East-Southeast
 202509021649,32.3853,35.4248,02/09/2025,02/09/2025 16:49:49,2.2,19.283040364583,False,Rābā,West Bank,Palestine,True,"4km W of Rābā, Palestine",4km West
+202509171557,32.6303,35.1503,17/09/2025,17/09/2025 15:57:10,2.1,21.44775390625,False,Mishmar Ha‘Emeq,HaZafon,Israel,True,"2km SSW of Mishmar Ha‘Emeq, Israel",2km South-Southwest
 202509150955,34.322,16.4929,15/09/2025,15/09/2025 09:55:11,4.8,29.850260416667,False,Birżebbuġa,Misrata,Libya,False,245km NW of Misrata coast,245km Northwest
 202509150353,36.6608,25.7948,15/09/2025,15/09/2025 03:53:24,4.3,5.126953125,False,Firá,South Aegean,Greece,False,42km SW of South Aegean coast,42km Southwest
 202509142114,34.7122,33.9423,14/09/2025,14/09/2025 21:14:39,3.0,6.15234375,False,Ayia Napa,Cyprus,Cyprus,False,31km N of Dhekelia coast,31km North
