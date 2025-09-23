@@ -29,6 +29,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202509052038,36.2048,34.0858,05/09/2025,05/09/2025 20:38:19,3.3,42.838541666667,False,Arkum,South,Turkey,False,17km N of Mersin coast,17km North
 202509050131,35.2974,26.5014,05/09/2025,05/09/2025 01:31:03,5.5,97.526041666667,False,Palekastro,Crete,Greece,False,25km WSW of Crete coast,25km West-Southwest
 202509041944,26.8678,35.0128,04/09/2025,04/09/2025 19:44:29,3.5,35.091145833333,False,Duba,Northwest,Saudi Arabia,False,86km NE of Tabuk coast,86km Northeast
+202509192345,33.6267,32.5047,19/09/2025,19/09/2025 23:45:53,2.7,28.426106770833,False,Pissoúri,Cyprus,Cyprus,False,117km N of Akrotiri coast,117km North
 202509171557,32.6303,35.1503,17/09/2025,17/09/2025 15:57:10,2.1,21.44775390625,False,Mishmar Ha‘Emeq,HaZafon,Israel,True,"2km SSW of Mishmar Ha‘Emeq, Israel",2km South-Southwest
 202509151106,27.3941,33.5679,15/09/2025,15/09/2025 11:06:21,2.9,28.7109375,False,El Gouna,South,Egypt,True,"11km E of El Gouna, Egypt",11km East
 202509150955,34.322,16.4929,15/09/2025,15/09/2025 09:55:11,4.8,29.850260416667,False,Birżebbuġa,Misrata,Libya,False,245km NW of Misrata coast,245km Northwest
