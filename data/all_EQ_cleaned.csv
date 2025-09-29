@@ -1,5 +1,8 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
 202509271313,34.1451,37.0215,27/09/2025,27/09/2025 13:13:21,2.6,81.575520833333,False,Al Qaryatayn,South,Syria,True,"22km ENE of Al Qaryatayn, Syria",22km East-Northeast
+202509260416,28.2107,34.5897,26/09/2025,26/09/2025 04:16:00,2.9,32.356770833333,False,Dahab,Northwest,Saudi Arabia,False,32km NNW of Tabuk coast,32km North-Northwest
+202509220902,38.7455,28.7229,22/09/2025,22/09/2025 09:02:53,5.5,70.182291666667,False,Selendi,Manisa,Turkey,True,"13km E of Selendi, Turkey",13km East
+202509210256,28.3335,34.5317,21/09/2025,21/09/2025 02:56:05,3.0,20.0,False,Dahab,Sinai,Egypt,False,17km NNW of South Sinai coast,17km North-Northwest
 202509192345,33.6267,32.5047,19/09/2025,19/09/2025 23:45:53,2.7,28.426106770833,False,Pissoúri,Cyprus,Cyprus,False,117km N of Akrotiri coast,117km North
 202509171557,32.6303,35.1503,17/09/2025,17/09/2025 15:57:10,2.1,21.44775390625,False,Mishmar Ha‘Emeq,HaZafon,Israel,True,"2km SSW of Mishmar Ha‘Emeq, Israel",2km South-Southwest
 202509151106,27.3941,33.5679,15/09/2025,15/09/2025 11:06:21,2.9,28.7109375,False,El Gouna,South,Egypt,True,"11km E of El Gouna, Egypt",11km East
@@ -26,9 +29,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202509062202,34.7054,33.4916,06/09/2025,06/09/2025 22:02:25,3.8,19.938151041667,False,Perivólia,Cyprus,Cyprus,False,16km NNE of Larnaca coast,16km North-Northeast
 202509060143,33.9409,25.7717,06/09/2025,06/09/2025 01:43:39,3.3,29.850260416667,False,Ierápetra,Crete,Greece,False,119km N of Crete coast,119km North
 202509060138,27.2852,33.7318,06/09/2025,06/09/2025 01:38:57,2.5,28.7109375,False,Hurghada,South,Egypt,True,"9km ESE of Hurghada, Egypt",9km East-Southeast
-202509052325,36.0778,35.5225,05/09/2025,05/09/2025 23:25:59,3.1,32.8125,False,Kapısuyu,South,Turkey,False,38km E of Hatay coast,38km East
-202509052038,36.2048,34.0858,05/09/2025,05/09/2025 20:38:19,3.3,42.838541666667,False,Arkum,South,Turkey,False,17km N of Mersin coast,17km North
-202509050131,35.2974,26.5014,05/09/2025,05/09/2025 01:31:03,5.5,97.526041666667,False,Palekastro,Crete,Greece,False,25km WSW of Crete coast,25km West-Southwest
+202509271313,34.1451,37.0215,27/09/2025,27/09/2025 13:13:21,2.6,81.575520833333,False,Al Qaryatayn,South,Syria,True,"22km ENE of Al Qaryatayn, Syria",22km East-Northeast
 202509192345,33.6267,32.5047,19/09/2025,19/09/2025 23:45:53,2.7,28.426106770833,False,Pissoúri,Cyprus,Cyprus,False,117km N of Akrotiri coast,117km North
 202509171557,32.6303,35.1503,17/09/2025,17/09/2025 15:57:10,2.1,21.44775390625,False,Mishmar Ha‘Emeq,HaZafon,Israel,True,"2km SSW of Mishmar Ha‘Emeq, Israel",2km South-Southwest
 202509151106,27.3941,33.5679,15/09/2025,15/09/2025 11:06:21,2.9,28.7109375,False,El Gouna,South,Egypt,True,"11km E of El Gouna, Egypt",11km East
