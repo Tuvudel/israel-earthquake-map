@@ -1,5 +1,5 @@
 {
-  "last_update_timestamp": "2025-09-30T06:23:55Z",
+  "last_update_timestamp": "2025-10-01T06:23:59Z",
   "version": "1.0.0",
   "description": "Metadata tracking when the earthquake data was last updated by the GitHub action",
   "data_source": "GSI Last 30 Days",
