@@ -29,7 +29,9 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202509082127,38.124,24.021,08/09/2025,08/09/2025 21:27:56,5.1,2.05078125,False,Aghios Panteleímon,Attica,Greece,False,4km WSW of Attica coast,4km West-Southwest
 202509070935,39.1765,28.1508,07/09/2025,07/09/2025 09:35:12,5.0,27.115885416667,False,Sındırgı,Balıkesir,Turkey,True,"8km NNE of Sındırgı, Turkey",8km North-Northeast
 202509062237,27.5257,33.4423,06/09/2025,06/09/2025 22:37:10,2.6,29.850260416667,False,El Gouna,South,Egypt,True,"27km ESE of El Gouna, Egypt",27km East-Southeast
+202509301306,33.8297,35.741,30/09/2025,30/09/2025 13:06:00,2.8,1.9368489583333,False,Bhamdoûn el Mhatta,North,Lebanon,True,"8km WSW of Bhamdoûn el Mhatta, Lebanon",8km West-Southwest
 202509271313,34.1451,37.0215,27/09/2025,27/09/2025 13:13:21,2.6,81.575520833333,False,Al Qaryatayn,South,Syria,True,"22km ENE of Al Qaryatayn, Syria",22km East-Northeast
+202509261937,27.4032,33.6755,26/09/2025,26/09/2025 19:37:52,3.1,89.322916666667,False,El Gouna,South,Egypt,True,"1km SSE of El Gouna, Egypt",1km South-Southeast
 202509260416,28.2107,34.5897,26/09/2025,26/09/2025 04:16:00,2.9,32.356770833333,False,Dahab,Northwest,Saudi Arabia,False,32km NNW of Tabuk coast,32km North-Northwest
 202509220902,38.7455,28.7229,22/09/2025,22/09/2025 09:02:53,5.5,70.182291666667,False,Selendi,Manisa,Turkey,True,"13km E of Selendi, Turkey",13km East
 202509210256,28.3335,34.5317,21/09/2025,21/09/2025 02:56:05,3.0,20.0,False,Dahab,Sinai,Egypt,False,17km NNW of South Sinai coast,17km North-Northwest
