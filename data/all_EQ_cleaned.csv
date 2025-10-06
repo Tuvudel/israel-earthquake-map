@@ -29,12 +29,14 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202509100804,28.6962,34.5819,10/09/2025,10/09/2025 08:04:17,2.4,8.4309895833333,False,Dahab,Sinai,Egypt,True,"25km SSW of Dahab, Egypt",25km South-Southwest
 202509092148,33.0993,35.0983,09/09/2025,09/09/2025 21:48:27,2.0,25.406901041667,False,Kfar Rosh HaNiqra,South,Lebanon,False,2km SE of South coast,2km Southeast
 202509090346,28.9616,34.1943,09/09/2025,09/09/2025 03:46:39,2.9,5.810546875,False,Nuwaybi‘a,Sinai,Egypt,True,"47km ENE of Nuwaybi‘a, Egypt",47km East-Northeast
+202510032040,32.8333,35.5655,03/10/2025,03/10/2025 20:40:57,2.1,4.69970703125,False,Tiberias,HaZafon,Israel,True,"6km SW of Tiberias, Israel",6km Southwest
 202510021051,34.7258,36.9774,02/10/2025,02/10/2025 10:51:34,2.8,32.356770833333,False,Mukharram al Fawqānī,South,Syria,True,"14km NE of Mukharram al Fawqānī, Syria",14km Northeast
 202509301306,33.8297,35.741,30/09/2025,30/09/2025 13:06:00,2.8,1.9368489583333,False,Bhamdoûn el Mhatta,North,Lebanon,True,"8km WSW of Bhamdoûn el Mhatta, Lebanon",8km West-Southwest
 202509271313,34.1451,37.0215,27/09/2025,27/09/2025 13:13:21,2.6,81.575520833333,False,Al Qaryatayn,South,Syria,True,"22km ENE of Al Qaryatayn, Syria",22km East-Northeast
 202509261937,27.4032,33.6755,26/09/2025,26/09/2025 19:37:52,3.1,89.322916666667,False,El Gouna,South,Egypt,True,"1km SSE of El Gouna, Egypt",1km South-Southeast
 202509260416,28.2107,34.5897,26/09/2025,26/09/2025 04:16:00,2.9,32.356770833333,False,Dahab,Northwest,Saudi Arabia,False,32km NNW of Tabuk coast,32km North-Northwest
 202509251624,26.6228,34.003,25/09/2025,25/09/2025 16:24:23,3.8,30.078125,False,Safaga,South,Egypt,True,"15km NNW of Safaga, Egypt",15km North-Northwest
+202509240121,34.8165,29.9094,24/09/2025,24/09/2025 01:21:35,3.7,93.424479166667,False,Kaş,South,Turkey,False,156km N of Antalya coast,156km North
 202509220902,38.7455,28.7229,22/09/2025,22/09/2025 09:02:53,5.5,70.182291666667,False,Selendi,Manisa,Turkey,True,"13km E of Selendi, Turkey",13km East
 202509210256,28.3335,34.5317,21/09/2025,21/09/2025 02:56:05,3.0,20.0,False,Dahab,Sinai,Egypt,False,17km NNW of South Sinai coast,17km North-Northwest
 202509202323,34.2231,26.3741,20/09/2025,20/09/2025 23:23:48,3.7,36.0,False,Ierápetra,Crete,Greece,False,105km NNW of Crete coast,105km North-Northwest
