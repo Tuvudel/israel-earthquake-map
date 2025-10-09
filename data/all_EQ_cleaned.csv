@@ -39,6 +39,8 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202509260416,28.2107,34.5897,26/09/2025,26/09/2025 04:16:00,2.9,32.356770833333,False,Dahab,Northwest,Saudi Arabia,False,32km NNW of Tabuk coast,32km North-Northwest
 202509251624,26.6228,34.003,25/09/2025,25/09/2025 16:24:23,3.8,30.078125,False,Safaga,South,Egypt,True,"15km NNW of Safaga, Egypt",15km North-Northwest
 202509240121,34.8165,29.9094,24/09/2025,24/09/2025 01:21:35,3.7,93.424479166667,False,Kaş,South,Turkey,False,156km N of Antalya coast,156km North
+202509221942,34.5262,33.3717,22/09/2025,22/09/2025 19:42:29,2.9,36.9140625,False,Pyrgos,Cyprus,Cyprus,False,30km NW of Limassol coast,30km Northwest
+202509221752,22.721,36.997,22/09/2025,22/09/2025 17:52:01,4.2,32.8125,False,Shalātīn,South,Egypt,False,151km WNW of Red Sea coast,151km West-Northwest
 202509220902,38.7455,28.7229,22/09/2025,22/09/2025 09:02:53,5.5,70.182291666667,False,Selendi,Manisa,Turkey,True,"13km E of Selendi, Turkey",13km East
 202509210256,28.3335,34.5317,21/09/2025,21/09/2025 02:56:05,3.0,20.0,False,Dahab,Sinai,Egypt,False,17km NNW of South Sinai coast,17km North-Northwest
 202509202323,34.2231,26.3741,20/09/2025,20/09/2025 23:23:48,3.7,36.0,False,Ierápetra,Crete,Greece,False,105km NNW of Crete coast,105km North-Northwest
