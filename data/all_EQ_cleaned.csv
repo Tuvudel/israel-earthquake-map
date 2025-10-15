@@ -1,4 +1,6 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202510140354,27.5574,34.3672,14/10/2025,14/10/2025 03:54:05,2.9,29.622395833333,False,Sharm el-Sheikh,Sinai,Egypt,False,40km N of South Sinai coast,40km North
+202510131640,27.5483,33.7984,13/10/2025,13/10/2025 16:40:51,3.4,82.03125,False,El Gouna,South,Egypt,False,21km SW of Red Sea coast,21km Southwest
 202510070804,33.1123,35.6185,07/10/2025,07/10/2025 08:04:44,2.2,16.548665364583,False,Yesud HaMa‘ala,HaZafon,Israel,True,"6km S of Yesud HaMa‘ala, Israel",6km South
 202510060857,32.6314,35.1626,06/10/2025,06/10/2025 08:57:10,2.3,19.283040364583,False,Mishmar Ha‘Emeq,HaZafon,Israel,True,"3km SW of Mishmar Ha‘Emeq, Israel",3km Southwest
 202510060004,30.2285,34.2947,06/10/2025,06/10/2025 00:04:21,2.4,9.5133463541667,False,Mitzpe Ramon,Sinai,Egypt,True,"64km NE of Mitzpe Ramon, Egypt",64km Northeast
@@ -10,6 +12,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202509260416,28.2107,34.5897,26/09/2025,26/09/2025 04:16:00,2.9,32.356770833333,False,Dahab,Northwest,Saudi Arabia,False,32km NNW of Tabuk coast,32km North-Northwest
 202509251624,26.6228,34.003,25/09/2025,25/09/2025 16:24:23,3.8,30.078125,False,Safaga,South,Egypt,True,"15km NNW of Safaga, Egypt",15km North-Northwest
 202509240121,34.8165,29.9094,24/09/2025,24/09/2025 01:21:35,3.7,93.424479166667,False,Kaş,South,Turkey,False,156km N of Antalya coast,156km North
+202509232227,39.2537,28.5138,23/09/2025,23/09/2025 22:27:52,4.6,106.640625,False,Demirci,Balıkesir,Turkey,True,"26km SSE of Demirci, Turkey",26km South-Southeast
 202509221942,34.5262,33.3717,22/09/2025,22/09/2025 19:42:29,2.9,36.9140625,False,Pyrgos,Cyprus,Cyprus,False,30km NW of Limassol coast,30km Northwest
 202509221752,22.721,36.997,22/09/2025,22/09/2025 17:52:01,4.2,32.8125,False,Shalātīn,South,Egypt,False,151km WNW of Red Sea coast,151km West-Northwest
 202509220902,38.7455,28.7229,22/09/2025,22/09/2025 09:02:53,5.5,70.182291666667,False,Selendi,Manisa,Turkey,True,"13km E of Selendi, Turkey",13km East
@@ -26,9 +29,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202509130844,34.5171,25.0743,13/09/2025,13/09/2025 08:44:54,4.5,67.447916666667,False,Pýrgos,Crete,Greece,False,55km N of Crete coast,55km North
 202509122332,32.9938,34.6634,12/09/2025,12/09/2025 23:32:03,2.1,27.742513020833,False,Haifa,HaZafon,Israel,False,37km ESE of Haifa coast,37km East-Southeast
 202509121752,32.6671,35.1371,12/09/2025,12/09/2025 17:52:00,2.1,8.2600911458333,False,Sde Ya‘aqov,HaZafon,Israel,True,"3km N of Sde Ya‘aqov, Israel",3km North
-202509121556,35.5334,26.8252,12/09/2025,12/09/2025 15:56:36,4.5,100.26041666667,False,Karpathos,South Aegean,Greece,False,35km E of South Aegean coast,35km East
-202509121521,32.9904,34.6573,12/09/2025,12/09/2025 15:21:05,2.0,28.824869791667,False,Haifa,HaZafon,Israel,False,38km ESE of Haifa coast,38km East-Southeast
-202509120254,28.7506,34.2604,12/09/2025,12/09/2025 02:54:40,2.4,4.78515625,False,Saint Catherine,Sinai,Egypt,True,"37km SW of Saint Catherine, Egypt",37km Southwest
+202510070804,33.1123,35.6185,07/10/2025,07/10/2025 08:04:44,2.2,16.548665364583,False,Yesud HaMa‘ala,HaZafon,Israel,True,"6km S of Yesud HaMa‘ala, Israel",6km South
 202510060857,32.6314,35.1626,06/10/2025,06/10/2025 08:57:10,2.3,19.283040364583,False,Mishmar Ha‘Emeq,HaZafon,Israel,True,"3km SW of Mishmar Ha‘Emeq, Israel",3km Southwest
 202510060004,30.2285,34.2947,06/10/2025,06/10/2025 00:04:21,2.4,9.5133463541667,False,Mitzpe Ramon,Sinai,Egypt,True,"64km NE of Mitzpe Ramon, Egypt",64km Northeast
 202510032040,32.8333,35.5655,03/10/2025,03/10/2025 20:40:57,2.1,4.69970703125,False,Tiberias,HaZafon,Israel,True,"6km SW of Tiberias, Israel",6km Southwest
