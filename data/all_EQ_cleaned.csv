@@ -7,6 +7,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202510040349,39.2763,28.8071,04/10/2025,04/10/2025 03:49:19,4.2,29.850260416667,False,Simav,Kütahya,Turkey,True,"26km SE of Simav, Turkey",26km Southeast
 202510040141,34.6351,26.436,04/10/2025,04/10/2025 01:41:35,3.3,38.736979166667,False,Palekastro,Crete,Greece,False,65km NNW of Crete coast,65km North-Northwest
 202510032040,32.8333,35.5655,03/10/2025,03/10/2025 20:40:57,2.1,4.69970703125,False,Tiberias,HaZafon,Israel,True,"6km SW of Tiberias, Israel",6km Southwest
+202510021230,37.3713,25.364,02/10/2025,02/10/2025 12:30:03,4.4,120.0,False,Ornós,South Aegean,Greece,False,7km NNW of South Aegean coast,7km North-Northwest
 202510021051,34.7258,36.9774,02/10/2025,02/10/2025 10:51:34,2.8,32.356770833333,False,Mukharram al Fawqānī,South,Syria,True,"14km NE of Mukharram al Fawqānī, Syria",14km Northeast
 202510020107,33.2553,35.7077,02/10/2025,02/10/2025 01:07:50,2.3,9.31396484375,False,‘Ein Qunīya,HaZafon,Israel,True,"3km SE of ‘Ein Qunīya, Israel",3km Southeast
 202510011836,36.3205,36.05,01/10/2025,01/10/2025 18:36:06,2.8,0.79752604166667,False,Kuzeytepe,South,Turkey,True,"11km ESE of Kuzeytepe, Turkey",11km East-Southeast
@@ -28,12 +29,13 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202509260416,28.2107,34.5897,26/09/2025,26/09/2025 04:16:00,2.9,32.356770833333,False,Dahab,Northwest,Saudi Arabia,False,32km NNW of Tabuk coast,32km North-Northwest
 202509251624,26.6228,34.003,25/09/2025,25/09/2025 16:24:23,3.8,30.078125,False,Safaga,South,Egypt,True,"15km NNW of Safaga, Egypt",15km North-Northwest
 202509241512,35.6785,30.3989,24/09/2025,24/09/2025 15:12:06,4.1,107.55208333333,False,Mavikent,South,Turkey,False,71km N of Antalya coast,71km North
-202509240422,32.0972,35.3287,24/09/2025,24/09/2025 04:22:24,2.3,3.16162109375,False,Jūrīsh,West Bank,Palestine,True,"1km NW of Jūrīsh, Palestine",1km Northwest
 202510140354,27.5574,34.3672,14/10/2025,14/10/2025 03:54:05,2.9,29.622395833333,False,Sharm el-Sheikh,Sinai,Egypt,False,40km N of South Sinai coast,40km North
 202510131640,27.5483,33.7984,13/10/2025,13/10/2025 16:40:51,3.4,82.03125,False,El Gouna,South,Egypt,False,21km SW of Red Sea coast,21km Southwest
 202510070804,33.1123,35.6185,07/10/2025,07/10/2025 08:04:44,2.2,16.548665364583,False,Yesud HaMa‘ala,HaZafon,Israel,True,"6km S of Yesud HaMa‘ala, Israel",6km South
 202510060857,32.6314,35.1626,06/10/2025,06/10/2025 08:57:10,2.3,19.283040364583,False,Mishmar Ha‘Emeq,HaZafon,Israel,True,"3km SW of Mishmar Ha‘Emeq, Israel",3km Southwest
 202510060004,30.2285,34.2947,06/10/2025,06/10/2025 00:04:21,2.4,9.5133463541667,False,Mitzpe Ramon,Sinai,Egypt,True,"64km NE of Mitzpe Ramon, Egypt",64km Northeast
+202510040349,39.2763,28.8071,04/10/2025,04/10/2025 03:49:19,4.2,29.850260416667,False,Simav,Kütahya,Turkey,True,"26km SE of Simav, Turkey",26km Southeast
+202510040141,34.6351,26.436,04/10/2025,04/10/2025 01:41:35,3.3,38.736979166667,False,Palekastro,Crete,Greece,False,65km NNW of Crete coast,65km North-Northwest
 202510032040,32.8333,35.5655,03/10/2025,03/10/2025 20:40:57,2.1,4.69970703125,False,Tiberias,HaZafon,Israel,True,"6km SW of Tiberias, Israel",6km Southwest
 202510021051,34.7258,36.9774,02/10/2025,02/10/2025 10:51:34,2.8,32.356770833333,False,Mukharram al Fawqānī,South,Syria,True,"14km NE of Mukharram al Fawqānī, Syria",14km Northeast
 202510020107,33.2553,35.7077,02/10/2025,02/10/2025 01:07:50,2.3,9.31396484375,False,‘Ein Qunīya,HaZafon,Israel,True,"3km SE of ‘Ein Qunīya, Israel",3km Southeast
@@ -56,6 +58,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202509260416,28.2107,34.5897,26/09/2025,26/09/2025 04:16:00,2.9,32.356770833333,False,Dahab,Northwest,Saudi Arabia,False,32km NNW of Tabuk coast,32km North-Northwest
 202509251624,26.6228,34.003,25/09/2025,25/09/2025 16:24:23,3.8,30.078125,False,Safaga,South,Egypt,True,"15km NNW of Safaga, Egypt",15km North-Northwest
 202509241512,35.6785,30.3989,24/09/2025,24/09/2025 15:12:06,4.1,107.55208333333,False,Mavikent,South,Turkey,False,71km N of Antalya coast,71km North
+202509240422,32.0972,35.3287,24/09/2025,24/09/2025 04:22:24,2.3,3.16162109375,False,Jūrīsh,West Bank,Palestine,True,"1km NW of Jūrīsh, Palestine",1km Northwest
 202509240121,34.8165,29.9094,24/09/2025,24/09/2025 01:21:35,3.7,93.424479166667,False,Kaş,South,Turkey,False,156km N of Antalya coast,156km North
 202509232227,39.2537,28.5138,23/09/2025,23/09/2025 22:27:52,4.6,106.640625,False,Demirci,Balıkesir,Turkey,True,"26km SSE of Demirci, Turkey",26km South-Southeast
 202509230257,34.8256,35.0974,23/09/2025,23/09/2025 02:57:47,2.7,30.078125,False,Ţarţūs,North,Syria,False,72km E of Tartus coast,72km East
