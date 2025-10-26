@@ -29,6 +29,8 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202510082354,38.3826,29.2804,08/10/2025,08/10/2025 23:54:18,4.7,31.901041666667,False,Ulubey,Uşak,Turkey,True,"4km NNE of Ulubey, Turkey",4km North-Northeast
 202510081653,33.1231,34.5327,08/10/2025,08/10/2025 16:53:18,2.1,24.324544270833,False,Shave Tsiyyon,HaZafon,Israel,False,54km ESE of Haifa coast,54km East-Southeast
 202510071033,35.7625,31.933,07/10/2025,07/10/2025 10:33:41,3.6,106.00399780273,False,Gazipaşa,South,Turkey,False,66km NNE of Antalya coast,66km North-Northeast
+202510240233,32.8798,35.6009,24/10/2025,24/10/2025 02:33:25,2.0,6.8074544270833,False,Tūbā Zangarīya,HaZafon,Israel,True,"10km N of Tūbā Zangarīya, Israel",10km North
+202510231908,37.3663,35.9326,23/10/2025,23/10/2025 19:08:40,3.8,30.078125,False,Gazi,Adana,Turkey,True,"11km SW of Gazi, Turkey",11km Southwest
 202510230706,28.3378,33.2934,23/10/2025,23/10/2025 07:06:48,3.2,57.877604166667,False,Ras Gharib,Sinai,Egypt,False,21km W of South Sinai coast,21km West
 202510220130,34.5749,32.8569,22/10/2025,22/10/2025 01:30:32,2.7,12.361653645833,False,Kolossi,Cyprus,Cyprus,False,13km NE of Akrotiri coast,13km Northeast
 202510211630,30.9459,34.7452,21/10/2025,21/10/2025 16:30:40,2.4,9.99755859375,False,Bir Hadaj,HaDarom,Israel,True,"9km NNW of Bir Hadaj, Israel",9km North-Northwest
