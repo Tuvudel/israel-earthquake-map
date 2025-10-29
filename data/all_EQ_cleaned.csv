@@ -1,5 +1,7 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
 202510280048,38.7092,28.6532,28/10/2025,28/10/2025 00:48:35,4.6,106.640625,False,Kula,Manisa,Turkey,True,"18km S of Kula, Turkey",18km South
+202510272330,39.138,28.3236,27/10/2025,27/10/2025 23:30:15,4.2,25.634765625,False,Sındırgı,Balıkesir,Turkey,True,"17km NW of Sındırgı, Turkey",17km Northwest
+202510272310,33.9681,26.0198,27/10/2025,27/10/2025 23:10:02,3.8,29.850260416667,False,Ierápetra,Crete,Greece,False,119km NNW of Crete coast,119km North-Northwest
 202510271948,39.1734,28.1949,27/10/2025,27/10/2025 19:48:30,6.1,13.957763671875,False,Sındırgı,Balıkesir,Turkey,True,"8km N of Sındırgı, Turkey",8km North
 202510270636,36.3818,33.8454,27/10/2025,27/10/2025 06:36:42,3.9,28.938802083333,False,Tosmurlu,South,Turkey,True,"5km E of Tosmurlu, Turkey",5km East
 202510262351,35.1851,27.4159,26/10/2025,26/10/2025 23:51:05,4.4,196.76287841797,False,Karpathos,South Aegean,Greece,False,40km NNW of South Aegean coast,40km North-Northwest
@@ -27,14 +29,20 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202510182136,32.9042,25.4901,18/10/2025,18/10/2025 21:36:48,3.0,7.0,False,Al Bardīyah,Butnan,Libya,False,133km SSW of Butnan coast,133km South-Southwest
 202510171249,35.5107,30.3459,17/10/2025,17/10/2025 12:49:23,2.8,23.470052083333,False,Beymelek,South,Turkey,False,87km NNW of Antalya coast,87km North-Northwest
 202510170852,33.9707,35.9501,17/10/2025,17/10/2025 08:52:04,2.6,13.054395675659,False,Zahlé,South,Lebanon,True,"14km SSW of Zahlé, Lebanon",14km South-Southwest
-202510170355,35.1024,22.8858,17/10/2025,17/10/2025 03:55:43,4.2,34.86328125,False,Palaióchora,Crete,Greece,False,74km ENE of Crete coast,74km East-Northeast
-202510160420,34.6895,26.6897,16/10/2025,16/10/2025 04:20:52,4.5,32.356770833333,False,Palekastro,Crete,Greece,False,69km NW of Crete coast,69km Northwest
+202510280048,38.7092,28.6532,28/10/2025,28/10/2025 00:48:35,4.6,106.640625,False,Kula,Manisa,Turkey,True,"18km S of Kula, Turkey",18km South
+202510271948,39.1734,28.1949,27/10/2025,27/10/2025 19:48:30,6.1,13.957763671875,False,Sındırgı,Balıkesir,Turkey,True,"8km N of Sındırgı, Turkey",8km North
+202510270636,36.3818,33.8454,27/10/2025,27/10/2025 06:36:42,3.9,28.938802083333,False,Tosmurlu,South,Turkey,True,"5km E of Tosmurlu, Turkey",5km East
+202510262351,35.1851,27.4159,26/10/2025,26/10/2025 23:51:05,4.4,196.76287841797,False,Karpathos,South Aegean,Greece,False,40km NNW of South Aegean coast,40km North-Northwest
+202510262343,34.9959,27.5892,26/10/2025,26/10/2025 23:43:43,3.6,9.4919471740723,False,Karpathos,South Aegean,Greece,False,66km NNW of South Aegean coast,66km North-Northwest
 202510261532,34.026,35.758,26/10/2025,26/10/2025 15:32:46,2.5,4.4349374771118,False,Hrajel,North,Lebanon,True,"3km ESE of Hrajel, Lebanon",3km East-Southeast
 202510252316,29.6368,34.4144,25/10/2025,25/10/2025 23:16:03,2.5,14.722770690918,False,Eilat,Sinai,Egypt,True,"52km E of Eilat, Egypt",52km East
 202510252056,31.2961,35.5522,25/10/2025,25/10/2025 20:56:49,2.8,14.414754867554,False,Ar Rabbah,South,Jordan,True,"18km E of Ar Rabbah, Jordan",18km East
 202510251633,35.0333,33.9416,25/10/2025,25/10/2025 16:33:45,2.5,26.355096817017,False,Frénaros,Cyprus,Cyprus,True,2km WNW of Frénaros,2km West-Northwest
 202510250137,31.301,35.5147,25/10/2025,25/10/2025 01:37:58,2.9,9.7127278645833,False,‘En Boqeq,South,Jordan,True,"18km SW of ‘En Boqeq, Jordan",18km Southwest
 202510250027,34.9897,33.6448,25/10/2025,25/10/2025 00:27:39,2.9,34.283447265625,False,Voróklini,Cyprus,Cyprus,True,1km SE of Voróklini,1km Southeast
+202510242124,34.6532,29.6337,24/10/2025,24/10/2025 21:24:25,3.8,149.0234375,False,Kaş,South,Turkey,False,172km N of Antalya coast,172km North
+202510241159,28.7597,34.3278,24/10/2025,24/10/2025 11:59:48,2.6,14.35546875,False,Dahab,Sinai,Egypt,True,"35km SSE of Dahab, Egypt",35km South-Southeast
+202510240907,34.8075,34.2483,24/10/2025,24/10/2025 09:07:31,3.0,30.989583333333,False,Protaras,Cyprus,Cyprus,False,29km NW of Famagusta coast,29km Northwest
 202510240851,33.5428,35.8176,24/10/2025,24/10/2025 08:51:19,2.1,3.7027994791667,False,Aaïtanît,South,Lebanon,True,"14km W of Aaïtanît, Lebanon",14km West
 202510240327,34.0634,29.4077,24/10/2025,24/10/2025 03:27:09,3.7,41.015625,False,Kaş,South,Turkey,False,239km N of Antalya coast,239km North
 202510240233,32.8798,35.6009,24/10/2025,24/10/2025 02:33:25,2.0,6.8074544270833,False,Tūbā Zangarīya,HaZafon,Israel,True,"10km N of Tūbā Zangarīya, Israel",10km North
