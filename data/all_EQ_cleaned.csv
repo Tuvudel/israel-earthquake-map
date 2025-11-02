@@ -1,4 +1,7 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202511012227,33.8422,36.599,01/11/2025,01/11/2025 22:27:24,3.7,0.056966145833333,False,Ma‘lūlā,South,Syria,True,"5km W of Ma‘lūlā, Syria",5km West
+202510292106,34.2812,24.9089,29/10/2025,29/10/2025 21:06:07,4.6,88.411458333333,False,Pýrgos,Crete,Greece,False,84km NNE of Crete coast,84km North-Northeast
+202510292023,34.3333,35.1208,29/10/2025,29/10/2025 20:23:13,2.6,1.9368489583333,False,Batroûn,North,Lebanon,False,50km E of Mount Lebanon coast,50km East
 202510291438,28.6826,32.9512,29/10/2025,29/10/2025 14:38:30,3.1,88.8671875,False,Ras Gharib,South,Egypt,False,38km SSE of Red Sea coast,38km South-Southeast
 202510280048,38.7092,28.6532,28/10/2025,28/10/2025 00:48:35,4.6,106.640625,False,Kula,Manisa,Turkey,True,"18km S of Kula, Turkey",18km South
 202510272330,39.138,28.3236,27/10/2025,27/10/2025 23:30:15,4.2,25.634765625,False,Sındırgı,Balıkesir,Turkey,True,"17km NW of Sındırgı, Turkey",17km Northwest
@@ -26,9 +29,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202510210206,37.4093,36.8074,21/10/2025,21/10/2025 02:06:01,3.8,15.198945045471,False,Kahramanmaraş,Kahramanmaraş,Turkey,True,"22km NNE of Kahramanmaraş, Turkey",22km North-Northeast
 202510202304,35.4336,36.491,20/10/2025,20/10/2025 23:04:36,2.7,27.799479166667,False,Kafr Zaytā,North,Syria,True,"12km ESE of Kafr Zaytā, Syria",12km East-Southeast
 202510201624,35.4063,28.6903,20/10/2025,20/10/2025 16:24:16,3.9,31.901041666667,False,Lárdos,South Aegean,Greece,False,98km NW of South Aegean coast,98km Northwest
-202510190401,36.0234,34.9908,19/10/2025,19/10/2025 04:01:06,3.1,150.390625,False,Karataş,Cyprus,Cyprus,False,71km NNE of Northern Cyprus coast,71km North-Northeast
-202510182136,32.9042,25.4901,18/10/2025,18/10/2025 21:36:48,3.0,7.0,False,Al Bardīyah,Butnan,Libya,False,133km SSW of Butnan coast,133km South-Southwest
-202510171249,35.5107,30.3459,17/10/2025,17/10/2025 12:49:23,2.8,23.470052083333,False,Beymelek,South,Turkey,False,87km NNW of Antalya coast,87km North-Northwest
 202510291438,28.6826,32.9512,29/10/2025,29/10/2025 14:38:30,3.1,88.8671875,False,Ras Gharib,South,Egypt,False,38km SSE of Red Sea coast,38km South-Southeast
 202510280048,38.7092,28.6532,28/10/2025,28/10/2025 00:48:35,4.6,106.640625,False,Kula,Manisa,Turkey,True,"18km S of Kula, Turkey",18km South
 202510272330,39.138,28.3236,27/10/2025,27/10/2025 23:30:15,4.2,25.634765625,False,Sındırgı,Balıkesir,Turkey,True,"17km NW of Sındırgı, Turkey",17km Northwest
