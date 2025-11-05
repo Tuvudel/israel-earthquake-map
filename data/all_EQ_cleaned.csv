@@ -1,4 +1,5 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202511041019,29.8849,36.4469,04/11/2025,04/11/2025 10:19:40,2.2,0.22786458333333,False,Al Jafr,South,Jordan,True,"55km NNW of Al Jafr, Jordan",55km North-Northwest
 202511032023,38.8,29.0597,03/11/2025,03/11/2025 20:23:48,4.2,30.989583333333,False,Selendi,Kütahya,Turkey,True,"18km WSW of Selendi, Turkey",18km West-Southwest
 202511031747,33.2864,35.5781,03/11/2025,03/11/2025 17:47:57,2.1,6.6650390625,False,Metulla,South,Lebanon,True,"1km S of Metulla, Lebanon",1km South
 202511020407,35.1523,31.8173,02/11/2025,02/11/2025 04:07:09,3.4,101.171875,False,Pólis,Cyprus,Cyprus,False,57km ESE of Paphos coast,57km East-Southeast
@@ -28,7 +29,9 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202510241159,28.7597,34.3278,24/10/2025,24/10/2025 11:59:48,2.6,14.35546875,False,Dahab,Sinai,Egypt,True,"35km SSE of Dahab, Egypt",35km South-Southeast
 202510240907,34.8075,34.2483,24/10/2025,24/10/2025 09:07:31,3.0,30.989583333333,False,Protaras,Cyprus,Cyprus,False,29km NW of Famagusta coast,29km Northwest
 202510240851,33.5428,35.8176,24/10/2025,24/10/2025 08:51:19,2.1,3.7027994791667,False,Aaïtanît,South,Lebanon,True,"14km W of Aaïtanît, Lebanon",14km West
-202510240327,34.0634,29.4077,24/10/2025,24/10/2025 03:27:09,3.7,41.015625,False,Kaş,South,Turkey,False,239km N of Antalya coast,239km North
+202511032023,38.8,29.0597,03/11/2025,03/11/2025 20:23:48,4.2,30.989583333333,False,Selendi,Kütahya,Turkey,True,"18km WSW of Selendi, Turkey",18km West-Southwest
+202511031747,33.2864,35.5781,03/11/2025,03/11/2025 17:47:57,2.1,6.6650390625,False,Metulla,South,Lebanon,True,"1km S of Metulla, Lebanon",1km South
+202511020407,35.1523,31.8173,02/11/2025,02/11/2025 04:07:09,3.4,101.171875,False,Pólis,Cyprus,Cyprus,False,57km ESE of Paphos coast,57km East-Southeast
 202511020107,34.0815,27.1031,02/11/2025,02/11/2025 01:07:21,4.2,30.989583333333,False,Palekastro,Crete,Greece,False,146km NNW of Crete coast,146km North-Northwest
 202511012227,33.8422,36.599,01/11/2025,01/11/2025 22:27:24,3.7,0.056966145833333,False,Ma‘lūlā,South,Syria,True,"5km W of Ma‘lūlā, Syria",5km West
 202511010343,33.8774,35.4199,01/11/2025,01/11/2025 03:43:49,2.4,14.811197916667,False,Ra’s Bayrūt,North,Lebanon,False,6km ENE of Beirut coast,6km East-Northeast
