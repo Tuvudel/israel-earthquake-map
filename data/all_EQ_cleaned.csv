@@ -1,4 +1,5 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202511060846,34.0815,24.8978,06/11/2025,06/11/2025 08:46:58,4.7,85.677083333333,False,Pýrgos,Crete,Greece,False,105km NNE of Crete coast,105km North-Northeast
 202511042140,36.0234,31.2349,04/11/2025,04/11/2025 21:40:03,3.7,106.640625,False,Çavuşköy,South,Turkey,False,80km WNW of Antalya coast,80km West-Northwest
 202511041908,33.1866,34.9152,04/11/2025,04/11/2025 19:08:03,2.2,16.349283854167,False,Kfar Rosh HaNiqra,South,Lebanon,False,22km ESE of South coast,22km East-Southeast
 202511041019,29.8849,36.4469,04/11/2025,04/11/2025 10:19:40,2.2,0.22786458333333,False,Al Jafr,South,Jordan,True,"55km NNW of Al Jafr, Jordan",55km North-Northwest
@@ -28,7 +29,8 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202510250137,31.301,35.5147,25/10/2025,25/10/2025 01:37:58,2.9,9.7127278645833,False,‘En Boqeq,South,Jordan,True,"18km SW of ‘En Boqeq, Jordan",18km Southwest
 202510250027,34.9897,33.6448,25/10/2025,25/10/2025 00:27:39,2.9,34.283447265625,False,Voróklini,Cyprus,Cyprus,True,1km SE of Voróklini,1km Southeast
 202510242124,34.6532,29.6337,24/10/2025,24/10/2025 21:24:25,3.8,149.0234375,False,Kaş,South,Turkey,False,172km N of Antalya coast,172km North
-202510241159,28.7597,34.3278,24/10/2025,24/10/2025 11:59:48,2.6,14.35546875,False,Dahab,Sinai,Egypt,True,"35km SSE of Dahab, Egypt",35km South-Southeast
+202511042140,36.0234,31.2349,04/11/2025,04/11/2025 21:40:03,3.7,106.640625,False,Çavuşköy,South,Turkey,False,80km WNW of Antalya coast,80km West-Northwest
+202511041908,33.1866,34.9152,04/11/2025,04/11/2025 19:08:03,2.2,16.349283854167,False,Kfar Rosh HaNiqra,South,Lebanon,False,22km ESE of South coast,22km East-Southeast
 202511041019,29.8849,36.4469,04/11/2025,04/11/2025 10:19:40,2.2,0.22786458333333,False,Al Jafr,South,Jordan,True,"55km NNW of Al Jafr, Jordan",55km North-Northwest
 202511032023,38.8,29.0597,03/11/2025,03/11/2025 20:23:48,4.2,30.989583333333,False,Selendi,Kütahya,Turkey,True,"18km WSW of Selendi, Turkey",18km West-Southwest
 202511031747,33.2864,35.5781,03/11/2025,03/11/2025 17:47:57,2.1,6.6650390625,False,Metulla,South,Lebanon,True,"1km S of Metulla, Lebanon",1km South
