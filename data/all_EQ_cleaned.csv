@@ -1,4 +1,12 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202511130316,39.2287,28.1581,13/11/2025,13/11/2025 03:16:15,4.6,6.494140625,False,Sındırgı,Balıkesir,Turkey,True,"2km NE of Sındırgı, Turkey",2km Northeast
+202511121441,34.7938,32.6743,12/11/2025,12/11/2025 14:41:03,3.9,15.266927083333,False,Páchna,Cyprus,Cyprus,True,11km E of Páchna,11km East
+202511121423,34.7213,32.6247,12/11/2025,12/11/2025 14:23:33,5.0,9.7981770833333,True,Pissoúri,Cyprus,Cyprus,True,9km SE of Pissoúri,9km Southeast
+202511121004,34.8347,32.5888,12/11/2025,12/11/2025 10:04:06,3.2,32.356770833333,False,Polémi,Cyprus,Cyprus,True,9km NW of Polémi,9km Northwest
+202511120959,34.8097,32.615,12/11/2025,12/11/2025 09:59:13,4.0,22.900390625,False,Polémi,Cyprus,Cyprus,True,13km NW of Polémi,13km Northwest
+202511120941,34.7938,32.5806,12/11/2025,12/11/2025 09:41:52,4.4,8.88671875,False,Tsáda,Cyprus,Cyprus,True,11km WNW of Tsáda,11km West-Northwest
+202511120931,34.8006,32.5985,12/11/2025,12/11/2025 09:31:27,5.1,13.102213541667,True,Tsáda,Cyprus,Cyprus,True,12km WNW of Tsáda,12km West-Northwest
+202511112303,35.0454,23.4812,11/11/2025,11/11/2025 23:03:44,3.2,30.0,False,Palaióchora,Crete,Greece,False,28km NE of Crete coast,28km Northeast
 202511110916,27.0455,34.0793,11/11/2025,11/11/2025 09:16:06,3.6,15.348791122437,False,Makadi Bay,South,Egypt,False,19km WSW of Red Sea coast,19km West-Southwest
 202511110556,29.2656,35.0314,11/11/2025,11/11/2025 05:56:17,2.0,24.723307291667,False,Tala Bay,Northwest,Saudi Arabia,True,"17km NNW of Tala Bay, Saudi Arabia",17km North-Northwest
 202511110158,35.3337,23.7317,11/11/2025,11/11/2025 01:58:25,5.3,61.067708333333,False,Palaióchora,Crete,Greece,True,"12km SSW of Palaióchora, Greece",12km South-Southwest
@@ -21,18 +29,16 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202511071235,36.3409,35.63,07/11/2025,07/11/2025 12:35:06,3.7,32.356770833333,False,Karataş,South,Turkey,False,35km NW of Hatay coast,35km Northwest
 202511070856,34.4264,26.2541,07/11/2025,07/11/2025 08:56:39,5.5,0.91145833333333,False,Ierápetra,Crete,Greece,False,80km NW of Crete coast,80km Northwest
 202511070152,38.7274,28.3628,07/11/2025,07/11/2025 01:52:43,4.3,30.989583333333,False,Köprübaşı,Manisa,Turkey,True,"4km NE of Köprübaşı, Turkey",4km Northeast
-202511061930,28.737,34.8489,06/11/2025,06/11/2025 19:30:49,2.8,9.5703125,False,Nuwaybi‘a,Northwest,Saudi Arabia,True,"39km NNW of Nuwaybi‘a, Saudi Arabia",39km North-Northwest
-202511060846,34.0815,24.8978,06/11/2025,06/11/2025 08:46:58,4.7,85.677083333333,False,Pýrgos,Crete,Greece,False,105km NNE of Crete coast,105km North-Northeast
-202511042140,36.0234,31.2349,04/11/2025,04/11/2025 21:40:03,3.7,106.640625,False,Çavuşköy,South,Turkey,False,80km WNW of Antalya coast,80km West-Northwest
-202511041908,33.1866,34.9152,04/11/2025,04/11/2025 19:08:03,2.2,16.349283854167,False,Kfar Rosh HaNiqra,South,Lebanon,False,22km ESE of South coast,22km East-Southeast
-202511032023,38.8,29.0597,03/11/2025,03/11/2025 20:23:48,4.2,30.989583333333,False,Selendi,Kütahya,Turkey,True,"18km WSW of Selendi, Turkey",18km West-Southwest
-202511031747,33.2864,35.5781,03/11/2025,03/11/2025 17:47:57,2.1,6.6650390625,False,Metulla,South,Lebanon,True,"1km S of Metulla, Lebanon",1km South
-202511020407,35.1523,31.8173,02/11/2025,02/11/2025 04:07:09,3.4,101.171875,False,Pólis,Cyprus,Cyprus,False,57km ESE of Paphos coast,57km East-Southeast
-202511020107,34.0815,27.1031,02/11/2025,02/11/2025 01:07:21,4.2,30.989583333333,False,Palekastro,Crete,Greece,False,146km NNW of Crete coast,146km North-Northwest
+202511110916,27.0455,34.0793,11/11/2025,11/11/2025 09:16:06,3.6,15.348791122437,False,Makadi Bay,South,Egypt,False,19km WSW of Red Sea coast,19km West-Southwest
+202511110556,29.2656,35.0314,11/11/2025,11/11/2025 05:56:17,2.0,24.723307291667,False,Tala Bay,Northwest,Saudi Arabia,True,"17km NNW of Tala Bay, Saudi Arabia",17km North-Northwest
+202511110158,35.3337,23.7317,11/11/2025,11/11/2025 01:58:25,5.3,61.067708333333,False,Palaióchora,Crete,Greece,True,"12km SSW of Palaióchora, Greece",12km South-Southwest
 202511110117,29.2792,34.9054,11/11/2025,11/11/2025 01:17:39,2.2,8.7727864583333,False,Tala Bay,Northwest,Saudi Arabia,False,16km NNE of Al-Jowf coast,16km North-Northeast
+202511110102,37.6385,36.3796,11/11/2025,11/11/2025 01:02:07,3.8,125.78125,False,Andırın,Kahramanmaraş,Turkey,True,"7km SSW of Andırın, Turkey",7km South-Southwest
+202511102103,38.2374,28.7346,10/11/2025,10/11/2025 21:03:11,4.5,92.057291666667,False,Sarıgöl,Manisa,Turkey,True,"3km W of Sarıgöl, Turkey",3km West
 202511101821,39.1448,28.9319,10/11/2025,10/11/2025 18:21:01,4.7,159.50520833333,False,Simav,Kütahya,Turkey,True,"7km SSE of Simav, Turkey",7km South-Southeast
 202511100641,38.8181,29.5127,10/11/2025,10/11/2025 06:41:56,4.4,93.880208333333,False,Uşak,Kütahya,Turkey,True,"19km SSW of Uşak, Turkey",19km South-Southwest
 202511100503,33.8819,26.9598,10/11/2025,10/11/2025 05:03:08,4.5,97.526041666667,False,Palekastro,Crete,Greece,False,160km NNW of Crete coast,160km North-Northwest
+202511100248,39.4714,27.0271,10/11/2025,10/11/2025 02:48:48,4.9,31.901041666667,False,Börezli,Balıkesir,Turkey,True,"3km N of Börezli, Turkey",3km North
 202511092206,38.9996,28.5835,09/11/2025,09/11/2025 22:06:50,4.5,70.182291666667,False,Demirci,Manisa,Turkey,True,"8km NE of Demirci, Turkey",8km Northeast
 202511090437,27.4796,33.5205,09/11/2025,09/11/2025 04:37:50,3.0,10.0,False,El Gouna,South,Egypt,True,"18km ESE of El Gouna, Egypt",18km East-Southeast
 202511090132,27.566,33.3945,09/11/2025,09/11/2025 01:32:58,2.7,15.38990688324,False,El Gouna,South,Egypt,True,"34km SE of El Gouna, Egypt",34km Southeast
