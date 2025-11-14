@@ -1,5 +1,9 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202511130927,34.7485,32.6081,13/11/2025,13/11/2025 09:27:26,4.5,13.899739583333,False,Pissoúri,Cyprus,Cyprus,True,12km SE of Pissoúri,12km Southeast
+202511130703,34.7689,32.6123,13/11/2025,13/11/2025 07:03:17,3.4,9.912109375,False,Pissoúri,Cyprus,Cyprus,True,14km SE of Pissoúri,14km Southeast
+202511130446,34.7462,32.6564,13/11/2025,13/11/2025 04:46:33,4.0,9.912109375,False,Pissoúri,Cyprus,Cyprus,True,9km SSE of Pissoúri,9km South-Southeast
 202511130316,39.2287,28.1581,13/11/2025,13/11/2025 03:16:15,4.6,6.494140625,False,Sındırgı,Balıkesir,Turkey,True,"2km NE of Sındırgı, Turkey",2km Northeast
+202511121727,30.52,35.3351,12/11/2025,12/11/2025 17:27:56,2.1,18.912760416667,False,Ash-Shūbak,South,Jordan,True,"21km E of Ash-Shūbak, Jordan",21km East
 202511121441,34.7938,32.6743,12/11/2025,12/11/2025 14:41:03,3.9,15.266927083333,False,Páchna,Cyprus,Cyprus,True,11km E of Páchna,11km East
 202511121423,34.7213,32.6247,12/11/2025,12/11/2025 14:23:33,5.0,9.7981770833333,True,Pissoúri,Cyprus,Cyprus,True,9km SE of Pissoúri,9km Southeast
 202511121004,34.8347,32.5888,12/11/2025,12/11/2025 10:04:06,3.2,32.356770833333,False,Polémi,Cyprus,Cyprus,True,9km NW of Polémi,9km Northwest
@@ -25,10 +29,14 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202511081107,33.4906,35.6924,08/11/2025,08/11/2025 11:07:10,2.0,1.0823567708333,False,Aaïtanît,South,Lebanon,True,"8km NNW of Aaïtanît, Lebanon",8km North-Northwest
 202511080852,35.3123,27.0534,08/11/2025,08/11/2025 08:52:00,3.6,10.0,False,Karpathos,South Aegean,Greece,False,26km NNE of South Aegean coast,26km North-Northeast
 202511071940,36.1685,26.8455,07/11/2025,07/11/2025 19:40:49,4.5,93.880208333333,False,Mandráki,South Aegean,Greece,False,56km NNE of South Aegean coast,56km North-Northeast
-202511071803,34.6623,33.9396,07/11/2025,07/11/2025 18:03:35,3.0,34.635416666667,False,Xylofágou,Cyprus,Cyprus,False,36km NNW of Dhekelia coast,36km North-Northwest
-202511071235,36.3409,35.63,07/11/2025,07/11/2025 12:35:06,3.7,32.356770833333,False,Karataş,South,Turkey,False,35km NW of Hatay coast,35km Northwest
-202511070856,34.4264,26.2541,07/11/2025,07/11/2025 08:56:39,5.5,0.91145833333333,False,Ierápetra,Crete,Greece,False,80km NW of Crete coast,80km Northwest
-202511070152,38.7274,28.3628,07/11/2025,07/11/2025 01:52:43,4.3,30.989583333333,False,Köprübaşı,Manisa,Turkey,True,"4km NE of Köprübaşı, Turkey",4km Northeast
+202511130316,39.2287,28.1581,13/11/2025,13/11/2025 03:16:15,4.6,6.494140625,False,Sındırgı,Balıkesir,Turkey,True,"2km NE of Sındırgı, Turkey",2km Northeast
+202511121441,34.7938,32.6743,12/11/2025,12/11/2025 14:41:03,3.9,15.266927083333,False,Páchna,Cyprus,Cyprus,True,11km E of Páchna,11km East
+202511121423,34.7213,32.6247,12/11/2025,12/11/2025 14:23:33,5.0,9.7981770833333,True,Pissoúri,Cyprus,Cyprus,True,9km SE of Pissoúri,9km Southeast
+202511121004,34.8347,32.5888,12/11/2025,12/11/2025 10:04:06,3.2,32.356770833333,False,Polémi,Cyprus,Cyprus,True,9km NW of Polémi,9km Northwest
+202511120959,34.8097,32.615,12/11/2025,12/11/2025 09:59:13,4.0,22.900390625,False,Polémi,Cyprus,Cyprus,True,13km NW of Polémi,13km Northwest
+202511120941,34.7938,32.5806,12/11/2025,12/11/2025 09:41:52,4.4,8.88671875,False,Tsáda,Cyprus,Cyprus,True,11km WNW of Tsáda,11km West-Northwest
+202511120931,34.8006,32.5985,12/11/2025,12/11/2025 09:31:27,5.1,13.102213541667,True,Tsáda,Cyprus,Cyprus,True,12km WNW of Tsáda,12km West-Northwest
+202511112303,35.0454,23.4812,11/11/2025,11/11/2025 23:03:44,3.2,30.0,False,Palaióchora,Crete,Greece,False,28km NE of Crete coast,28km Northeast
 202511110916,27.0455,34.0793,11/11/2025,11/11/2025 09:16:06,3.6,15.348791122437,False,Makadi Bay,South,Egypt,False,19km WSW of Red Sea coast,19km West-Southwest
 202511110556,29.2656,35.0314,11/11/2025,11/11/2025 05:56:17,2.0,24.723307291667,False,Tala Bay,Northwest,Saudi Arabia,True,"17km NNW of Tala Bay, Saudi Arabia",17km North-Northwest
 202511110158,35.3337,23.7317,11/11/2025,11/11/2025 01:58:25,5.3,61.067708333333,False,Palaióchora,Crete,Greece,True,"12km SSW of Palaióchora, Greece",12km South-Southwest
