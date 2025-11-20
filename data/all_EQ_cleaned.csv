@@ -1,5 +1,17 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202511190808,33.6142,35.4671,19/11/2025,19/11/2025 08:08:32,1.8,17.545572916667,False,Sidon,North,Lebanon,True,"11km SW of Sidon, Lebanon",11km Southwest
+202511190459,34.7666,32.6467,19/11/2025,19/11/2025 04:59:34,3.3,19.82421875,False,Pissoúri,Cyprus,Cyprus,True,12km SSE of Pissoúri,12km South-Southeast
 202511181045,30.0697,35.137,18/11/2025,18/11/2025 10:45:57,2.0,21.248372395833,False,Al Quwayrah,South,Jordan,True,"34km SSE of Al Quwayrah, Jordan",34km South-Southeast
+202511180445,32.8611,32.2441,18/11/2025,18/11/2025 04:45:17,3.0,14.35546875,False,‘Izbat al Burj,North,Egypt,False,155km SSW of Damietta coast,155km South-Southwest
+202511180332,34.5625,32.8204,18/11/2025,18/11/2025 03:32:35,3.1,10.481770833333,False,Erími,Cyprus,Cyprus,False,16km NE of Akrotiri coast,16km Northeast
+202511180322,34.6347,32.7894,18/11/2025,18/11/2025 03:22:26,2.6,11.997134208679,False,Pissoúri,Cyprus,Cyprus,False,9km WNW of Akrotiri coast,9km West-Northwest
+202511180128,32.8339,32.2713,18/11/2025,18/11/2025 01:28:24,3.1,32.584635416667,False,‘Izbat al Burj,North,Egypt,False,153km SSW of Damietta coast,153km South-Southwest
+202511180108,32.8089,32.2318,18/11/2025,18/11/2025 01:08:00,3.3,31.787109375,False,‘Izbat al Burj,North,Egypt,False,149km SSW of Damietta coast,149km South-Southwest
+202511180105,32.8248,32.3421,18/11/2025,18/11/2025 01:05:30,3.2,14.811197916667,False,‘Izbat al Burj,North,Egypt,False,154km SSW of Damietta coast,154km South-Southwest
+202511180100,32.8112,32.2305,18/11/2025,18/11/2025 01:00:00,3.3,15.095833333333,False,‘Izbat al Burj,North,Egypt,False,149km SSW of Damietta coast,149km South-Southwest
+202511180055,32.8702,32.2876,18/11/2025,18/11/2025 00:55:15,2.4,16.634114583333,False,‘Izbat al Burj,North,Egypt,False,157km SSW of Damietta coast,157km South-Southwest
+202511180045,32.8282,32.3468,18/11/2025,18/11/2025 00:45:28,3.3,12.247721354167,False,‘Izbat al Burj,North,Egypt,False,154km SSW of Damietta coast,154km South-Southwest
+202511180000,32.8157,32.2441,18/11/2025,18/11/2025 00:00:00,3.1,14.811197916667,False,‘Izbat al Burj,North,Egypt,False,150km SSW of Damietta coast,150km South-Southwest
 202511170959,32.945,35.7026,17/11/2025,17/11/2025 09:59:44,2.1,20.393880208333,False,Katzrin,HaZafon,Israel,True,"5km NNW of Katzrin, Israel",5km North-Northwest
 202511170722,27.5846,33.286,17/11/2025,17/11/2025 07:22:51,3.1,43.75,False,El Gouna,South,Egypt,True,"44km ESE of El Gouna, Egypt",44km East-Southeast
 202511170329,35.2158,36.0108,17/11/2025,17/11/2025 03:29:53,3.0,30.533854166667,False,Bāniyās,North,Syria,True,"7km WSW of Bāniyās, Syria",7km West-Southwest
@@ -17,23 +29,15 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202511140110,34.694,32.8011,14/11/2025,14/11/2025 01:10:16,3.4,9.7981770833333,False,Sotíra,Cyprus,Cyprus,True,6km ENE of Sotíra,6km East-Northeast
 202511132258,28.8981,34.6221,13/11/2025,13/11/2025 22:58:51,2.6,1.2532552083333,False,Nuwaybi‘a,Sinai,Egypt,True,"17km NNE of Nuwaybi‘a, Egypt",17km North-Northeast
 202511132250,28.8595,34.6182,13/11/2025,13/11/2025 22:50:49,2.4,1.5950520833333,False,Nuwaybi‘a,Sinai,Egypt,True,"21km NNE of Nuwaybi‘a, Egypt",21km North-Northeast
-202511132241,28.9117,34.6221,13/11/2025,13/11/2025 22:41:49,2.5,0.11393229166667,False,Nuwaybi‘a,Sinai,Egypt,True,"16km NNE of Nuwaybi‘a, Egypt",16km North-Northeast
-202511132202,28.8935,34.6299,13/11/2025,13/11/2025 22:02:50,2.3,1.9368489583333,False,Nuwaybi‘a,Sinai,Egypt,True,"17km N of Nuwaybi‘a, Egypt",17km North
-202511131801,34.8354,32.5472,13/11/2025,13/11/2025 18:01:54,2.8,18.269779205322,False,Tsáda,Cyprus,Cyprus,True,7km W of Tsáda,7km West
-202511131729,34.8907,32.4859,13/11/2025,13/11/2025 17:29:51,3.1,15.786796569824,False,Polémi,Cyprus,Cyprus,True,2km ESE of Polémi,2km East-Southeast
-202511131554,36.1541,31.3638,13/11/2025,13/11/2025 15:54:14,3.1,78.709655761719,False,Okurcalar,South,Turkey,False,63km NNE of Antalya coast,63km North-Northeast
-202511131355,34.7918,32.5548,13/11/2025,13/11/2025 13:55:20,3.4,10.003999710083,False,Konia,Cyprus,Cyprus,True,9km W of Konia,9km West
-202511131008,34.7512,32.6155,13/11/2025,13/11/2025 10:08:39,3.0,15.0,False,Pissoúri,Cyprus,Cyprus,True,12km SE of Pissoúri,12km Southeast
-202511130927,34.7485,32.6081,13/11/2025,13/11/2025 09:27:26,4.5,13.899739583333,False,Pissoúri,Cyprus,Cyprus,True,12km SE of Pissoúri,12km Southeast
-202511130810,34.6395,32.7333,13/11/2025,13/11/2025 08:10:32,2.7,9.0884962081909,False,Pissoúri,Cyprus,Cyprus,False,4km NW of Limassol coast,4km Northwest
-202511130703,34.7689,32.6123,13/11/2025,13/11/2025 07:03:17,3.4,9.912109375,False,Pissoúri,Cyprus,Cyprus,True,14km SE of Pissoúri,14km Southeast
-202511130446,34.685,32.5861,13/11/2025,13/11/2025 04:46:33,4.1,10.709635416667,False,Pissoúri,Cyprus,Cyprus,False,11km E of Paphos coast,11km East
-202511130316,39.2287,28.1581,13/11/2025,13/11/2025 03:16:15,4.6,6.494140625,False,Sındırgı,Balıkesir,Turkey,True,"2km NE of Sındırgı, Turkey",2km Northeast
+202511181045,30.0697,35.137,18/11/2025,18/11/2025 10:45:57,2.0,21.248372395833,False,Al Quwayrah,South,Jordan,True,"34km SSE of Al Quwayrah, Jordan",34km South-Southeast
 202511170959,32.945,35.7026,17/11/2025,17/11/2025 09:59:44,2.1,20.393880208333,False,Katzrin,HaZafon,Israel,True,"5km NNW of Katzrin, Israel",5km North-Northwest
+202511170722,27.5846,33.286,17/11/2025,17/11/2025 07:22:51,3.1,43.75,False,El Gouna,South,Egypt,True,"44km ESE of El Gouna, Egypt",44km East-Southeast
+202511170329,35.2158,36.0108,17/11/2025,17/11/2025 03:29:53,3.0,30.533854166667,False,Bāniyās,North,Syria,True,"7km WSW of Bāniyās, Syria",7km West-Southwest
 202511161503,33.7469,35.943,16/11/2025,16/11/2025 15:03:02,3.2,1.3102213541667,False,Aanjar,South,Lebanon,True,"2km SSW of Aanjar, Lebanon",2km South-Southwest
 202511161458,33.7668,35.9741,16/11/2025,16/11/2025 14:58:10,2.4,2.3082885742188,False,Aanjar,South,Lebanon,True,"6km SW of Aanjar, Lebanon",6km Southwest
 202511161159,33.8297,35.9836,16/11/2025,16/11/2025 11:59:47,2.5,10.595703125,False,Zahlé,South,Lebanon,True,"8km WNW of Zahlé, Lebanon",8km West-Northwest
 202511160407,32.4454,35.1983,16/11/2025,16/11/2025 04:07:46,2.2,21.504720052083,False,Kufayrit,West Bank,Palestine,True,"0km ESE of Kufayrit, Palestine",0km East-Southeast
+202511151317,28.8323,35.0693,15/11/2025,15/11/2025 13:17:05,2.7,13.444010416667,False,Nuwaybi‘a,Northwest,Saudi Arabia,True,"46km WNW of Nuwaybi‘a, Saudi Arabia",46km West-Northwest
 202511150141,34.7076,32.6991,15/11/2025,15/11/2025 01:41:49,3.3,9.5703125,False,Pissoúri,Cyprus,Cyprus,True,4km S of Pissoúri,4km South
 202511150050,34.0997,25.8351,15/11/2025,15/11/2025 00:50:34,4.8,102.99479166667,False,Ierápetra,Crete,Greece,False,102km N of Crete coast,102km North
 202511142246,34.6668,32.5806,14/11/2025,14/11/2025 22:46:57,3.4,37.59765625,False,Pissoúri,Cyprus,Cyprus,False,11km E of Paphos coast,11km East
