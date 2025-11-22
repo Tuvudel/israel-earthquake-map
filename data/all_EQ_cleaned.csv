@@ -29,6 +29,12 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202511150141,34.7076,32.6991,15/11/2025,15/11/2025 01:41:49,3.3,9.5703125,False,Pissoúri,Cyprus,Cyprus,True,4km S of Pissoúri,4km South
 202511150050,34.0997,25.8351,15/11/2025,15/11/2025 00:50:34,4.8,102.99479166667,False,Ierápetra,Crete,Greece,False,102km N of Crete coast,102km North
 202511142246,34.6668,32.5806,14/11/2025,14/11/2025 22:46:57,3.4,37.59765625,False,Pissoúri,Cyprus,Cyprus,False,11km E of Paphos coast,11km East
+202511201148,32.0388,35.4574,20/11/2025,20/11/2025 11:48:26,2.1,2.1077473958333,False,Al Faşāyil,West Bank,Palestine,True,"2km SW of Al Faşāyil, Palestine",2km Southwest
+202511200457,32.2271,35.4695,20/11/2025,20/11/2025 04:57:29,2.2,14.982096354167,False,Bayt Ḩasan,West Bank,Palestine,True,"6km W of Bayt Ḩasan, Palestine",6km West
+202511192109,34.694,32.8287,19/11/2025,19/11/2025 21:09:30,3.2,10.25390625,False,Sotíra,Cyprus,Cyprus,True,"4km ENE of Sotíra, Akrotiri Sovereign Base Area",4km East-Northeast
+202511192039,32.0393,35.4732,19/11/2025,19/11/2025 20:39:45,2.5,3.7312825520833,False,Al Faşāyil,West Bank,Palestine,True,"3km WSW of Al Faşāyil, Palestine",3km West-Southwest
+202511191728,34.7167,26.21,19/11/2025,19/11/2025 17:28:25,4.4,99.348958333333,False,Palekastro,Crete,Greece,False,54km N of Crete coast,54km North
+202511191435,32.8214,35.0745,19/11/2025,19/11/2025 14:35:35,2.2,22.7294921875,False,Qiryat Bialik,HaZafon,Israel,True,"1km ENE of Qiryat Bialik, Israel",1km East-Northeast
 202511190808,33.6142,35.4671,19/11/2025,19/11/2025 08:08:32,1.8,17.545572916667,False,Sidon,North,Lebanon,True,"11km SW of Sidon, Lebanon",11km Southwest
 202511190459,34.7666,32.6467,19/11/2025,19/11/2025 04:59:34,3.3,19.82421875,False,Pissoúri,Cyprus,Cyprus,True,12km SSE of Pissoúri,12km South-Southeast
 202511181045,30.0697,35.137,18/11/2025,18/11/2025 10:45:57,2.0,21.248372395833,False,Al Quwayrah,South,Jordan,True,"34km SSE of Al Quwayrah, Jordan",34km South-Southeast
