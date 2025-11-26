@@ -1,4 +1,6 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202511250903,34.6895,32.7653,25/11/2025,25/11/2025 09:03:44,3.4,10.481770833333,False,Pissoúri,Cyprus,Cyprus,True,6km WSW of Pissoúri,6km West-Southwest
+202511250738,29.354,32.8129,25/11/2025,25/11/2025 07:38:25,3.3,1.3671875,False,Ain Sukhna,Sinai,Egypt,False,55km WNW of South Sinai coast,55km West-Northwest
 202511250021,31.2766,35.4367,25/11/2025,25/11/2025 00:21:19,2.8,21.7041015625,False,‘En Boqeq,South,Jordan,True,"11km SW of ‘En Boqeq, Jordan",11km Southwest
 202511241945,35.37,24.6922,24/11/2025,24/11/2025 19:45:35,4.8,33.723958333333,False,Pérama,Crete,Greece,True,"1km E of Pérama, Greece",1km East
 202511241722,34.6441,32.8259,24/11/2025,24/11/2025 17:22:23,3.0,10.026041666667,False,Sotíra,Cyprus,Cyprus,False,8km NNE of Akrotiri coast,8km North-Northeast
@@ -27,14 +29,21 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202511200457,32.2271,35.4695,20/11/2025,20/11/2025 04:57:29,2.2,14.982096354167,False,Bayt Ḩasan,West Bank,Palestine,True,"6km W of Bayt Ḩasan, Palestine",6km West
 202511192109,34.694,32.8287,19/11/2025,19/11/2025 21:09:30,3.2,10.25390625,False,Sotíra,Cyprus,Cyprus,True,"4km ENE of Sotíra, Akrotiri Sovereign Base Area",4km East-Northeast
 202511192039,32.0393,35.4732,19/11/2025,19/11/2025 20:39:45,2.5,3.7312825520833,False,Al Faşāyil,West Bank,Palestine,True,"3km WSW of Al Faşāyil, Palestine",3km West-Southwest
-202511191728,34.7167,26.21,19/11/2025,19/11/2025 17:28:25,4.4,99.348958333333,False,Palekastro,Crete,Greece,False,54km N of Crete coast,54km North
-202511191435,32.8214,35.0745,19/11/2025,19/11/2025 14:35:35,2.2,22.7294921875,False,Qiryat Bialik,HaZafon,Israel,True,"1km ENE of Qiryat Bialik, Israel",1km East-Northeast
+202511250021,31.2766,35.4367,25/11/2025,25/11/2025 00:21:19,2.8,21.7041015625,False,‘En Boqeq,South,Jordan,True,"11km SW of ‘En Boqeq, Jordan",11km Southwest
+202511241945,35.37,24.6922,24/11/2025,24/11/2025 19:45:35,4.8,33.723958333333,False,Pérama,Crete,Greece,True,"1km E of Pérama, Greece",1km East
+202511241722,34.6441,32.8259,24/11/2025,24/11/2025 17:22:23,3.0,10.026041666667,False,Sotíra,Cyprus,Cyprus,False,8km NNE of Akrotiri coast,8km North-Northeast
+202511241457,29.2497,32.6109,24/11/2025,24/11/2025 14:57:28,3.5,31.217447916667,False,Ain Sukhna,South,Egypt,True,"48km NW of Ain Sukhna, Egypt",48km Northwest
+202511240331,36.4226,30.7598,24/11/2025,24/11/2025 03:31:18,3.9,121.22395833333,False,Tekirova,South,Turkey,False,23km WNW of Antalya coast,23km West-Northwest
+202511232243,33.4827,28.169,23/11/2025,23/11/2025 22:43:23,4.2,33.723958333333,False,Karpathos,South Aegean,Greece,False,242km NNW of South Aegean coast,242km North-Northwest
 202511231942,34.9799,33.6655,23/11/2025,23/11/2025 19:42:16,2.9,13.216145833333,False,Voróklini,Cyprus,Cyprus,True,1km WNW of Voróklini,1km West-Northwest
 202511230016,30.5348,35.3025,23/11/2025,23/11/2025 00:16:27,2.1,20.906575520833,False,Ash-Shūbak,South,Jordan,True,"25km E of Ash-Shūbak, Jordan",25km East
 202511230012,33.7685,35.1277,23/11/2025,23/11/2025 00:12:39,2.1,21.647135416667,False,Sidon,North,Lebanon,False,33km SE of Mount Lebanon coast,33km Southeast
 202511230011,30.5166,35.2773,23/11/2025,23/11/2025 00:11:09,2.0,14.8681640625,False,Ash-Shūbak,South,Jordan,True,"27km E of Ash-Shūbak, Jordan",27km East
 202511220708,34.8415,32.4772,22/11/2025,22/11/2025 07:08:14,2.9,27.457682291667,False,Tsáda,Cyprus,Cyprus,True,0km SSW of Tsáda,0km South-Southwest
 202511220127,34.0407,26.4829,22/11/2025,22/11/2025 01:27:32,3.3,16.178385416667,False,Ierápetra,Crete,Greece,False,128km NNW of Crete coast,128km North-Northwest
+202511211814,34.8095,33.5228,21/11/2025,21/11/2025 18:14:18,2.6,18.320064544678,False,Tersefánou,Cyprus,Cyprus,True,5km NNE of Tersefánou,5km North-Northeast
+202511211717,33.6611,28.4569,21/11/2025,21/11/2025 17:17:27,3.0,63.366580963135,False,Karpathos,South Aegean,Greece,False,235km NNW of South Aegean coast,235km North-Northwest
+202511211209,34.778,32.5489,21/11/2025,21/11/2025 12:09:47,2.6,18.115234375,False,Konia,Cyprus,Cyprus,True,8km W of Konia,8km West
 202511210518,34.0457,24.1926,21/11/2025,21/11/2025 05:18:57,3.4,30.0,False,Agía Galíni,Crete,Greece,False,125km NNE of Crete coast,125km North-Northeast
 202511210015,27.1309,34.4031,21/11/2025,21/11/2025 00:15:23,2.3,31.901041666667,False,Makadi Bay,South,Egypt,False,52km WSW of Red Sea coast,52km West-Southwest
 202511202157,33.7118,36.0029,20/11/2025,20/11/2025 21:57:24,2.5,7.861328125,False,Aanjar,South,Syria,True,"7km WNW of Aanjar, Syria",7km West-Northwest
