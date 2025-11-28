@@ -1,5 +1,9 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
-202511270009,34.8347,25.984,27/11/2025,27/11/2025 00:09:03,4.8,95.247395833333,True,Ierápetra,Crete,Greece,False,30km NW of Crete coast,30km Northwest
+202511270844,33.8728,36.8451,27/11/2025,27/11/2025 08:44:05,2.8,14.127604166667,False,Jayrūd,South,Syria,True,"12km SW of Jayrūd, Syria",12km Southwest
+202511270541,34.8211,33.9644,27/11/2025,27/11/2025 05:41:41,3.2,18.912760416667,False,Ayia Napa,Cyprus,Cyprus,False,18km N of Dhekelia coast,18km North
+202511270356,31.6293,35.9447,27/11/2025,27/11/2025 03:56:10,2.5,0.11393229166667,False,Al Jīzah,Central,Jordan,True,"8km N of Al Jīzah, Jordan",8km North
+202511270009,34.8347,25.984,27/11/2025,27/11/2025 00:09:03,4.8,95.247395833333,False,Ierápetra,Crete,Greece,False,30km NW of Crete coast,30km Northwest
+202511261748,35.7784,29.0197,26/11/2025,26/11/2025 17:48:44,4.0,52.408854166667,False,Kalkan,South,Turkey,False,65km NNE of Antalya coast,65km North-Northeast
 202511261635,27.6935,33.3065,26/11/2025,26/11/2025 16:35:03,3.2,38.28125,False,El Gouna,South,Egypt,True,"50km SE of El Gouna, Egypt",50km Southeast
 202511261029,29.8123,36.3629,26/11/2025,26/11/2025 10:29:41,2.9,0.22786458333333,False,Al Jafr,South,Jordan,True,"59km NNW of Al Jafr, Jordan",59km North-Northwest
 202511260844,29.7714,32.2672,26/11/2025,26/11/2025 08:44:20,3.1,35.091145833333,False,Ain Sukhna,South,Egypt,True,"20km SSE of Ain Sukhna, Egypt",20km South-Southeast
@@ -25,10 +29,12 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202511210518,34.0457,24.1926,21/11/2025,21/11/2025 05:18:57,3.4,30.0,False,Agía Galíni,Crete,Greece,False,125km NNE of Crete coast,125km North-Northeast
 202511210015,27.1309,34.4031,21/11/2025,21/11/2025 00:15:23,2.3,31.901041666667,False,Makadi Bay,South,Egypt,False,52km WSW of Red Sea coast,52km West-Southwest
 202511202157,33.7118,36.0029,20/11/2025,20/11/2025 21:57:24,2.5,7.861328125,False,Aanjar,South,Syria,True,"7km WNW of Aanjar, Syria",7km West-Northwest
-202511201400,34.5942,32.6522,20/11/2025,20/11/2025 14:00:41,3.4,32.584635416667,False,Pissoúri,Cyprus,Cyprus,False,9km NNE of Limassol coast,9km North-Northeast
-202511201326,33.4668,35.9694,20/11/2025,20/11/2025 13:26:12,2.4,3.3040364583333,False,Qaţanā,South,Syria,True,"11km ESE of Qaţanā, Syria",11km East-Southeast
-202511201244,30.4667,35.2375,20/11/2025,20/11/2025 12:44:20,2.3,16.805013020833,False,Wādī Mūsá,South,Jordan,True,"28km SE of Wādī Mūsá, Jordan",28km Southeast
-202511201148,32.0388,35.4574,20/11/2025,20/11/2025 11:48:26,2.1,2.1077473958333,False,Al Faşāyil,West Bank,Palestine,True,"2km SW of Al Faşāyil, Palestine",2km Southwest
+202511270009,34.8347,25.984,27/11/2025,27/11/2025 00:09:03,4.8,95.247395833333,True,Ierápetra,Crete,Greece,False,30km NW of Crete coast,30km Northwest
+202511261635,27.6935,33.3065,26/11/2025,26/11/2025 16:35:03,3.2,38.28125,False,El Gouna,South,Egypt,True,"50km SE of El Gouna, Egypt",50km Southeast
+202511261029,29.8123,36.3629,26/11/2025,26/11/2025 10:29:41,2.9,0.22786458333333,False,Al Jafr,South,Jordan,True,"59km NNW of Al Jafr, Jordan",59km North-Northwest
+202511260844,29.7714,32.2672,26/11/2025,26/11/2025 08:44:20,3.1,35.091145833333,False,Ain Sukhna,South,Egypt,True,"20km SSE of Ain Sukhna, Egypt",20km South-Southeast
+202511251921,34.4264,23.9165,25/11/2025,25/11/2025 19:21:45,4.8,61.067708333333,False,Palaióchora,Crete,Greece,False,92km NNW of Crete coast,92km North-Northwest
+202511251302,29.1181,32.7185,25/11/2025,25/11/2025 13:02:16,3.1,1.3671875,False,Ain Sukhna,South,Egypt,False,66km NW of Red Sea coast,66km Northwest
 202511250903,34.6895,32.7653,25/11/2025,25/11/2025 09:03:44,3.4,10.481770833333,False,Pissoúri,Cyprus,Cyprus,True,6km WSW of Pissoúri,6km West-Southwest
 202511250738,29.354,32.8129,25/11/2025,25/11/2025 07:38:25,3.3,1.3671875,False,Ain Sukhna,Sinai,Egypt,False,55km WNW of South Sinai coast,55km West-Northwest
 202511250021,31.2766,35.4367,25/11/2025,25/11/2025 00:21:19,2.8,21.7041015625,False,‘En Boqeq,South,Jordan,True,"11km SW of ‘En Boqeq, Jordan",11km Southwest
