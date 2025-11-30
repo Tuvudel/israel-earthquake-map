@@ -1,4 +1,5 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202511290240,31.2477,34.8208,29/11/2025,29/11/2025 02:40:00,2.2,7.26318359375,False,Beersheba,HaDarom,Israel,True,"3km W of Beersheba, Israel",3km West
 202511270844,33.8728,36.8451,27/11/2025,27/11/2025 08:44:05,2.8,14.127604166667,False,Jayrūd,South,Syria,True,"12km SW of Jayrūd, Syria",12km Southwest
 202511270541,34.8211,33.9644,27/11/2025,27/11/2025 05:41:41,3.2,18.912760416667,False,Ayia Napa,Cyprus,Cyprus,False,18km N of Dhekelia coast,18km North
 202511270356,31.6293,35.9447,27/11/2025,27/11/2025 03:56:10,2.5,0.11393229166667,False,Al Jīzah,Central,Jordan,True,"8km N of Al Jīzah, Jordan",8km North
@@ -28,7 +29,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202511211209,34.778,32.5489,21/11/2025,21/11/2025 12:09:47,2.6,18.115234375,False,Konia,Cyprus,Cyprus,True,8km W of Konia,8km West
 202511210518,34.0457,24.1926,21/11/2025,21/11/2025 05:18:57,3.4,30.0,False,Agía Galíni,Crete,Greece,False,125km NNE of Crete coast,125km North-Northeast
 202511210015,27.1309,34.4031,21/11/2025,21/11/2025 00:15:23,2.3,31.901041666667,False,Makadi Bay,South,Egypt,False,52km WSW of Red Sea coast,52km West-Southwest
-202511202157,33.7118,36.0029,20/11/2025,20/11/2025 21:57:24,2.5,7.861328125,False,Aanjar,South,Syria,True,"7km WNW of Aanjar, Syria",7km West-Northwest
 202511270844,33.8728,36.8451,27/11/2025,27/11/2025 08:44:05,2.8,14.127604166667,False,Jayrūd,South,Syria,True,"12km SW of Jayrūd, Syria",12km Southwest
 202511270541,34.8211,33.9644,27/11/2025,27/11/2025 05:41:41,3.2,18.912760416667,False,Ayia Napa,Cyprus,Cyprus,False,18km N of Dhekelia coast,18km North
 202511270356,31.6293,35.9447,27/11/2025,27/11/2025 03:56:10,2.5,0.11393229166667,False,Al Jīzah,Central,Jordan,True,"8km N of Al Jīzah, Jordan",8km North
