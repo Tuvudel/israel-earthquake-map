@@ -1,5 +1,10 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202511301041,33.8613,37.0931,30/11/2025,30/11/2025 10:41:25,2.9,15.77933216095,False,Jayrūd,South,Syria,True,"33km W of Jayrūd, Syria",33km West
 202511290240,31.2477,34.8208,29/11/2025,29/11/2025 02:40:00,2.2,7.26318359375,False,Beersheba,HaDarom,Israel,True,"3km W of Beersheba, Israel",3km West
+202511290134,33.9091,27.7372,29/11/2025,29/11/2025 01:34:18,4.0,42.3828125,False,Karpathos,South Aegean,Greece,False,184km NNW of South Aegean coast,184km North-Northwest
+202511282107,34.1723,27.4229,28/11/2025,28/11/2025 21:07:09,3.8,81.119791666667,False,Karpathos,South Aegean,Greece,False,150km N of South Aegean coast,150km North
+202511281829,34.5105,24.669,28/11/2025,28/11/2025 18:29:34,4.2,7.7390952110291,False,Moíres,Crete,Greece,False,63km NNE of Crete coast,63km North-Northeast
+202511271934,34.1383,35.6611,27/11/2025,27/11/2025 19:34:45,2.9,3.759765625,False,Byblos,North,Lebanon,True,"2km SSW of Byblos, Lebanon",2km South-Southwest
 202511270844,33.8728,36.8451,27/11/2025,27/11/2025 08:44:05,2.8,14.127604166667,False,Jayrūd,South,Syria,True,"12km SW of Jayrūd, Syria",12km Southwest
 202511270541,34.8211,33.9644,27/11/2025,27/11/2025 05:41:41,3.2,18.912760416667,False,Ayia Napa,Cyprus,Cyprus,False,18km N of Dhekelia coast,18km North
 202511270356,31.6293,35.9447,27/11/2025,27/11/2025 03:56:10,2.5,0.11393229166667,False,Al Jīzah,Central,Jordan,True,"8km N of Al Jīzah, Jordan",8km North
@@ -24,11 +29,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202511230011,30.5166,35.2773,23/11/2025,23/11/2025 00:11:09,2.0,14.8681640625,False,Ash-Shūbak,South,Jordan,True,"27km E of Ash-Shūbak, Jordan",27km East
 202511220708,34.8415,32.4772,22/11/2025,22/11/2025 07:08:14,2.9,27.457682291667,False,Tsáda,Cyprus,Cyprus,True,0km SSW of Tsáda,0km South-Southwest
 202511220127,34.0407,26.4829,22/11/2025,22/11/2025 01:27:32,3.3,16.178385416667,False,Ierápetra,Crete,Greece,False,128km NNW of Crete coast,128km North-Northwest
-202511211814,34.8095,33.5228,21/11/2025,21/11/2025 18:14:18,2.6,18.320064544678,False,Tersefánou,Cyprus,Cyprus,True,5km NNE of Tersefánou,5km North-Northeast
-202511211717,33.6611,28.4569,21/11/2025,21/11/2025 17:17:27,3.0,63.366580963135,False,Karpathos,South Aegean,Greece,False,235km NNW of South Aegean coast,235km North-Northwest
-202511211209,34.778,32.5489,21/11/2025,21/11/2025 12:09:47,2.6,18.115234375,False,Konia,Cyprus,Cyprus,True,8km W of Konia,8km West
-202511210518,34.0457,24.1926,21/11/2025,21/11/2025 05:18:57,3.4,30.0,False,Agía Galíni,Crete,Greece,False,125km NNE of Crete coast,125km North-Northeast
-202511210015,27.1309,34.4031,21/11/2025,21/11/2025 00:15:23,2.3,31.901041666667,False,Makadi Bay,South,Egypt,False,52km WSW of Red Sea coast,52km West-Southwest
+202511290240,31.2477,34.8208,29/11/2025,29/11/2025 02:40:00,2.2,7.26318359375,False,Beersheba,HaDarom,Israel,True,"3km W of Beersheba, Israel",3km West
 202511270844,33.8728,36.8451,27/11/2025,27/11/2025 08:44:05,2.8,14.127604166667,False,Jayrūd,South,Syria,True,"12km SW of Jayrūd, Syria",12km Southwest
 202511270541,34.8211,33.9644,27/11/2025,27/11/2025 05:41:41,3.2,18.912760416667,False,Ayia Napa,Cyprus,Cyprus,False,18km N of Dhekelia coast,18km North
 202511270356,31.6293,35.9447,27/11/2025,27/11/2025 03:56:10,2.5,0.11393229166667,False,Al Jīzah,Central,Jordan,True,"8km N of Al Jīzah, Jordan",8km North
