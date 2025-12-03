@@ -29,7 +29,13 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202511241457,29.2497,32.6109,24/11/2025,24/11/2025 14:57:28,3.5,31.217447916667,False,Ain Sukhna,South,Egypt,True,"48km NW of Ain Sukhna, Egypt",48km Northwest
 202511240331,36.4226,30.7598,24/11/2025,24/11/2025 03:31:18,3.9,121.22395833333,False,Tekirova,South,Turkey,False,23km WNW of Antalya coast,23km West-Northwest
 202511232243,33.4827,28.169,23/11/2025,23/11/2025 22:43:23,4.2,33.723958333333,False,Karpathos,South Aegean,Greece,False,242km NNW of South Aegean coast,242km North-Northwest
+202512012236,34.4536,33.3607,01/12/2025,01/12/2025 22:36:33,2.8,32.356770833333,False,Pyrgos,Cyprus,Cyprus,False,36km NNW of Limassol coast,36km North-Northwest
+202512011907,32.8384,37.8762,01/12/2025,01/12/2025 19:07:39,2.9,30.533854166667,False,Ruwaished,North,Jordan,True,"48km SE of Ruwaished, Jordan",48km Southeast
+202512010813,33.3227,35.6012,01/12/2025,01/12/2025 08:13:56,2.2,6.2093098958333,False,Metulla,South,Lebanon,True,"5km SSW of Metulla, Lebanon",5km South-Southwest
 202511301041,33.8613,37.0931,30/11/2025,30/11/2025 10:41:25,2.9,15.77933216095,False,Jayrūd,South,Syria,True,"33km W of Jayrūd, Syria",33km West
+202511300549,36.0914,30.9719,30/11/2025,30/11/2025 05:49:00,3.6,32.584635416667,False,Çavuşköy,South,Turkey,False,55km WNW of Antalya coast,55km West-Northwest
+202511290508,34.7076,32.9086,29/11/2025,29/11/2025 05:08:25,3.1,2.2786458333333,False,Erími,Cyprus,Cyprus,True,3km SSE of Erími,3km South-Southeast
+202511290244,36.2774,36.1221,29/11/2025,29/11/2025 02:44:25,3.1,28.255208333333,False,Kuzeytepe,South,Turkey,True,"3km ESE of Kuzeytepe, Turkey",3km East-Southeast
 202511290240,31.2477,34.8208,29/11/2025,29/11/2025 02:40:00,2.2,7.26318359375,False,Beersheba,HaDarom,Israel,True,"3km W of Beersheba, Israel",3km West
 202511290134,33.9091,27.7372,29/11/2025,29/11/2025 01:34:18,4.0,42.3828125,False,Karpathos,South Aegean,Greece,False,184km NNW of South Aegean coast,184km North-Northwest
 202511282107,34.1723,27.4229,28/11/2025,28/11/2025 21:07:09,3.8,81.119791666667,False,Karpathos,South Aegean,Greece,False,150km N of South Aegean coast,150km North
