@@ -29,7 +29,9 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202511250903,34.6895,32.7653,25/11/2025,25/11/2025 09:03:44,3.4,10.481770833333,False,Pissoúri,Cyprus,Cyprus,True,6km WSW of Pissoúri,6km West-Southwest
 202511250738,29.354,32.8129,25/11/2025,25/11/2025 07:38:25,3.3,1.3671875,False,Ain Sukhna,Sinai,Egypt,False,55km WNW of South Sinai coast,55km West-Northwest
 202511250021,31.2766,35.4367,25/11/2025,25/11/2025 00:21:19,2.8,21.7041015625,False,‘En Boqeq,South,Jordan,True,"11km SW of ‘En Boqeq, Jordan",11km Southwest
-202512040219,34.5783,32.6839,04/12/2025,04/12/2025 02:19:51,3.4,6.9498697916667,False,Pissoúri,Cyprus,Cyprus,False,10km N of Limassol coast,10km North
+202512040235,34.5965,32.6839,04/12/2025,04/12/2025 02:35:07,2.9,12.874348958333,False,Pissoúri,Cyprus,Cyprus,False,8km N of Limassol coast,8km North
+202512040219,34.709,32.7096,04/12/2025,04/12/2025 02:19:04,3.3,11.159359931946,False,Pissoúri,Cyprus,Cyprus,True,4km S of Pissoúri,4km South
+202512031735,34.6396,32.8066,03/12/2025,03/12/2025 17:35:45,3.6,10.25390625,False,Sotíra,Cyprus,Cyprus,False,10km NNE of Akrotiri coast,10km North-Northeast
 202512030642,34.7544,32.6143,03/12/2025,03/12/2025 06:42:12,3.0,19.866659164429,False,Pissoúri,Cyprus,Cyprus,True,12km SE of Pissoúri,12km Southeast
 202512030248,26.8769,35.059,03/12/2025,03/12/2025 02:48:52,2.9,28.255208333333,False,Duba,Northwest,Saudi Arabia,False,82km NE of Tabuk coast,82km Northeast
 202512012236,34.4536,33.3607,01/12/2025,01/12/2025 22:36:33,2.8,32.356770833333,False,Pyrgos,Cyprus,Cyprus,False,36km NNW of Limassol coast,36km North-Northwest
