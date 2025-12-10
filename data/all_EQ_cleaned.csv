@@ -29,6 +29,10 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202512010813,33.3227,35.6012,01/12/2025,01/12/2025 08:13:56,2.2,6.2093098958333,False,Metulla,South,Lebanon,True,"5km SSW of Metulla, Lebanon",5km South-Southwest
 202511301041,33.8613,37.0931,30/11/2025,30/11/2025 10:41:25,2.9,15.77933216095,False,Jayrūd,South,Syria,True,"33km W of Jayrūd, Syria",33km West
 202511300549,36.0914,30.9719,30/11/2025,30/11/2025 05:49:00,3.6,32.584635416667,False,Çavuşköy,South,Turkey,False,55km WNW of Antalya coast,55km West-Northwest
+202512080934,36.2389,30.781,08/12/2025,08/12/2025 09:34:11,3.9,29.964192708333,False,Çavuşköy,South,Turkey,False,33km WNW of Antalya coast,33km West-Northwest
+202512071016,33.4191,28.2615,07/12/2025,07/12/2025 10:16:08,4.3,32.356770833333,False,Marsá Maţrūḩ,Matrouh,Egypt,False,249km SSW of Matrouh coast,249km South-Southwest
+202512070307,33.2955,35.7604,07/12/2025,07/12/2025 03:07:48,2.2,13.956705729167,False,Majdal Shams,HaZafon,Israel,True,"3km SSE of Majdal Shams, Israel",3km South-Southeast
+202512062048,35.8782,22.3916,06/12/2025,06/12/2025 20:48:21,5.1,0.91145833333333,False,Gýtheio,Peloponnese,Greece,False,99km N of Peloponnese coast,99km North
 202512061221,31.4853,35.5327,06/12/2025,06/12/2025 12:21:01,2.1,23.527018229167,False,Al Qaşr,Central,Jordan,True,"28km SE of Al Qaşr, Jordan",28km Southeast
 202512061021,33.5485,35.708,06/12/2025,06/12/2025 10:21:15,2.3,4.6712239583333,False,Aaïtanît,South,Lebanon,True,"4km WNW of Aaïtanît, Lebanon",4km West-Northwest
 202512060447,34.753,22.8359,06/12/2025,06/12/2025 04:47:57,5.0,37.369791666667,False,Palaióchora,Crete,Greece,False,94km NE of Crete coast,94km Northeast
