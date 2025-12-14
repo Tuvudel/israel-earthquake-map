@@ -1,4 +1,7 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202512121211,32.0586,35.3058,12/12/2025,12/12/2025 12:11:38,2.6,1.3387044270833,False,Qaryūt,West Bank,Palestine,True,"2km NW of Qaryūt, Palestine",2km Northwest
+202512082113,33.5734,27.3306,08/12/2025,08/12/2025 21:13:21,4.5,49.21875,False,Palekastro,Crete,Greece,False,206km NNW of Crete coast,206km North-Northwest
+202512081021,36.9689,30.8973,08/12/2025,08/12/2025 10:21:32,5.3,98.179107666016,False,Şatırlı,South,Turkey,True,"5km ENE of Şatırlı, Turkey",5km East-Northeast
 202512080934,36.2389,30.781,08/12/2025,08/12/2025 09:34:11,3.9,29.964192708333,False,Çavuşköy,South,Turkey,False,33km WNW of Antalya coast,33km West-Northwest
 202512071016,33.4191,28.2615,07/12/2025,07/12/2025 10:16:08,4.3,32.356770833333,False,Marsá Maţrūḩ,Matrouh,Egypt,False,249km SSW of Matrouh coast,249km South-Southwest
 202512070307,33.2955,35.7604,07/12/2025,07/12/2025 03:07:48,2.2,13.956705729167,False,Majdal Shams,HaZafon,Israel,True,"3km SSE of Majdal Shams, Israel",3km South-Southeast
@@ -26,9 +29,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202512030248,26.8769,35.059,03/12/2025,03/12/2025 02:48:52,2.9,28.255208333333,False,Duba,Northwest,Saudi Arabia,False,82km NE of Tabuk coast,82km Northeast
 202512012236,34.4536,33.3607,01/12/2025,01/12/2025 22:36:33,2.8,32.356770833333,False,Pyrgos,Cyprus,Cyprus,False,36km NNW of Limassol coast,36km North-Northwest
 202512011907,32.8384,37.8762,01/12/2025,01/12/2025 19:07:39,2.9,30.533854166667,False,Ruwaished,North,Jordan,True,"48km SE of Ruwaished, Jordan",48km Southeast
-202512010813,33.3227,35.6012,01/12/2025,01/12/2025 08:13:56,2.2,6.2093098958333,False,Metulla,South,Lebanon,True,"5km SSW of Metulla, Lebanon",5km South-Southwest
-202511301041,33.8613,37.0931,30/11/2025,30/11/2025 10:41:25,2.9,15.77933216095,False,Jayrūd,South,Syria,True,"33km W of Jayrūd, Syria",33km West
-202511300549,36.0914,30.9719,30/11/2025,30/11/2025 05:49:00,3.6,32.584635416667,False,Çavuşköy,South,Turkey,False,55km WNW of Antalya coast,55km West-Northwest
 202512080934,36.2389,30.781,08/12/2025,08/12/2025 09:34:11,3.9,29.964192708333,False,Çavuşköy,South,Turkey,False,33km WNW of Antalya coast,33km West-Northwest
 202512071016,33.4191,28.2615,07/12/2025,07/12/2025 10:16:08,4.3,32.356770833333,False,Marsá Maţrūḩ,Matrouh,Egypt,False,249km SSW of Matrouh coast,249km South-Southwest
 202512070307,33.2955,35.7604,07/12/2025,07/12/2025 03:07:48,2.2,13.956705729167,False,Majdal Shams,HaZafon,Israel,True,"3km SSE of Majdal Shams, Israel",3km South-Southeast
