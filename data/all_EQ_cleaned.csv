@@ -44,6 +44,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202512150920,36.3364,36.0684,15/12/2025,15/12/2025 09:20:01,4.0,29.850260416667,False,Kuzeytepe,South,Turkey,True,"11km SE of Kuzeytepe, Turkey",11km Southeast
 202512150811,33.5984,34.7934,15/12/2025,15/12/2025 08:11:20,2.6,23.583984375,False,Sarafand,South,Lebanon,False,50km ESE of South coast,50km East-Southeast
 202512150804,33.5757,34.7417,15/12/2025,15/12/2025 08:04:38,2.4,32.470703125,False,Sarafand,South,Lebanon,False,54km ESE of South coast,54km East-Southeast
+202512150552,33.5938,34.7879,15/12/2025,15/12/2025 05:52:45,1.8,16.292317708333,False,Sarafand,South,Lebanon,False,50km ESE of South coast,50km East-Southeast
 202512150008,33.5019,34.7315,15/12/2025,15/12/2025 00:08:50,2.4,13.387044270833,False,Tyre,South,Lebanon,False,50km ESE of South coast,50km East-Southeast
 202512141418,34.7167,36.7072,14/12/2025,14/12/2025 14:18:53,3.0,0.91145833333333,False,Homs,South,Syria,True,"2km NE of Homs, Syria",2km Northeast
 202512141207,32.9155,32.5326,14/12/2025,14/12/2025 12:07:40,3.1,4.3294270833333,False,‘Izbat al Burj,North,Egypt,False,169km SSW of Damietta coast,169km South-Southwest
@@ -58,7 +59,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202512121736,34.7494,32.636,12/12/2025,12/12/2025 17:36:57,2.7,17.660167694092,False,Pissoúri,Cyprus,Cyprus,True,11km SE of Pissoúri,11km Southeast
 202512121725,34.7144,32.7473,12/12/2025,12/12/2025 17:25:18,2.9,10.139973958333,False,Pissoúri,Cyprus,Cyprus,True,7km SW of Pissoúri,7km Southwest
 202512121724,34.694,32.7735,12/12/2025,12/12/2025 17:24:03,2.7,10.25390625,False,Pissoúri,Cyprus,Cyprus,True,7km WSW of Pissoúri,7km West-Southwest
-202512150552,33.5938,34.7879,15/12/2025,15/12/2025 05:52:45,1.8,16.292317708333,False,Sarafand,South,Lebanon,False,50km ESE of South coast,50km East-Southeast
 202512121211,32.0586,35.3058,12/12/2025,12/12/2025 12:11:38,2.6,1.3387044270833,False,Qaryūt,West Bank,Palestine,True,"2km NW of Qaryūt, Palestine",2km Northwest
 202512121033,32.0577,35.3036,12/12/2025,12/12/2025 10:33:03,2.3,4.4741721153259,False,Qaryūt,West Bank,Palestine,True,"2km NNW of Qaryūt, Palestine",2km North-Northwest
 202512101128,33.5462,35.6658,10/12/2025,10/12/2025 11:28:57,2.2,4.1015625,False,Aaïtanît,South,Lebanon,True,"2km NNE of Aaïtanît, Lebanon",2km North-Northeast
