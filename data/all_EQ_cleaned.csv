@@ -1,4 +1,7 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202512182306,36.5496,29.1647,18/12/2025,18/12/2025 23:06:37,4.1,30.989583333333,False,Ölüdeniz,Muğla,Turkey,True,"3km NW of Ölüdeniz, Turkey",3km Northwest
+202512181543,34.5352,34.5681,18/12/2025,18/12/2025 15:43:49,3.0,31.901041666667,False,Protaras,Cyprus,Cyprus,False,71km NW of Famagusta coast,71km Northwest
+202512181400,29.1408,34.6837,18/12/2025,18/12/2025 14:00:24,2.6,17.08984375,False,Nuwaybi‘a,Sinai,Egypt,True,"11km S of Nuwaybi‘a, Egypt",11km South
 202512180806,33.4305,35.6237,18/12/2025,18/12/2025 08:06:05,2.1,7.4055989583333,False,Habboûch,South,Lebanon,True,"13km W of Habboûch, Lebanon",13km West
 202512171112,33.4804,35.7489,17/12/2025,17/12/2025 11:12:03,2.1,5.810546875,False,Aaïtanît,South,Lebanon,True,"12km NW of Aaïtanît, Lebanon",12km Northwest
 202512170518,32.4516,35.3741,17/12/2025,17/12/2025 05:18:37,2.2,19.6533203125,False,Dayr Abū Ḑa‘īf,West Bank,Palestine,True,"1km WNW of Dayr Abū Ḑa‘īf, Palestine",1km West-Northwest
@@ -26,9 +29,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202512130608,34.7258,35.8527,13/12/2025,13/12/2025 06:08:21,2.5,58.7890625,False,Ţarţūs,North,Syria,False,18km N of Tartus coast,18km North
 202512130358,32.0592,35.3149,13/12/2025,13/12/2025 03:58:11,2.2,5.7535807291667,False,Qaryūt,West Bank,Palestine,True,"2km WNW of Qaryūt, Palestine",2km West-Northwest
 202512121935,34.7836,32.5577,12/12/2025,12/12/2025 19:35:05,2.6,7.7078914642334,False,Konia,Cyprus,Cyprus,True,9km W of Konia,9km West
-202512121736,34.7494,32.636,12/12/2025,12/12/2025 17:36:57,2.7,17.660167694092,False,Pissoúri,Cyprus,Cyprus,True,11km SE of Pissoúri,11km Southeast
-202512121725,34.7144,32.7473,12/12/2025,12/12/2025 17:25:18,2.9,10.139973958333,False,Pissoúri,Cyprus,Cyprus,True,7km SW of Pissoúri,7km Southwest
-202512121724,34.694,32.7735,12/12/2025,12/12/2025 17:24:03,2.7,10.25390625,False,Pissoúri,Cyprus,Cyprus,True,7km WSW of Pissoúri,7km West-Southwest
 202512180806,33.4305,35.6237,18/12/2025,18/12/2025 08:06:05,2.1,7.4055989583333,False,Habboûch,South,Lebanon,True,"13km W of Habboûch, Lebanon",13km West
 202512171112,33.4804,35.7489,17/12/2025,17/12/2025 11:12:03,2.1,5.810546875,False,Aaïtanît,South,Lebanon,True,"12km NW of Aaïtanît, Lebanon",12km Northwest
 202512170518,32.4516,35.3741,17/12/2025,17/12/2025 05:18:37,2.2,19.6533203125,False,Dayr Abū Ḑa‘īf,West Bank,Palestine,True,"1km WNW of Dayr Abū Ḑa‘īf, Palestine",1km West-Northwest
