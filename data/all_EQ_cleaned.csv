@@ -29,6 +29,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202512160532,35.2974,37.4012,16/12/2025,16/12/2025 05:32:56,3.2,31.901041666667,False,As Salamīyah,North,Syria,True,"45km SW of As Salamīyah, Syria",45km Southwest
 202512160107,27.528,33.5293,16/12/2025,16/12/2025 01:07:25,3.1,11.103458404541,False,El Gouna,South,Egypt,True,"21km SE of El Gouna, Egypt",21km Southeast
 202512160030,29.1748,34.7008,16/12/2025,16/12/2025 00:30:54,2.0,14.469401041667,False,Nuwaybi‘a,Sinai,Egypt,True,"15km SSW of Nuwaybi‘a, Egypt",15km South-Southwest
+202512241940,34.6895,33.063,24/12/2025,24/12/2025 19:40:54,3.2,15.950520833333,False,Limassol,Cyprus,Cyprus,True,2km WSW of Limassol,2km West-Southwest
 202512240114,34.4218,33.6281,24/12/2025,24/12/2025 01:14:24,3.1,32.584635416667,False,Perivólia,Cyprus,Cyprus,False,45km N of Larnaca coast,45km North
 202512232307,33.7254,35.8623,23/12/2025,23/12/2025 23:07:18,2.1,3.9876302083333,False,Aanjar,South,Lebanon,True,"6km E of Aanjar, Lebanon",6km East
 202512230144,34.7144,32.6674,23/12/2025,23/12/2025 01:44:42,3.5,7.177734375,False,Pissoúri,Cyprus,Cyprus,True,6km SSE of Pissoúri,6km South-Southeast
