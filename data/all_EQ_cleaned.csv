@@ -1,4 +1,7 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202512301658,29.6376,34.5171,30/12/2025,30/12/2025 16:58:14,3.1,8.3170572916667,False,Eilat,Sinai,Egypt,True,"43km ESE of Eilat, Egypt",43km East-Southeast
+202512291818,34.6532,32.8204,29/12/2025,29/12/2025 18:18:02,3.5,9.5703125,False,Sotíra,Cyprus,Cyprus,False,8km NNE of Akrotiri coast,8km North-Northeast
+202512291700,35.8691,28.908,29/12/2025,29/12/2025 17:00:10,4.4,126.23697916667,False,Kalkan,South,Turkey,False,63km NE of Antalya coast,63km Northeast
 202512291409,34.6668,33.0161,29/12/2025,29/12/2025 14:09:38,3.6,17.545572916667,False,Limassol,Cyprus,Cyprus,True,3km NE of Limassol,3km Northeast
 202512290341,34.2149,34.8353,29/12/2025,29/12/2025 03:41:02,2.3,14.612677574158,False,Ra’s Bayrūt,North,Lebanon,False,69km ESE of Beirut coast,69km East-Southeast
 202512290306,34.6146,33.0781,29/12/2025,29/12/2025 03:06:06,3.6,14.469401041667,False,Limassol,Cyprus,Cyprus,False,9km NNW of Limassol coast,9km North-Northwest
@@ -26,13 +29,17 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202512200356,30.4372,35.276,20/12/2025,20/12/2025 03:56:11,2.2,24.324544270833,False,Wādī Mūsá,South,Jordan,True,"23km ESE of Wādī Mūsá, Jordan",23km East-Southeast
 202512192010,35.0343,27.5455,19/12/2025,19/12/2025 20:10:46,4.2,32.356770833333,False,Karpathos,South Aegean,Greece,False,61km NNW of South Aegean coast,61km North-Northwest
 202512191800,31.2839,35.4051,19/12/2025,19/12/2025 18:00:49,2.0,26.631673177083,False,‘En Boqeq,HaDarom,Israel,True,"10km SSW of ‘En Boqeq, Israel",10km South-Southwest
-202512190956,32.6155,35.1667,19/12/2025,19/12/2025 09:56:55,2.0,5.8390299479167,False,Mishmar Ha‘Emeq,HaZafon,Israel,True,"2km WSW of Mishmar Ha‘Emeq, Israel",2km West-Southwest
-202512190107,32.8498,32.4033,19/12/2025,19/12/2025 01:07:28,3.6,32.242838541667,False,‘Izbat al Burj,North,Egypt,False,158km SSW of Damietta coast,158km South-Southwest
-202512182306,36.5496,29.1647,18/12/2025,18/12/2025 23:06:37,4.1,30.989583333333,False,Ölüdeniz,Muğla,Turkey,True,"3km NW of Ölüdeniz, Turkey",3km Northwest
+202512291409,34.6668,33.0161,29/12/2025,29/12/2025 14:09:38,3.6,17.545572916667,False,Limassol,Cyprus,Cyprus,True,3km NE of Limassol,3km Northeast
 202512290341,34.2149,34.8353,29/12/2025,29/12/2025 03:41:02,2.3,14.612677574158,False,Ra’s Bayrūt,North,Lebanon,False,69km ESE of Beirut coast,69km East-Southeast
+202512290306,34.6146,33.0781,29/12/2025,29/12/2025 03:06:06,3.6,14.469401041667,False,Limassol,Cyprus,Cyprus,False,9km NNW of Limassol coast,9km North-Northwest
+202512281903,29.751,34.6247,28/12/2025,28/12/2025 19:03:07,2.1,4.8990885416667,False,Be’er Ora,Sinai,Egypt,True,"35km E of Be’er Ora, Egypt",35km East
+202512281902,28.8822,34.8282,28/12/2025,28/12/2025 19:02:55,2.9,78.841145833333,False,Nuwaybi‘a,Northwest,Saudi Arabia,False,24km NW of Al-Jowf coast,24km Northwest
 202512281755,28.8504,34.8308,28/12/2025,28/12/2025 17:55:59,2.7,1.1393229166667,False,Nuwaybi‘a,Northwest,Saudi Arabia,False,27km NW of Tabuk coast,27km Northwest
+202512281126,35.2521,27.3222,28/12/2025,28/12/2025 11:26:20,4.2,25.9765625,False,Karpathos,South Aegean,Greece,False,30km NNW of South Aegean coast,30km North-Northwest
 202512280218,33.8104,35.9655,28/12/2025,28/12/2025 02:18:27,2.2,1.0771609544754,False,Zahlé,South,Lebanon,True,"7km NW of Zahlé, Lebanon",7km Northwest
 202512272142,36.6041,30.624,27/12/2025,27/12/2025 21:42:08,4.2,82.942708333333,False,Kiriş,South,Turkey,False,5km SW of Antalya coast,5km Southwest
+202512262129,32.5242,35.2296,26/12/2025,26/12/2025 21:29:21,2.4,20.906575520833,False,Sīlat al Ḩārithīyah,West Bank,Palestine,True,"2km S of Sīlat al Ḩārithīyah, Palestine",2km South
+202512261515,35.1341,32.3421,26/12/2025,26/12/2025 15:15:49,2.8,20.191833333333,False,Pólis,Cyprus,Cyprus,False,13km SE of Paphos coast,13km Southeast
 202512260801,27.7933,34.3877,26/12/2025,26/12/2025 08:01:14,3.0,28.7109375,False,Sharm el-Sheikh,Sinai,Egypt,False,15km NNW of South Sinai coast,15km North-Northwest
 202512241940,34.6895,33.063,24/12/2025,24/12/2025 19:40:54,3.2,15.950520833333,False,Limassol,Cyprus,Cyprus,True,2km WSW of Limassol,2km West-Southwest
 202512240114,34.4218,33.6281,24/12/2025,24/12/2025 01:14:24,3.1,32.584635416667,False,Perivólia,Cyprus,Cyprus,False,45km N of Larnaca coast,45km North
