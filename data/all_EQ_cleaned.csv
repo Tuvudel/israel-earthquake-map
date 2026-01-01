@@ -1,5 +1,8 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202512301947,34.7532,32.6455,30/12/2025,30/12/2025 19:47:11,3.0,20.806890487671,False,Pissoúri,Cyprus,Cyprus,True,11km SSE of Pissoúri,11km South-Southeast
 202512301658,29.6376,34.5171,30/12/2025,30/12/2025 16:58:14,3.1,8.3170572916667,False,Eilat,Sinai,Egypt,True,"43km ESE of Eilat, Egypt",43km East-Southeast
+202512301614,35.7277,35.444,30/12/2025,30/12/2025 16:14:38,2.7,5.0,False,Burj Islām,North,Syria,False,33km E of Latakia coast,33km East
+202512301505,35.5878,35.3686,30/12/2025,30/12/2025 15:05:32,3.6,30.078125,False,Latakia,North,Syria,False,39km E of Latakia coast,39km East
 202512291818,34.6532,32.8204,29/12/2025,29/12/2025 18:18:02,3.5,9.5703125,False,Sotíra,Cyprus,Cyprus,False,8km NNE of Akrotiri coast,8km North-Northeast
 202512291700,35.8691,28.908,29/12/2025,29/12/2025 17:00:10,4.4,126.23697916667,False,Kalkan,South,Turkey,False,63km NE of Antalya coast,63km Northeast
 202512291409,34.6668,33.0161,29/12/2025,29/12/2025 14:09:38,3.6,17.545572916667,False,Limassol,Cyprus,Cyprus,True,3km NE of Limassol,3km Northeast
@@ -26,9 +29,9 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202512202314,36.2411,26.1441,20/12/2025,20/12/2025 23:14:02,4.5,82.942708333333,False,Astypálaia,South Aegean,Greece,False,39km NNE of South Aegean coast,39km North-Northeast
 202512201802,33.3738,28.6699,20/12/2025,20/12/2025 18:02:55,3.7,101.171875,False,El Dabaa,Matrouh,Egypt,False,262km S of Matrouh coast,262km South
 202512200433,30.4758,35.1883,20/12/2025,20/12/2025 04:33:08,2.4,14.982096354167,False,Wādī Mūsá,South,Jordan,True,"33km ESE of Wādī Mūsá, Jordan",33km East-Southeast
-202512200356,30.4372,35.276,20/12/2025,20/12/2025 03:56:11,2.2,24.324544270833,False,Wādī Mūsá,South,Jordan,True,"23km ESE of Wādī Mūsá, Jordan",23km East-Southeast
-202512192010,35.0343,27.5455,19/12/2025,19/12/2025 20:10:46,4.2,32.356770833333,False,Karpathos,South Aegean,Greece,False,61km NNW of South Aegean coast,61km North-Northwest
-202512191800,31.2839,35.4051,19/12/2025,19/12/2025 18:00:49,2.0,26.631673177083,False,‘En Boqeq,HaDarom,Israel,True,"10km SSW of ‘En Boqeq, Israel",10km South-Southwest
+202512301658,29.6376,34.5171,30/12/2025,30/12/2025 16:58:14,3.1,8.3170572916667,False,Eilat,Sinai,Egypt,True,"43km ESE of Eilat, Egypt",43km East-Southeast
+202512291818,34.6532,32.8204,29/12/2025,29/12/2025 18:18:02,3.5,9.5703125,False,Sotíra,Cyprus,Cyprus,False,8km NNE of Akrotiri coast,8km North-Northeast
+202512291700,35.8691,28.908,29/12/2025,29/12/2025 17:00:10,4.4,126.23697916667,False,Kalkan,South,Turkey,False,63km NE of Antalya coast,63km Northeast
 202512291409,34.6668,33.0161,29/12/2025,29/12/2025 14:09:38,3.6,17.545572916667,False,Limassol,Cyprus,Cyprus,True,3km NE of Limassol,3km Northeast
 202512290341,34.2149,34.8353,29/12/2025,29/12/2025 03:41:02,2.3,14.612677574158,False,Ra’s Bayrūt,North,Lebanon,False,69km ESE of Beirut coast,69km East-Southeast
 202512290306,34.6146,33.0781,29/12/2025,29/12/2025 03:06:06,3.6,14.469401041667,False,Limassol,Cyprus,Cyprus,False,9km NNW of Limassol coast,9km North-Northwest
