@@ -29,6 +29,8 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202512211441,34.7099,32.7013,21/12/2025,21/12/2025 14:41:38,3.1,43.908355712891,False,Pissoúri,Cyprus,Cyprus,True,5km S of Pissoúri,5km South
 202512210754,33.3307,34.7634,21/12/2025,21/12/2025 07:54:21,2.4,17.887369791667,False,Tyre,South,Lebanon,False,41km E of South coast,41km East
 202512202314,36.2411,26.1441,20/12/2025,20/12/2025 23:14:02,4.5,82.942708333333,False,Astypálaia,South Aegean,Greece,False,39km NNE of South Aegean coast,39km North-Northeast
+202512312219,36.9307,34.5684,31/12/2025,31/12/2025 22:19:54,3.0,0.0,False,İğdir,South,Turkey,True,"7km ESE of İğdir, Turkey",7km East-Southeast
+202512312201,34.6668,33.2863,31/12/2025,31/12/2025 22:01:13,2.8,18.001302083333,False,Pyrgos,Cyprus,Cyprus,False,13km NW of Limassol coast,13km Northwest
 202512301947,34.7532,32.6455,30/12/2025,30/12/2025 19:47:11,3.0,20.806890487671,False,Pissoúri,Cyprus,Cyprus,True,11km SSE of Pissoúri,11km South-Southeast
 202512301658,29.6376,34.5171,30/12/2025,30/12/2025 16:58:14,3.1,8.3170572916667,False,Eilat,Sinai,Egypt,True,"43km ESE of Eilat, Egypt",43km East-Southeast
 202512301614,35.7277,35.444,30/12/2025,30/12/2025 16:14:38,2.7,5.0,False,Burj Islām,North,Syria,False,33km E of Latakia coast,33km East
