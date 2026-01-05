@@ -1,4 +1,13 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202601040013,27.5982,33.2988,04/01/2026,04/01/2026 00:13:37,3.0,29.850260416667,False,El Gouna,South,Egypt,True,"44km ESE of El Gouna, Egypt",44km East-Southeast
+202601032326,27.5211,33.4244,03/01/2026,03/01/2026 23:26:30,3.0,26.888020833333,False,El Gouna,South,Egypt,True,"29km ESE of El Gouna, Egypt",29km East-Southeast
+202601030550,32.8628,35.5689,03/01/2026,03/01/2026 05:50:43,2.2,2.13623046875,False,Migdal,HaZafon,Israel,True,"7km WSW of Migdal, Israel",7km West-Southwest
+202601021059,35.8963,28.4334,02/01/2026,02/01/2026 10:59:20,3.4,45.572916666667,False,Lárdos,South Aegean,Greece,False,44km WNW of South Aegean coast,44km West-Northwest
+202601020452,30.6675,35.424,02/01/2026,02/01/2026 04:52:26,2.2,9.912109375,False,Buşayrā,South,Jordan,True,"19km ENE of Buşayrā, Jordan",19km East-Northeast
+202601012329,36.84,35.0926,01/01/2026,01/01/2026 23:29:16,3.7,122.13541666667,False,Alifakı,Adana,Turkey,True,"10km WNW of Alifakı, Turkey",10km West-Northwest
+202601011905,34.0634,24.0047,01/01/2026,01/01/2026 19:05:00,5.1,51.953125,False,Agía Galíni,Crete,Greece,False,131km NNE of Crete coast,131km North-Northeast
+202601011807,36.1867,35.3189,01/01/2026,01/01/2026 18:07:30,3.6,30.989583333333,False,Karataş,Adana,Turkey,False,44km N of Adana coast,44km North
+202601011333,36.3863,29.4475,01/01/2026,01/01/2026 13:33:13,4.4,30.078125,False,Çayköy,South,Turkey,True,"7km SW of Çayköy, Turkey",7km Southwest
 202601010300,33.207,35.7305,01/01/2026,01/01/2026 03:00:33,2.3,11.336263020833,False,‘Ein Qunīya,HaZafon,Israel,True,"3km N of ‘Ein Qunīya, Israel",3km North
 202512312219,36.9307,34.5684,31/12/2025,31/12/2025 22:19:54,3.0,0.0,False,İğdir,South,Turkey,True,"7km ESE of İğdir, Turkey",7km East-Southeast
 202512312201,34.6668,33.2863,31/12/2025,31/12/2025 22:01:13,2.8,18.001302083333,False,Pyrgos,Cyprus,Cyprus,False,13km NW of Limassol coast,13km Northwest
@@ -20,15 +29,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202512262129,32.5242,35.2296,26/12/2025,26/12/2025 21:29:21,2.4,20.906575520833,False,Sīlat al Ḩārithīyah,West Bank,Palestine,True,"2km S of Sīlat al Ḩārithīyah, Palestine",2km South
 202512261515,35.1341,32.3421,26/12/2025,26/12/2025 15:15:49,2.8,20.191833333333,False,Pólis,Cyprus,Cyprus,False,13km SE of Paphos coast,13km Southeast
 202512260801,27.7933,34.3877,26/12/2025,26/12/2025 08:01:14,3.0,28.7109375,False,Sharm el-Sheikh,Sinai,Egypt,False,15km NNW of South Sinai coast,15km North-Northwest
-202512241940,34.6895,33.063,24/12/2025,24/12/2025 19:40:54,3.2,15.950520833333,False,Limassol,Cyprus,Cyprus,True,2km WSW of Limassol,2km West-Southwest
-202512240114,34.4218,33.6281,24/12/2025,24/12/2025 01:14:24,3.1,32.584635416667,False,Perivólia,Cyprus,Cyprus,False,45km N of Larnaca coast,45km North
-202512232307,33.7254,35.8623,23/12/2025,23/12/2025 23:07:18,2.1,3.9876302083333,False,Aanjar,South,Lebanon,True,"6km E of Aanjar, Lebanon",6km East
-202512230144,34.7144,32.6674,23/12/2025,23/12/2025 01:44:42,3.5,7.177734375,False,Pissoúri,Cyprus,Cyprus,True,6km SSE of Pissoúri,6km South-Southeast
-202512222109,37.0292,26.172,22/12/2025,22/12/2025 21:09:08,4.1,185.89720153809,False,Pátmos,South Aegean,Greece,False,46km NE of South Aegean coast,46km Northeast
-202512221706,34.8436,33.4874,22/12/2025,22/12/2025 17:06:21,3.3,23.69158744812,False,Tersefánou,Cyprus,Cyprus,True,6km ENE of Tersefánou,6km East-Northeast
-202512212235,32.7953,32.3108,21/12/2025,21/12/2025 22:35:05,2.7,5.5826822916667,False,‘Izbat al Burj,North,Egypt,False,150km SSW of Damietta coast,150km South-Southwest
-202512211441,34.7099,32.7013,21/12/2025,21/12/2025 14:41:38,3.1,43.908355712891,False,Pissoúri,Cyprus,Cyprus,True,5km S of Pissoúri,5km South
-202512210754,33.3307,34.7634,21/12/2025,21/12/2025 07:54:21,2.4,17.887369791667,False,Tyre,South,Lebanon,False,41km E of South coast,41km East
+202601010300,33.207,35.7305,01/01/2026,01/01/2026 03:00:33,2.3,11.336263020833,False,‘Ein Qunīya,HaZafon,Israel,True,"3km N of ‘Ein Qunīya, Israel",3km North
 202512312219,36.9307,34.5684,31/12/2025,31/12/2025 22:19:54,3.0,0.0,False,İğdir,South,Turkey,True,"7km ESE of İğdir, Turkey",7km East-Southeast
 202512312201,34.6668,33.2863,31/12/2025,31/12/2025 22:01:13,2.8,18.001302083333,False,Pyrgos,Cyprus,Cyprus,False,13km NW of Limassol coast,13km Northwest
 202512301947,34.7532,32.6455,30/12/2025,30/12/2025 19:47:11,3.0,20.806890487671,False,Pissoúri,Cyprus,Cyprus,True,11km SSE of Pissoúri,11km South-Southeast
