@@ -3,7 +3,11 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202601050927,32.2197,35.4752,05/01/2026,05/01/2026 09:27:40,2.1,15.97900390625,False,Bayt Ḩasan,West Bank,Palestine,True,"7km WNW of Bayt Ḩasan, Palestine",7km West-Northwest
 202601040013,27.5982,33.2988,04/01/2026,04/01/2026 00:13:37,3.0,29.850260416667,False,El Gouna,South,Egypt,True,"44km ESE of El Gouna, Egypt",44km East-Southeast
 202601032326,27.5211,33.4244,03/01/2026,03/01/2026 23:26:30,3.0,26.888020833333,False,El Gouna,South,Egypt,True,"29km ESE of El Gouna, Egypt",29km East-Southeast
-202601030550,32.8628,35.5689,03/01/2026,03/01/2026 05:50:43,2.2,2.13623046875,False,Migdal,HaZafon,Israel,True,"7km WSW of Migdal, Israel",7km West-Southwest
+202601032226,34.4989,25.1073,03/01/2026,03/01/2026 22:26:46,4.6,81.119791666667,False,Pýrgos,Crete,Greece,False,57km N of Crete coast,57km North
+202601031827,34.753,26.9377,03/01/2026,03/01/2026 18:27:27,4.4,97.526041666667,False,Palekastro,South Aegean,Greece,False,80km NW of South Aegean coast,80km Northwest
+202601031726,40.9233,40.7357,03/01/2026,03/01/2026 17:26:49,5.4,20.963541666667,False,Güneysu,Rize,Turkey,True,"13km WNW of Güneysu, Turkey",13km West-Northwest
+202601030853,34.6986,32.7267,03/01/2026,03/01/2026 08:53:25,3.4,51.041666666667,False,Pissoúri,Cyprus,Cyprus,True,4km SW of Pissoúri,4km Southwest
+202601030550,32.8673,35.5743,03/01/2026,03/01/2026 05:50:59,2.0,1.7374674479167,False,Migdal,HaZafon,Israel,True,"7km WSW of Migdal, Israel",7km West-Southwest
 202601021059,35.8963,28.4334,02/01/2026,02/01/2026 10:59:20,3.4,45.572916666667,False,Lárdos,South Aegean,Greece,False,44km WNW of South Aegean coast,44km West-Northwest
 202601020452,30.6675,35.424,02/01/2026,02/01/2026 04:52:26,2.2,9.912109375,False,Buşayrā,South,Jordan,True,"19km ENE of Buşayrā, Jordan",19km East-Northeast
 202601012329,36.84,35.0926,01/01/2026,01/01/2026 23:29:16,3.7,122.13541666667,False,Alifakı,Adana,Turkey,True,"10km WNW of Alifakı, Turkey",10km West-Northwest
@@ -25,10 +29,8 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202512281903,29.751,34.6247,28/12/2025,28/12/2025 19:03:07,2.1,4.8990885416667,False,Be’er Ora,Sinai,Egypt,True,"35km E of Be’er Ora, Egypt",35km East
 202512281902,28.8822,34.8282,28/12/2025,28/12/2025 19:02:55,2.9,78.841145833333,False,Nuwaybi‘a,Northwest,Saudi Arabia,False,24km NW of Al-Jowf coast,24km Northwest
 202512281755,28.8504,34.8308,28/12/2025,28/12/2025 17:55:59,2.7,1.1393229166667,False,Nuwaybi‘a,Northwest,Saudi Arabia,False,27km NW of Tabuk coast,27km Northwest
-202512281126,35.2521,27.3222,28/12/2025,28/12/2025 11:26:20,4.2,25.9765625,False,Karpathos,South Aegean,Greece,False,30km NNW of South Aegean coast,30km North-Northwest
-202512280218,33.8104,35.9655,28/12/2025,28/12/2025 02:18:27,2.2,1.0771609544754,False,Zahlé,South,Lebanon,True,"7km NW of Zahlé, Lebanon",7km Northwest
-202512272142,36.6041,30.624,27/12/2025,27/12/2025 21:42:08,4.2,82.942708333333,False,Kiriş,South,Turkey,False,5km SW of Antalya coast,5km Southwest
-202512262129,32.5242,35.2296,26/12/2025,26/12/2025 21:29:21,2.4,20.906575520833,False,Sīlat al Ḩārithīyah,West Bank,Palestine,True,"2km S of Sīlat al Ḩārithīyah, Palestine",2km South
+202601051852,29.1771,32.3853,05/01/2026,05/01/2026 18:52:40,2.9,29.850260416667,False,Ain Sukhna,South,Egypt,True,"48km N of Ain Sukhna, Egypt",48km North
+202601050927,32.2197,35.4752,05/01/2026,05/01/2026 09:27:40,2.1,15.97900390625,False,Bayt Ḩasan,West Bank,Palestine,True,"7km WNW of Bayt Ḩasan, Palestine",7km West-Northwest
 202601040013,27.5982,33.2988,04/01/2026,04/01/2026 00:13:37,3.0,29.850260416667,False,El Gouna,South,Egypt,True,"44km ESE of El Gouna, Egypt",44km East-Southeast
 202601032326,27.5211,33.4244,03/01/2026,03/01/2026 23:26:30,3.0,26.888020833333,False,El Gouna,South,Egypt,True,"29km ESE of El Gouna, Egypt",29km East-Southeast
 202601030550,32.8628,35.5689,03/01/2026,03/01/2026 05:50:43,2.2,2.13623046875,False,Migdal,HaZafon,Israel,True,"7km WSW of Migdal, Israel",7km West-Southwest
