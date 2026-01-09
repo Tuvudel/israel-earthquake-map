@@ -29,6 +29,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202512290306,34.6146,33.0781,29/12/2025,29/12/2025 03:06:06,3.6,14.469401041667,False,Limassol,Cyprus,Cyprus,False,9km NNW of Limassol coast,9km North-Northwest
 202512281903,29.751,34.6247,28/12/2025,28/12/2025 19:03:07,2.1,4.8990885416667,False,Be’er Ora,Sinai,Egypt,True,"35km E of Be’er Ora, Egypt",35km East
 202512281902,28.8822,34.8282,28/12/2025,28/12/2025 19:02:55,2.9,78.841145833333,False,Nuwaybi‘a,Northwest,Saudi Arabia,False,24km NW of Al-Jowf coast,24km Northwest
+202601051932,32.8456,24.7392,05/01/2026,05/01/2026 19:32:53,3.4,70.0,False,Kambūt,Butnan,Libya,False,107km SSW of Butnan coast,107km South-Southwest
 202601051852,29.1771,32.3853,05/01/2026,05/01/2026 18:52:40,2.9,29.850260416667,False,Ain Sukhna,South,Egypt,True,"48km N of Ain Sukhna, Egypt",48km North
 202601050927,32.2197,35.4752,05/01/2026,05/01/2026 09:27:40,2.1,15.97900390625,False,Bayt Ḩasan,West Bank,Palestine,True,"7km WNW of Bayt Ḩasan, Palestine",7km West-Northwest
 202601040013,27.5982,33.2988,04/01/2026,04/01/2026 00:13:37,3.0,29.850260416667,False,El Gouna,South,Egypt,True,"44km ESE of El Gouna, Egypt",44km East-Southeast
