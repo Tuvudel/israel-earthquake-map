@@ -1,5 +1,11 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
-202601102150,33.9874,34.9533,10/01/2026,10/01/2026 21:50:21,3.9,8.8297526041667,False,Ra’s Bayrūt,North,Lebanon,False,50km E of Beirut coast,50km East
+202601111927,32.6388,26.3996,11/01/2026,11/01/2026 19:27:14,4.5,34.1796875,False,Sīdī Barānī,Matrouh,Egypt,False,123km SSW of Matrouh coast,123km South-Southwest
+202601102333,33.9239,34.7604,10/01/2026,10/01/2026 23:33:46,2.9,12.247721354167,False,Ra’s Bayrūt,North,Lebanon,False,67km E of Beirut coast,67km East
+202601102150,33.9874,34.9533,10/01/2026,10/01/2026 21:50:21,3.9,8.8297526041667,True,Ra’s Bayrūt,North,Lebanon,False,50km E of Beirut coast,50km East
+202601102032,32.5276,36.2525,10/01/2026,10/01/2026 20:32:54,2.3,18.570963541667,False,Al Ḩamrā’,South,Syria,True,"13km SW of Al Ḩamrā’, Syria",13km Southwest
+202601100255,35.8986,28.8703,10/01/2026,10/01/2026 02:55:04,4.0,29.964192708333,False,Kalkan,Muğla,Turkey,False,64km NE of Muğla coast,64km Northeast
+202601081125,35.0674,32.3556,08/01/2026,08/01/2026 11:25:17,3.4,18.870767593384,False,Pólis,Cyprus,Cyprus,False,7km ESE of Paphos coast,7km East-Southeast
+202601080150,35.5424,23.0672,08/01/2026,08/01/2026 01:50:10,4.8,60.611979166667,False,Kíssamos,Attica,Greece,False,53km E of Attica coast,53km East
 202601051932,32.8456,24.7392,05/01/2026,05/01/2026 19:32:53,3.4,70.0,False,Kambūt,Butnan,Libya,False,107km SSW of Butnan coast,107km South-Southwest
 202601051852,29.1771,32.3853,05/01/2026,05/01/2026 18:52:40,2.9,29.850260416667,False,Ain Sukhna,South,Egypt,True,"48km N of Ain Sukhna, Egypt",48km North
 202601050927,32.2197,35.4752,05/01/2026,05/01/2026 09:27:40,2.1,15.97900390625,False,Bayt Ḩasan,West Bank,Palestine,True,"7km WNW of Bayt Ḩasan, Palestine",7km West-Northwest
@@ -23,12 +29,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202512301658,29.6376,34.5171,30/12/2025,30/12/2025 16:58:14,3.1,8.3170572916667,False,Eilat,Sinai,Egypt,True,"43km ESE of Eilat, Egypt",43km East-Southeast
 202512301614,35.7277,35.444,30/12/2025,30/12/2025 16:14:38,2.7,5.0,False,Burj Islām,North,Syria,False,33km E of Latakia coast,33km East
 202512301505,35.5878,35.3686,30/12/2025,30/12/2025 15:05:32,3.6,30.078125,False,Latakia,North,Syria,False,39km E of Latakia coast,39km East
-202512291818,34.6532,32.8204,29/12/2025,29/12/2025 18:18:02,3.5,9.5703125,False,Sotíra,Cyprus,Cyprus,False,8km NNE of Akrotiri coast,8km North-Northeast
-202512291700,35.8691,28.908,29/12/2025,29/12/2025 17:00:10,4.4,126.23697916667,False,Kalkan,South,Turkey,False,63km NE of Antalya coast,63km Northeast
-202512291409,34.6668,33.0161,29/12/2025,29/12/2025 14:09:38,3.6,17.545572916667,False,Limassol,Cyprus,Cyprus,True,3km NE of Limassol,3km Northeast
-202512290341,34.2149,34.8353,29/12/2025,29/12/2025 03:41:02,2.3,14.612677574158,False,Ra’s Bayrūt,North,Lebanon,False,69km ESE of Beirut coast,69km East-Southeast
-202512290306,34.6146,33.0781,29/12/2025,29/12/2025 03:06:06,3.6,14.469401041667,False,Limassol,Cyprus,Cyprus,False,9km NNW of Limassol coast,9km North-Northwest
-202512281903,29.751,34.6247,28/12/2025,28/12/2025 19:03:07,2.1,4.8990885416667,False,Be’er Ora,Sinai,Egypt,True,"35km E of Be’er Ora, Egypt",35km East
+202601102150,33.9874,34.9533,10/01/2026,10/01/2026 21:50:21,3.9,8.8297526041667,False,Ra’s Bayrūt,North,Lebanon,False,50km E of Beirut coast,50km East
 202601051932,32.8456,24.7392,05/01/2026,05/01/2026 19:32:53,3.4,70.0,False,Kambūt,Butnan,Libya,False,107km SSW of Butnan coast,107km South-Southwest
 202601051852,29.1771,32.3853,05/01/2026,05/01/2026 18:52:40,2.9,29.850260416667,False,Ain Sukhna,South,Egypt,True,"48km N of Ain Sukhna, Egypt",48km North
 202601050927,32.2197,35.4752,05/01/2026,05/01/2026 09:27:40,2.1,15.97900390625,False,Bayt Ḩasan,West Bank,Palestine,True,"7km WNW of Bayt Ḩasan, Palestine",7km West-Northwest
