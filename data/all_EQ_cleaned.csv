@@ -1,9 +1,13 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
-202601111927,32.6388,26.3996,11/01/2026,11/01/2026 19:27:14,4.5,34.1796875,False,Sīdī Barānī,Matrouh,Egypt,False,123km SSW of Matrouh coast,123km South-Southwest
+202601130027,31.466,35.4608,13/01/2026,13/01/2026 00:27:54,2.3,13.102213541667,False,‘Arab ar Rashāydah,Central,Jordan,True,"25km WNW of ‘Arab ar Rashāydah, Jordan",25km West-Northwest
+202601120000,36.8171,31.3198,12/01/2026,12/01/2026 00:00:38,3.0,30.0,False,Çolaklı,South,Turkey,True,"2km N of Çolaklı, Turkey",2km North
+202601111927,32.6025,26.7371,11/01/2026,11/01/2026 19:27:19,4.2,35.091145833333,False,An-Najaylah,Matrouh,Egypt,False,134km S of Matrouh coast,134km South
 202601102333,33.9239,34.7604,10/01/2026,10/01/2026 23:33:46,2.9,12.247721354167,False,Ra’s Bayrūt,North,Lebanon,False,67km E of Beirut coast,67km East
 202601102150,33.9874,34.9533,10/01/2026,10/01/2026 21:50:21,3.9,8.8297526041667,True,Ra’s Bayrūt,North,Lebanon,False,50km E of Beirut coast,50km East
 202601102032,32.5276,36.2525,10/01/2026,10/01/2026 20:32:54,2.3,18.570963541667,False,Al Ḩamrā’,South,Syria,True,"13km SW of Al Ḩamrā’, Syria",13km Southwest
 202601100255,35.8986,28.8703,10/01/2026,10/01/2026 02:55:04,4.0,29.964192708333,False,Kalkan,Muğla,Turkey,False,64km NE of Muğla coast,64km Northeast
+202601092049,33.0301,35.6175,09/01/2026,09/01/2026 20:49:03,2.2,16.007486979167,False,Yesud HaMa‘ala,HaZafon,Israel,True,"3km NNW of Yesud HaMa‘ala, Israel",3km North-Northwest
+202601090732,31.7646,35.4693,09/01/2026,09/01/2026 07:32:18,2.4,24.985191345215,False,Miẕpé Yeriẖo,West Bank,Palestine,True,"9km NW of Miẕpé Yeriẖo, Palestine",9km Northwest
 202601081125,35.0674,32.3556,08/01/2026,08/01/2026 11:25:17,3.4,18.870767593384,False,Pólis,Cyprus,Cyprus,False,7km ESE of Paphos coast,7km East-Southeast
 202601080150,35.5424,23.0672,08/01/2026,08/01/2026 01:50:10,4.8,60.611979166667,False,Kíssamos,Attica,Greece,False,53km E of Attica coast,53km East
 202601051932,32.8456,24.7392,05/01/2026,05/01/2026 19:32:53,3.4,70.0,False,Kambūt,Butnan,Libya,False,107km SSW of Butnan coast,107km South-Southwest
@@ -25,11 +29,13 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202601010300,33.207,35.7305,01/01/2026,01/01/2026 03:00:33,2.3,11.336263020833,False,‘Ein Qunīya,HaZafon,Israel,True,"3km N of ‘Ein Qunīya, Israel",3km North
 202512312219,36.9307,34.5684,31/12/2025,31/12/2025 22:19:54,3.0,0.0,False,İğdir,South,Turkey,True,"7km ESE of İğdir, Turkey",7km East-Southeast
 202512312201,34.6668,33.2863,31/12/2025,31/12/2025 22:01:13,2.8,18.001302083333,False,Pyrgos,Cyprus,Cyprus,False,13km NW of Limassol coast,13km Northwest
-202512301947,34.7532,32.6455,30/12/2025,30/12/2025 19:47:11,3.0,20.806890487671,False,Pissoúri,Cyprus,Cyprus,True,11km SSE of Pissoúri,11km South-Southeast
-202512301658,29.6376,34.5171,30/12/2025,30/12/2025 16:58:14,3.1,8.3170572916667,False,Eilat,Sinai,Egypt,True,"43km ESE of Eilat, Egypt",43km East-Southeast
-202512301614,35.7277,35.444,30/12/2025,30/12/2025 16:14:38,2.7,5.0,False,Burj Islām,North,Syria,False,33km E of Latakia coast,33km East
-202512301505,35.5878,35.3686,30/12/2025,30/12/2025 15:05:32,3.6,30.078125,False,Latakia,North,Syria,False,39km E of Latakia coast,39km East
-202601102150,33.9874,34.9533,10/01/2026,10/01/2026 21:50:21,3.9,8.8297526041667,False,Ra’s Bayrūt,North,Lebanon,False,50km E of Beirut coast,50km East
+202601111927,32.6388,26.3996,11/01/2026,11/01/2026 19:27:14,4.5,34.1796875,False,Sīdī Barānī,Matrouh,Egypt,False,123km SSW of Matrouh coast,123km South-Southwest
+202601102333,33.9239,34.7604,10/01/2026,10/01/2026 23:33:46,2.9,12.247721354167,False,Ra’s Bayrūt,North,Lebanon,False,67km E of Beirut coast,67km East
+202601102150,33.9874,34.9533,10/01/2026,10/01/2026 21:50:21,3.9,8.8297526041667,True,Ra’s Bayrūt,North,Lebanon,False,50km E of Beirut coast,50km East
+202601102032,32.5276,36.2525,10/01/2026,10/01/2026 20:32:54,2.3,18.570963541667,False,Al Ḩamrā’,South,Syria,True,"13km SW of Al Ḩamrā’, Syria",13km Southwest
+202601100255,35.8986,28.8703,10/01/2026,10/01/2026 02:55:04,4.0,29.964192708333,False,Kalkan,Muğla,Turkey,False,64km NE of Muğla coast,64km Northeast
+202601081125,35.0674,32.3556,08/01/2026,08/01/2026 11:25:17,3.4,18.870767593384,False,Pólis,Cyprus,Cyprus,False,7km ESE of Paphos coast,7km East-Southeast
+202601080150,35.5424,23.0672,08/01/2026,08/01/2026 01:50:10,4.8,60.611979166667,False,Kíssamos,Attica,Greece,False,53km E of Attica coast,53km East
 202601051932,32.8456,24.7392,05/01/2026,05/01/2026 19:32:53,3.4,70.0,False,Kambūt,Butnan,Libya,False,107km SSW of Butnan coast,107km South-Southwest
 202601051852,29.1771,32.3853,05/01/2026,05/01/2026 18:52:40,2.9,29.850260416667,False,Ain Sukhna,South,Egypt,True,"48km N of Ain Sukhna, Egypt",48km North
 202601050927,32.2197,35.4752,05/01/2026,05/01/2026 09:27:40,2.1,15.97900390625,False,Bayt Ḩasan,West Bank,Palestine,True,"7km WNW of Bayt Ḩasan, Palestine",7km West-Northwest
