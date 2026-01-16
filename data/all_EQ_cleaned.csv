@@ -1,4 +1,5 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202601150700,31.0684,35.5333,15/01/2026,15/01/2026 07:00:26,3.9,22.871907552083,True,Al Khinzīrah,South,Jordan,True,"7km ESE of Al Khinzīrah, Jordan",7km East-Southeast
 202601130027,31.466,35.4608,13/01/2026,13/01/2026 00:27:54,2.3,13.102213541667,False,‘Arab ar Rashāydah,Central,Jordan,True,"25km WNW of ‘Arab ar Rashāydah, Jordan",25km West-Northwest
 202601120000,36.8171,31.3198,12/01/2026,12/01/2026 00:00:38,3.0,30.0,False,Çolaklı,South,Turkey,True,"2km N of Çolaklı, Turkey",2km North
 202601111927,32.6025,26.7371,11/01/2026,11/01/2026 19:27:19,4.2,35.091145833333,False,An-Najaylah,Matrouh,Egypt,False,134km S of Matrouh coast,134km South
@@ -28,7 +29,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202601011807,36.1867,35.3189,01/01/2026,01/01/2026 18:07:30,3.6,30.989583333333,False,Karataş,Adana,Turkey,False,44km N of Adana coast,44km North
 202601011333,36.3863,29.4475,01/01/2026,01/01/2026 13:33:13,4.4,30.078125,False,Çayköy,South,Turkey,True,"7km SW of Çayköy, Turkey",7km Southwest
 202601010300,33.207,35.7305,01/01/2026,01/01/2026 03:00:33,2.3,11.336263020833,False,‘Ein Qunīya,HaZafon,Israel,True,"3km N of ‘Ein Qunīya, Israel",3km North
-202512312219,36.9307,34.5684,31/12/2025,31/12/2025 22:19:54,3.0,0.0,False,İğdir,South,Turkey,True,"7km ESE of İğdir, Turkey",7km East-Southeast
 202601130027,31.466,35.4608,13/01/2026,13/01/2026 00:27:54,2.3,13.102213541667,False,‘Arab ar Rashāydah,Central,Jordan,True,"25km WNW of ‘Arab ar Rashāydah, Jordan",25km West-Northwest
 202601120000,36.8171,31.3198,12/01/2026,12/01/2026 00:00:38,3.0,30.0,False,Çolaklı,South,Turkey,True,"2km N of Çolaklı, Turkey",2km North
 202601111927,32.6025,26.7371,11/01/2026,11/01/2026 19:27:19,4.2,35.091145833333,False,An-Najaylah,Matrouh,Egypt,False,134km S of Matrouh coast,134km South
