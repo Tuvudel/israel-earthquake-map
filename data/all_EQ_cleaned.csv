@@ -1,6 +1,15 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202601190252,34.4651,32.8012,19/01/2026,19/01/2026 02:52:37,2.6,21.592937469482,False,Pissoúri,Cyprus,Cyprus,False,24km NNW of Akrotiri coast,24km North-Northwest
+202601181632,33.5997,35.6458,18/01/2026,18/01/2026 16:32:48,1.7,3.9342572689056,False,Aaïtanît,North,Lebanon,True,"5km SSE of Aaïtanît, Lebanon",5km South-Southeast
+202601181610,33.5133,32.9702,18/01/2026,18/01/2026 16:10:50,3.0,21.590169270833,False,Trachóni,Cyprus,Cyprus,False,127km N of Akrotiri coast,127km North
+202601181101,34.246,36.3992,18/01/2026,18/01/2026 11:01:37,3.5,0.056966145833333,False,Baalbek,South,Lebanon,True,"31km SSW of Baalbek, Lebanon",31km South-Southwest
 202601171855,33.9761,34.9395,17/01/2026,17/01/2026 18:55:04,2.2,9.9690755208333,False,Ra’s Bayrūt,North,Lebanon,False,51km E of Beirut coast,51km East
 202601150700,31.0684,35.5333,15/01/2026,15/01/2026 07:00:26,3.9,22.871907552083,True,Al Khinzīrah,South,Jordan,True,"7km ESE of Al Khinzīrah, Jordan",7km East-Southeast
+202601150653,35.125,28.3831,15/01/2026,15/01/2026 06:53:29,4.3,42.3828125,False,Lárdos,South Aegean,Greece,False,113km NNW of South Aegean coast,113km North-Northwest
+202601141913,30.1594,35.0602,14/01/2026,14/01/2026 19:13:03,2.2,24.039713541667,False,At-Taybeh,HaDarom,Israel,True,"40km ENE of At-Taybeh, Israel",40km East-Northeast
+202601141525,29.5636,34.9273,14/01/2026,14/01/2026 15:25:56,2.2,23.217775344849,False,Eilat,HaDarom,Israel,True,"2km ESE of Eilat, Israel",2km East-Southeast
+202601141029,32.8566,35.5896,14/01/2026,14/01/2026 10:29:09,1.7,3.1901041666667,False,Migdal,HaZafon,Israel,True,"8km WSW of Migdal, Israel",8km West-Southwest
+202601130128,34.9753,32.2668,13/01/2026,13/01/2026 01:28:42,3.9,7.51953125,False,Pégeia,Cyprus,Cyprus,False,15km SE of Paphos coast,15km Southeast
 202601130027,31.466,35.4608,13/01/2026,13/01/2026 00:27:54,2.3,13.102213541667,False,‘Arab ar Rashāydah,Central,Jordan,True,"25km WNW of ‘Arab ar Rashāydah, Jordan",25km West-Northwest
 202601120000,36.8171,31.3198,12/01/2026,12/01/2026 00:00:38,3.0,30.0,False,Çolaklı,South,Turkey,True,"2km N of Çolaklı, Turkey",2km North
 202601111927,32.6025,26.7371,11/01/2026,11/01/2026 19:27:19,4.2,35.091145833333,False,An-Najaylah,Matrouh,Egypt,False,134km S of Matrouh coast,134km South
@@ -20,15 +29,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202601032326,27.5211,33.4244,03/01/2026,03/01/2026 23:26:30,3.0,26.888020833333,False,El Gouna,South,Egypt,True,"29km ESE of El Gouna, Egypt",29km East-Southeast
 202601032226,34.4989,25.1073,03/01/2026,03/01/2026 22:26:46,4.6,81.119791666667,False,Pýrgos,Crete,Greece,False,57km N of Crete coast,57km North
 202601031827,34.753,26.9377,03/01/2026,03/01/2026 18:27:27,4.4,97.526041666667,False,Palekastro,South Aegean,Greece,False,80km NW of South Aegean coast,80km Northwest
-202601031726,40.9233,40.7357,03/01/2026,03/01/2026 17:26:49,5.4,20.963541666667,False,Güneysu,Rize,Turkey,True,"13km WNW of Güneysu, Turkey",13km West-Northwest
-202601030853,34.6986,32.7267,03/01/2026,03/01/2026 08:53:25,3.4,51.041666666667,False,Pissoúri,Cyprus,Cyprus,True,4km SW of Pissoúri,4km Southwest
-202601030550,32.8673,35.5743,03/01/2026,03/01/2026 05:50:59,2.0,1.7374674479167,False,Migdal,HaZafon,Israel,True,"7km WSW of Migdal, Israel",7km West-Southwest
-202601021059,35.8963,28.4334,02/01/2026,02/01/2026 10:59:20,3.4,45.572916666667,False,Lárdos,South Aegean,Greece,False,44km WNW of South Aegean coast,44km West-Northwest
-202601020452,30.6675,35.424,02/01/2026,02/01/2026 04:52:26,2.2,9.912109375,False,Buşayrā,South,Jordan,True,"19km ENE of Buşayrā, Jordan",19km East-Northeast
-202601012329,36.84,35.0926,01/01/2026,01/01/2026 23:29:16,3.7,122.13541666667,False,Alifakı,Adana,Turkey,True,"10km WNW of Alifakı, Turkey",10km West-Northwest
-202601011905,34.0634,24.0047,01/01/2026,01/01/2026 19:05:00,5.1,51.953125,False,Agía Galíni,Crete,Greece,False,131km NNE of Crete coast,131km North-Northeast
-202601011807,36.1867,35.3189,01/01/2026,01/01/2026 18:07:30,3.6,30.989583333333,False,Karataş,Adana,Turkey,False,44km N of Adana coast,44km North
-202601011333,36.3863,29.4475,01/01/2026,01/01/2026 13:33:13,4.4,30.078125,False,Çayköy,South,Turkey,True,"7km SW of Çayköy, Turkey",7km Southwest
+202601171855,33.9761,34.9395,17/01/2026,17/01/2026 18:55:04,2.2,9.9690755208333,False,Ra’s Bayrūt,North,Lebanon,False,51km E of Beirut coast,51km East
 202601150700,31.0684,35.5333,15/01/2026,15/01/2026 07:00:26,3.9,22.871907552083,True,Al Khinzīrah,South,Jordan,True,"7km ESE of Al Khinzīrah, Jordan",7km East-Southeast
 202601130027,31.466,35.4608,13/01/2026,13/01/2026 00:27:54,2.3,13.102213541667,False,‘Arab ar Rashāydah,Central,Jordan,True,"25km WNW of ‘Arab ar Rashāydah, Jordan",25km West-Northwest
 202601120000,36.8171,31.3198,12/01/2026,12/01/2026 00:00:38,3.0,30.0,False,Çolaklı,South,Turkey,True,"2km N of Çolaklı, Turkey",2km North
