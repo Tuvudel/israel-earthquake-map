@@ -29,6 +29,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202601102333,33.9239,34.7604,10/01/2026,10/01/2026 23:33:46,2.9,12.247721354167,False,Ra’s Bayrūt,North,Lebanon,False,67km E of Beirut coast,67km East
 202601102150,33.9874,34.9533,10/01/2026,10/01/2026 21:50:21,3.9,8.8297526041667,True,Ra’s Bayrūt,North,Lebanon,False,50km E of Beirut coast,50km East
 202601102032,32.5276,36.2525,10/01/2026,10/01/2026 20:32:54,2.3,18.570963541667,False,Al Ḩamrā’,South,Syria,True,"13km SW of Al Ḩamrā’, Syria",13km Southwest
+202601211431,31.2454,34.8115,21/01/2026,21/01/2026 14:31:41,2.4,10.282389322917,False,Beersheba,HaDarom,Israel,True,"2km WNW of Beersheba, Israel",2km West-Northwest
 202601200527,29.0478,34.6666,20/01/2026,20/01/2026 05:27:00,3.3,8.3170572916667,False,Nuwaybi‘a,Sinai,Egypt,True,"0km WSW of Nuwaybi‘a, Egypt",0km West-Southwest
 202601200219,32.9989,35.6117,20/01/2026,20/01/2026 02:19:21,2.2,16.66259765625,False,Tūbā Zangarīya,HaZafon,Israel,True,"4km SSW of Tūbā Zangarīya, Israel",4km South-Southwest
 202601191525,32.8447,35.6015,19/01/2026,19/01/2026 15:25:58,2.8,12.333170572917,False,Tiberias,HaZafon,Israel,True,"9km SW of Tiberias, Israel",9km Southwest
