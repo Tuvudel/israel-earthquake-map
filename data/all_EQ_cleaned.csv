@@ -1,5 +1,7 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202601250132,34.753,32.6495,25/01/2026,25/01/2026 01:32:44,3.1,10.026041666667,False,Pissoúri,Cyprus,Cyprus,True,10km SSE of Pissoúri,10km South-Southeast
 202601241829,32.683,34.8676,24/01/2026,24/01/2026 18:29:42,2.2,9.8551432291667,False,Atlit,HaZafon,Israel,False,7km E of Haifa coast,7km East
+202601230048,33.6086,35.7686,23/01/2026,23/01/2026 00:48:57,1.9,2.4495442708333,False,Aaïtanît,South,Lebanon,True,"11km WSW of Aaïtanît, Lebanon",11km West-Southwest
 202601211431,31.2454,34.8115,21/01/2026,21/01/2026 14:31:41,2.4,10.282389322917,False,Beersheba,HaDarom,Israel,True,"2km WNW of Beersheba, Israel",2km West-Northwest
 202601200527,29.0478,34.6666,20/01/2026,20/01/2026 05:27:00,3.3,8.3170572916667,False,Nuwaybi‘a,Sinai,Egypt,True,"0km WSW of Nuwaybi‘a, Egypt",0km West-Southwest
 202601200219,32.9989,35.6117,20/01/2026,20/01/2026 02:19:21,2.2,16.66259765625,False,Tūbā Zangarīya,HaZafon,Israel,True,"4km SSW of Tūbā Zangarīya, Israel",4km South-Southwest
@@ -27,8 +29,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202601120000,36.8171,31.3198,12/01/2026,12/01/2026 00:00:38,3.0,30.0,False,Çolaklı,South,Turkey,True,"2km N of Çolaklı, Turkey",2km North
 202601111927,32.6025,26.7371,11/01/2026,11/01/2026 19:27:19,4.2,35.091145833333,False,An-Najaylah,Matrouh,Egypt,False,134km S of Matrouh coast,134km South
 202601111207,33.9637,36.8898,11/01/2026,11/01/2026 12:07:25,3.0,8.852068901062,False,An Nabk,South,Syria,True,"16km WNW of An Nabk, Syria",16km West-Northwest
-202601102333,33.9239,34.7604,10/01/2026,10/01/2026 23:33:46,2.9,12.247721354167,False,Ra’s Bayrūt,North,Lebanon,False,67km E of Beirut coast,67km East
-202601102150,33.9874,34.9533,10/01/2026,10/01/2026 21:50:21,3.9,8.8297526041667,True,Ra’s Bayrūt,North,Lebanon,False,50km E of Beirut coast,50km East
+202601241829,32.683,34.8676,24/01/2026,24/01/2026 18:29:42,2.2,9.8551432291667,False,Atlit,HaZafon,Israel,False,7km E of Haifa coast,7km East
 202601211431,31.2454,34.8115,21/01/2026,21/01/2026 14:31:41,2.4,10.282389322917,False,Beersheba,HaDarom,Israel,True,"2km WNW of Beersheba, Israel",2km West-Northwest
 202601200527,29.0478,34.6666,20/01/2026,20/01/2026 05:27:00,3.3,8.3170572916667,False,Nuwaybi‘a,Sinai,Egypt,True,"0km WSW of Nuwaybi‘a, Egypt",0km West-Southwest
 202601200219,32.9989,35.6117,20/01/2026,20/01/2026 02:19:21,2.2,16.66259765625,False,Tūbā Zangarīya,HaZafon,Israel,True,"4km SSW of Tūbā Zangarīya, Israel",4km South-Southwest
