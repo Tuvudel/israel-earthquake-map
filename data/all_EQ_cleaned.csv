@@ -1,31 +1,6 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
-202601291135,33.5031,35.7298,29/01/2026,29/01/2026 11:35:39,2.3,3.076171875,False,Aaïtanît,South,Lebanon,True,"9km NW of Aaïtanît, Lebanon",9km Northwest
-202601290434,33.5337,34.9996,29/01/2026,29/01/2026 04:34:03,2.8,21.0205078125,False,Sarafand,South,Lebanon,False,29km ESE of South coast,29km East-Southeast
-202601281943,36.8219,29.7869,28/01/2026,28/01/2026 19:43:44,4.2,30.078125,False,Elmalı,South,Turkey,True,"15km SE of Elmalı, Turkey",15km Southeast
-202601281938,32.5673,35.6053,28/01/2026,28/01/2026 19:38:15,2.5,17.032877604167,False,Waqqāş,North,Jordan,True,"3km S of Waqqāş, Jordan",3km South
-202601280946,33.5394,35.8251,28/01/2026,28/01/2026 09:46:04,2.3,12.646484375,False,Aaïtanît,South,Lebanon,True,"15km W of Aaïtanît, Lebanon",15km West
-202601280838,35.1296,33.4115,28/01/2026,28/01/2026 08:38:29,3.5,12.98828125,False,Géri,Cyprus,Cyprus,True,3km SSE of Géri,3km South-Southeast
-202601271753,36.3863,21.4606,27/01/2026,27/01/2026 17:53:44,5.3,0.91145833333333,False,Methóni,Peloponnese,Greece,False,53km NNE of Peloponnese coast,53km North-Northeast
-202601270228,28.6848,34.7025,27/01/2026,27/01/2026 02:28:56,3.2,7.861328125,False,Dahab,Northwest,Saudi Arabia,False,30km SW of Tabuk coast,30km Southwest
-202601270039,35.4426,37.9819,27/01/2026,27/01/2026 00:39:42,3.3,28.255208333333,False,Ath Thawrah,North,Syria,True,"67km NE of Ath Thawrah, Syria",67km Northeast
-202601262313,36.35,32.7961,26/01/2026,26/01/2026 23:13:43,3.5,152.21354166667,False,Karalarbahşiş,South,Turkey,True,"22km SSE of Karalarbahşiş, Turkey",22km South-Southeast
-202601261916,34.6804,33.8403,26/01/2026,26/01/2026 19:16:27,3.4,33.723958333333,False,Perivólia,Cyprus,Cyprus,False,29km NW of Larnaca coast,29km Northwest
-202601261840,34.9345,24.3795,26/01/2026,26/01/2026 18:40:17,4.6,112.109375,False,Agía Galíni,Crete,Greece,False,33km ENE of Crete coast,33km East-Northeast
-202601251613,37.2325,36.9137,25/01/2026,25/01/2026 16:13:26,3.8,6.3917007446289,False,Şatırhüyük,Gaziantep,Turkey,True,"6km ESE of Şatırhüyük, Turkey",6km East-Southeast
-202601251517,33.8502,37.0463,25/01/2026,25/01/2026 15:17:12,2.7,2.05078125,False,Jayrūd,South,Syria,True,"29km W of Jayrūd, Syria",29km West
-202601250132,34.753,32.6495,25/01/2026,25/01/2026 01:32:44,3.1,10.026041666667,False,Pissoúri,Cyprus,Cyprus,True,10km SSE of Pissoúri,10km South-Southeast
-202601241829,32.683,34.8676,24/01/2026,24/01/2026 18:29:42,2.2,9.8551432291667,False,Atlit,HaZafon,Israel,False,7km E of Haifa coast,7km East
-202601232233,36.2774,30.9408,23/01/2026,23/01/2026 22:33:57,4.0,31.901041666667,False,Tekirova,South,Turkey,False,45km NW of Antalya coast,45km Northwest
-202601232124,38.5278,28.5835,23/01/2026,23/01/2026 21:24:48,4.6,31.901041666667,False,Kula,Manisa,Turkey,True,"6km ENE of Kula, Turkey",6km East-Northeast
-202601230137,32.8339,35.625,23/01/2026,23/01/2026 01:37:07,2.1,22.55859375,False,Tiberias,HaZafon,Israel,True,"10km WSW of Tiberias, Israel",10km West-Southwest
-202601222255,36.2502,35.7658,22/01/2026,22/01/2026 22:55:54,3.5,23.2421875,False,Kapısuyu,South,Turkey,False,21km SE of Hatay coast,21km Southeast
-202601222000,35.0706,32.1244,22/01/2026,22/01/2026 20:00:01,3.4,96.158854166667,False,Pólis,Cyprus,Cyprus,False,28km E of Paphos coast,28km East
-202601220821,34.5262,33.5702,22/01/2026,22/01/2026 08:21:54,3.3,83.3984375,False,Perivólia,Cyprus,Cyprus,False,34km N of Larnaca coast,34km North
-202601211431,31.2454,34.8115,21/01/2026,21/01/2026 14:31:41,2.4,10.282389322917,False,Beersheba,HaDarom,Israel,True,"2km WNW of Beersheba, Israel",2km West-Northwest
-202601200527,29.0478,34.6666,20/01/2026,20/01/2026 05:27:00,3.3,8.3170572916667,False,Nuwaybi‘a,Sinai,Egypt,True,"0km WSW of Nuwaybi‘a, Egypt",0km West-Southwest
-202601200219,32.9989,35.6117,20/01/2026,20/01/2026 02:19:21,2.2,16.66259765625,False,Tūbā Zangarīya,HaZafon,Israel,True,"4km SSW of Tūbā Zangarīya, Israel",4km South-Southwest
-202601191525,32.8447,35.6015,19/01/2026,19/01/2026 15:25:58,2.8,12.333170572917,False,Tiberias,HaZafon,Israel,True,"9km SW of Tiberias, Israel",9km Southwest
-202601191416,35.9848,35.7023,19/01/2026,19/01/2026 14:16:24,3.2,11.279296875,False,Kapısuyu,North,Syria,False,27km NE of Latakia coast,27km Northeast
+202601301130,33.1265,35.9095,30/01/2026,30/01/2026 11:30:30,1.8,6.0384114583333,False,Al Qunayţirah,South,Syria,True,"8km W of Al Qunayţirah, Syria",8km West
+202601292304,27.4168,33.4679,29/01/2026,29/01/2026 23:04:35,3.0,29.850260416667,False,El Gouna,South,Egypt,True,"21km E of El Gouna, Egypt",21km East
 202601291135,33.5031,35.7298,29/01/2026,29/01/2026 11:35:39,2.3,3.076171875,False,Aaïtanît,South,Lebanon,True,"9km NW of Aaïtanît, Lebanon",9km Northwest
 202601290434,33.5337,34.9996,29/01/2026,29/01/2026 04:34:03,2.8,21.0205078125,False,Sarafand,South,Lebanon,False,29km ESE of South coast,29km East-Southeast
 202601282314,33.27,35.5975,28/01/2026,28/01/2026 23:14:54,1.7,1.3387044270833,False,Metulla,South,Lebanon,True,"2km WNW of Metulla, Lebanon",2km West-Northwest
@@ -54,8 +29,36 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202601211431,31.2454,34.8115,21/01/2026,21/01/2026 14:31:41,2.4,10.282389322917,False,Beersheba,HaDarom,Israel,True,"2km WNW of Beersheba, Israel",2km West-Northwest
 202601200527,29.0478,34.6666,20/01/2026,20/01/2026 05:27:00,3.3,8.3170572916667,False,Nuwaybi‘a,Sinai,Egypt,True,"0km WSW of Nuwaybi‘a, Egypt",0km West-Southwest
 202601200219,32.9989,35.6117,20/01/2026,20/01/2026 02:19:21,2.2,16.66259765625,False,Tūbā Zangarīya,HaZafon,Israel,True,"4km SSW of Tūbā Zangarīya, Israel",4km South-Southwest
+202601291135,33.5031,35.7298,29/01/2026,29/01/2026 11:35:39,2.3,3.076171875,False,Aaïtanît,South,Lebanon,True,"9km NW of Aaïtanît, Lebanon",9km Northwest
+202601290434,33.5337,34.9996,29/01/2026,29/01/2026 04:34:03,2.8,21.0205078125,False,Sarafand,South,Lebanon,False,29km ESE of South coast,29km East-Southeast
+202601281943,36.8219,29.7869,28/01/2026,28/01/2026 19:43:44,4.2,30.078125,False,Elmalı,South,Turkey,True,"15km SE of Elmalı, Turkey",15km Southeast
+202601281938,32.5673,35.6053,28/01/2026,28/01/2026 19:38:15,2.5,17.032877604167,False,Waqqāş,North,Jordan,True,"3km S of Waqqāş, Jordan",3km South
+202601280946,33.5394,35.8251,28/01/2026,28/01/2026 09:46:04,2.3,12.646484375,False,Aaïtanît,South,Lebanon,True,"15km W of Aaïtanît, Lebanon",15km West
+202601280838,35.1296,33.4115,28/01/2026,28/01/2026 08:38:29,3.5,12.98828125,False,Géri,Cyprus,Cyprus,True,3km SSE of Géri,3km South-Southeast
+202601271753,36.3863,21.4606,27/01/2026,27/01/2026 17:53:44,5.3,0.91145833333333,False,Methóni,Peloponnese,Greece,False,53km NNE of Peloponnese coast,53km North-Northeast
+202601270228,28.6848,34.7025,27/01/2026,27/01/2026 02:28:56,3.2,7.861328125,False,Dahab,Northwest,Saudi Arabia,False,30km SW of Tabuk coast,30km Southwest
+202601270039,35.4426,37.9819,27/01/2026,27/01/2026 00:39:42,3.3,28.255208333333,False,Ath Thawrah,North,Syria,True,"67km NE of Ath Thawrah, Syria",67km Northeast
+202601262313,36.35,32.7961,26/01/2026,26/01/2026 23:13:43,3.5,152.21354166667,False,Karalarbahşiş,South,Turkey,True,"22km SSE of Karalarbahşiş, Turkey",22km South-Southeast
+202601261916,34.6804,33.8403,26/01/2026,26/01/2026 19:16:27,3.4,33.723958333333,False,Perivólia,Cyprus,Cyprus,False,29km NW of Larnaca coast,29km Northwest
+202601261840,34.9345,24.3795,26/01/2026,26/01/2026 18:40:17,4.6,112.109375,False,Agía Galíni,Crete,Greece,False,33km ENE of Crete coast,33km East-Northeast
+202601251613,37.2325,36.9137,25/01/2026,25/01/2026 16:13:26,3.8,6.3917007446289,False,Şatırhüyük,Gaziantep,Turkey,True,"6km ESE of Şatırhüyük, Turkey",6km East-Southeast
+202601251517,33.8502,37.0463,25/01/2026,25/01/2026 15:17:12,2.7,2.05078125,False,Jayrūd,South,Syria,True,"29km W of Jayrūd, Syria",29km West
+202601250132,34.753,32.6495,25/01/2026,25/01/2026 01:32:44,3.1,10.026041666667,False,Pissoúri,Cyprus,Cyprus,True,10km SSE of Pissoúri,10km South-Southeast
+202601241829,32.683,34.8676,24/01/2026,24/01/2026 18:29:42,2.2,9.8551432291667,False,Atlit,HaZafon,Israel,False,7km E of Haifa coast,7km East
+202601232233,36.2774,30.9408,23/01/2026,23/01/2026 22:33:57,4.0,31.901041666667,False,Tekirova,South,Turkey,False,45km NW of Antalya coast,45km Northwest
+202601232124,38.5278,28.5835,23/01/2026,23/01/2026 21:24:48,4.6,31.901041666667,False,Kula,Manisa,Turkey,True,"6km ENE of Kula, Turkey",6km East-Northeast
+202601230137,32.8339,35.625,23/01/2026,23/01/2026 01:37:07,2.1,22.55859375,False,Tiberias,HaZafon,Israel,True,"10km WSW of Tiberias, Israel",10km West-Southwest
+202601222255,36.2502,35.7658,22/01/2026,22/01/2026 22:55:54,3.5,23.2421875,False,Kapısuyu,South,Turkey,False,21km SE of Hatay coast,21km Southeast
+202601222000,35.0706,32.1244,22/01/2026,22/01/2026 20:00:01,3.4,96.158854166667,False,Pólis,Cyprus,Cyprus,False,28km E of Paphos coast,28km East
+202601220821,34.5262,33.5702,22/01/2026,22/01/2026 08:21:54,3.3,83.3984375,False,Perivólia,Cyprus,Cyprus,False,34km N of Larnaca coast,34km North
+202601211431,31.2454,34.8115,21/01/2026,21/01/2026 14:31:41,2.4,10.282389322917,False,Beersheba,HaDarom,Israel,True,"2km WNW of Beersheba, Israel",2km West-Northwest
+202601200527,29.0478,34.6666,20/01/2026,20/01/2026 05:27:00,3.3,8.3170572916667,False,Nuwaybi‘a,Sinai,Egypt,True,"0km WSW of Nuwaybi‘a, Egypt",0km West-Southwest
+202601200219,32.9989,35.6117,20/01/2026,20/01/2026 02:19:21,2.2,16.66259765625,False,Tūbā Zangarīya,HaZafon,Israel,True,"4km SSW of Tūbā Zangarīya, Israel",4km South-Southwest
 202601191525,32.8447,35.6015,19/01/2026,19/01/2026 15:25:58,2.8,12.333170572917,False,Tiberias,HaZafon,Israel,True,"9km SW of Tiberias, Israel",9km Southwest
 202601191416,35.9848,35.7023,19/01/2026,19/01/2026 14:16:24,3.2,11.279296875,False,Kapısuyu,North,Syria,False,27km NE of Latakia coast,27km Northeast
+202601282314,33.27,35.5975,28/01/2026,28/01/2026 23:14:54,1.7,1.3387044270833,False,Metulla,South,Lebanon,True,"2km WNW of Metulla, Lebanon",2km West-Northwest
+202601271357,32.9473,35.5461,27/01/2026,27/01/2026 13:57:13,1.8,17.7734375,False,Rosh Pinna,HaZafon,Israel,True,"2km N of Rosh Pinna, Israel",2km North
+202601230048,33.6086,35.7686,23/01/2026,23/01/2026 00:48:57,1.9,2.4495442708333,False,Aaïtanît,South,Lebanon,True,"11km WSW of Aaïtanît, Lebanon",11km West-Southwest
 202601191339,32.8396,35.6162,19/01/2026,19/01/2026 13:39:59,3.2,14.1845703125,True,Tiberias,HaZafon,Israel,True,"10km WSW of Tiberias, Israel",10km West-Southwest
 202601191059,35.0207,31.9261,19/01/2026,19/01/2026 10:59:35,3.3,33.040364583333,False,Pégeia,Cyprus,Cyprus,False,44km ESE of Paphos coast,44km East-Southeast
 202601190803,32.9717,35.264,19/01/2026,19/01/2026 08:03:04,2.0,12.959798177083,False,Yanuh-Jat,HaZafon,Israel,True,"2km NW of Yanuh-Jat, Israel",2km Northwest
