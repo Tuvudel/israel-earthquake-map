@@ -1,6 +1,9 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
-202602032234,28.8391,34.8321,03/02/2026,03/02/2026 22:34:18,2.6,15.380859375,False,Nuwaybi‘a,Northwest,Saudi Arabia,False,28km NW of Tabuk coast,28km Northwest
-202602032227,28.8709,34.5184,03/02/2026,03/02/2026 22:27:37,3.6,14.469401041667,False,Nuwaybi‘a,Sinai,Egypt,True,"24km NE of Nuwaybi‘a, Egypt",24km Northeast
+202602040040,34.7485,32.6192,04/02/2026,04/02/2026 00:40:14,3.4,31.673177083333,False,Pissoúri,Cyprus,Cyprus,True,12km SE of Pissoúri,12km Southeast
+202602040018,32.1482,35.5424,04/02/2026,04/02/2026 00:18:46,2.3,15.97900390625,False,Az Zubaydāt,West Bank,Palestine,True,"3km NNW of Az Zubaydāt, Palestine",3km North-Northwest
+202602032234,28.8278,34.7349,03/02/2026,03/02/2026 22:34:17,2.6,14.127604166667,False,Nuwaybi‘a,Northwest,Saudi Arabia,False,25km NNW of Tabuk coast,25km North-Northwest
+202602032227,28.83,34.591,03/02/2026,03/02/2026 22:27:37,3.6,16.292317708333,False,Nuwaybi‘a,Sinai,Egypt,True,"25km NNE of Nuwaybi‘a, Egypt",25km North-Northeast
+202602032040,29.9461,34.4462,03/02/2026,03/02/2026 20:40:58,2.2,14.241536458333,False,Be’er Ora,Sinai,Egypt,True,"58km ESE of Be’er Ora, Egypt",58km East-Southeast
 202602022112,35.7058,31.1863,02/02/2026,02/02/2026 21:12:25,3.9,31.4453125,False,Çavuşköy,South,Turkey,False,97km NW of Antalya coast,97km Northwest
 202602012258,33.6159,35.7433,01/02/2026,01/02/2026 22:58:44,2.0,1.7858017683029,False,Aaïtanît,South,Lebanon,True,"9km SW of Aaïtanît, Lebanon",9km Southwest
 202602011756,27.7389,33.3731,01/02/2026,01/02/2026 17:56:12,2.9,137.17447916667,False,El Gouna,South,Egypt,True,"49km SE of El Gouna, Egypt",49km Southeast
@@ -26,9 +29,9 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202601281943,36.8219,29.7869,28/01/2026,28/01/2026 19:43:44,4.2,30.078125,False,Elmalı,South,Turkey,True,"15km SE of Elmalı, Turkey",15km Southeast
 202601281938,32.5673,35.6053,28/01/2026,28/01/2026 19:38:15,2.5,17.032877604167,False,Waqqāş,North,Jordan,True,"3km S of Waqqāş, Jordan",3km South
 202601280946,33.5394,35.8251,28/01/2026,28/01/2026 09:46:04,2.3,12.646484375,False,Aaïtanît,South,Lebanon,True,"15km W of Aaïtanît, Lebanon",15km West
-202601280838,35.1296,33.4115,28/01/2026,28/01/2026 08:38:29,3.5,12.98828125,False,Géri,Cyprus,Cyprus,True,3km SSE of Géri,3km South-Southeast
-202601271753,36.3863,21.4606,27/01/2026,27/01/2026 17:53:44,5.3,0.91145833333333,False,Methóni,Peloponnese,Greece,False,53km NNE of Peloponnese coast,53km North-Northeast
-202601271357,32.9473,35.5461,27/01/2026,27/01/2026 13:57:13,1.8,17.7734375,False,Rosh Pinna,HaZafon,Israel,True,"2km N of Rosh Pinna, Israel",2km North
+202602032234,28.8391,34.8321,03/02/2026,03/02/2026 22:34:18,2.6,15.380859375,False,Nuwaybi‘a,Northwest,Saudi Arabia,False,28km NW of Tabuk coast,28km Northwest
+202602032227,28.8709,34.5184,03/02/2026,03/02/2026 22:27:37,3.6,14.469401041667,False,Nuwaybi‘a,Sinai,Egypt,True,"24km NE of Nuwaybi‘a, Egypt",24km Northeast
+202602022112,35.7058,31.1863,02/02/2026,02/02/2026 21:12:25,3.9,31.4453125,False,Çavuşköy,South,Turkey,False,97km NW of Antalya coast,97km Northwest
 202602012258,33.6159,35.7433,01/02/2026,01/02/2026 22:58:44,2.0,1.7858017683029,False,Aaïtanît,South,Lebanon,True,"9km SW of Aaïtanît, Lebanon",9km Southwest
 202602011756,27.7389,33.3731,01/02/2026,01/02/2026 17:56:12,2.9,137.17447916667,False,El Gouna,South,Egypt,True,"49km SE of El Gouna, Egypt",49km Southeast
 202602010455,37.3028,31.8007,01/02/2026,01/02/2026 04:55:14,3.9,32.356770833333,False,Cevizli,Konya,Turkey,True,"12km SSW of Cevizli, Turkey",12km South-Southwest
