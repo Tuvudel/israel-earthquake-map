@@ -29,6 +29,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202601282314,33.27,35.5975,28/01/2026,28/01/2026 23:14:54,1.7,1.3387044270833,False,Metulla,South,Lebanon,True,"2km WNW of Metulla, Lebanon",2km West-Northwest
 202601281943,36.8219,29.7869,28/01/2026,28/01/2026 19:43:44,4.2,30.078125,False,Elmalı,South,Turkey,True,"15km SE of Elmalı, Turkey",15km Southeast
 202601281938,32.5673,35.6053,28/01/2026,28/01/2026 19:38:15,2.5,17.032877604167,False,Waqqāş,North,Jordan,True,"3km S of Waqqāş, Jordan",3km South
+202602041706,34.9708,26.9481,04/02/2026,04/02/2026 17:06:39,4.4,97.526041666667,False,Karpathos,South Aegean,Greece,False,64km NNE of South Aegean coast,64km North-Northeast
 202602040040,34.7485,32.6192,04/02/2026,04/02/2026 00:40:14,3.4,31.673177083333,False,Pissoúri,Cyprus,Cyprus,True,12km SE of Pissoúri,12km Southeast
 202602040018,32.1482,35.5424,04/02/2026,04/02/2026 00:18:46,2.3,15.97900390625,False,Az Zubaydāt,West Bank,Palestine,True,"3km NNW of Az Zubaydāt, Palestine",3km North-Northwest
 202602032234,28.8278,34.7349,03/02/2026,03/02/2026 22:34:17,2.6,14.127604166667,False,Nuwaybi‘a,Northwest,Saudi Arabia,False,25km NNW of Tabuk coast,25km North-Northwest
