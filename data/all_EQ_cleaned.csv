@@ -1,4 +1,5 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202602080302,33.587,35.0806,08/02/2026,08/02/2026 03:02:49,1.9,22.55859375,False,Sarafand,South,Lebanon,False,25km SE of South coast,25km Southeast
 202602041706,34.9708,26.9481,04/02/2026,04/02/2026 17:06:39,4.4,97.526041666667,False,Karpathos,South Aegean,Greece,False,64km NNE of South Aegean coast,64km North-Northeast
 202602040040,34.7485,32.6192,04/02/2026,04/02/2026 00:40:14,3.4,31.673177083333,False,Pissoúri,Cyprus,Cyprus,True,12km SE of Pissoúri,12km Southeast
 202602040018,32.1482,35.5424,04/02/2026,04/02/2026 00:18:46,2.3,15.97900390625,False,Az Zubaydāt,West Bank,Palestine,True,"3km NNW of Az Zubaydāt, Palestine",3km North-Northwest
@@ -28,7 +29,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202601290434,33.5337,34.9996,29/01/2026,29/01/2026 04:34:03,2.8,21.0205078125,False,Sarafand,South,Lebanon,False,29km ESE of South coast,29km East-Southeast
 202601282314,33.27,35.5975,28/01/2026,28/01/2026 23:14:54,1.7,1.3387044270833,False,Metulla,South,Lebanon,True,"2km WNW of Metulla, Lebanon",2km West-Northwest
 202601281943,36.8219,29.7869,28/01/2026,28/01/2026 19:43:44,4.2,30.078125,False,Elmalı,South,Turkey,True,"15km SE of Elmalı, Turkey",15km Southeast
-202601281938,32.5673,35.6053,28/01/2026,28/01/2026 19:38:15,2.5,17.032877604167,False,Waqqāş,North,Jordan,True,"3km S of Waqqāş, Jordan",3km South
 202602041706,34.9708,26.9481,04/02/2026,04/02/2026 17:06:39,4.4,97.526041666667,False,Karpathos,South Aegean,Greece,False,64km NNE of South Aegean coast,64km North-Northeast
 202602040040,34.7485,32.6192,04/02/2026,04/02/2026 00:40:14,3.4,31.673177083333,False,Pissoúri,Cyprus,Cyprus,True,12km SE of Pissoúri,12km Southeast
 202602040018,32.1482,35.5424,04/02/2026,04/02/2026 00:18:46,2.3,15.97900390625,False,Az Zubaydāt,West Bank,Palestine,True,"3km NNW of Az Zubaydāt, Palestine",3km North-Northwest
