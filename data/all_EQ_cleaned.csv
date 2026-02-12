@@ -1,5 +1,7 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
-202602100434,35.9884,25.9254,10/02/2026,10/02/2026 04:34:56,4.2,197.86940002441,False,Emporeío,South Aegean,Greece,False,60km NW of South Aegean coast,60km Northwest
+202602111910,34.0589,33.0106,11/02/2026,11/02/2026 19:10:33,3.3,32.584635416667,False,Trachóni,Cyprus,Cyprus,False,67km N of Akrotiri coast,67km North
+202602111756,29.793,34.9822,11/02/2026,11/02/2026 17:56:35,2.2,6.3232421875,False,Be’er Ora,HaDarom,Israel,True,"9km S of Be’er Ora, Israel",9km South
+202602100434,35.9689,26.0658,10/02/2026,10/02/2026 04:34:58,4.2,111.19791666667,False,Astypálaia,South Aegean,Greece,False,69km NNE of South Aegean coast,69km North-Northeast
 202602090503,34.0906,27.3292,09/02/2026,09/02/2026 05:03:26,4.1,32.356770833333,False,Palekastro,Crete,Greece,False,158km NW of Crete coast,158km Northwest
 202602080302,33.587,35.0806,08/02/2026,08/02/2026 03:02:49,1.9,22.55859375,False,Sarafand,South,Lebanon,False,25km SE of South coast,25km Southeast
 202602080038,34.391,25.578,08/02/2026,08/02/2026 00:38:59,3.8,4.8553194999695,False,Néa Anatolí,Crete,Greece,False,69km N of Crete coast,69km North
@@ -27,9 +29,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202602011756,27.7389,33.3731,01/02/2026,01/02/2026 17:56:12,2.9,137.17447916667,False,El Gouna,South,Egypt,True,"49km SE of El Gouna, Egypt",49km Southeast
 202602010455,37.3028,31.8007,01/02/2026,01/02/2026 04:55:14,3.9,32.356770833333,False,Cevizli,Konya,Turkey,True,"12km SSW of Cevizli, Turkey",12km South-Southwest
 202602010123,27.5347,33.2988,01/02/2026,01/02/2026 01:23:01,2.8,29.850260416667,False,El Gouna,South,Egypt,True,"41km ESE of El Gouna, Egypt",41km East-Southeast
-202601311730,34.5673,32.6832,31/01/2026,31/01/2026 17:30:06,2.6,2.5603499412537,False,Pissoúri,Cyprus,Cyprus,False,11km N of Limassol coast,11km North
-202601311118,34.7788,32.5172,31/01/2026,31/01/2026 11:18:29,2.9,30.741394042969,False,Konia,Cyprus,Cyprus,True,5km W of Konia,5km West
-202602100434,35.9689,26.0658,10/02/2026,10/02/2026 04:34:58,4.2,111.19791666667,False,Astypálaia,South Aegean,Greece,False,69km NNE of South Aegean coast,69km North-Northeast
+202602100434,35.9884,25.9254,10/02/2026,10/02/2026 04:34:56,4.2,197.86940002441,False,Emporeío,South Aegean,Greece,False,60km NW of South Aegean coast,60km Northwest
 202602090503,34.0906,27.3292,09/02/2026,09/02/2026 05:03:26,4.1,32.356770833333,False,Palekastro,Crete,Greece,False,158km NW of Crete coast,158km Northwest
 202602080302,33.587,35.0806,08/02/2026,08/02/2026 03:02:49,1.9,22.55859375,False,Sarafand,South,Lebanon,False,25km SE of South coast,25km Southeast
 202602080038,34.391,25.578,08/02/2026,08/02/2026 00:38:59,3.8,4.8553194999695,False,Néa Anatolí,Crete,Greece,False,69km N of Crete coast,69km North
