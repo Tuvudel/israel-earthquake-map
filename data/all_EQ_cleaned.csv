@@ -1,4 +1,34 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202602160122,33.3114,35.8054,16/02/2026,16/02/2026 01:22:16,1.7,8.9436848958333,False,Majdal Shams,South,Syria,True,"6km SW of Majdal Shams, Syria",6km Southwest
+202602150236,34.3832,32.1933,15/02/2026,15/02/2026 02:36:17,3.6,27.685546875,False,Geroskipou,Cyprus,Cyprus,False,48km NNE of Paphos coast,48km North-Northeast
+202602150035,33.1101,35.6138,15/02/2026,15/02/2026 00:35:21,2.2,14.725748697917,False,Yesud HaMa‘ala,HaZafon,Israel,True,"6km S of Yesud HaMa‘ala, Israel",6km South
+202602141259,34.871,32.7609,14/02/2026,14/02/2026 12:59:39,3.4,25.9765625,False,Páchna,Cyprus,Cyprus,True,11km SSE of Páchna,11km South-Southeast
+202602130204,27.385,33.8292,13/02/2026,13/02/2026 02:04:56,3.0,46.484375,False,Hurghada,South,Egypt,False,14km S of Red Sea coast,14km South
+202602130136,36.6222,31.3367,13/02/2026,13/02/2026 01:36:00,3.7,30.989583333333,False,Side,South,Turkey,False,17km NNE of Antalya coast,17km North-Northeast
+202602121656,32.9944,35.4593,12/02/2026,12/02/2026 16:56:44,2.0,1.8513997395833,False,Bar Yuẖay,HaZafon,Israel,True,"1km WNW of Bar Yuẖay, Israel",1km West-Northwest
+202602121351,33.8411,37.0849,12/02/2026,12/02/2026 13:51:03,2.8,12.532552083333,False,Jayrūd,South,Syria,True,"32km W of Jayrūd, Syria",32km West
+202602111915,28.8005,34.7504,11/02/2026,11/02/2026 19:15:01,2.6,13.671875,False,Nuwaybi‘a,Northwest,Saudi Arabia,False,29km NNW of Tabuk coast,29km North-Northwest
+202602111910,34.0589,33.0106,11/02/2026,11/02/2026 19:10:33,3.3,32.584635416667,False,Trachóni,Cyprus,Cyprus,False,67km N of Akrotiri coast,67km North
+202602111756,29.793,34.9822,11/02/2026,11/02/2026 17:56:35,2.2,6.3232421875,False,Be’er Ora,HaDarom,Israel,True,"9km S of Be’er Ora, Israel",9km South
+202602100434,35.9689,26.0658,10/02/2026,10/02/2026 04:34:58,4.2,111.19791666667,False,Astypálaia,South Aegean,Greece,False,69km NNE of South Aegean coast,69km North-Northeast
+202602090503,34.0906,27.3292,09/02/2026,09/02/2026 05:03:26,4.1,32.356770833333,False,Palekastro,Crete,Greece,False,158km NW of Crete coast,158km Northwest
+202602080302,33.587,35.0806,08/02/2026,08/02/2026 03:02:49,1.9,22.55859375,False,Sarafand,South,Lebanon,False,25km SE of South coast,25km Southeast
+202602080038,34.391,25.578,08/02/2026,08/02/2026 00:38:59,3.8,4.8553194999695,False,Néa Anatolí,Crete,Greece,False,69km N of Crete coast,69km North
+202602072259,36.3863,26.9813,07/02/2026,07/02/2026 22:59:25,4.3,117.578125,False,Mandráki,South Aegean,Greece,False,28km NNE of South Aegean coast,28km North-Northeast
+202602072233,34.6441,24.6883,07/02/2026,07/02/2026 22:33:32,4.9,84.765625,False,Tympáki,Crete,Greece,False,48km N of Crete coast,48km North
+202602071425,34.508,28.3547,07/02/2026,07/02/2026 14:25:50,4.1,36.9140625,False,Karpathos,South Aegean,Greece,False,152km NW of South Aegean coast,152km Northwest
+202602071243,33.7038,35.1477,07/02/2026,07/02/2026 12:43:34,2.7,22.843424479167,False,Sidon,North,Lebanon,False,26km SE of Mount Lebanon coast,26km Southeast
+202602070910,34.2449,26.4085,07/02/2026,07/02/2026 09:10:48,4.4,39.192708333333,False,Ierápetra,Crete,Greece,False,105km NW of Crete coast,105km Northwest
+202602070141,27.5438,33.2835,07/02/2026,07/02/2026 01:41:35,3.1,29.850260416667,False,El Gouna,South,Egypt,True,"42km ESE of El Gouna, Egypt",42km East-Southeast
+202602062341,29.3699,34.8005,06/02/2026,06/02/2026 23:41:58,2.1,16.975911458333,False,Tala Bay,Sinai,Egypt,False,18km ENE of South Sinai coast,18km East-Northeast
+202602061807,34.88,25.9318,06/02/2026,06/02/2026 18:07:40,3.7,9.1145833333333,False,Ierápetra,Crete,Greece,False,23km NW of Crete coast,23km Northwest
+202602061741,34.8903,25.9703,06/02/2026,06/02/2026 17:41:37,3.9,7.0,False,Ierápetra,Crete,Greece,False,25km WNW of Crete coast,25km West-Northwest
+202602061732,34.9526,26.1105,06/02/2026,06/02/2026 17:32:06,3.6,9.1145833333333,False,Sitia,Crete,Greece,False,28km N of Crete coast,28km North
+202602060134,35.0084,22.5857,06/02/2026,06/02/2026 01:34:08,4.4,45.0,False,Palaióchora,Crete,Greece,False,103km ENE of Crete coast,103km East-Northeast
+202602051835,31.9276,35.53,05/02/2026,05/02/2026 18:35:37,2.3,19.197591145833,False,Al Karāmah,Central,Jordan,True,"6km ENE of Al Karāmah, Jordan",6km East-Northeast
+202602051745,33.8093,25.4822,05/02/2026,05/02/2026 17:45:29,4.3,30.078125,False,Néa Anatolí,Crete,Greece,False,134km N of Crete coast,134km North
+202602041706,34.9708,26.9481,04/02/2026,04/02/2026 17:06:39,4.4,97.526041666667,False,Karpathos,South Aegean,Greece,False,64km NNE of South Aegean coast,64km North-Northeast
+202602040040,34.7485,32.6192,04/02/2026,04/02/2026 00:40:14,3.4,31.673177083333,False,Pissoúri,Cyprus,Cyprus,True,12km SE of Pissoúri,12km Southeast
 202602150236,34.3832,32.1933,15/02/2026,15/02/2026 02:36:17,3.6,27.685546875,False,Geroskipou,Cyprus,Cyprus,False,48km NNE of Paphos coast,48km North-Northeast
 202602150035,33.1101,35.6138,15/02/2026,15/02/2026 00:35:21,2.2,14.725748697917,False,Yesud HaMa‘ala,HaZafon,Israel,True,"6km S of Yesud HaMa‘ala, Israel",6km South
 202602130204,27.385,33.8292,13/02/2026,13/02/2026 02:04:56,3.0,46.484375,False,Hurghada,South,Egypt,False,14km S of Red Sea coast,14km South
@@ -28,32 +58,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202602032234,28.8278,34.7349,03/02/2026,03/02/2026 22:34:17,2.6,14.127604166667,False,Nuwaybi‘a,Northwest,Saudi Arabia,False,25km NNW of Tabuk coast,25km North-Northwest
 202602032227,28.83,34.591,03/02/2026,03/02/2026 22:27:37,3.6,16.292317708333,False,Nuwaybi‘a,Sinai,Egypt,True,"25km NNE of Nuwaybi‘a, Egypt",25km North-Northeast
 202602032040,29.9461,34.4462,03/02/2026,03/02/2026 20:40:58,2.2,14.241536458333,False,Be’er Ora,Sinai,Egypt,True,"58km ESE of Be’er Ora, Egypt",58km East-Southeast
-202602111915,28.8005,34.7504,11/02/2026,11/02/2026 19:15:01,2.6,13.671875,False,Nuwaybi‘a,Northwest,Saudi Arabia,False,29km NNW of Tabuk coast,29km North-Northwest
-202602111910,34.0589,33.0106,11/02/2026,11/02/2026 19:10:33,3.3,32.584635416667,False,Trachóni,Cyprus,Cyprus,False,67km N of Akrotiri coast,67km North
-202602111756,29.793,34.9822,11/02/2026,11/02/2026 17:56:35,2.2,6.3232421875,False,Be’er Ora,HaDarom,Israel,True,"9km S of Be’er Ora, Israel",9km South
-202602100434,35.9689,26.0658,10/02/2026,10/02/2026 04:34:58,4.2,111.19791666667,False,Astypálaia,South Aegean,Greece,False,69km NNE of South Aegean coast,69km North-Northeast
-202602090503,34.0906,27.3292,09/02/2026,09/02/2026 05:03:26,4.1,32.356770833333,False,Palekastro,Crete,Greece,False,158km NW of Crete coast,158km Northwest
 202602080302,33.587,35.0806,08/02/2026,08/02/2026 03:02:49,1.9,22.55859375,False,Sarafand,South,Lebanon,False,25km SE of South coast,25km Southeast
-202602080038,34.391,25.578,08/02/2026,08/02/2026 00:38:59,3.8,4.8553194999695,False,Néa Anatolí,Crete,Greece,False,69km N of Crete coast,69km North
-202602072259,36.3863,26.9813,07/02/2026,07/02/2026 22:59:25,4.3,117.578125,False,Mandráki,South Aegean,Greece,False,28km NNE of South Aegean coast,28km North-Northeast
-202602072233,34.6441,24.6883,07/02/2026,07/02/2026 22:33:32,4.9,84.765625,False,Tympáki,Crete,Greece,False,48km N of Crete coast,48km North
-202602071425,34.508,28.3547,07/02/2026,07/02/2026 14:25:50,4.1,36.9140625,False,Karpathos,South Aegean,Greece,False,152km NW of South Aegean coast,152km Northwest
-202602071243,33.7038,35.1477,07/02/2026,07/02/2026 12:43:34,2.7,22.843424479167,False,Sidon,North,Lebanon,False,26km SE of Mount Lebanon coast,26km Southeast
-202602070910,34.2449,26.4085,07/02/2026,07/02/2026 09:10:48,4.4,39.192708333333,False,Ierápetra,Crete,Greece,False,105km NW of Crete coast,105km Northwest
-202602070141,27.5438,33.2835,07/02/2026,07/02/2026 01:41:35,3.1,29.850260416667,False,El Gouna,South,Egypt,True,"42km ESE of El Gouna, Egypt",42km East-Southeast
-202602062341,29.3699,34.8005,06/02/2026,06/02/2026 23:41:58,2.1,16.975911458333,False,Tala Bay,Sinai,Egypt,False,18km ENE of South Sinai coast,18km East-Northeast
-202602061807,34.88,25.9318,06/02/2026,06/02/2026 18:07:40,3.7,9.1145833333333,False,Ierápetra,Crete,Greece,False,23km NW of Crete coast,23km Northwest
-202602061741,34.8903,25.9703,06/02/2026,06/02/2026 17:41:37,3.9,7.0,False,Ierápetra,Crete,Greece,False,25km WNW of Crete coast,25km West-Northwest
-202602061732,34.9526,26.1105,06/02/2026,06/02/2026 17:32:06,3.6,9.1145833333333,False,Sitia,Crete,Greece,False,28km N of Crete coast,28km North
-202602060134,35.0084,22.5857,06/02/2026,06/02/2026 01:34:08,4.4,45.0,False,Palaióchora,Crete,Greece,False,103km ENE of Crete coast,103km East-Northeast
-202602051835,31.9276,35.53,05/02/2026,05/02/2026 18:35:37,2.3,19.197591145833,False,Al Karāmah,Central,Jordan,True,"6km ENE of Al Karāmah, Jordan",6km East-Northeast
-202602051745,33.8093,25.4822,05/02/2026,05/02/2026 17:45:29,4.3,30.078125,False,Néa Anatolí,Crete,Greece,False,134km N of Crete coast,134km North
-202602041706,34.9708,26.9481,04/02/2026,04/02/2026 17:06:39,4.4,97.526041666667,False,Karpathos,South Aegean,Greece,False,64km NNE of South Aegean coast,64km North-Northeast
-202602040040,34.7485,32.6192,04/02/2026,04/02/2026 00:40:14,3.4,31.673177083333,False,Pissoúri,Cyprus,Cyprus,True,12km SE of Pissoúri,12km Southeast
-202602040018,32.1482,35.5424,04/02/2026,04/02/2026 00:18:46,2.3,15.97900390625,False,Az Zubaydāt,West Bank,Palestine,True,"3km NNW of Az Zubaydāt, Palestine",3km North-Northwest
-202602032234,28.8278,34.7349,03/02/2026,03/02/2026 22:34:17,2.6,14.127604166667,False,Nuwaybi‘a,Northwest,Saudi Arabia,False,25km NNW of Tabuk coast,25km North-Northwest
-202602032227,28.83,34.591,03/02/2026,03/02/2026 22:27:37,3.6,16.292317708333,False,Nuwaybi‘a,Sinai,Egypt,True,"25km NNE of Nuwaybi‘a, Egypt",25km North-Northeast
-202602032040,29.9461,34.4462,03/02/2026,03/02/2026 20:40:58,2.2,14.241536458333,False,Be’er Ora,Sinai,Egypt,True,"58km ESE of Be’er Ora, Egypt",58km East-Southeast
 202602022112,35.7058,31.1863,02/02/2026,02/02/2026 21:12:25,3.9,31.4453125,False,Çavuşköy,South,Turkey,False,97km NW of Antalya coast,97km Northwest
 202602012258,33.6159,35.7433,01/02/2026,01/02/2026 22:58:44,2.0,1.7858017683029,False,Aaïtanît,South,Lebanon,True,"9km SW of Aaïtanît, Lebanon",9km Southwest
 202602011756,27.7389,33.3731,01/02/2026,01/02/2026 17:56:12,2.9,137.17447916667,False,El Gouna,South,Egypt,True,"49km SE of El Gouna, Egypt",49km Southeast
