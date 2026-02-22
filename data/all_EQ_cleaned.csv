@@ -1,4 +1,5 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202602220442,34.1246,35.821,22/02/2026,22/02/2026 04:42:05,2.6,15.380859375,False,Hrajel,North,Lebanon,True,"12km SSW of Hrajel, Lebanon",12km South-Southwest
 202602190017,36.0097,31.5828,19/02/2026,19/02/2026 00:17:29,3.1,26.66015625,False,Türkler,South,Turkey,False,69km NNE of Antalya coast,69km North-Northeast
 202602182035,33.4815,35.9619,18/02/2026,18/02/2026 20:35:47,1.8,1.5380859375,False,Qaţanā,South,Syria,True,"12km ESE of Qaţanā, Syria",12km East-Southeast
 202602180513,34.0634,27.7096,18/02/2026,18/02/2026 05:13:17,4.2,33.723958333333,False,Karpathos,South Aegean,Greece,False,167km NNW of South Aegean coast,167km North-Northwest
@@ -28,7 +29,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202602080302,33.587,35.0806,08/02/2026,08/02/2026 03:02:49,1.9,22.55859375,False,Sarafand,South,Lebanon,False,25km SE of South coast,25km Southeast
 202602080038,34.391,25.578,08/02/2026,08/02/2026 00:38:59,3.8,4.8553194999695,False,Néa Anatolí,Crete,Greece,False,69km N of Crete coast,69km North
 202602072259,36.3863,26.9813,07/02/2026,07/02/2026 22:59:25,4.3,117.578125,False,Mandráki,South Aegean,Greece,False,28km NNE of South Aegean coast,28km North-Northeast
-202602072233,34.6441,24.6883,07/02/2026,07/02/2026 22:33:32,4.9,84.765625,False,Tympáki,Crete,Greece,False,48km N of Crete coast,48km North
 202602190017,36.0097,31.5828,19/02/2026,19/02/2026 00:17:29,3.1,26.66015625,False,Türkler,South,Turkey,False,69km NNE of Antalya coast,69km North-Northeast
 202602182035,33.4815,35.9619,18/02/2026,18/02/2026 20:35:47,1.8,1.5380859375,False,Qaţanā,South,Syria,True,"12km ESE of Qaţanā, Syria",12km East-Southeast
 202602180513,34.0634,27.7096,18/02/2026,18/02/2026 05:13:17,4.2,33.723958333333,False,Karpathos,South Aegean,Greece,False,167km NNW of South Aegean coast,167km North-Northwest
