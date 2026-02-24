@@ -1,8 +1,17 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
 202602230252,28.4421,34.6752,23/02/2026,23/02/2026 02:52:11,2.7,4.3294270833333,False,Dahab,Northwest,Saudi Arabia,False,18km WNW of Tabuk coast,18km West-Northwest
+202602222236,34.5035,29.3222,22/02/2026,22/02/2026 22:36:24,2.9,29.850260416667,False,Kaş,South,Turkey,False,191km N of Antalya coast,191km North
+202602222203,36.5088,34.9145,22/02/2026,22/02/2026 22:03:59,2.6,24.381510416667,False,Tuzla,Adana,Turkey,False,26km NE of Adana coast,26km Northeast
+202602222119,34.6124,29.2175,22/02/2026,22/02/2026 21:19:42,3.8,29.850260416667,False,Kaş,South,Turkey,False,181km NNE of Antalya coast,181km North-Northeast
 202602220442,34.1246,35.821,22/02/2026,22/02/2026 04:42:05,2.6,15.380859375,False,Hrajel,North,Lebanon,True,"12km SSW of Hrajel, Lebanon",12km South-Southwest
 202602220324,34.7031,29.0466,22/02/2026,22/02/2026 03:24:46,2.9,22.102864583333,False,Kaş,South,Turkey,False,175km NNE of Antalya coast,175km North-Northeast
 202602211903,31.6616,35.1049,21/02/2026,21/02/2026 19:03:47,2.0,9.4278971354167,False,Bat A'in,West Bank,Palestine,True,"0km SSW of Bat A'in, Palestine",0km South-Southwest
+202602210208,33.9727,29.11,21/02/2026,21/02/2026 02:08:53,2.8,20.191833333333,False,Karpathos,South Aegean,Greece,False,243km NW of South Aegean coast,243km Northwest
+202602202347,36.7183,35.4165,20/02/2026,20/02/2026 23:47:51,2.7,6.0,False,Kaldırım,Adana,Turkey,True,"11km ESE of Kaldırım, Turkey",11km East-Southeast
+202602200333,34.3901,26.629,20/02/2026,20/02/2026 03:33:21,3.4,33.723958333333,False,Palekastro,Crete,Greece,False,96km NNW of Crete coast,96km North-Northwest
+202602200324,35.1058,26.76,20/02/2026,20/02/2026 03:24:37,3.3,16.0,False,Palekastro,South Aegean,Greece,False,47km WNW of South Aegean coast,47km West-Northwest
+202602200310,36.5163,36.2315,20/02/2026,20/02/2026 03:10:53,4.0,11.541761398315,False,Belen,South,Turkey,True,"4km SW of Belen, Turkey",4km Southwest
+202602191911,34.4715,26.1856,19/02/2026,19/02/2026 19:11:01,4.3,10.0,False,Ierápetra,Crete,Greece,False,72km NW of Crete coast,72km Northwest
 202602190017,36.0097,31.5828,19/02/2026,19/02/2026 00:17:29,3.1,26.66015625,False,Türkler,South,Turkey,False,69km NNE of Antalya coast,69km North-Northeast
 202602182035,33.4815,35.9619,18/02/2026,18/02/2026 20:35:47,1.8,1.5380859375,False,Qaţanā,South,Syria,True,"12km ESE of Qaţanā, Syria",12km East-Southeast
 202602180513,34.0634,27.7096,18/02/2026,18/02/2026 05:13:17,4.2,33.723958333333,False,Karpathos,South Aegean,Greece,False,167km NNW of South Aegean coast,167km North-Northwest
@@ -20,16 +29,10 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202602150236,34.3832,32.1933,15/02/2026,15/02/2026 02:36:17,3.6,27.685546875,False,Geroskipou,Cyprus,Cyprus,False,48km NNE of Paphos coast,48km North-Northeast
 202602150035,33.1101,35.6138,15/02/2026,15/02/2026 00:35:21,2.2,14.725748697917,False,Yesud HaMa‘ala,HaZafon,Israel,True,"6km S of Yesud HaMa‘ala, Israel",6km South
 202602141259,34.871,32.7609,14/02/2026,14/02/2026 12:59:39,3.4,25.9765625,False,Páchna,Cyprus,Cyprus,True,11km SSE of Páchna,11km South-Southeast
-202602130204,27.385,33.8292,13/02/2026,13/02/2026 02:04:56,3.0,46.484375,False,Hurghada,South,Egypt,False,14km S of Red Sea coast,14km South
-202602130136,36.6222,31.3367,13/02/2026,13/02/2026 01:36:00,3.7,30.989583333333,False,Side,South,Turkey,False,17km NNE of Antalya coast,17km North-Northeast
-202602121656,32.9944,35.4593,12/02/2026,12/02/2026 16:56:44,2.0,1.8513997395833,False,Bar Yuẖay,HaZafon,Israel,True,"1km WNW of Bar Yuẖay, Israel",1km West-Northwest
-202602121351,33.8411,37.0849,12/02/2026,12/02/2026 13:51:03,2.8,12.532552083333,False,Jayrūd,South,Syria,True,"32km W of Jayrūd, Syria",32km West
-202602111915,28.8005,34.7504,11/02/2026,11/02/2026 19:15:01,2.6,13.671875,False,Nuwaybi‘a,Northwest,Saudi Arabia,False,29km NNW of Tabuk coast,29km North-Northwest
-202602111910,34.0589,33.0106,11/02/2026,11/02/2026 19:10:33,3.3,32.584635416667,False,Trachóni,Cyprus,Cyprus,False,67km N of Akrotiri coast,67km North
-202602111756,29.793,34.9822,11/02/2026,11/02/2026 17:56:35,2.2,6.3232421875,False,Be’er Ora,HaDarom,Israel,True,"9km S of Be’er Ora, Israel",9km South
-202602100434,35.9689,26.0658,10/02/2026,10/02/2026 04:34:58,4.2,111.19791666667,False,Astypálaia,South Aegean,Greece,False,69km NNE of South Aegean coast,69km North-Northeast
-202602090503,34.0906,27.3292,09/02/2026,09/02/2026 05:03:26,4.1,32.356770833333,False,Palekastro,Crete,Greece,False,158km NW of Crete coast,158km Northwest
+202602230252,28.4421,34.6752,23/02/2026,23/02/2026 02:52:11,2.7,4.3294270833333,False,Dahab,Northwest,Saudi Arabia,False,18km WNW of Tabuk coast,18km West-Northwest
 202602220442,34.1246,35.821,22/02/2026,22/02/2026 04:42:05,2.6,15.380859375,False,Hrajel,North,Lebanon,True,"12km SSW of Hrajel, Lebanon",12km South-Southwest
+202602220324,34.7031,29.0466,22/02/2026,22/02/2026 03:24:46,2.9,22.102864583333,False,Kaş,South,Turkey,False,175km NNE of Antalya coast,175km North-Northeast
+202602211903,31.6616,35.1049,21/02/2026,21/02/2026 19:03:47,2.0,9.4278971354167,False,Bat A'in,West Bank,Palestine,True,"0km SSW of Bat A'in, Palestine",0km South-Southwest
 202602190017,36.0097,31.5828,19/02/2026,19/02/2026 00:17:29,3.1,26.66015625,False,Türkler,South,Turkey,False,69km NNE of Antalya coast,69km North-Northeast
 202602182035,33.4815,35.9619,18/02/2026,18/02/2026 20:35:47,1.8,1.5380859375,False,Qaţanā,South,Syria,True,"12km ESE of Qaţanā, Syria",12km East-Southeast
 202602180513,34.0634,27.7096,18/02/2026,18/02/2026 05:13:17,4.2,33.723958333333,False,Karpathos,South Aegean,Greece,False,167km NNW of South Aegean coast,167km North-Northwest
