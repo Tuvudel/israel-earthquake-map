@@ -1,8 +1,13 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202602240628,34.6033,29.1789,24/02/2026,24/02/2026 06:28:24,3.9,29.850260416667,False,Kaş,South,Turkey,False,183km NNE of Antalya coast,183km North-Northeast
+202602231738,34.2267,25.7359,23/02/2026,23/02/2026 17:38:15,4.1,1.8229166666667,False,Néa Anatolí,Crete,Greece,False,87km N of Crete coast,87km North
 202602230252,28.4421,34.6752,23/02/2026,23/02/2026 02:52:11,2.7,4.3294270833333,False,Dahab,Northwest,Saudi Arabia,False,18km WNW of Tabuk coast,18km West-Northwest
+202602230211,34.5851,29.3608,23/02/2026,23/02/2026 02:11:44,3.1,29.850260416667,False,Kaş,South,Turkey,False,182km N of Antalya coast,182km North
 202602222236,34.5035,29.3222,22/02/2026,22/02/2026 22:36:24,2.9,29.850260416667,False,Kaş,South,Turkey,False,191km N of Antalya coast,191km North
 202602222203,36.5088,34.9145,22/02/2026,22/02/2026 22:03:59,2.6,24.381510416667,False,Tuzla,Adana,Turkey,False,26km NE of Adana coast,26km Northeast
 202602222119,34.6124,29.2175,22/02/2026,22/02/2026 21:19:42,3.8,29.850260416667,False,Kaş,South,Turkey,False,181km NNE of Antalya coast,181km North-Northeast
+202602221246,34.6351,29.2478,22/02/2026,22/02/2026 12:46:03,3.4,35.091145833333,False,Kaş,South,Turkey,False,178km NNE of Antalya coast,178km North-Northeast
+202602220458,35.5061,28.707,22/02/2026,22/02/2026 04:58:20,3.6,28.7109375,False,Lárdos,South Aegean,Greece,False,90km NW of South Aegean coast,90km Northwest
 202602220442,34.1246,35.821,22/02/2026,22/02/2026 04:42:05,2.6,15.380859375,False,Hrajel,North,Lebanon,True,"12km SSW of Hrajel, Lebanon",12km South-Southwest
 202602220324,34.7031,29.0466,22/02/2026,22/02/2026 03:24:46,2.9,22.102864583333,False,Kaş,South,Turkey,False,175km NNE of Antalya coast,175km North-Northeast
 202602211903,31.6616,35.1049,21/02/2026,21/02/2026 19:03:47,2.0,9.4278971354167,False,Bat A'in,West Bank,Palestine,True,"0km SSW of Bat A'in, Palestine",0km South-Southwest
@@ -24,15 +29,19 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202602160122,33.3114,35.8054,16/02/2026,16/02/2026 01:22:16,1.7,8.9436848958333,False,Majdal Shams,South,Syria,True,"6km SW of Majdal Shams, Syria",6km Southwest
 202602152353,33.5972,35.7917,15/02/2026,15/02/2026 23:53:44,2.0,1.9938151041667,False,Aaïtanît,South,Lebanon,True,"12km WSW of Aaïtanît, Lebanon",12km West-Southwest
 202602151728,33.105,35.6189,15/02/2026,15/02/2026 17:28:01,2.3,15.779622395833,False,Yesud HaMa‘ala,HaZafon,Israel,True,"5km S of Yesud HaMa‘ala, Israel",5km South
-202602151425,34.6895,36.9774,15/02/2026,15/02/2026 14:25:33,2.8,29.622395833333,False,Mukharram al Fawqānī,South,Syria,True,"17km NE of Mukharram al Fawqānī, Syria",17km Northeast
-202602150954,34.8891,32.9173,15/02/2026,15/02/2026 09:54:02,3.3,32.356770833333,False,Peléndri,Cyprus,Cyprus,True,5km E of Peléndri,5km East
-202602150236,34.3832,32.1933,15/02/2026,15/02/2026 02:36:17,3.6,27.685546875,False,Geroskipou,Cyprus,Cyprus,False,48km NNE of Paphos coast,48km North-Northeast
-202602150035,33.1101,35.6138,15/02/2026,15/02/2026 00:35:21,2.2,14.725748697917,False,Yesud HaMa‘ala,HaZafon,Israel,True,"6km S of Yesud HaMa‘ala, Israel",6km South
-202602141259,34.871,32.7609,14/02/2026,14/02/2026 12:59:39,3.4,25.9765625,False,Páchna,Cyprus,Cyprus,True,11km SSE of Páchna,11km South-Southeast
 202602230252,28.4421,34.6752,23/02/2026,23/02/2026 02:52:11,2.7,4.3294270833333,False,Dahab,Northwest,Saudi Arabia,False,18km WNW of Tabuk coast,18km West-Northwest
+202602222236,34.5035,29.3222,22/02/2026,22/02/2026 22:36:24,2.9,29.850260416667,False,Kaş,South,Turkey,False,191km N of Antalya coast,191km North
+202602222203,36.5088,34.9145,22/02/2026,22/02/2026 22:03:59,2.6,24.381510416667,False,Tuzla,Adana,Turkey,False,26km NE of Adana coast,26km Northeast
+202602222119,34.6124,29.2175,22/02/2026,22/02/2026 21:19:42,3.8,29.850260416667,False,Kaş,South,Turkey,False,181km NNE of Antalya coast,181km North-Northeast
 202602220442,34.1246,35.821,22/02/2026,22/02/2026 04:42:05,2.6,15.380859375,False,Hrajel,North,Lebanon,True,"12km SSW of Hrajel, Lebanon",12km South-Southwest
 202602220324,34.7031,29.0466,22/02/2026,22/02/2026 03:24:46,2.9,22.102864583333,False,Kaş,South,Turkey,False,175km NNE of Antalya coast,175km North-Northeast
 202602211903,31.6616,35.1049,21/02/2026,21/02/2026 19:03:47,2.0,9.4278971354167,False,Bat A'in,West Bank,Palestine,True,"0km SSW of Bat A'in, Palestine",0km South-Southwest
+202602210208,33.9727,29.11,21/02/2026,21/02/2026 02:08:53,2.8,20.191833333333,False,Karpathos,South Aegean,Greece,False,243km NW of South Aegean coast,243km Northwest
+202602202347,36.7183,35.4165,20/02/2026,20/02/2026 23:47:51,2.7,6.0,False,Kaldırım,Adana,Turkey,True,"11km ESE of Kaldırım, Turkey",11km East-Southeast
+202602200333,34.3901,26.629,20/02/2026,20/02/2026 03:33:21,3.4,33.723958333333,False,Palekastro,Crete,Greece,False,96km NNW of Crete coast,96km North-Northwest
+202602200324,35.1058,26.76,20/02/2026,20/02/2026 03:24:37,3.3,16.0,False,Palekastro,South Aegean,Greece,False,47km WNW of South Aegean coast,47km West-Northwest
+202602200310,36.5163,36.2315,20/02/2026,20/02/2026 03:10:53,4.0,11.541761398315,False,Belen,South,Turkey,True,"4km SW of Belen, Turkey",4km Southwest
+202602191911,34.4715,26.1856,19/02/2026,19/02/2026 19:11:01,4.3,10.0,False,Ierápetra,Crete,Greece,False,72km NW of Crete coast,72km Northwest
 202602190017,36.0097,31.5828,19/02/2026,19/02/2026 00:17:29,3.1,26.66015625,False,Türkler,South,Turkey,False,69km NNE of Antalya coast,69km North-Northeast
 202602182035,33.4815,35.9619,18/02/2026,18/02/2026 20:35:47,1.8,1.5380859375,False,Qaţanā,South,Syria,True,"12km ESE of Qaţanā, Syria",12km East-Southeast
 202602180513,34.0634,27.7096,18/02/2026,18/02/2026 05:13:17,4.2,33.723958333333,False,Karpathos,South Aegean,Greece,False,167km NNW of South Aegean coast,167km North-Northwest
