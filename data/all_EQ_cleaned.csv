@@ -31,7 +31,10 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202602180513,34.0634,27.7096,18/02/2026,18/02/2026 05:13:17,4.2,33.723958333333,False,Karpathos,South Aegean,Greece,False,167km NNW of South Aegean coast,167km North-Northwest
 202602252154,34.7205,32.6248,25/02/2026,25/02/2026 21:54:46,3.5,15.259015083313,False,Pissoúri,Cyprus,Cyprus,True,9km SE of Pissoúri,9km Southeast
 202602241612,29.582,34.9861,24/02/2026,24/02/2026 16:12:48,2.0,15.096028645833,False,Eilat,South,Jordan,True,"5km SW of Eilat, Jordan",5km Southwest
+202602240859,34.9254,27.311,24/02/2026,24/02/2026 08:59:01,3.5,28.7109375,False,Karpathos,South Aegean,Greece,False,65km N of South Aegean coast,65km North
+202602240804,35.7738,29.7317,24/02/2026,24/02/2026 08:04:54,3.2,1.1393229166667,False,Kaş,South,Turkey,False,48km N of Antalya coast,48km North
 202602240628,34.6033,29.1789,24/02/2026,24/02/2026 06:28:24,3.9,29.850260416667,False,Kaş,South,Turkey,False,183km NNE of Antalya coast,183km North-Northeast
+202602240330,34.4944,29.223,24/02/2026,24/02/2026 03:30:10,3.0,29.850260416667,False,Kaş,South,Turkey,False,194km N of Antalya coast,194km North
 202602232336,35.3111,29.0002,23/02/2026,23/02/2026 23:36:24,2.9,28.02734375,False,Kalkan,South,Turkey,False,112km NNE of Antalya coast,112km North-Northeast
 202602232318,34.5488,29.212,23/02/2026,23/02/2026 23:18:07,3.2,29.850260416667,False,Kaş,South,Turkey,False,188km NNE of Antalya coast,188km North-Northeast
 202602232046,34.6169,29.314,23/02/2026,23/02/2026 20:46:37,3.7,54.231770833333,False,Kaş,South,Turkey,False,179km N of Antalya coast,179km North
@@ -47,17 +50,18 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202602220324,34.7031,29.0466,22/02/2026,22/02/2026 03:24:46,2.9,22.102864583333,False,Kaş,South,Turkey,False,175km NNE of Antalya coast,175km North-Northeast
 202602211903,31.6616,35.1049,21/02/2026,21/02/2026 19:03:47,2.0,9.4278971354167,False,Bat A'in,West Bank,Palestine,True,"0km SSW of Bat A'in, Palestine",0km South-Southwest
 202602210208,33.9727,29.11,21/02/2026,21/02/2026 02:08:53,2.8,20.191833333333,False,Karpathos,South Aegean,Greece,False,243km NW of South Aegean coast,243km Northwest
+202602210205,32.818,34.6791,21/02/2026,21/02/2026 02:05:49,1.6,13.785807291667,False,Megadim,HaZafon,Israel,False,28km ESE of Haifa coast,28km East-Southeast
 202602202347,36.7183,35.4165,20/02/2026,20/02/2026 23:47:51,2.7,6.0,False,Kaldırım,Adana,Turkey,True,"11km ESE of Kaldırım, Turkey",11km East-Southeast
 202602200333,34.3901,26.629,20/02/2026,20/02/2026 03:33:21,3.4,33.723958333333,False,Palekastro,Crete,Greece,False,96km NNW of Crete coast,96km North-Northwest
 202602200324,35.1058,26.76,20/02/2026,20/02/2026 03:24:37,3.3,16.0,False,Palekastro,South Aegean,Greece,False,47km WNW of South Aegean coast,47km West-Northwest
 202602200310,36.5163,36.2315,20/02/2026,20/02/2026 03:10:53,4.0,11.541761398315,False,Belen,South,Turkey,True,"4km SW of Belen, Turkey",4km Southwest
 202602191911,34.4715,26.1856,19/02/2026,19/02/2026 19:11:01,4.3,10.0,False,Ierápetra,Crete,Greece,False,72km NW of Crete coast,72km Northwest
 202602190017,36.0097,31.5828,19/02/2026,19/02/2026 00:17:29,3.1,26.66015625,False,Türkler,South,Turkey,False,69km NNE of Antalya coast,69km North-Northeast
+202602182035,33.4815,35.9619,18/02/2026,18/02/2026 20:35:47,1.8,1.5380859375,False,Qaţanā,South,Syria,True,"12km ESE of Qaţanā, Syria",12km East-Southeast
 202602180513,34.0634,27.7096,18/02/2026,18/02/2026 05:13:17,4.2,33.723958333333,False,Karpathos,South Aegean,Greece,False,167km NNW of South Aegean coast,167km North-Northwest
 202602171908,29.1408,34.3269,17/02/2026,17/02/2026 19:08:54,2.5,11.62109375,False,Nuwaybi‘a,Sinai,Egypt,True,"34km ESE of Nuwaybi‘a, Egypt",34km East-Southeast
 202602171613,33.9182,37.1924,17/02/2026,17/02/2026 16:13:13,2.7,30.078125,False,Al Qaryatayn,South,Syria,True,"35km N of Al Qaryatayn, Syria",35km North
 202602171207,34.7984,36.9553,17/02/2026,17/02/2026 12:07:47,2.7,33.268229166667,False,Mukharram al Fawqānī,South,Syria,True,"12km E of Mukharram al Fawqānī, Syria",12km East
-202602182035,33.4815,35.9619,18/02/2026,18/02/2026 20:35:47,1.8,1.5380859375,False,Qaţanā,South,Syria,True,"12km ESE of Qaţanā, Syria",12km East-Southeast
 202602170213,33.0681,35.3382,17/02/2026,17/02/2026 02:13:04,2.3,4.0730794270833,False,Fassūta,South,Lebanon,True,"3km SW of Fassūta, Lebanon",3km Southwest
 202602170150,34.009,26.7944,17/02/2026,17/02/2026 01:50:51,4.2,100.26041666667,False,Palekastro,Crete,Greece,False,141km NNW of Crete coast,141km North-Northwest
 202602162257,36.3863,23.3838,16/02/2026,16/02/2026 22:57:55,4.9,50.130208333333,False,Géfyra,Peloponnese,Greece,False,46km NW of Peloponnese coast,46km Northwest
