@@ -1,4 +1,5 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202602281229,33.7413,37.0077,28/02/2026,28/02/2026 12:29:26,2.8,5.2408854166667,False,Jayrūd,South,Syria,True,"26km WNW of Jayrūd, Syria",26km West-Northwest
 202602252154,34.7205,32.6248,25/02/2026,25/02/2026 21:54:46,3.5,15.259015083313,False,Pissoúri,Cyprus,Cyprus,True,9km SE of Pissoúri,9km Southeast
 202602241612,29.582,34.9861,24/02/2026,24/02/2026 16:12:48,2.0,15.096028645833,False,Eilat,South,Jordan,True,"5km SW of Eilat, Jordan",5km Southwest
 202602240859,34.9254,27.311,24/02/2026,24/02/2026 08:59:01,3.5,28.7109375,False,Karpathos,South Aegean,Greece,False,65km N of South Aegean coast,65km North
@@ -28,7 +29,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202602191911,34.4715,26.1856,19/02/2026,19/02/2026 19:11:01,4.3,10.0,False,Ierápetra,Crete,Greece,False,72km NW of Crete coast,72km Northwest
 202602190017,36.0097,31.5828,19/02/2026,19/02/2026 00:17:29,3.1,26.66015625,False,Türkler,South,Turkey,False,69km NNE of Antalya coast,69km North-Northeast
 202602182035,33.4815,35.9619,18/02/2026,18/02/2026 20:35:47,1.8,1.5380859375,False,Qaţanā,South,Syria,True,"12km ESE of Qaţanā, Syria",12km East-Southeast
-202602180513,34.0634,27.7096,18/02/2026,18/02/2026 05:13:17,4.2,33.723958333333,False,Karpathos,South Aegean,Greece,False,167km NNW of South Aegean coast,167km North-Northwest
 202602252154,34.7205,32.6248,25/02/2026,25/02/2026 21:54:46,3.5,15.259015083313,False,Pissoúri,Cyprus,Cyprus,True,9km SE of Pissoúri,9km Southeast
 202602241612,29.582,34.9861,24/02/2026,24/02/2026 16:12:48,2.0,15.096028645833,False,Eilat,South,Jordan,True,"5km SW of Eilat, Jordan",5km Southwest
 202602240859,34.9254,27.311,24/02/2026,24/02/2026 08:59:01,3.5,28.7109375,False,Karpathos,South Aegean,Greece,False,65km N of South Aegean coast,65km North
