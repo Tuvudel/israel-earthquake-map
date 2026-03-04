@@ -3,6 +3,8 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202603011109,33.6687,37.0623,01/03/2026,01/03/2026 11:09:25,2.8,6.15234375,False,Jayrūd,South,Syria,True,"34km WNW of Jayrūd, Syria",34km West-Northwest
 202603010635,34.6782,32.0472,01/03/2026,01/03/2026 06:35:43,3.2,29.964192708333,False,Chlórakas,Cyprus,Cyprus,False,35km ENE of Paphos coast,35km East-Northeast
 202602281229,33.7413,37.0077,28/02/2026,28/02/2026 12:29:26,2.8,5.2408854166667,False,Jayrūd,South,Syria,True,"26km WNW of Jayrūd, Syria",26km West-Northwest
+202602272334,34.395,34.8727,27/02/2026,27/02/2026 23:34:28,2.7,10.0,False,Batroûn,North,Lebanon,False,74km ESE of Mount Lebanon coast,74km East-Southeast
+202602271214,31.1836,35.4831,27/02/2026,27/02/2026 12:14:24,2.2,15.437825520833,False,‘En Boqeq,South,Jordan,True,"12km W of ‘En Boqeq, Jordan",12km West
 202602261717,38.6729,36.8066,26/02/2026,26/02/2026 17:17:05,4.7,101.171875,False,Sarız,Sivas,Turkey,True,"34km SW of Sarız, Turkey",34km Southwest
 202602252154,34.7205,32.6248,25/02/2026,25/02/2026 21:54:46,3.5,15.259015083313,False,Pissoúri,Cyprus,Cyprus,True,9km SE of Pissoúri,9km Southeast
 202602241612,29.582,34.9861,24/02/2026,24/02/2026 16:12:48,2.0,15.096028645833,False,Eilat,South,Jordan,True,"5km SW of Eilat, Jordan",5km Southwest
@@ -27,10 +29,11 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202602210208,33.9727,29.11,21/02/2026,21/02/2026 02:08:53,2.8,20.191833333333,False,Karpathos,South Aegean,Greece,False,243km NW of South Aegean coast,243km Northwest
 202602210205,32.818,34.6791,21/02/2026,21/02/2026 02:05:49,1.6,13.785807291667,False,Megadim,HaZafon,Israel,False,28km ESE of Haifa coast,28km East-Southeast
 202602202347,36.7183,35.4165,20/02/2026,20/02/2026 23:47:51,2.7,6.0,False,Kaldırım,Adana,Turkey,True,"11km ESE of Kaldırım, Turkey",11km East-Southeast
-202602200333,34.3901,26.629,20/02/2026,20/02/2026 03:33:21,3.4,33.723958333333,False,Palekastro,Crete,Greece,False,96km NNW of Crete coast,96km North-Northwest
-202602200324,35.1058,26.76,20/02/2026,20/02/2026 03:24:37,3.3,16.0,False,Palekastro,South Aegean,Greece,False,47km WNW of South Aegean coast,47km West-Northwest
+202603020340,30.3091,32.2212,02/03/2026,02/03/2026 03:40:15,3.4,2.6204427083333,False,Fāyīd,North,Egypt,True,"8km E of Fāyīd, Egypt",8km East
+202603011109,33.6687,37.0623,01/03/2026,01/03/2026 11:09:25,2.8,6.15234375,False,Jayrūd,South,Syria,True,"34km WNW of Jayrūd, Syria",34km West-Northwest
 202603010635,34.6782,32.0472,01/03/2026,01/03/2026 06:35:43,3.2,29.964192708333,False,Chlórakas,Cyprus,Cyprus,False,35km ENE of Paphos coast,35km East-Northeast
 202602281229,33.7413,37.0077,28/02/2026,28/02/2026 12:29:26,2.8,5.2408854166667,False,Jayrūd,South,Syria,True,"26km WNW of Jayrūd, Syria",26km West-Northwest
+202602261717,38.6729,36.8066,26/02/2026,26/02/2026 17:17:05,4.7,101.171875,False,Sarız,Sivas,Turkey,True,"34km SW of Sarız, Turkey",34km Southwest
 202602252154,34.7205,32.6248,25/02/2026,25/02/2026 21:54:46,3.5,15.259015083313,False,Pissoúri,Cyprus,Cyprus,True,9km SE of Pissoúri,9km Southeast
 202602241612,29.582,34.9861,24/02/2026,24/02/2026 16:12:48,2.0,15.096028645833,False,Eilat,South,Jordan,True,"5km SW of Eilat, Jordan",5km Southwest
 202602240859,34.9254,27.311,24/02/2026,24/02/2026 08:59:01,3.5,28.7109375,False,Karpathos,South Aegean,Greece,False,65km N of South Aegean coast,65km North
