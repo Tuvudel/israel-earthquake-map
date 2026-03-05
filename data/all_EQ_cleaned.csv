@@ -1,8 +1,14 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202603041934,33.1549,35.6379,04/03/2026,04/03/2026 19:34:46,2.0,7.4625651041667,False,Sde Neẖemya,HaZafon,Israel,True,"4km NNW of Sde Neẖemya, Israel",4km North-Northwest
+202603041505,29.7907,34.4968,04/03/2026,04/03/2026 15:05:11,2.4,20.3369140625,False,Be’er Ora,Sinai,Egypt,True,"48km E of Be’er Ora, Egypt",48km East
+202603031647,32.5946,34.8022,03/03/2026,03/03/2026 16:47:40,2.2,5.4117838541667,False,Ma‘agan Mikha’el,HaZafon,Israel,False,12km ESE of Haifa coast,12km East-Southeast
 202603020340,30.3091,32.2212,02/03/2026,02/03/2026 03:40:15,3.4,2.6204427083333,False,Fāyīd,North,Egypt,True,"8km E of Fāyīd, Egypt",8km East
 202603011109,33.6687,37.0623,01/03/2026,01/03/2026 11:09:25,2.8,6.15234375,False,Jayrūd,South,Syria,True,"34km WNW of Jayrūd, Syria",34km West-Northwest
 202603010635,34.6782,32.0472,01/03/2026,01/03/2026 06:35:43,3.2,29.964192708333,False,Chlórakas,Cyprus,Cyprus,False,35km ENE of Paphos coast,35km East-Northeast
 202602281229,33.7413,37.0077,28/02/2026,28/02/2026 12:29:26,2.8,5.2408854166667,False,Jayrūd,South,Syria,True,"26km WNW of Jayrūd, Syria",26km West-Northwest
+202602280611,33.9182,24.137,28/02/2026,28/02/2026 06:11:55,4.8,46.484375,False,Agía Galíni,Crete,Greece,False,140km NNE of Crete coast,140km North-Northeast
+202602280536,32.4851,35.2454,28/02/2026,28/02/2026 05:36:28,2.1,19.966634114583,False,Kafr Dān,West Bank,Palestine,True,"1km SE of Kafr Dān, Palestine",1km Southeast
+202602280226,35.6286,35.6227,28/02/2026,28/02/2026 02:26:54,3.1,32.12890625,False,Burj Islām,North,Syria,False,17km ENE of Latakia coast,17km East-Northeast
 202602272334,34.395,34.8727,27/02/2026,27/02/2026 23:34:28,2.7,10.0,False,Batroûn,North,Lebanon,False,74km ESE of Mount Lebanon coast,74km East-Southeast
 202602271214,31.1836,35.4831,27/02/2026,27/02/2026 12:14:24,2.2,15.437825520833,False,‘En Boqeq,South,Jordan,True,"12km W of ‘En Boqeq, Jordan",12km West
 202602261717,38.6729,36.8066,26/02/2026,26/02/2026 17:17:05,4.7,101.171875,False,Sarız,Sivas,Turkey,True,"34km SW of Sarız, Turkey",34km Southwest
@@ -23,16 +29,12 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202602222119,34.6124,29.2175,22/02/2026,22/02/2026 21:19:42,3.8,29.850260416667,False,Kaş,South,Turkey,False,181km NNE of Antalya coast,181km North-Northeast
 202602221246,34.6351,29.2478,22/02/2026,22/02/2026 12:46:03,3.4,35.091145833333,False,Kaş,South,Turkey,False,178km NNE of Antalya coast,178km North-Northeast
 202602220458,35.5061,28.707,22/02/2026,22/02/2026 04:58:20,3.6,28.7109375,False,Lárdos,South Aegean,Greece,False,90km NW of South Aegean coast,90km Northwest
-202602220442,34.1246,35.821,22/02/2026,22/02/2026 04:42:05,2.6,15.380859375,False,Hrajel,North,Lebanon,True,"12km SSW of Hrajel, Lebanon",12km South-Southwest
-202602220324,34.7031,29.0466,22/02/2026,22/02/2026 03:24:46,2.9,22.102864583333,False,Kaş,South,Turkey,False,175km NNE of Antalya coast,175km North-Northeast
-202602211903,31.6616,35.1049,21/02/2026,21/02/2026 19:03:47,2.0,9.4278971354167,False,Bat A'in,West Bank,Palestine,True,"0km SSW of Bat A'in, Palestine",0km South-Southwest
-202602210208,33.9727,29.11,21/02/2026,21/02/2026 02:08:53,2.8,20.191833333333,False,Karpathos,South Aegean,Greece,False,243km NW of South Aegean coast,243km Northwest
-202602210205,32.818,34.6791,21/02/2026,21/02/2026 02:05:49,1.6,13.785807291667,False,Megadim,HaZafon,Israel,False,28km ESE of Haifa coast,28km East-Southeast
-202602202347,36.7183,35.4165,20/02/2026,20/02/2026 23:47:51,2.7,6.0,False,Kaldırım,Adana,Turkey,True,"11km ESE of Kaldırım, Turkey",11km East-Southeast
 202603020340,30.3091,32.2212,02/03/2026,02/03/2026 03:40:15,3.4,2.6204427083333,False,Fāyīd,North,Egypt,True,"8km E of Fāyīd, Egypt",8km East
 202603011109,33.6687,37.0623,01/03/2026,01/03/2026 11:09:25,2.8,6.15234375,False,Jayrūd,South,Syria,True,"34km WNW of Jayrūd, Syria",34km West-Northwest
 202603010635,34.6782,32.0472,01/03/2026,01/03/2026 06:35:43,3.2,29.964192708333,False,Chlórakas,Cyprus,Cyprus,False,35km ENE of Paphos coast,35km East-Northeast
 202602281229,33.7413,37.0077,28/02/2026,28/02/2026 12:29:26,2.8,5.2408854166667,False,Jayrūd,South,Syria,True,"26km WNW of Jayrūd, Syria",26km West-Northwest
+202602272334,34.395,34.8727,27/02/2026,27/02/2026 23:34:28,2.7,10.0,False,Batroûn,North,Lebanon,False,74km ESE of Mount Lebanon coast,74km East-Southeast
+202602271214,31.1836,35.4831,27/02/2026,27/02/2026 12:14:24,2.2,15.437825520833,False,‘En Boqeq,South,Jordan,True,"12km W of ‘En Boqeq, Jordan",12km West
 202602261717,38.6729,36.8066,26/02/2026,26/02/2026 17:17:05,4.7,101.171875,False,Sarız,Sivas,Turkey,True,"34km SW of Sarız, Turkey",34km Southwest
 202602252154,34.7205,32.6248,25/02/2026,25/02/2026 21:54:46,3.5,15.259015083313,False,Pissoúri,Cyprus,Cyprus,True,9km SE of Pissoúri,9km Southeast
 202602241612,29.582,34.9861,24/02/2026,24/02/2026 16:12:48,2.0,15.096028645833,False,Eilat,South,Jordan,True,"5km SW of Eilat, Jordan",5km Southwest
