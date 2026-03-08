@@ -1,4 +1,6 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202603072225,33.6063,35.3086,07/03/2026,07/03/2026 22:25:53,2.1,18.400065104167,False,Sidon,South,Lebanon,False,8km SE of South coast,8km Southeast
+202603072204,33.426,34.6872,07/03/2026,07/03/2026 22:04:59,2.3,14.469401041667,False,Tyre,South,Lebanon,False,50km ESE of South coast,50km East-Southeast
 202603041934,33.1549,35.6379,04/03/2026,04/03/2026 19:34:46,2.0,7.4625651041667,False,Sde Neẖemya,HaZafon,Israel,True,"4km NNW of Sde Neẖemya, Israel",4km North-Northwest
 202603041505,29.7907,34.4968,04/03/2026,04/03/2026 15:05:11,2.4,20.3369140625,False,Be’er Ora,Sinai,Egypt,True,"48km E of Be’er Ora, Egypt",48km East
 202603031647,32.5946,34.8022,03/03/2026,03/03/2026 16:47:40,2.2,5.4117838541667,False,Ma‘agan Mikha’el,HaZafon,Israel,False,12km ESE of Haifa coast,12km East-Southeast
@@ -27,8 +29,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202602240330,34.4944,29.223,24/02/2026,24/02/2026 03:30:10,3.0,29.850260416667,False,Kaş,South,Turkey,False,194km N of Antalya coast,194km North
 202602232336,35.3111,29.0002,23/02/2026,23/02/2026 23:36:24,2.9,28.02734375,False,Kalkan,South,Turkey,False,112km NNE of Antalya coast,112km North-Northeast
 202602232318,34.5488,29.212,23/02/2026,23/02/2026 23:18:07,3.2,29.850260416667,False,Kaş,South,Turkey,False,188km NNE of Antalya coast,188km North-Northeast
-202602232046,34.6169,29.314,23/02/2026,23/02/2026 20:46:37,3.7,54.231770833333,False,Kaş,South,Turkey,False,179km N of Antalya coast,179km North
-202602231738,34.2267,25.7359,23/02/2026,23/02/2026 17:38:15,4.1,1.8229166666667,False,Néa Anatolí,Crete,Greece,False,87km N of Crete coast,87km North
 202603041934,33.1549,35.6379,04/03/2026,04/03/2026 19:34:46,2.0,7.4625651041667,False,Sde Neẖemya,HaZafon,Israel,True,"4km NNW of Sde Neẖemya, Israel",4km North-Northwest
 202603041505,29.7907,34.4968,04/03/2026,04/03/2026 15:05:11,2.4,20.3369140625,False,Be’er Ora,Sinai,Egypt,True,"48km E of Be’er Ora, Egypt",48km East
 202603031647,32.5946,34.8022,03/03/2026,03/03/2026 16:47:40,2.2,5.4117838541667,False,Ma‘agan Mikha’el,HaZafon,Israel,False,12km ESE of Haifa coast,12km East-Southeast
@@ -37,6 +37,8 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202603021002,34.1523,29.4527,02/03/2026,02/03/2026 10:02:31,3.4,10.0,False,Kaş,South,Turkey,False,229km N of Antalya coast,229km North
 202603020458,34.5534,29.4628,02/03/2026,02/03/2026 04:58:20,4.0,35.095833333333,False,Kaş,South,Turkey,False,184km N of Antalya coast,184km North
 202603020340,30.2977,32.0871,02/03/2026,02/03/2026 03:40:17,3.5,42.3828125,False,Fāyīd,North,Egypt,True,"21km E of Fāyīd, Egypt",21km East
+202603012322,34.2449,29.54,01/03/2026,01/03/2026 23:22:36,3.6,0.91145833333333,False,Kaş,South,Turkey,False,218km N of Antalya coast,218km North
+202603012223,34.0271,29.2313,01/03/2026,01/03/2026 22:23:28,3.6,28.255208333333,False,Kaş,South,Turkey,False,245km N of Antalya coast,245km North
 202603011109,33.6687,37.0623,01/03/2026,01/03/2026 11:09:25,2.8,6.15234375,False,Jayrūd,South,Syria,True,"34km WNW of Jayrūd, Syria",34km West-Northwest
 202603010635,34.6782,32.0472,01/03/2026,01/03/2026 06:35:43,3.2,29.964192708333,False,Chlórakas,Cyprus,Cyprus,False,35km ENE of Paphos coast,35km East-Northeast
 202602281229,33.7413,37.0077,28/02/2026,28/02/2026 12:29:26,2.8,5.2408854166667,False,Jayrūd,South,Syria,True,"26km WNW of Jayrūd, Syria",26km West-Northwest
