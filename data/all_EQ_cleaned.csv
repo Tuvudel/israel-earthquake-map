@@ -1,9 +1,27 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202603081956,33.6528,35.0765,08/03/2026,08/03/2026 19:56:32,2.0,18.343098958333,False,Sidon,South,Lebanon,False,29km ESE of South coast,29km East-Southeast
 202603072225,33.6063,35.3086,07/03/2026,07/03/2026 22:25:53,2.1,18.400065104167,False,Sidon,South,Lebanon,False,8km SE of South coast,8km Southeast
 202603072204,33.426,34.6872,07/03/2026,07/03/2026 22:04:59,2.3,14.469401041667,False,Tyre,South,Lebanon,False,50km ESE of South coast,50km East-Southeast
+202603070153,33.8116,35.8072,07/03/2026,07/03/2026 01:53:54,2.0,2.8483072916667,False,Zahlé,South,Lebanon,True,"10km ENE of Zahlé, Lebanon",10km East-Northeast
+202603062129,34.4173,29.3801,06/03/2026,06/03/2026 21:29:50,2.8,32.356770833333,False,Kaş,South,Turkey,False,200km N of Antalya coast,200km North
+202603061820,34.3447,29.2809,06/03/2026,06/03/2026 18:20:14,3.0,31.4453125,False,Kaş,South,Turkey,False,209km N of Antalya coast,209km North
+202603061732,32.7874,34.3531,06/03/2026,06/03/2026 17:32:15,2.5,20.6787109375,False,Atlit,HaZafon,Israel,False,56km E of Haifa coast,56km East
+202603061307,34.2993,29.4408,06/03/2026,06/03/2026 13:07:08,3.0,30.989583333333,False,Kaş,South,Turkey,False,212km N of Antalya coast,212km North
+202603060930,34.3175,29.3415,06/03/2026,06/03/2026 09:30:35,4.2,30.078125,False,Kaş,South,Turkey,False,211km N of Antalya coast,211km North
+202603060923,34.3538,29.3195,06/03/2026,06/03/2026 09:23:03,3.1,30.078125,False,Kaş,South,Turkey,False,208km N of Antalya coast,208km North
+202603060853,34.4354,29.336,06/03/2026,06/03/2026 08:53:39,4.0,62.434895833333,False,Kaş,South,Turkey,False,198km N of Antalya coast,198km North
+202603060839,34.508,29.3581,06/03/2026,06/03/2026 08:39:06,3.9,88.8671875,False,Kaş,South,Turkey,False,190km N of Antalya coast,190km North
+202603060734,30.2841,35.2182,06/03/2026,06/03/2026 07:34:04,2.5,15.266927083333,False,At-Taybeh,South,Jordan,True,"24km E of At-Taybeh, Jordan",24km East
+202603060657,34.4264,29.3415,06/03/2026,06/03/2026 06:57:27,3.7,31.901041666667,False,Kaş,South,Turkey,False,199km N of Antalya coast,199km North
+202603060648,34.7167,29.2533,06/03/2026,06/03/2026 06:48:33,3.8,35.546875,False,Kaş,South,Turkey,False,169km NNE of Antalya coast,169km North-Northeast
+202603060535,34.4354,29.2809,06/03/2026,06/03/2026 05:35:26,4.9,32.356770833333,False,Kaş,South,Turkey,False,199km N of Antalya coast,199km North
 202603041934,33.1549,35.6379,04/03/2026,04/03/2026 19:34:46,2.0,7.4625651041667,False,Sde Neẖemya,HaZafon,Israel,True,"4km NNW of Sde Neẖemya, Israel",4km North-Northwest
+202603041814,35.9916,31.0606,04/03/2026,04/03/2026 18:14:59,3.5,23.92578125,False,Çavuşköy,South,Turkey,False,68km NW of Antalya coast,68km Northwest
+202603041545,35.9825,31.982,04/03/2026,04/03/2026 15:45:45,3.8,28.483072916667,False,Gazipaşa,South,Turkey,False,44km NE of Antalya coast,44km Northeast
 202603041505,29.7907,34.4968,04/03/2026,04/03/2026 15:05:11,2.4,20.3369140625,False,Be’er Ora,Sinai,Egypt,True,"48km E of Be’er Ora, Egypt",48km East
+202603031745,32.7205,31.7187,03/03/2026,03/03/2026 17:45:51,3.0,48.307291666667,False,Râs el-Barr,North,Egypt,False,135km S of Damietta coast,135km South
 202603031647,32.5946,34.8022,03/03/2026,03/03/2026 16:47:40,2.2,5.4117838541667,False,Ma‘agan Mikha’el,HaZafon,Israel,False,12km ESE of Haifa coast,12km East-Southeast
+202603031220,35.2702,31.6888,03/03/2026,03/03/2026 12:20:30,3.4,60.611979166667,False,Pólis,Cyprus,Cyprus,False,72km ESE of Paphos coast,72km East-Southeast
 202603022234,34.3935,29.502,02/03/2026,02/03/2026 22:34:49,3.4,20.0,False,Kaş,South,Turkey,False,201km N of Antalya coast,201km North
 202603021309,34.5534,29.4628,02/03/2026,02/03/2026 13:09:25,3.6,16.095833333333,False,Kaş,South,Turkey,False,184km N of Antalya coast,184km North
 202603021002,34.1523,29.4527,02/03/2026,02/03/2026 10:02:31,3.4,10.0,False,Kaş,South,Turkey,False,229km N of Antalya coast,229km North
@@ -11,24 +29,8 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202603020340,30.2977,32.0871,02/03/2026,02/03/2026 03:40:17,3.5,42.3828125,False,Fāyīd,North,Egypt,True,"21km E of Fāyīd, Egypt",21km East
 202603012322,34.2449,29.54,01/03/2026,01/03/2026 23:22:36,3.6,0.91145833333333,False,Kaş,South,Turkey,False,218km N of Antalya coast,218km North
 202603012223,34.0271,29.2313,01/03/2026,01/03/2026 22:23:28,3.6,28.255208333333,False,Kaş,South,Turkey,False,245km N of Antalya coast,245km North
-202603011109,33.6687,37.0623,01/03/2026,01/03/2026 11:09:25,2.8,6.15234375,False,Jayrūd,South,Syria,True,"34km WNW of Jayrūd, Syria",34km West-Northwest
-202603010635,34.6782,32.0472,01/03/2026,01/03/2026 06:35:43,3.2,29.964192708333,False,Chlórakas,Cyprus,Cyprus,False,35km ENE of Paphos coast,35km East-Northeast
-202602281229,33.7413,37.0077,28/02/2026,28/02/2026 12:29:26,2.8,5.2408854166667,False,Jayrūd,South,Syria,True,"26km WNW of Jayrūd, Syria",26km West-Northwest
-202602280854,29.345,32.3984,28/02/2026,28/02/2026 08:54:54,3.0,0.91145833333333,False,Ain Sukhna,South,Egypt,True,"29km NNW of Ain Sukhna, Egypt",29km North-Northwest
-202602280611,33.9182,24.137,28/02/2026,28/02/2026 06:11:55,4.8,46.484375,False,Agía Galíni,Crete,Greece,False,140km NNE of Crete coast,140km North-Northeast
-202602280536,32.4851,35.2454,28/02/2026,28/02/2026 05:36:28,2.1,19.966634114583,False,Kafr Dān,West Bank,Palestine,True,"1km SE of Kafr Dān, Palestine",1km Southeast
-202602280226,35.6286,35.6227,28/02/2026,28/02/2026 02:26:54,3.1,32.12890625,False,Burj Islām,North,Syria,False,17km ENE of Latakia coast,17km East-Northeast
-202602272334,34.395,34.8727,27/02/2026,27/02/2026 23:34:28,2.7,10.0,False,Batroûn,North,Lebanon,False,74km ESE of Mount Lebanon coast,74km East-Southeast
-202602271214,31.1836,35.4831,27/02/2026,27/02/2026 12:14:24,2.2,15.437825520833,False,‘En Boqeq,South,Jordan,True,"12km W of ‘En Boqeq, Jordan",12km West
-202602261717,38.6729,36.8066,26/02/2026,26/02/2026 17:17:05,4.7,101.171875,False,Sarız,Sivas,Turkey,True,"34km SW of Sarız, Turkey",34km Southwest
-202602252154,34.7205,32.6248,25/02/2026,25/02/2026 21:54:46,3.5,15.259015083313,False,Pissoúri,Cyprus,Cyprus,True,9km SE of Pissoúri,9km Southeast
-202602241612,29.582,34.9861,24/02/2026,24/02/2026 16:12:48,2.0,15.096028645833,False,Eilat,South,Jordan,True,"5km SW of Eilat, Jordan",5km Southwest
-202602240859,34.9254,27.311,24/02/2026,24/02/2026 08:59:01,3.5,28.7109375,False,Karpathos,South Aegean,Greece,False,65km N of South Aegean coast,65km North
-202602240804,35.7738,29.7317,24/02/2026,24/02/2026 08:04:54,3.2,1.1393229166667,False,Kaş,South,Turkey,False,48km N of Antalya coast,48km North
-202602240628,34.6033,29.1789,24/02/2026,24/02/2026 06:28:24,3.9,29.850260416667,False,Kaş,South,Turkey,False,183km NNE of Antalya coast,183km North-Northeast
-202602240330,34.4944,29.223,24/02/2026,24/02/2026 03:30:10,3.0,29.850260416667,False,Kaş,South,Turkey,False,194km N of Antalya coast,194km North
-202602232336,35.3111,29.0002,23/02/2026,23/02/2026 23:36:24,2.9,28.02734375,False,Kalkan,South,Turkey,False,112km NNE of Antalya coast,112km North-Northeast
-202602232318,34.5488,29.212,23/02/2026,23/02/2026 23:18:07,3.2,29.850260416667,False,Kaş,South,Turkey,False,188km NNE of Antalya coast,188km North-Northeast
+202603072225,33.6063,35.3086,07/03/2026,07/03/2026 22:25:53,2.1,18.400065104167,False,Sidon,South,Lebanon,False,8km SE of South coast,8km Southeast
+202603072204,33.426,34.6872,07/03/2026,07/03/2026 22:04:59,2.3,14.469401041667,False,Tyre,South,Lebanon,False,50km ESE of South coast,50km East-Southeast
 202603041934,33.1549,35.6379,04/03/2026,04/03/2026 19:34:46,2.0,7.4625651041667,False,Sde Neẖemya,HaZafon,Israel,True,"4km NNW of Sde Neẖemya, Israel",4km North-Northwest
 202603041505,29.7907,34.4968,04/03/2026,04/03/2026 15:05:11,2.4,20.3369140625,False,Be’er Ora,Sinai,Egypt,True,"48km E of Be’er Ora, Egypt",48km East
 202603031647,32.5946,34.8022,03/03/2026,03/03/2026 16:47:40,2.2,5.4117838541667,False,Ma‘agan Mikha’el,HaZafon,Israel,False,12km ESE of Haifa coast,12km East-Southeast
