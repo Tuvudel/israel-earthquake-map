@@ -1,11 +1,14 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202603101120,36.2091,31.6168,10/03/2026,10/03/2026 11:20:21,4.2,40.0,False,Türkler,South,Turkey,False,47km NNE of Antalya coast,47km North-Northeast
 202603090621,37.8971,28.9553,09/03/2026,09/03/2026 06:21:07,4.7,29.850260416667,False,Gerali,Denizli,Turkey,True,"4km W of Gerali, Turkey",4km West
 202603081956,33.6528,35.0765,08/03/2026,08/03/2026 19:56:32,2.0,18.343098958333,False,Sidon,South,Lebanon,False,29km ESE of South coast,29km East-Southeast
+202603081532,35.5878,28.8243,08/03/2026,08/03/2026 15:32:37,4.1,112.109375,False,Lárdos,South Aegean,Greece,False,92km NW of South Aegean coast,92km Northwest
 202603072345,34.6033,33.5233,07/03/2026,07/03/2026 23:45:03,3.0,51.725260416667,False,Perivólia,Cyprus,Cyprus,False,26km NNE of Larnaca coast,26km North-Northeast
 202603072225,33.6063,35.3086,07/03/2026,07/03/2026 22:25:53,2.1,18.400065104167,False,Sidon,South,Lebanon,False,8km SE of South coast,8km Southeast
 202603072204,33.426,34.6872,07/03/2026,07/03/2026 22:04:59,2.3,14.469401041667,False,Tyre,South,Lebanon,False,50km ESE of South coast,50km East-Southeast
 202603071806,32.3087,35.4063,07/03/2026,07/03/2026 18:06:57,2.1,14.1845703125,False,Ţammūn,West Bank,Palestine,True,"4km SW of Ţammūn, Palestine",4km Southwest
 202603071605,34.2539,27.1638,07/03/2026,07/03/2026 16:05:07,4.6,32.356770833333,False,Palekastro,Crete,Greece,False,134km NW of Crete coast,134km Northwest
+202603071236,34.2086,27.1583,07/03/2026,07/03/2026 12:36:08,4.2,104.81770833333,False,Palekastro,Crete,Greece,False,138km NW of Crete coast,138km Northwest
 202603070621,34.4626,29.3636,07/03/2026,07/03/2026 06:21:19,3.8,30.078125,False,Kaş,South,Turkey,False,195km N of Antalya coast,195km North
 202603070153,33.8116,35.8072,07/03/2026,07/03/2026 01:53:54,2.0,2.8483072916667,False,Zahlé,South,Lebanon,True,"10km ENE of Zahlé, Lebanon",10km East-Northeast
 202603062129,34.4173,29.3801,06/03/2026,06/03/2026 21:29:50,2.8,32.356770833333,False,Kaş,South,Turkey,False,200km N of Antalya coast,200km North
@@ -26,12 +29,14 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202603041505,29.7907,34.4968,04/03/2026,04/03/2026 15:05:11,2.4,20.3369140625,False,Be’er Ora,Sinai,Egypt,True,"48km E of Be’er Ora, Egypt",48km East
 202603031745,32.7205,31.7187,03/03/2026,03/03/2026 17:45:51,3.0,48.307291666667,False,Râs el-Barr,North,Egypt,False,135km S of Damietta coast,135km South
 202603031647,32.5946,34.8022,03/03/2026,03/03/2026 16:47:40,2.2,5.4117838541667,False,Ma‘agan Mikha’el,HaZafon,Israel,False,12km ESE of Haifa coast,12km East-Southeast
-202603031220,35.2702,31.6888,03/03/2026,03/03/2026 12:20:30,3.4,60.611979166667,False,Pólis,Cyprus,Cyprus,False,72km ESE of Paphos coast,72km East-Southeast
-202603022234,34.3935,29.502,02/03/2026,02/03/2026 22:34:49,3.4,20.0,False,Kaş,South,Turkey,False,201km N of Antalya coast,201km North
-202603021309,34.5534,29.4628,02/03/2026,02/03/2026 13:09:25,3.6,16.095833333333,False,Kaş,South,Turkey,False,184km N of Antalya coast,184km North
+202603090621,37.8971,28.9553,09/03/2026,09/03/2026 06:21:07,4.7,29.850260416667,False,Gerali,Denizli,Turkey,True,"4km W of Gerali, Turkey",4km West
 202603081956,33.6528,35.0765,08/03/2026,08/03/2026 19:56:32,2.0,18.343098958333,False,Sidon,South,Lebanon,False,29km ESE of South coast,29km East-Southeast
+202603072345,34.6033,33.5233,07/03/2026,07/03/2026 23:45:03,3.0,51.725260416667,False,Perivólia,Cyprus,Cyprus,False,26km NNE of Larnaca coast,26km North-Northeast
 202603072225,33.6063,35.3086,07/03/2026,07/03/2026 22:25:53,2.1,18.400065104167,False,Sidon,South,Lebanon,False,8km SE of South coast,8km Southeast
 202603072204,33.426,34.6872,07/03/2026,07/03/2026 22:04:59,2.3,14.469401041667,False,Tyre,South,Lebanon,False,50km ESE of South coast,50km East-Southeast
+202603071806,32.3087,35.4063,07/03/2026,07/03/2026 18:06:57,2.1,14.1845703125,False,Ţammūn,West Bank,Palestine,True,"4km SW of Ţammūn, Palestine",4km Southwest
+202603071605,34.2539,27.1638,07/03/2026,07/03/2026 16:05:07,4.6,32.356770833333,False,Palekastro,Crete,Greece,False,134km NW of Crete coast,134km Northwest
+202603070621,34.4626,29.3636,07/03/2026,07/03/2026 06:21:19,3.8,30.078125,False,Kaş,South,Turkey,False,195km N of Antalya coast,195km North
 202603070153,33.8116,35.8072,07/03/2026,07/03/2026 01:53:54,2.0,2.8483072916667,False,Zahlé,South,Lebanon,True,"10km ENE of Zahlé, Lebanon",10km East-Northeast
 202603062129,34.4173,29.3801,06/03/2026,06/03/2026 21:29:50,2.8,32.356770833333,False,Kaş,South,Turkey,False,200km N of Antalya coast,200km North
 202603061820,34.3447,29.2809,06/03/2026,06/03/2026 18:20:14,3.0,31.4453125,False,Kaş,South,Turkey,False,209km N of Antalya coast,209km North
