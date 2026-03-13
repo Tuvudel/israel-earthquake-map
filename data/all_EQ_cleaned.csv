@@ -2,6 +2,10 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202603120113,32.8089,35.15,12/03/2026,12/03/2026 01:13:53,2.7,3.9876302083333,False,Shefar‘am,HaZafon,Israel,True,"2km E of Shefar‘am, Israel",2km East
 202603120011,33.2796,32.9498,12/03/2026,12/03/2026 00:11:38,2.8,27.1728515625,False,Trachóni,Cyprus,Cyprus,False,153km N of Akrotiri coast,153km North
 202603101120,36.2091,31.6168,10/03/2026,10/03/2026 11:20:21,4.2,40.0,False,Türkler,South,Turkey,False,47km NNE of Antalya coast,47km North-Northeast
+202603092216,33.9727,26.9929,09/03/2026,09/03/2026 22:16:36,3.8,10.099833333333,False,Palekastro,Crete,Greece,False,152km NNW of Crete coast,152km North-Northwest
+202603092021,35.9472,31.0784,09/03/2026,09/03/2026 20:21:02,3.3,10.0,False,Çavuşköy,South,Turkey,False,72km NW of Antalya coast,72km Northwest
+202603091702,38.0432,28.8015,09/03/2026,09/03/2026 17:02:33,4.3,5.8295793533325,False,Buldan,Denizli,Turkey,True,"3km E of Buldan, Turkey",3km East
+202603091431,34.9874,27.7353,09/03/2026,09/03/2026 14:31:23,3.7,20.0,False,Karpathos,South Aegean,Greece,False,75km NW of South Aegean coast,75km Northwest
 202603090621,37.8971,28.9553,09/03/2026,09/03/2026 06:21:07,4.7,29.850260416667,False,Gerali,Denizli,Turkey,True,"4km W of Gerali, Turkey",4km West
 202603081956,33.6528,35.0765,08/03/2026,08/03/2026 19:56:32,2.0,18.343098958333,False,Sidon,South,Lebanon,False,29km ESE of South coast,29km East-Southeast
 202603081532,35.5878,28.8243,08/03/2026,08/03/2026 15:32:37,4.1,112.109375,False,Lárdos,South Aegean,Greece,False,92km NW of South Aegean coast,92km Northwest
@@ -25,14 +29,13 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202603060734,30.2841,35.2182,06/03/2026,06/03/2026 07:34:04,2.5,15.266927083333,False,At-Taybeh,South,Jordan,True,"24km E of At-Taybeh, Jordan",24km East
 202603060657,34.4264,29.3415,06/03/2026,06/03/2026 06:57:27,3.7,31.901041666667,False,Kaş,South,Turkey,False,199km N of Antalya coast,199km North
 202603060648,34.7167,29.2533,06/03/2026,06/03/2026 06:48:33,3.8,35.546875,False,Kaş,South,Turkey,False,169km NNE of Antalya coast,169km North-Northeast
-202603060535,34.4354,29.2809,06/03/2026,06/03/2026 05:35:26,4.9,32.356770833333,False,Kaş,South,Turkey,False,199km N of Antalya coast,199km North
-202603041934,33.1549,35.6379,04/03/2026,04/03/2026 19:34:46,2.0,7.4625651041667,False,Sde Neẖemya,HaZafon,Israel,True,"4km NNW of Sde Neẖemya, Israel",4km North-Northwest
-202603041814,35.9916,31.0606,04/03/2026,04/03/2026 18:14:59,3.5,23.92578125,False,Çavuşköy,South,Turkey,False,68km NW of Antalya coast,68km Northwest
-202603041545,35.9825,31.982,04/03/2026,04/03/2026 15:45:45,3.8,28.483072916667,False,Gazipaşa,South,Turkey,False,44km NE of Antalya coast,44km Northeast
+202603120113,32.8089,35.15,12/03/2026,12/03/2026 01:13:53,2.7,3.9876302083333,False,Shefar‘am,HaZafon,Israel,True,"2km E of Shefar‘am, Israel",2km East
+202603120011,33.2796,32.9498,12/03/2026,12/03/2026 00:11:38,2.8,27.1728515625,False,Trachóni,Cyprus,Cyprus,False,153km N of Akrotiri coast,153km North
 202603101120,36.2091,31.6168,10/03/2026,10/03/2026 11:20:21,4.2,40.0,False,Türkler,South,Turkey,False,47km NNE of Antalya coast,47km North-Northeast
 202603090621,37.8971,28.9553,09/03/2026,09/03/2026 06:21:07,4.7,29.850260416667,False,Gerali,Denizli,Turkey,True,"4km W of Gerali, Turkey",4km West
 202603081956,33.6528,35.0765,08/03/2026,08/03/2026 19:56:32,2.0,18.343098958333,False,Sidon,South,Lebanon,False,29km ESE of South coast,29km East-Southeast
 202603081532,35.5878,28.8243,08/03/2026,08/03/2026 15:32:37,4.1,112.109375,False,Lárdos,South Aegean,Greece,False,92km NW of South Aegean coast,92km Northwest
+202603080332,38.0741,20.1039,08/03/2026,08/03/2026 03:32:35,6.3,30.989583333333,False,Lixoúri,Ionian Islands,Greece,False,32km ENE of Ionian Islands coast,32km East-Northeast
 202603072345,34.6033,33.5233,07/03/2026,07/03/2026 23:45:03,3.0,51.725260416667,False,Perivólia,Cyprus,Cyprus,False,26km NNE of Larnaca coast,26km North-Northeast
 202603072225,33.6063,35.3086,07/03/2026,07/03/2026 22:25:53,2.1,18.400065104167,False,Sidon,South,Lebanon,False,8km SE of South coast,8km Southeast
 202603072204,33.426,34.6872,07/03/2026,07/03/2026 22:04:59,2.3,14.469401041667,False,Tyre,South,Lebanon,False,50km ESE of South coast,50km East-Southeast
