@@ -32,6 +32,10 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202603120113,32.8089,35.15,12/03/2026,12/03/2026 01:13:53,2.7,3.9876302083333,False,Shefar‘am,HaZafon,Israel,True,"2km E of Shefar‘am, Israel",2km East
 202603120011,33.2796,32.9498,12/03/2026,12/03/2026 00:11:38,2.8,27.1728515625,False,Trachóni,Cyprus,Cyprus,False,153km N of Akrotiri coast,153km North
 202603101120,36.2091,31.6168,10/03/2026,10/03/2026 11:20:21,4.2,40.0,False,Türkler,South,Turkey,False,47km NNE of Antalya coast,47km North-Northeast
+202603092216,33.9727,26.9929,09/03/2026,09/03/2026 22:16:36,3.8,10.099833333333,False,Palekastro,Crete,Greece,False,152km NNW of Crete coast,152km North-Northwest
+202603092021,35.9472,31.0784,09/03/2026,09/03/2026 20:21:02,3.3,10.0,False,Çavuşköy,South,Turkey,False,72km NW of Antalya coast,72km Northwest
+202603091702,38.0432,28.8015,09/03/2026,09/03/2026 17:02:33,4.3,5.8295793533325,False,Buldan,Denizli,Turkey,True,"3km E of Buldan, Turkey",3km East
+202603091431,34.9874,27.7353,09/03/2026,09/03/2026 14:31:23,3.7,20.0,False,Karpathos,South Aegean,Greece,False,75km NW of South Aegean coast,75km Northwest
 202603090621,37.8971,28.9553,09/03/2026,09/03/2026 06:21:07,4.7,29.850260416667,False,Gerali,Denizli,Turkey,True,"4km W of Gerali, Turkey",4km West
 202603081956,33.6528,35.0765,08/03/2026,08/03/2026 19:56:32,2.0,18.343098958333,False,Sidon,South,Lebanon,False,29km ESE of South coast,29km East-Southeast
 202603081532,35.5878,28.8243,08/03/2026,08/03/2026 15:32:37,4.1,112.109375,False,Lárdos,South Aegean,Greece,False,92km NW of South Aegean coast,92km Northwest
