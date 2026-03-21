@@ -29,6 +29,10 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202603091702,38.0432,28.8015,09/03/2026,09/03/2026 17:02:33,4.3,5.8295793533325,False,Buldan,Denizli,Turkey,True,"3km E of Buldan, Turkey",3km East
 202603091431,34.9874,27.7353,09/03/2026,09/03/2026 14:31:23,3.7,20.0,False,Karpathos,South Aegean,Greece,False,75km NW of South Aegean coast,75km Northwest
 202603090621,37.8971,28.9553,09/03/2026,09/03/2026 06:21:07,4.7,29.850260416667,False,Gerali,Denizli,Turkey,True,"4km W of Gerali, Turkey",4km West
+202603190055,35.1795,34.2351,19/03/2026,19/03/2026 00:55:06,2.7,27.799479166667,False,Protaras,Cyprus,Cyprus,False,25km SW of Northern Cyprus coast,25km Southwest
+202603180116,34.3175,26.9598,18/03/2026,18/03/2026 01:16:30,4.4,101.171875,False,Palekastro,Crete,Greece,False,117km NNW of Crete coast,117km North-Northwest
+202603172028,35.9689,27.674,17/03/2026,17/03/2026 20:28:01,4.3,100.26041666667,False,Émponas,South Aegean,Greece,False,33km NNE of South Aegean coast,33km North-Northeast
+202603171421,32.5849,35.2708,17/03/2026,17/03/2026 14:21:41,2.2,19.453938802083,False,Afula,HaZafon,Israel,True,"3km NNE of Afula, Israel",3km North-Northeast
 202603170318,33.5019,35.5658,17/03/2026,17/03/2026 03:18:00,2.2,2.6774088541667,False,Aaïtanît,South,Lebanon,True,"12km NE of Aaïtanît, Lebanon",12km Northeast
 202603162308,35.8691,30.0248,16/03/2026,16/03/2026 23:08:50,4.0,119.85677083333,False,Demre,South,Turkey,False,42km N of Antalya coast,42km North
 202603161819,34.5352,24.5119,16/03/2026,16/03/2026 18:19:39,4.9,72.005208333333,False,Tympáki,Crete,Greece,False,64km NNE of Crete coast,64km North-Northeast
