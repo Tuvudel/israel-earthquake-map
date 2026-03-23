@@ -1,5 +1,8 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202603210508,35.429,25.9681,21/03/2026,21/03/2026 05:08:17,3.0,29.850260416667,False,Sitia,Crete,Greece,False,28km SSE of Crete coast,28km South-Southeast
+202603201418,30.1287,35.1986,20/03/2026,20/03/2026 14:18:12,2.3,11.336263020833,False,At-Taybeh,South,Jordan,True,"29km ENE of At-Taybeh, Jordan",29km East-Northeast
 202603190055,35.1795,34.2351,19/03/2026,19/03/2026 00:55:06,2.7,27.799479166667,False,Protaras,Cyprus,Cyprus,False,25km SW of Northern Cyprus coast,25km Southwest
+202603181400,35.3337,27.7522,18/03/2026,18/03/2026 14:00:55,4.1,154.03645833333,False,Karpathos,South Aegean,Greece,False,53km WNW of South Aegean coast,53km West-Northwest
 202603180116,34.3175,26.9598,18/03/2026,18/03/2026 01:16:30,4.4,101.171875,False,Palekastro,Crete,Greece,False,117km NNW of Crete coast,117km North-Northwest
 202603172028,35.9689,27.674,17/03/2026,17/03/2026 20:28:01,4.3,100.26041666667,False,Émponas,South Aegean,Greece,False,33km NNE of South Aegean coast,33km North-Northeast
 202603171421,32.5849,35.2708,17/03/2026,17/03/2026 14:21:41,2.2,19.453938802083,False,Afula,HaZafon,Israel,True,"3km NNE of Afula, Israel",3km North-Northeast
@@ -26,9 +29,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202603101120,36.2091,31.6168,10/03/2026,10/03/2026 11:20:21,4.2,40.0,False,Türkler,South,Turkey,False,47km NNE of Antalya coast,47km North-Northeast
 202603092216,33.9727,26.9929,09/03/2026,09/03/2026 22:16:36,3.8,10.099833333333,False,Palekastro,Crete,Greece,False,152km NNW of Crete coast,152km North-Northwest
 202603092021,35.9472,31.0784,09/03/2026,09/03/2026 20:21:02,3.3,10.0,False,Çavuşköy,South,Turkey,False,72km NW of Antalya coast,72km Northwest
-202603091702,38.0432,28.8015,09/03/2026,09/03/2026 17:02:33,4.3,5.8295793533325,False,Buldan,Denizli,Turkey,True,"3km E of Buldan, Turkey",3km East
-202603091431,34.9874,27.7353,09/03/2026,09/03/2026 14:31:23,3.7,20.0,False,Karpathos,South Aegean,Greece,False,75km NW of South Aegean coast,75km Northwest
-202603090621,37.8971,28.9553,09/03/2026,09/03/2026 06:21:07,4.7,29.850260416667,False,Gerali,Denizli,Turkey,True,"4km W of Gerali, Turkey",4km West
 202603190055,35.1795,34.2351,19/03/2026,19/03/2026 00:55:06,2.7,27.799479166667,False,Protaras,Cyprus,Cyprus,False,25km SW of Northern Cyprus coast,25km Southwest
 202603180116,34.3175,26.9598,18/03/2026,18/03/2026 01:16:30,4.4,101.171875,False,Palekastro,Crete,Greece,False,117km NNW of Crete coast,117km North-Northwest
 202603172028,35.9689,27.674,17/03/2026,17/03/2026 20:28:01,4.3,100.26041666667,False,Émponas,South Aegean,Greece,False,33km NNE of South Aegean coast,33km North-Northeast
