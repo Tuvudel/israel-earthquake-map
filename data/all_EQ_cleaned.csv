@@ -1,13 +1,17 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
-202603241238,35.2407,32.4217,24/03/2026,24/03/2026 12:38:33,3.5,24.951171875,False,Argáka,Cyprus,Cyprus,False,20km SSE of Paphos coast,20km South-Southeast
+202603250810,31.4892,35.0471,25/03/2026,25/03/2026 08:10:49,2.7,10.624186197917,False,Dūrā,West Bank,Palestine,True,"3km NW of Dūrā, Palestine",3km Northwest
+202603241238,35.2884,32.4036,24/03/2026,24/03/2026 12:38:33,3.5,38.736979166667,False,Argáka,Cyprus,Cyprus,False,26km SSE of Paphos coast,26km South-Southeast
 202603240117,33.3874,28.1663,24/03/2026,24/03/2026 01:17:41,3.2,29.850260416667,False,Marsá Maţrūḩ,Matrouh,Egypt,False,242km SSW of Matrouh coast,242km South-Southwest
 202603232358,29.6308,32.2961,23/03/2026,23/03/2026 23:58:03,3.1,29.850260416667,False,Ain Sukhna,South,Egypt,True,"4km SSE of Ain Sukhna, Egypt",4km South-Southeast
+202603231923,35.9235,28.7405,23/03/2026,23/03/2026 19:23:08,4.0,72.4609375,False,Archángelos,Muğla,Turkey,False,65km WNW of Muğla coast,65km West-Northwest
+202603230410,34.6169,33.3717,23/03/2026,23/03/2026 04:10:32,3.2,89.778645833333,False,Pyrgos,Cyprus,Cyprus,False,22km NW of Larnaca coast,22km Northwest
 202603222023,34.4173,29.4794,22/03/2026,22/03/2026 20:23:42,4.0,33.268229166667,False,Kaş,South,Turkey,False,199km N of Antalya coast,199km North
 202603221915,33.5167,34.9921,22/03/2026,22/03/2026 19:15:29,2.4,22.216796875,False,Sarafand,South,Lebanon,False,29km ESE of South coast,29km East-Southeast
 202603221537,33.5938,35.4413,22/03/2026,22/03/2026 15:37:11,2.4,13.330078125,False,Sidon,North,Lebanon,True,"8km WSW of Sidon, Lebanon",8km West-Southwest
 202603210508,35.429,25.9681,21/03/2026,21/03/2026 05:08:17,3.0,29.850260416667,False,Sitia,Crete,Greece,False,28km SSE of Crete coast,28km South-Southeast
 202603210350,34.8324,32.5709,21/03/2026,21/03/2026 03:50:55,2.6,23.583984375,False,Polémi,Cyprus,Cyprus,True,8km NW of Polémi,8km Northwest
 202603201418,30.1287,35.1986,20/03/2026,20/03/2026 14:18:12,2.3,11.336263020833,False,At-Taybeh,South,Jordan,True,"29km ENE of At-Taybeh, Jordan",29km East-Northeast
+202603192003,30.2195,35.1551,19/03/2026,19/03/2026 20:03:30,2.1,17.488606770833,False,At-Taybeh,South,Jordan,True,"30km E of At-Taybeh, Jordan",30km East
 202603190055,35.1795,34.2351,19/03/2026,19/03/2026 00:55:06,2.7,27.799479166667,False,Protaras,Cyprus,Cyprus,False,25km SW of Northern Cyprus coast,25km Southwest
 202603181400,35.3337,27.7522,18/03/2026,18/03/2026 14:00:55,4.1,154.03645833333,False,Karpathos,South Aegean,Greece,False,53km WNW of South Aegean coast,53km West-Northwest
 202603180116,34.3175,26.9598,18/03/2026,18/03/2026 01:16:30,4.4,101.171875,False,Palekastro,Crete,Greece,False,117km NNW of Crete coast,117km North-Northwest
@@ -25,10 +29,8 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202603140706,31.6554,35.5313,14/03/2026,14/03/2026 07:06:18,2.1,21.476236979167,False,Miẕpé Yeriẖo,Central,Jordan,True,"22km NW of Miẕpé Yeriẖo, Jordan",22km Northwest
 202603140526,32.5787,35.2827,14/03/2026,14/03/2026 05:26:18,2.2,20.792643229167,False,Afula,HaZafon,Israel,True,"3km N of Afula, Israel",3km North
 202603140300,34.3447,31.3869,14/03/2026,14/03/2026 03:00:15,3.4,65.169270833333,False,Chlórakas,Cyprus,Cyprus,False,106km ENE of Paphos coast,106km East-Northeast
-202603131747,31.9482,33.337,13/03/2026,13/03/2026 17:47:10,2.3,2.0,False,Arīsh,Sinai,Egypt,False,101km SSE of North Sinai coast,101km South-Southeast
-202603130258,36.0516,27.2623,13/03/2026,13/03/2026 02:58:06,3.9,100.0,False,Émponas,South Aegean,Greece,False,57km ENE of South Aegean coast,57km East-Northeast
-202603121634,28.7416,33.0316,12/03/2026,12/03/2026 16:34:47,3.1,29.850260416667,False,Ras Gharib,Sinai,Egypt,False,43km S of South Sinai coast,43km South
-202603121014,39.3353,21.4812,12/03/2026,12/03/2026 10:14:19,4.5,7.7473958333333,False,Pýli,Thessalia,Greece,True,"18km NE of Pýli, Greece",18km Northeast
+202603241238,35.2407,32.4217,24/03/2026,24/03/2026 12:38:33,3.5,24.951171875,False,Argáka,Cyprus,Cyprus,False,20km SSE of Paphos coast,20km South-Southeast
+202603240117,33.3874,28.1663,24/03/2026,24/03/2026 01:17:41,3.2,29.850260416667,False,Marsá Maţrūḩ,Matrouh,Egypt,False,242km SSW of Matrouh coast,242km South-Southwest
 202603232358,29.6308,32.2961,23/03/2026,23/03/2026 23:58:03,3.1,29.850260416667,False,Ain Sukhna,South,Egypt,True,"4km SSE of Ain Sukhna, Egypt",4km South-Southeast
 202603222023,34.4173,29.4794,22/03/2026,22/03/2026 20:23:42,4.0,33.268229166667,False,Kaş,South,Turkey,False,199km N of Antalya coast,199km North
 202603221915,33.5167,34.9921,22/03/2026,22/03/2026 19:15:29,2.4,22.216796875,False,Sarafand,South,Lebanon,False,29km ESE of South coast,29km East-Southeast
