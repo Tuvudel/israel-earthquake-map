@@ -1,4 +1,6 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202603271116,34.5715,28.3932,27/03/2026,27/03/2026 11:16:04,4.2,33.723958333333,False,Karpathos,South Aegean,Greece,False,150km NW of South Aegean coast,150km Northwest
+202603270025,35.6604,32.13,27/03/2026,27/03/2026 00:25:26,3.2,0.91145833333333,False,Gazipaşa,South,Turkey,False,70km NNE of Antalya coast,70km North-Northeast
 202603251219,34.9254,36.692,25/03/2026,25/03/2026 12:19:42,3.0,28.7109375,False,Ar Rastan,South,Syria,True,"4km E of Ar Rastan, Syria",4km East
 202603250810,31.4892,35.0471,25/03/2026,25/03/2026 08:10:49,2.7,10.624186197917,False,Dūrā,West Bank,Palestine,True,"3km NW of Dūrā, Palestine",3km Northwest
 202603241238,35.2884,32.4036,24/03/2026,24/03/2026 12:38:33,3.5,38.736979166667,False,Argáka,Cyprus,Cyprus,False,26km SSE of Paphos coast,26km South-Southeast
@@ -27,8 +29,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202603142040,32.8588,35.5719,14/03/2026,14/03/2026 20:40:09,2.3,2.6204427083333,False,Migdal,HaZafon,Israel,True,"7km WSW of Migdal, Israel",7km West-Southwest
 202603141621,34.5352,23.8283,14/03/2026,14/03/2026 16:21:41,5.2,35.546875,False,Palaióchora,Crete,Greece,False,79km N of Crete coast,79km North
 202603141049,34.9617,34.0899,14/03/2026,14/03/2026 10:49:52,3.3,33.268229166667,False,Protaras,Cyprus,Cyprus,False,6km NNW of Famagusta coast,6km North-Northwest
-202603140706,31.6554,35.5313,14/03/2026,14/03/2026 07:06:18,2.1,21.476236979167,False,Miẕpé Yeriẖo,Central,Jordan,True,"22km NW of Miẕpé Yeriẖo, Jordan",22km Northwest
-202603140526,32.5787,35.2827,14/03/2026,14/03/2026 05:26:18,2.2,20.792643229167,False,Afula,HaZafon,Israel,True,"3km N of Afula, Israel",3km North
 202603251219,34.9254,36.692,25/03/2026,25/03/2026 12:19:42,3.0,28.7109375,False,Ar Rastan,South,Syria,True,"4km E of Ar Rastan, Syria",4km East
 202603250810,31.4892,35.0471,25/03/2026,25/03/2026 08:10:49,2.7,10.624186197917,False,Dūrā,West Bank,Palestine,True,"3km NW of Dūrā, Palestine",3km Northwest
 202603241238,35.2884,32.4036,24/03/2026,24/03/2026 12:38:33,3.5,38.736979166667,False,Argáka,Cyprus,Cyprus,False,26km SSE of Paphos coast,26km South-Southeast
