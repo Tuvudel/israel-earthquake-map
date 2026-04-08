@@ -29,6 +29,13 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202603171421,32.5849,35.2708,17/03/2026,17/03/2026 14:21:41,2.2,19.453938802083,False,Afula,HaZafon,Israel,True,"3km NNE of Afula, Israel",3km North-Northeast
 202603170318,33.5019,35.5658,17/03/2026,17/03/2026 03:18:00,2.2,2.6774088541667,False,Aaïtanît,South,Lebanon,True,"12km NE of Aaïtanît, Lebanon",12km Northeast
 202603162308,35.8691,30.0248,16/03/2026,16/03/2026 23:08:50,4.0,119.85677083333,False,Demre,South,Turkey,False,42km N of Antalya coast,42km North
+202604060752,33.5665,34.9327,06/04/2026,06/04/2026 07:52:18,4.5,20.25665473938,True,Sarafand,South,Lebanon,False,36km ESE of South coast,36km East-Southeast
+202603302342,33.2762,35.4767,30/03/2026,30/03/2026 23:42:55,2.2,24.039713541667,False,Metulla,South,Lebanon,True,"10km E of Metulla, Lebanon",10km East
+202603302255,33.2467,28.4848,30/03/2026,30/03/2026 22:55:01,4.1,80.208333333333,False,Marsá Maţrūḩ,Matrouh,Egypt,False,241km SSW of Matrouh coast,241km South-Southwest
+202603302204,34.7938,33.8762,30/03/2026,30/03/2026 22:04:38,3.3,34.86328125,False,Xylofágou,Cyprus,Cyprus,False,21km N of Dhekelia coast,21km North
+202603300121,37.4207,28.9524,30/03/2026,30/03/2026 01:21:06,4.2,34.635416666667,False,Kale,Denizli,Turkey,True,"10km WNW of Kale, Turkey",10km West-Northwest
+202603291737,33.7322,31.952,29/03/2026,29/03/2026 17:37:32,3.4,32.584635416667,False,Geroskipou,Cyprus,Cyprus,False,123km NNE of Paphos coast,123km North-Northeast
+202603291544,31.4649,35.4641,29/03/2026,29/03/2026 15:44:15,2.3,14.982096354167,False,‘Arab ar Rashāydah,Central,Jordan,True,"25km WNW of ‘Arab ar Rashāydah, Jordan",25km West-Northwest
 202603271116,34.5715,28.3932,27/03/2026,27/03/2026 11:16:04,4.2,33.723958333333,False,Karpathos,South Aegean,Greece,False,150km NW of South Aegean coast,150km Northwest
 202603270025,35.6604,32.13,27/03/2026,27/03/2026 00:25:26,3.2,0.91145833333333,False,Gazipaşa,South,Turkey,False,70km NNE of Antalya coast,70km North-Northeast
 202603251219,34.9254,36.692,25/03/2026,25/03/2026 12:19:42,3.0,28.7109375,False,Ar Rastan,South,Syria,True,"4km E of Ar Rastan, Syria",4km East
