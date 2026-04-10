@@ -1,10 +1,22 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202604082221,33.08,35.3603,08/04/2026,08/04/2026 22:21:54,2.1,1.7659505208333,False,Ain Ebel,South,Lebanon,True,"5km NE of Ain Ebel, Lebanon",5km Northeast
 202604081447,33.5382,34.952,08/04/2026,08/04/2026 14:47:02,2.1,18.6279296875,False,Sarafand,South,Lebanon,False,34km ESE of South coast,34km East-Southeast
+202604081135,35.116,22.7713,08/04/2026,08/04/2026 11:35:05,5.1,44.661458333333,False,Palaióchora,Crete,Greece,False,84km E of Crete coast,84km East
+202604072223,33.553,34.905,07/04/2026,07/04/2026 22:23:40,2.2,21.305338541667,False,Sarafand,South,Lebanon,False,38km ESE of South coast,38km East-Southeast
+202604071749,33.5217,34.8914,07/04/2026,07/04/2026 17:49:30,2.1,17.687309265137,False,Sarafand,South,Lebanon,False,39km ESE of South coast,39km East-Southeast
 202604070549,33.5643,34.9472,07/04/2026,07/04/2026 05:49:24,2.2,25.9765625,False,Sarafand,South,Lebanon,False,35km ESE of South coast,35km East-Southeast
 202604070301,33.5201,34.965,07/04/2026,07/04/2026 03:01:33,2.4,24.061561584473,False,Sarafand,South,Lebanon,False,32km ESE of South coast,32km East-Southeast
 202604070204,33.5843,34.9511,07/04/2026,07/04/2026 02:04:06,2.1,22.039600372314,False,Sarafand,South,Lebanon,False,36km ESE of South coast,36km East-Southeast
 202604070115,33.5224,34.956,07/04/2026,07/04/2026 01:15:57,2.1,20.222981770833,False,Sarafand,South,Lebanon,False,33km ESE of South coast,33km East-Southeast
 202604070012,33.5904,34.9016,07/04/2026,07/04/2026 00:12:54,3.0,17.9443359375,False,Sarafand,South,Lebanon,False,40km ESE of South coast,40km East-Southeast
+202604062327,33.628,34.9277,06/04/2026,06/04/2026 23:27:13,2.0,15.058825492859,False,Sarafand,South,Lebanon,False,40km ESE of South coast,40km East-Southeast
+202604062322,34.3946,29.0686,06/04/2026,06/04/2026 23:22:46,3.1,27.115885416667,False,Kaş,South,Turkey,False,207km NNE of Antalya coast,207km North-Northeast
+202604062309,33.5655,34.9452,06/04/2026,06/04/2026 23:09:34,2.2,20.450846354167,False,Sarafand,South,Lebanon,False,35km ESE of South coast,35km East-Southeast
+202604062307,33.5519,34.9506,06/04/2026,06/04/2026 23:07:34,2.6,16.691080729167,False,Sarafand,South,Lebanon,False,34km ESE of South coast,34km East-Southeast
+202604062014,33.5938,34.9241,06/04/2026,06/04/2026 20:14:58,1.9,16.975911458333,False,Sarafand,South,Lebanon,False,38km ESE of South coast,38km East-Southeast
+202604060846,33.5621,34.9948,06/04/2026,06/04/2026 08:46:34,2.2,14.469401041667,False,Sarafand,South,Lebanon,False,31km ESE of South coast,31km East-Southeast
+202604060838,33.5564,34.9411,06/04/2026,06/04/2026 08:38:27,2.4,22.957356770833,False,Sarafand,South,Lebanon,False,35km ESE of South coast,35km East-Southeast
+202604060835,33.5027,34.9318,06/04/2026,06/04/2026 08:35:51,1.9,16.256278991699,False,Sarafand,South,Lebanon,False,35km E of South coast,35km East
 202604060752,33.5665,34.9327,06/04/2026,06/04/2026 07:52:18,4.5,20.25665473938,True,Sarafand,South,Lebanon,False,36km ESE of South coast,36km East-Southeast
 202604060325,31.4581,35.4641,06/04/2026,06/04/2026 03:25:46,1.9,13.045247395833,False,‘Arab ar Rashāydah,Central,Jordan,True,"25km WNW of ‘Arab ar Rashāydah, Jordan",25km West-Northwest
 202603302342,33.2762,35.4767,30/03/2026,30/03/2026 23:42:55,2.2,24.039713541667,False,Metulla,South,Lebanon,True,"10km E of Metulla, Lebanon",10km East
@@ -17,19 +29,14 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202603270025,35.6604,32.13,27/03/2026,27/03/2026 00:25:26,3.2,0.91145833333333,False,Gazipaşa,South,Turkey,False,70km NNE of Antalya coast,70km North-Northeast
 202603251219,34.9254,36.692,25/03/2026,25/03/2026 12:19:42,3.0,28.7109375,False,Ar Rastan,South,Syria,True,"4km E of Ar Rastan, Syria",4km East
 202603250810,31.4892,35.0471,25/03/2026,25/03/2026 08:10:49,2.7,10.624186197917,False,Dūrā,West Bank,Palestine,True,"3km NW of Dūrā, Palestine",3km Northwest
-202603241238,35.2884,32.4036,24/03/2026,24/03/2026 12:38:33,3.5,38.736979166667,False,Argáka,Cyprus,Cyprus,False,26km SSE of Paphos coast,26km South-Southeast
-202603240117,33.3874,28.1663,24/03/2026,24/03/2026 01:17:41,3.2,29.850260416667,False,Marsá Maţrūḩ,Matrouh,Egypt,False,242km SSW of Matrouh coast,242km South-Southwest
-202603232358,29.6308,32.2961,23/03/2026,23/03/2026 23:58:03,3.1,29.850260416667,False,Ain Sukhna,South,Egypt,True,"4km SSE of Ain Sukhna, Egypt",4km South-Southeast
-202603231923,35.9235,28.7405,23/03/2026,23/03/2026 19:23:08,4.0,72.4609375,False,Archángelos,Muğla,Turkey,False,65km WNW of Muğla coast,65km West-Northwest
-202603230410,34.6169,33.3717,23/03/2026,23/03/2026 04:10:32,3.2,89.778645833333,False,Pyrgos,Cyprus,Cyprus,False,22km NW of Larnaca coast,22km Northwest
-202603222023,34.4173,29.4794,22/03/2026,22/03/2026 20:23:42,4.0,33.268229166667,False,Kaş,South,Turkey,False,199km N of Antalya coast,199km North
-202603221915,33.5167,34.9921,22/03/2026,22/03/2026 19:15:29,2.4,22.216796875,False,Sarafand,South,Lebanon,False,29km ESE of South coast,29km East-Southeast
-202603221537,33.5938,35.4413,22/03/2026,22/03/2026 15:37:11,2.4,13.330078125,False,Sidon,North,Lebanon,True,"8km WSW of Sidon, Lebanon",8km West-Southwest
-202603210508,35.429,25.9681,21/03/2026,21/03/2026 05:08:17,3.0,29.850260416667,False,Sitia,Crete,Greece,False,28km SSE of Crete coast,28km South-Southeast
-202603210350,34.8324,32.5709,21/03/2026,21/03/2026 03:50:55,2.6,23.583984375,False,Polémi,Cyprus,Cyprus,True,8km NW of Polémi,8km Northwest
-202603201418,30.1287,35.1986,20/03/2026,20/03/2026 14:18:12,2.3,11.336263020833,False,At-Taybeh,South,Jordan,True,"29km ENE of At-Taybeh, Jordan",29km East-Northeast
-202603192003,30.2195,35.1551,19/03/2026,19/03/2026 20:03:30,2.1,17.488606770833,False,At-Taybeh,South,Jordan,True,"30km E of At-Taybeh, Jordan",30km East
+202604081447,33.5382,34.952,08/04/2026,08/04/2026 14:47:02,2.1,18.6279296875,False,Sarafand,South,Lebanon,False,34km ESE of South coast,34km East-Southeast
+202604070549,33.5643,34.9472,07/04/2026,07/04/2026 05:49:24,2.2,25.9765625,False,Sarafand,South,Lebanon,False,35km ESE of South coast,35km East-Southeast
+202604070301,33.5201,34.965,07/04/2026,07/04/2026 03:01:33,2.4,24.061561584473,False,Sarafand,South,Lebanon,False,32km ESE of South coast,32km East-Southeast
+202604070204,33.5843,34.9511,07/04/2026,07/04/2026 02:04:06,2.1,22.039600372314,False,Sarafand,South,Lebanon,False,36km ESE of South coast,36km East-Southeast
+202604070115,33.5224,34.956,07/04/2026,07/04/2026 01:15:57,2.1,20.222981770833,False,Sarafand,South,Lebanon,False,33km ESE of South coast,33km East-Southeast
+202604070012,33.5904,34.9016,07/04/2026,07/04/2026 00:12:54,3.0,17.9443359375,False,Sarafand,South,Lebanon,False,40km ESE of South coast,40km East-Southeast
 202604060752,33.5665,34.9327,06/04/2026,06/04/2026 07:52:18,4.5,20.25665473938,True,Sarafand,South,Lebanon,False,36km ESE of South coast,36km East-Southeast
+202604060325,31.4581,35.4641,06/04/2026,06/04/2026 03:25:46,1.9,13.045247395833,False,‘Arab ar Rashāydah,Central,Jordan,True,"25km WNW of ‘Arab ar Rashāydah, Jordan",25km West-Northwest
 202603302342,33.2762,35.4767,30/03/2026,30/03/2026 23:42:55,2.2,24.039713541667,False,Metulla,South,Lebanon,True,"10km E of Metulla, Lebanon",10km East
 202603302255,33.2467,28.4848,30/03/2026,30/03/2026 22:55:01,4.1,80.208333333333,False,Marsá Maţrūḩ,Matrouh,Egypt,False,241km SSW of Matrouh coast,241km South-Southwest
 202603302204,34.7938,33.8762,30/03/2026,30/03/2026 22:04:38,3.3,34.86328125,False,Xylofágou,Cyprus,Cyprus,False,21km N of Dhekelia coast,21km North
