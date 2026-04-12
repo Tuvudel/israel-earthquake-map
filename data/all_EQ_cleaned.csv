@@ -1,4 +1,6 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202604110546,33.5904,34.9111,11/04/2026,11/04/2026 05:46:08,2.4,18.9697265625,False,Sarafand,South,Lebanon,False,39km ESE of South coast,39km East-Southeast
+202604091740,33.5541,34.9765,09/04/2026,09/04/2026 17:40:14,2.8,21.476236979167,False,Sarafand,South,Lebanon,False,32km ESE of South coast,32km East-Southeast
 202604082221,33.08,35.3603,08/04/2026,08/04/2026 22:21:54,2.1,1.7659505208333,False,Ain Ebel,South,Lebanon,True,"5km NE of Ain Ebel, Lebanon",5km Northeast
 202604081447,33.5382,34.952,08/04/2026,08/04/2026 14:47:02,2.1,18.6279296875,False,Sarafand,South,Lebanon,False,34km ESE of South coast,34km East-Southeast
 202604081135,35.116,22.7713,08/04/2026,08/04/2026 11:35:05,5.1,44.661458333333,False,Palaióchora,Crete,Greece,False,84km E of Crete coast,84km East
@@ -27,8 +29,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202603291544,31.4649,35.4641,29/03/2026,29/03/2026 15:44:15,2.3,14.982096354167,False,‘Arab ar Rashāydah,Central,Jordan,True,"25km WNW of ‘Arab ar Rashāydah, Jordan",25km West-Northwest
 202603271116,34.5715,28.3932,27/03/2026,27/03/2026 11:16:04,4.2,33.723958333333,False,Karpathos,South Aegean,Greece,False,150km NW of South Aegean coast,150km Northwest
 202603270025,35.6604,32.13,27/03/2026,27/03/2026 00:25:26,3.2,0.91145833333333,False,Gazipaşa,South,Turkey,False,70km NNE of Antalya coast,70km North-Northeast
-202603251219,34.9254,36.692,25/03/2026,25/03/2026 12:19:42,3.0,28.7109375,False,Ar Rastan,South,Syria,True,"4km E of Ar Rastan, Syria",4km East
-202603250810,31.4892,35.0471,25/03/2026,25/03/2026 08:10:49,2.7,10.624186197917,False,Dūrā,West Bank,Palestine,True,"3km NW of Dūrā, Palestine",3km Northwest
 202604082221,33.08,35.3603,08/04/2026,08/04/2026 22:21:54,2.1,1.7659505208333,False,Ain Ebel,South,Lebanon,True,"5km NE of Ain Ebel, Lebanon",5km Northeast
 202604081447,33.5382,34.952,08/04/2026,08/04/2026 14:47:02,2.1,18.6279296875,False,Sarafand,South,Lebanon,False,34km ESE of South coast,34km East-Southeast
 202604081135,35.116,22.7713,08/04/2026,08/04/2026 11:35:05,5.1,44.661458333333,False,Palaióchora,Crete,Greece,False,84km E of Crete coast,84km East
