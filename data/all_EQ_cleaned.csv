@@ -4,6 +4,8 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202604111431,39.3979,28.8676,11/04/2026,11/04/2026 14:31:55,4.7,10.0,False,Dursunbey,Balıkesir,Turkey,True,"29km NW of Dursunbey, Turkey",29km Northwest
 202604110850,29.5094,34.9271,11/04/2026,11/04/2026 08:50:51,2.8,17.830403645833,False,Eilat,HaDarom,Israel,False,6km NNE of HaDarom coast,6km North-Northeast
 202604110546,33.5904,34.9111,11/04/2026,11/04/2026 05:46:08,2.4,18.9697265625,False,Sarafand,South,Lebanon,False,39km ESE of South coast,39km East-Southeast
+202604101948,35.0434,35.1229,10/04/2026,10/04/2026 19:48:10,2.8,33.723958333333,False,Ţarţūs,North,Syria,False,72km ESE of Tartus coast,72km East-Southeast
+202604101642,30.2093,34.3192,10/04/2026,10/04/2026 16:42:54,2.5,12.646484375,False,Mitzpe Ramon,Sinai,Egypt,True,"64km NE of Mitzpe Ramon, Egypt",64km Northeast
 202604091740,33.5541,34.9765,09/04/2026,09/04/2026 17:40:14,2.8,21.476236979167,False,Sarafand,South,Lebanon,False,32km ESE of South coast,32km East-Southeast
 202604082221,33.08,35.3603,08/04/2026,08/04/2026 22:21:54,2.1,1.7659505208333,False,Ain Ebel,South,Lebanon,True,"5km NE of Ain Ebel, Lebanon",5km Northeast
 202604081447,33.5382,34.952,08/04/2026,08/04/2026 14:47:02,2.1,18.6279296875,False,Sarafand,South,Lebanon,False,34km ESE of South coast,34km East-Southeast
@@ -27,8 +29,6 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202604060325,31.4581,35.4641,06/04/2026,06/04/2026 03:25:46,1.9,13.045247395833,False,‘Arab ar Rashāydah,Central,Jordan,True,"25km WNW of ‘Arab ar Rashāydah, Jordan",25km West-Northwest
 202604052238,36.0143,31.6252,05/04/2026,05/04/2026 22:38:24,3.6,34.1796875,False,Yeşilöz,South,Turkey,False,67km NE of Antalya coast,67km Northeast
 202604050951,34.5352,36.9498,05/04/2026,05/04/2026 09:51:25,2.7,0.91145833333333,False,Homs,South,Syria,True,"30km NW of Homs, Syria",30km Northwest
-202604050835,28.9321,34.7582,05/04/2026,05/04/2026 08:35:08,2.6,17.08984375,False,Nuwaybi‘a,Northwest,Saudi Arabia,False,16km NW of Al-Jowf coast,16km Northwest
-202604050800,34.4717,36.4371,05/04/2026,05/04/2026 08:00:07,2.6,28.7109375,False,Al Quşayr,South,Lebanon,True,"14km ENE of Al Quşayr, Lebanon",14km East-Northeast
 202604130705,33.4362,35.5821,13/04/2026,13/04/2026 07:05:45,2.4,9.0576171875,False,Habboûch,South,Lebanon,True,"10km WSW of Habboûch, Lebanon",10km West-Southwest
 202604130548,35.9786,30.2304,13/04/2026,13/04/2026 05:48:37,4.6,9.5135936737061,False,Beymelek,South,Turkey,False,36km NNW of Antalya coast,36km North-Northwest
 202604111431,39.3979,28.8676,11/04/2026,11/04/2026 14:31:55,4.7,10.0,False,Dursunbey,Balıkesir,Turkey,True,"29km NW of Dursunbey, Turkey",29km Northwest
