@@ -1,15 +1,16 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202604132030,33.5802,35.4494,13/04/2026,13/04/2026 20:30:43,2.4,9.228515625,False,Sidon,North,Lebanon,True,"8km WSW of Sidon, Lebanon",8km West-Southwest
+202604131808,33.5598,34.988,13/04/2026,13/04/2026 18:08:55,2.2,27.571614583333,False,Sarafand,South,Lebanon,False,31km ESE of South coast,31km East-Southeast
 202604130705,33.4362,35.5821,13/04/2026,13/04/2026 07:05:45,2.4,9.0576171875,False,Habboûch,South,Lebanon,True,"10km WSW of Habboûch, Lebanon",10km West-Southwest
 202604130548,35.9786,30.2304,13/04/2026,13/04/2026 05:48:37,4.6,9.5135936737061,False,Beymelek,South,Turkey,False,36km NNW of Antalya coast,36km North-Northwest
+202604130200,35.3337,27.9532,13/04/2026,13/04/2026 02:00:50,4.2,97.526041666667,False,Karpathos,South Aegean,Greece,False,70km WNW of South Aegean coast,70km West-Northwest
 202604111431,39.3979,28.8676,11/04/2026,11/04/2026 14:31:55,4.7,10.0,False,Dursunbey,Balıkesir,Turkey,True,"29km NW of Dursunbey, Turkey",29km Northwest
 202604110850,29.5094,34.9271,11/04/2026,11/04/2026 08:50:51,2.8,17.830403645833,False,Eilat,HaDarom,Israel,False,6km NNE of HaDarom coast,6km North-Northeast
 202604110546,33.5904,34.9111,11/04/2026,11/04/2026 05:46:08,2.4,18.9697265625,False,Sarafand,South,Lebanon,False,39km ESE of South coast,39km East-Southeast
 202604101948,35.0434,35.1229,10/04/2026,10/04/2026 19:48:10,2.8,33.723958333333,False,Ţarţūs,North,Syria,False,72km ESE of Tartus coast,72km East-Southeast
 202604101642,30.2093,34.3192,10/04/2026,10/04/2026 16:42:54,2.5,12.646484375,False,Mitzpe Ramon,Sinai,Egypt,True,"64km NE of Mitzpe Ramon, Egypt",64km Northeast
 202604091740,33.5541,34.9765,09/04/2026,09/04/2026 17:40:14,2.8,21.476236979167,False,Sarafand,South,Lebanon,False,32km ESE of South coast,32km East-Southeast
-202604082221,33.08,35.3603,08/04/2026,08/04/2026 22:21:54,2.1,1.7659505208333,False,Ain Ebel,South,Lebanon,True,"5km NE of Ain Ebel, Lebanon",5km Northeast
 202604081447,33.5382,34.952,08/04/2026,08/04/2026 14:47:02,2.1,18.6279296875,False,Sarafand,South,Lebanon,False,34km ESE of South coast,34km East-Southeast
-202604081135,35.116,22.7713,08/04/2026,08/04/2026 11:35:05,5.1,44.661458333333,False,Palaióchora,Crete,Greece,False,84km E of Crete coast,84km East
 202604072223,33.553,34.905,07/04/2026,07/04/2026 22:23:40,2.2,21.305338541667,False,Sarafand,South,Lebanon,False,38km ESE of South coast,38km East-Southeast
 202604071749,33.5217,34.8914,07/04/2026,07/04/2026 17:49:30,2.1,17.687309265137,False,Sarafand,South,Lebanon,False,39km ESE of South coast,39km East-Southeast
 202604070549,33.5643,34.9472,07/04/2026,07/04/2026 05:49:24,2.2,25.9765625,False,Sarafand,South,Lebanon,False,35km ESE of South coast,35km East-Southeast
@@ -28,12 +29,13 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202604060752,33.5665,34.9327,06/04/2026,06/04/2026 07:52:18,4.5,20.25665473938,True,Sarafand,South,Lebanon,False,36km ESE of South coast,36km East-Southeast
 202604060325,31.4581,35.4641,06/04/2026,06/04/2026 03:25:46,1.9,13.045247395833,False,‘Arab ar Rashāydah,Central,Jordan,True,"25km WNW of ‘Arab ar Rashāydah, Jordan",25km West-Northwest
 202604052238,36.0143,31.6252,05/04/2026,05/04/2026 22:38:24,3.6,34.1796875,False,Yeşilöz,South,Turkey,False,67km NE of Antalya coast,67km Northeast
-202604050951,34.5352,36.9498,05/04/2026,05/04/2026 09:51:25,2.7,0.91145833333333,False,Homs,South,Syria,True,"30km NW of Homs, Syria",30km Northwest
 202604130705,33.4362,35.5821,13/04/2026,13/04/2026 07:05:45,2.4,9.0576171875,False,Habboûch,South,Lebanon,True,"10km WSW of Habboûch, Lebanon",10km West-Southwest
 202604130548,35.9786,30.2304,13/04/2026,13/04/2026 05:48:37,4.6,9.5135936737061,False,Beymelek,South,Turkey,False,36km NNW of Antalya coast,36km North-Northwest
 202604111431,39.3979,28.8676,11/04/2026,11/04/2026 14:31:55,4.7,10.0,False,Dursunbey,Balıkesir,Turkey,True,"29km NW of Dursunbey, Turkey",29km Northwest
 202604110850,29.5094,34.9271,11/04/2026,11/04/2026 08:50:51,2.8,17.830403645833,False,Eilat,HaDarom,Israel,False,6km NNE of HaDarom coast,6km North-Northeast
 202604110546,33.5904,34.9111,11/04/2026,11/04/2026 05:46:08,2.4,18.9697265625,False,Sarafand,South,Lebanon,False,39km ESE of South coast,39km East-Southeast
+202604101948,35.0434,35.1229,10/04/2026,10/04/2026 19:48:10,2.8,33.723958333333,False,Ţarţūs,North,Syria,False,72km ESE of Tartus coast,72km East-Southeast
+202604101642,30.2093,34.3192,10/04/2026,10/04/2026 16:42:54,2.5,12.646484375,False,Mitzpe Ramon,Sinai,Egypt,True,"64km NE of Mitzpe Ramon, Egypt",64km Northeast
 202604091740,33.5541,34.9765,09/04/2026,09/04/2026 17:40:14,2.8,21.476236979167,False,Sarafand,South,Lebanon,False,32km ESE of South coast,32km East-Southeast
 202604082221,33.08,35.3603,08/04/2026,08/04/2026 22:21:54,2.1,1.7659505208333,False,Ain Ebel,South,Lebanon,True,"5km NE of Ain Ebel, Lebanon",5km Northeast
 202604081447,33.5382,34.952,08/04/2026,08/04/2026 14:47:02,2.1,18.6279296875,False,Sarafand,South,Lebanon,False,34km ESE of South coast,34km East-Southeast
