@@ -25,10 +25,10 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202604171701,34.4782,33.8354,17/04/2026,17/04/2026 17:01:59,3.2,10.0,False,Perivólia,Cyprus,Cyprus,False,45km NNW of Larnaca coast,45km North-Northwest
 202604170858,33.6074,34.9186,17/04/2026,17/04/2026 08:58:03,2.3,15.608723958333,False,Sarafand,South,Lebanon,False,39km ESE of South coast,39km East-Southeast
 202604161241,33.3919,35.3664,16/04/2026,16/04/2026 12:41:09,2.0,0.095833333333333,False,Sarafand,South,Lebanon,True,"9km NW of Sarafand, Lebanon",9km Northwest
-202604160828,32.4777,35.45,16/04/2026,16/04/2026 08:28:20,1.9,14.013671875,False,Reshafim,HaZafon,Israel,True,"2km E of Reshafim, Israel",2km East
 202604150236,29.8145,34.5118,15/04/2026,15/04/2026 02:36:16,2.0,23.128255208333,False,Be’er Ora,Sinai,Egypt,True,"47km ESE of Be’er Ora, Egypt",47km East-Southeast
 202604141214,34.3923,32.2401,14/04/2026,14/04/2026 12:14:36,2.6,24.723307291667,False,Geroskipou,Cyprus,Cyprus,False,45km NNE of Paphos coast,45km North-Northeast
 202604132030,33.5802,35.4494,13/04/2026,13/04/2026 20:30:43,2.4,9.228515625,False,Sidon,North,Lebanon,True,"8km WSW of Sidon, Lebanon",8km West-Southwest
+202604292031,35.0343,32.4706,29/04/2026,29/04/2026 20:31:07,3.3,65.169270833333,False,Argáka,Cyprus,Cyprus,True,4km NNE of Argáka,4km North-Northeast
 202604272048,30.2365,35.1558,27/04/2026,27/04/2026 20:48:37,2.0,19.482421875,False,At-Taybeh,South,Jordan,True,"30km E of At-Taybeh, Jordan",30km East
 202604270806,34.3538,25.9895,27/04/2026,27/04/2026 08:06:43,4.4,31.901041666667,False,Ierápetra,Crete,Greece,False,77km NNW of Crete coast,77km North-Northwest
 202604270745,34.4626,26.607,27/04/2026,27/04/2026 07:45:10,4.7,99.348958333333,False,Palekastro,Crete,Greece,False,88km NNW of Crete coast,88km North-Northwest
@@ -54,11 +54,11 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202604171701,34.4782,33.8354,17/04/2026,17/04/2026 17:01:59,3.2,10.0,False,Perivólia,Cyprus,Cyprus,False,45km NNW of Larnaca coast,45km North-Northwest
 202604170858,33.6074,34.9186,17/04/2026,17/04/2026 08:58:03,2.3,15.608723958333,False,Sarafand,South,Lebanon,False,39km ESE of South coast,39km East-Southeast
 202604161241,33.3919,35.3664,16/04/2026,16/04/2026 12:41:09,2.0,0.095833333333333,False,Sarafand,South,Lebanon,True,"9km NW of Sarafand, Lebanon",9km Northwest
+202604160828,32.4777,35.45,16/04/2026,16/04/2026 08:28:20,1.9,14.013671875,False,Reshafim,HaZafon,Israel,True,"2km E of Reshafim, Israel",2km East
 202604150236,29.8145,34.5118,15/04/2026,15/04/2026 02:36:16,2.0,23.128255208333,False,Be’er Ora,Sinai,Egypt,True,"47km ESE of Be’er Ora, Egypt",47km East-Southeast
 202604141214,34.3923,32.2401,14/04/2026,14/04/2026 12:14:36,2.6,24.723307291667,False,Geroskipou,Cyprus,Cyprus,False,45km NNE of Paphos coast,45km North-Northeast
 202604132030,33.5802,35.4494,13/04/2026,13/04/2026 20:30:43,2.4,9.228515625,False,Sidon,North,Lebanon,True,"8km WSW of Sidon, Lebanon",8km West-Southwest
 202604131808,33.5598,34.988,13/04/2026,13/04/2026 18:08:55,2.2,27.571614583333,False,Sarafand,South,Lebanon,False,31km ESE of South coast,31km East-Southeast
-202604160828,32.4777,35.45,16/04/2026,16/04/2026 08:28:20,1.9,14.013671875,False,Reshafim,HaZafon,Israel,True,"2km E of Reshafim, Israel",2km East
 202604271817,29.5333,34.9815,27/04/2026,27/04/2026 18:17:54,2.0,25.634765625,False,Aqaba,South,Jordan,False,3km ESE of Aqaba coast,3km East-Southeast
 202604262047,34.3538,26.3644,26/04/2026,26/04/2026 20:47:48,4.2,95.703125,False,Ierápetra,Crete,Greece,False,93km NW of Crete coast,93km Northwest
 202604131718,35.9145,30.6111,13/04/2026,13/04/2026 17:18:05,3.6,92.057291666667,False,Çavuşköy,South,Turkey,False,49km NNW of Antalya coast,49km North-Northwest
