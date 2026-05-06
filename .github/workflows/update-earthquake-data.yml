@@ -41,7 +41,7 @@ jobs:
           "version": "1.0.0",
           "description": "Metadata tracking when the earthquake data was last updated by the GitHub action",
           "data_source": "GSI Last 30 Days",
-          "data_source_url": "https://eq.gsi.gov.il/en/earthquake/files/last30_event.csv"
+          "data_source_url": "https://eq.gsi.gov.il/api/earthquakes"
         }
         EOF
         
@@ -91,4 +91,4 @@ jobs:
           echo "🌐 **Google Drive:** No upload needed (no changes)" >> $GITHUB_STEP_SUMMARY
         fi
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "🔗 **Data Source:** [GSI Last 30 Days](https://eq.gsi.gov.il/en/earthquake/files/last30_event.csv)" >> $GITHUB_STEP_SUMMARY
+        echo "🔗 **Data Source:** [GSI Earthquake Map / API](https://eq.gsi.gov.il/) — last 30 days via \`/api/earthquakes\`" >> $GITHUB_STEP_SUMMARY

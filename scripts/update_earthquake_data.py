@@ -7,7 +7,8 @@ Fetches the latest 30 days of earthquake data from GSI and updates the main GeoJ
 import pandas as pd
 import requests
 import json
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
+from collections import Counter
 import sys
 import os
 from pathlib import Path
@@ -20,22 +21,91 @@ if str(BASE_DIR) not in sys.path:
 from scripts.pipeline_utils import clean_eq_df, enrich_and_format, append_to_geojson as append_to_geojson_util
 from scripts.google_drive_utils import upload_earthquake_data_to_drive
 
-def fetch_latest_eq_data(url="https://eq.gsi.gov.il/en/earthquake/files/last30_event.csv"):
-    """Fetch the latest earthquake data from GSI CSV endpoint."""
+GSI_EQ_API = "https://eq.gsi.gov.il/api/earthquakes"
+
+
+def _felt_type_from_api(felt_val) -> str:
+    """Map GSI API `felt` field to legacy CSV Type tokens (EQ / F)."""
+    if felt_val is None or (isinstance(felt_val, float) and pd.isna(felt_val)):
+        return "EQ"
+    s = str(felt_val).strip().upper()
+    if not s:
+        return "EQ"
+    if s in ("F", "FELT", "TRUE", "1", "YES"):
+        return "F"
+    return "EQ"
+
+
+def _api_rows_to_legacy_csv_shape(rows: list[dict]) -> pd.DataFrame:
+    """Build a DataFrame matching the old GSI CSV schema expected by clean_eq_df."""
+    if not rows:
+        return pd.DataFrame(
+            columns=["epiid", "DateTime", "Mag", "Lat", "Long", "Depth(Km)", "Type", "Region"]
+        )
+
+    minute_keys: list[str] = []
+    for row in rows:
+        ts = row.get("timestamp") or ""
+        dt = pd.to_datetime(ts, utc=True, errors="coerce")
+        if pd.isna(dt):
+            minute_keys.append("")
+            continue
+        minute_keys.append(dt.strftime("%Y%m%d%H%M"))
+
+    minute_counts = Counter(k for k in minute_keys if k)
+
+    out_records = []
+    for row, minute_key in zip(rows, minute_keys):
+        ts = row.get("timestamp") or ""
+        dt = pd.to_datetime(ts, utc=True, errors="coerce")
+        if pd.isna(dt) or not minute_key:
+            continue
+        epiid = minute_key
+        if minute_counts[minute_key] > 1:
+            slug = str(row.get("id", "")).replace("gsi_loc_", "") or "x"
+            epiid = f"{minute_key}_{slug}"
+        out_records.append(
+            {
+                "epiid": epiid,
+                "DateTime": ts,
+                "Mag": row.get("magnitude"),
+                "Lat": row.get("latitude"),
+                "Long": row.get("longitude"),
+                "Depth(Km)": row.get("depth"),
+                "Type": _felt_type_from_api(row.get("felt")),
+                "Region": row.get("region"),
+            }
+        )
+    return pd.DataFrame(out_records)
+
+
+def fetch_latest_eq_data(days: int = 30):
+    """Fetch earthquake data from the GSI HTTP API (replaces deprecated static CSV URL).
+
+    The site now loads data via JS for map filters; the API requires ``startDate`` and
+    ``endDate`` (YYYY-MM-DD). See https://eq.gsi.gov.il/
+    """
     try:
-        response = requests.get(url, timeout=30)
+        end = datetime.now(timezone.utc).date()
+        start = end - timedelta(days=days)
+        params = {"startDate": start.isoformat(), "endDate": end.isoformat()}
+        headers = {"User-Agent": "israel-earthquake-map-updater/1.0 (+https://github.com/Tuvudel/israel-earthquake-map)"}
+        response = requests.get(GSI_EQ_API, params=params, timeout=60, headers=headers)
         response.raise_for_status()
-        
-        # Save to temporary file and read with pandas
-        with open('temp_eq_data.csv', 'w', encoding='utf-8') as f:
-            f.write(response.text)
-        
-        df = pd.read_csv('temp_eq_data.csv')
-        os.remove('temp_eq_data.csv')  # Clean up temp file
-        
-        print(f"✓ Fetched {len(df)} earthquake records from GSI")
-        return df
-        
+        payload = response.json()
+        if not isinstance(payload, dict) or "earthquakes" not in payload:
+            keys = list(payload.keys()) if isinstance(payload, dict) else None
+            print(f"✗ Unexpected API response shape: {type(payload)} keys={keys}")
+            sys.exit(1)
+
+        rows = payload.get("earthquakes") or []
+        if payload.get("isLimited"):
+            print("⚠️ API reports isLimited=true; some events may be truncated — consider narrowing the date window.")
+
+        raw_df = _api_rows_to_legacy_csv_shape(rows)
+        print(f"✓ Fetched {len(raw_df)} earthquake records from GSI API ({start} → {end})")
+        return raw_df
+
     except Exception as e:
         print(f"✗ Error fetching earthquake data: {e}")
         sys.exit(1)
