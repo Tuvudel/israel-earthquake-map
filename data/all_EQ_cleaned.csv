@@ -1,4 +1,6 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202607090744,32.07734680175781,35.45606975790894,09/07/2026,09/07/2026 07:44:14,1.970094064074433,15.096028645833334,False,Ma‘ale Efrayim,West Bank,Palestine,True,"5km W of Ma‘ale Efrayim, Palestine",5km West
+202607090532,32.84635925292967,35.57805480957032,09/07/2026,09/07/2026 05:32:34,1.66,7.804361979166666,False,Migdal,HaZafon,Israel,True,"7km W of Migdal, Israel",7km West
 202607082111,34.55792236328124,29.18991050237342,08/07/2026,08/07/2026 21:11:52,4.027761644130136,29.850260416666664,False,Kaş,South,Turkey,False,187km NNE of Antalya coast,187km North-Northeast
 202607081716,31.288485209147137,35.417729075362054,08/07/2026,08/07/2026 17:16:08,2.45,25.948079427083336,False,‘En Boqeq,South,Jordan,True,"11km SSW of ‘En Boqeq, Jordan",11km South-Southwest
 202607081708,33.60856628417969,35.432418823242195,08/07/2026,08/07/2026 17:08:29,2.13,13.8427734375,False,Sidon,North,Lebanon,True,"8km SW of Sidon, Lebanon",8km Southwest
