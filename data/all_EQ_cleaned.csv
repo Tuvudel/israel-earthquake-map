@@ -1,4 +1,7 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202609050733,32.86053721110026,35.25445709228516,05/09/2026,05/09/2026 07:33:38,2.43,4.471842447916666,False,Segev,HaZafon,Israel,True,"1km NNW of Segev, Israel",1km North-Northwest
+202609050101,32.25258636474609,35.332059883777,05/09/2026,05/09/2026 01:01:45,2.36,6.57958984375,False,Al Bādhān,West Bank,Palestine,True,"1km N of Al Bādhān, Palestine",1km North
+202609042314,30.562006632486984,35.28527236566312,04/09/2026,04/09/2026 23:14:15,1.53,20.222981770833332,False,Ash-Shūbak,South,Jordan,True,"27km E of Ash-Shūbak, Jordan",27km East
 202609030630,32.85316467285155,34.71648864746095,03/09/2026,03/09/2026 06:30:56,2.16,24.096679687499996,False,Tirat Karmel,HaZafon,Israel,False,26km ESE of Haifa coast,26km East-Southeast
 202609030000,30.55236562093099,35.307514469798036,03/09/2026,03/09/2026 00:00:24,2.28,16.66259765625,False,Ash-Shūbak,South,Jordan,True,"24km E of Ash-Shūbak, Jordan",24km East
 202609022337,29.23154703776041,34.75716538027108,02/09/2026,02/09/2026 23:37:53,2.21,18.001302083333332,False,Nuwaybi‘a,Sinai,Egypt,False,22km SSW of South Sinai coast,22km South-Southwest
