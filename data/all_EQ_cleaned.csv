@@ -1,4 +1,7 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202610080519,29.913223266601566,35.07529826336597,08/10/2026,08/10/2026 05:19:05,2.08,12.019856770833332,False,Be’er Ora,South,Jordan,True,"24km SSW of Be’er Ora, Jordan",24km South-Southwest
+202610080104,28.632670084635414,34.61819893973214,08/10/2026,08/10/2026 01:04:17,2.31,1.1393229166666667,False,Dahab,Sinai,Egypt,False,21km SW of South Sinai coast,21km Southwest
+202610080031,28.578226725260414,34.67004975818452,08/10/2026,08/10/2026 00:31:55,2.37,4.329427083333333,False,Dahab,Sinai,Egypt,False,20km WSW of South Sinai coast,20km West-Southwest
 202610072131,29.36992390950521,34.76372482115965,07/10/2026,07/10/2026 21:31:42,2.34,6.494140625,False,Tala Bay,Sinai,Egypt,True,"21km ENE of Tala Bay, Egypt",21km East-Northeast
 202610071920,27.022054036458336,34.956479779411765,07/10/2026,07/10/2026 19:20:04,3.08,86.58854166666667,False,Duba,Northwest,Saudi Arabia,False,81km ENE of Tabuk coast,81km East-Northeast
 202610070816,35.097819010416664,27.1825921474359,07/10/2026,07/10/2026 08:16:28,4.31,38.28125,False,Karpathos,South Aegean,Greece,False,46km N of South Aegean coast,46km North
