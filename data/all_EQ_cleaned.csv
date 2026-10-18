@@ -1,4 +1,10 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202610172034,33.62217712402344,34.730099487304685,17/10/2026,17/10/2026 20:34:46,2.3,7.804361979166666,False,Sarafand,South,Lebanon,False,56km ESE of South coast,56km East-Southeast
+202610171310,32.20097859700521,31.204782744984566,17/10/2026,17/10/2026 13:10:15,3.53,29.052734375,False,Al Burj,Kafr el-Sheikh,Egypt,False,72km SSW of Kafr el-Sheikh coast,72km South-Southwest
+202610170942,31.9905776977539,35.20569751880786,17/10/2026,17/10/2026 09:42:40,2.01,9.94059244791667,False,‘Aţārah,West Bank,Palestine,True,"1km N of ‘Aţārah, Palestine",1km North
+202610170828,33.00515238444011,35.60935974121095,17/10/2026,17/10/2026 08:28:05,1.67,14.1845703125,False,Ayyelet HaShaẖar,HaZafon,Israel,True,"4km WNW of Ayyelet HaShaẖar, Israel",4km West-Northwest
+202610170132,31.439905802408855,34.796028043016975,17/10/2026,17/10/2026 01:32:00,1.49,12.8173828125,False,Bet Qama,HaDarom,Israel,True,"3km WNW of Bet Qama, Israel",3km West-Northwest
+202610161452,34.753011067708336,33.928550237341774,16/10/2026,16/10/2026 14:52:40,2.93,33.72395833333333,False,Xylofágou,Cyprus,Cyprus,False,26km NNW of Dhekelia coast,26km North-Northwest
 202610150004,31.993413289388016,35.21544355227622,15/10/2026,15/10/2026 00:04:43,1.98,9.0576171875,False,‘Aţārah,West Bank,Palestine,True,"1km NW of ‘Aţārah, Palestine",1km Northwest
 202610142319,36.11409505208332,27.4903612012987,14/10/2026,14/10/2026 23:19:52,4.02,107.55208333333334,False,Émponas,South Aegean,Greece,False,35km ENE of South Aegean coast,35km East-Northeast
 202610142118,34.94809977213541,34.26581280048077,14/10/2026,14/10/2026 21:18:08,3.15,21.19140625,False,Protaras,Cyprus,Cyprus,False,20km WNW of Famagusta coast,20km West-Northwest
