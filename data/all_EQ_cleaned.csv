@@ -1,6 +1,9 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202610181547,29.54686482747396,34.894913638930724,18/10/2026,18/10/2026 15:47:41,1.79,21.30533854166667,False,Eilat,HaDarom,Israel,True,"5km ENE of Eilat, Israel",5km East-Northeast
+202610172317,36.56778971354166,26.43826095779221,17/10/2026,17/10/2026 23:17:09,3.338158216202433,154.03645833333337,False,Astypálaia,South Aegean,Greece,False,8km WSW of South Aegean coast,8km West-Southwest
 202610172034,33.62217712402344,34.730099487304685,17/10/2026,17/10/2026 20:34:46,2.3,7.804361979166666,False,Sarafand,South,Lebanon,False,56km ESE of South coast,56km East-Southeast
 202610171310,32.20097859700521,31.204782744984566,17/10/2026,17/10/2026 13:10:15,3.53,29.052734375,False,Al Burj,Kafr el-Sheikh,Egypt,False,72km SSW of Kafr el-Sheikh coast,72km South-Southwest
+202610171242,33.21385192871094,34.675656127929685,17/10/2026,17/10/2026 12:42:51,2.13,25.57779947916667,False,Kfar Rosh HaNiqra,South,Lebanon,False,43km ESE of South coast,43km East-Southeast
 202610170942,31.9905776977539,35.20569751880786,17/10/2026,17/10/2026 09:42:40,2.01,9.94059244791667,False,‘Aţārah,West Bank,Palestine,True,"1km N of ‘Aţārah, Palestine",1km North
 202610170828,33.00515238444011,35.60935974121095,17/10/2026,17/10/2026 08:28:05,1.67,14.1845703125,False,Ayyelet HaShaẖar,HaZafon,Israel,True,"4km WNW of Ayyelet HaShaẖar, Israel",4km West-Northwest
 202610170132,31.439905802408855,34.796028043016975,17/10/2026,17/10/2026 01:32:00,1.49,12.8173828125,False,Bet Qama,HaDarom,Israel,True,"3km WNW of Bet Qama, Israel",3km West-Northwest
