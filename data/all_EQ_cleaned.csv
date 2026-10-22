@@ -1,4 +1,6 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202610211709,33.26148986816406,35.260922241210956,21/10/2026,21/10/2026 17:09:55,1.9,2.5634765625,False,Tyre,South,Lebanon,True,"6km WNW of Tyre, Lebanon",6km West-Northwest
+202610210800,30.501324971516926,35.32344911156632,21/10/2026,21/10/2026 08:00:16,3.3,17.68798828125,True,Ash-Shūbak,South,Jordan,True,"23km E of Ash-Shūbak, Jordan",23km East
 202610202113,35.106892903645836,31.80050580929487,20/10/2026,20/10/2026 21:13:39,3.25,32.35677083333333,False,Pólis,Cyprus,Cyprus,False,57km E of Paphos coast,57km East
 202610201644,28.968404134114586,34.91893368675595,20/10/2026,20/10/2026 16:44:01,2.5,8.430989583333332,False,Nuwaybi‘a,Northwest,Saudi Arabia,True,"26km WNW of Nuwaybi‘a, Saudi Arabia",26km West-Northwest
 202610192124,34.7620849609375,32.180849485759495,19/10/2026,19/10/2026 21:24:15,3.17,31.4453125,False,Chlórakas,Cyprus,Cyprus,False,21km E of Paphos coast,21km East
@@ -99,7 +101,7 @@ epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,
 202609200806,34.78023274739583,35.786516020569614,20/09/2026,20/09/2026 08:06:05,2.69,45.1171875,False,Ţarţūs,North,Syria,False,15km NE of Tartus coast,15km Northeast
 202609200550,35.968912760416664,35.62550080128206,20/09/2026,20/09/2026 05:50:36,3.02,125.78125,False,Kapısuyu,North,Syria,False,33km ENE of Latakia coast,33km East-Northeast
 202609200351,35.0615234375,28.27704326923077,20/09/2026,20/09/2026 03:51:58,4.01,32.8125,False,Karpathos,South Aegean,Greece,False,109km WNW of South Aegean coast,109km West-Northwest
-202609200136,29.66482543945312,34.96050804781628,20/09/2026,20/09/2026 01:36:39,1.1211769847660926,24.267578124999996,False,Be’er Ora,HaDarom,Israel,True,"5km NNE of Be’er Ora, Israel",5km North-Northeast
+202609200136,29.66482543945312,34.96050804781628,20/09/2026,20/09/2026 01:36:39,1.1211769847660926,24.267578125,False,Be’er Ora,HaDarom,Israel,True,"5km NNE of Be’er Ora, Israel",5km North-Northeast
 202609200117,33.70043945312499,27.00390625,20/09/2026,20/09/2026 01:17:19,3.445972116552052,31.901041666666664,False,Palekastro,Crete,Greece,False,180km NNW of Crete coast,180km North-Northwest
 202609192120,36.03473281860352,35.582698822021484,19/09/2026,19/09/2026 21:20:32,2.695779832426047,8.0,False,Kapısuyu,North,Syria,False,34km ENE of Latakia coast,34km East-Northeast
 202609191604,32.78624471028646,36.794183349609376,19/09/2026,19/09/2026 16:04:54,2.51,4.671223958333334,False,Shahbā,South,Syria,True,"17km WNW of Shahbā, Syria",17km West-Northwest
