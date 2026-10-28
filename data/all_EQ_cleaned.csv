@@ -1,4 +1,5 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202610261320,34.882598876953125,26.034021377563477,26/10/2026,26/10/2026 13:20:03,4.255925813951227,18.346254348754883,False,Ierápetra,Crete,Greece,False,30km WNW of Crete coast,30km West-Northwest
 202610251551,32.05579630533854,35.423134886188265,25/10/2026,25/10/2026 15:51:32,1.97,2.6204427083333335,False,Ma‘ale Efrayim,West Bank,Palestine,True,"3km NW of Ma‘ale Efrayim, Palestine",3km Northwest
 202610251518,33.886454264322914,36.715498912183534,25/10/2026,25/10/2026 15:18:39,2.74,0.68359375,False,Jayrūd,South,Syria,True,"9km SSE of Jayrūd, Syria",9km South-Southeast
 202610250306,29.8746592203776,35.084481480609945,25/10/2026,25/10/2026 03:06:16,1.29,9.741210937500004,False,Be’er Ora,South,Jordan,True,"21km SSW of Be’er Ora, Jordan",21km South-Southwest
