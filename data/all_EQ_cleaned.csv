@@ -1,4 +1,8 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202611050058,33.66187540690104,36.06736450195313,05/11/2026,05/11/2026 00:58:15,2.01,5.126953125,False,Az Zabadānī,South,Syria,True,"8km NNE of Az Zabadānī, Syria",8km North-Northeast
+202611050032,31.106440226236977,35.484455387766765,05/11/2026,05/11/2026 00:32:40,2.0,16.007486979166664,False,Safi,South,Jordan,True,"8km SSW of Safi, Jordan",8km South-Southwest
+202611050028,29.215667724609375,34.706001741340366,05/11/2026,05/11/2026 00:28:00,2.27,9.456380208333334,False,Nuwaybi‘a,Sinai,Egypt,True,"19km SSW of Nuwaybi‘a, Egypt",19km South-Southwest
+202611050023,37.829891204833984,29.9279670715332,05/11/2026,05/11/2026 00:23:19,4.078170107328943,16.471378326416016,False,Başmakçı,Afyonkarahisar,Turkey,True,"10km NE of Başmakçı, Turkey",10km Northeast
 202611041902,29.55707295735677,34.90344091208584,04/11/2026,04/11/2026 19:02:57,1.99,20.336914062500004,False,Eilat,HaDarom,Israel,True,"4km E of Eilat, Israel",4km East
 202611041852,29.994888305664066,35.18024931758284,04/11/2026,04/11/2026 18:52:52,1.45,12.019856770833332,False,Al Quwayrah,South,Jordan,True,"25km SSE of Al Quwayrah, Jordan",25km South-Southeast
 202611041557,32.23897552490234,35.567308967496125,04/11/2026,04/11/2026 15:57:09,2.4,17.85888671875,False,Kurayyimah,North,Jordan,True,"5km NE of Kurayyimah, Jordan",5km Northeast
