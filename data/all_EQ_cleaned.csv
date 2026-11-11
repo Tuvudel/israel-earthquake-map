@@ -1,4 +1,6 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202611101943,27.466674804687496,34.83862591911766,10/11/2026,10/11/2026 19:43:13,3.34,27.799479166666664,False,Sharm el-Sheikh,Sinai,Egypt,False,71km NW of South Sinai coast,71km Northwest
+202611100526,29.220204671223954,34.75585349209337,10/11/2026,10/11/2026 05:26:56,2.32,15.836588541666664,False,Nuwaybi‘a,Sinai,Egypt,False,21km SSW of South Sinai coast,21km South-Southwest
 202611092313,33.17301940917969,35.606637573242196,09/11/2026,09/11/2026 23:13:31,2.09,14.298502604166668,False,Sde Neẖemya,HaZafon,Israel,True,"2km NE of Sde Neẖemya, Israel",2km Northeast
 202611092301,32.19757588704428,35.54613654996141,09/11/2026,09/11/2026 23:01:28,1.8,13.387044270833336,False,Az Zubaydāt,West Bank,Palestine,True,"3km SSW of Az Zubaydāt, Palestine",3km South-Southwest
 202611091228,37.366292317708336,35.359529194078945,09/11/2026,09/11/2026 12:28:23,4.1,126.69270833333331,False,Ceritler,Adana,Turkey,True,"12km NNE of Ceritler, Turkey",12km North-Northeast
