@@ -1,4 +1,7 @@
 epiid,latitude,longitude,date,date-time,magnitude,depth,felt?,city,area,country,on_land,location_text,distance_from
+202611110924,29.352910359700527,34.8234157332455,11/11/2026,11/11/2026 09:24:52,4.46,15.551757812499998,True,Tala Bay,Sinai,Egypt,False,16km ENE of South Sinai coast,16km East-Northeast
+202611110826,33.50648498535155,35.53450012207032,11/11/2026,11/11/2026 08:26:50,2.5,2.335611979166667,False,Habboûch,South,Lebanon,True,"12km SSW of Habboûch, Lebanon",12km South-Southwest
+202611110223,33.96358235677083,26.458094343354436,11/11/2026,11/11/2026 02:23:24,3.641736779307714,35.091145833333336,False,Ierápetra,Crete,Greece,False,134km NNW of Crete coast,134km North-Northwest
 202611101943,27.466674804687496,34.83862591911766,10/11/2026,10/11/2026 19:43:13,3.34,27.799479166666664,False,Sharm el-Sheikh,Sinai,Egypt,False,71km NW of South Sinai coast,71km Northwest
 202611100526,29.220204671223954,34.75585349209337,10/11/2026,10/11/2026 05:26:56,2.32,15.836588541666664,False,Nuwaybi‘a,Sinai,Egypt,False,21km SSW of South Sinai coast,21km South-Southwest
 202611092313,33.17301940917969,35.606637573242196,09/11/2026,09/11/2026 23:13:31,2.09,14.298502604166668,False,Sde Neẖemya,HaZafon,Israel,True,"2km NE of Sde Neẖemya, Israel",2km Northeast
